@@ -1,5 +1,5 @@
-const bodyParser = require('body-parser');
 const express = require( 'express' ),
+      bodyParser = require('body-parser'),
       mongodb = require( 'mongodb' ),
       app = express()
 
@@ -7,7 +7,7 @@ app.use( express.static('public') )
 app.use( express.json() )
 
 // make sure to substitute your username / password for tester:tester123 below!!! 
-const uri = 'mongodb+srv://tester:helloWorld@cluster0.f9zkh.mongodb.net/'
+//const uri = 'mongodb+srv://tester:helloWorld@cluster0.f9zkh.mongodb.net/'
 
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
