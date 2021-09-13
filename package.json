@@ -8,6 +8,7 @@
   },
   "repository": "https://github.com/Matthew7758-a3-persistence",
   "dependencies": {
-    "mime": "^2.4.4"
+    "mime": "^2.4.4",
+    "express": "^4.17.1"
   }
 }

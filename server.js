@@ -1,4 +1,23 @@
-const http = require('http'),
+const express = require('express')
+const app = express();
+app.use(express.static('public'))
+app.use(express.static(__dirname));
+
+
+app.use( function( req, res, next ) {
+    console.log( 'url:', req.url )
+    next()
+})
+app.get( '/', function (req, res) {
+    res.sendFile(__dirname + "/public/login/login.html" )
+})
+
+
+app.listen(3000, () => {
+    console.log(`Example app listening at http://localhost:${3000}`)
+})
+
+/*const http = require('http'),
     fs = require('fs'),
     // IMPORTANT: you must run `npm install` in the directory for this assignment
     // to install the mime library used in the following line of code
@@ -118,4 +137,4 @@ const sendFile = function (response, filename) {
     })
 }
 
-server.listen(process.env.PORT || port)
+server.listen(process.env.PORT || port)*/

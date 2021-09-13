@@ -97,3 +97,14 @@ h1 {
 .tableData {
     background-color: #8EE4AF;
 }
+
+#loginBody {
+    background-image: url("../img/background.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+#loginH1 {
+    justify-content: start;
+    font-family: "Courier New", monospace;
+    display: flex;
+}
