@@ -1,0 +1,13 @@
+{
+  "name": "a3-persistence",
+  "version": "1.0.0",
+  "description": "Submission for Matthew Malone",
+  "author": "Matthew7758",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": "https://github.com/Matthew7758-a3-persistence",
+  "dependencies": {
+    "mime": "^2.4.4"
+  }
+}
