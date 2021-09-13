@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <script type='text/javascript' src='/js/scripts.js'></script>
+    <style>@import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');</style>
+    <link rel='stylesheet' href='/css/style.css'>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <nav>
+      <a id='table-nav' href='#'>Table View</a> | <a id='sentence-nav' href='#'>Sentence View</a>
+    </nav>
+    <form action="">
+      <input type='text' id='name' value="your name here">
+      <input type='text' id='target-text' value="Type something here!">
+      <button>submit</button>
+    </form>
+    <div id='table-root' class='root'>
+      <div>  
+      <b>Normal Table</b>
+        <table id='normal-table'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div>
+        <b>OwO-ified Table</b>
+        <table id='owo-table'>
+          <thead>  
+            <tr>
+              <th>Name</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+    <div id='sentence-root' class='root'>
+      <div id='normal-sentence-root'>
+        <b>Normal Sentences</b>
+      </div>
+      <div id='owo-sentence-root'>
+        <b>OwO-ified Sentences</b>
+      </div>
+    </div>
+    
+  </body>
+</html>

@@ -1,0 +1,72 @@
+/*Style your own assignment! This is fun! */
+th,td,p,b,input,button {
+  font-family: 'Courier Prime', monospace;
+  font-size: large;
+}
+
+button {
+  cursor:pointer;
+}
+
+a {
+  font-family: 'Courier Prime', monospace; 
+  font-size: x-large;
+}
+
+.root {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+}
+
+#sentence-root{
+  display: none;
+}
+
+th, td {
+  border:#333;
+  border-width: 1px;
+  border-style: solid;
+  padding: 1em;
+}
+
+p {
+  border: #333;
+  border-width: 1px;
+  border-style: solid;
+  margin-right: 1em;
+  padding-left: 5px;
+  padding-right:5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+b {
+  border: #333;
+  border-width: 1px;
+  border-bottom: solid;
+  border-top:hidden;
+  border-left:hidden;
+  border-right:hidden;
+  display: flex;
+  justify-content: center;
+  padding-left: 5px;
+  padding-right:5px;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+
+table {
+  margin-top:.5em;
+}
+
+form {
+  display:flex;
+  flex-direction: column;
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+input {
+  margin-bottom: 1em;
+}

@@ -1,0 +1,12 @@
+{
+  "name": "OwO-ifier",
+  "version": "0",
+  "description": "Turns text into OwO speak",
+  "author": "Morgan Lee",
+  "scripts": {
+    "start": "node server.improved.js"
+  },
+  "dependencies": {
+    "mime": "^2.5.2"
+  }
+}
