@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8"/>
+  </head>
+  <body>
+    <script src="js/scripts.js"></script>
+    <link href="css/style.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Besley&display=swap" rel="stylesheet"> 
+    <form action="" autocomplete="off">
+      <p>
+        Getting Enough Sleep?
+      </p>
+      <input type='text' onfocus="this.value=''" class= "textBox" name='yourname' id="yourname" value="Enter your name here">
+      <input type='text' onfocus="this.value=''" class="textBox" name='major' id= "major" value="Enter your major here">
+      <div>
+        <label> How many hours of sleep do you get in a day?</label>
+        <div>
+          <select name='hours' onfocus="this.value=''" class= "selectBox" id="hours">
+            <option value="0-4 hours">0-4 hours</option>
+            <option value="5-7 hours">5-7 hours</option>
+            <option value="8 hours">8 hours</option>
+            <option value="8+ hours">8+ hours</option>
+        </select>
+        </div>
+      </div>
+        <button>submit</button>
+      <table id="sleeptable">
+        <thead>
+          <tr>
+            <th scope="col">Name</th>
+            <th scope="col">Major</th>
+            <th scope="col">Hours of Sleep</th>
+            <th scope="col">Advice</th>
+            <th scope="col">Edit</th>
+            <th scope="col">Delete</th>
+          </tr>
+        </thead>
+      <tbody></tbody>
+      </table>
+    </form>
+  </body>
+</html>
