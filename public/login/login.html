@@ -10,8 +10,8 @@
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body id="loginBody">
-<h1 id="head">A3 Submission for Matthew Malone</h1>
-<h1 class="loginH1">Login:</h1>
+<div style="text-align: center;"><img src="../img/lock.png" alt="padlock" height="90px"></div>
+<h1 id="head">A3 Submission for Matthew Malone</h1><h2 class="loginH1">Login:</h2>
     <form action="" id="loginForm">
         <label for='username'>Username: </label>
         <input id='username' placeholder="username" type='text'><br>
@@ -21,7 +21,7 @@
     <button id="submit">Submit</button>
     <h3 id="warning2">&nbsp;</h3>
 
-<h1 class="loginH1">Create User:</h1>
+<h2 class="loginH1">Create User:</h2>
 <form action="" id="createForm">
     <label for='usernameCreate'>Username: </label>
     <input id='usernameCreate' placeholder="username" type='text'><br>
@@ -29,6 +29,8 @@
     <input id='passwdCreate' placeholder="password" type='password'><br>
 </form>
 <button id="submitCreate">Submit</button>
+<p>Passwords must be greater than or equal to 6 characters in length.</p>
+
 <h3 id="warningCreate">&nbsp;</h3>
 
 <script src="../js/loginScript.js"></script>
