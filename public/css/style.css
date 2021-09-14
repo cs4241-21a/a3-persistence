@@ -1,0 +1,77 @@
+/* Default styling for the entire webpage */
+* {
+  font-family: 'Roboto Slab', serif;
+  box-sizing: border-box;
+  list-style-type: none;
+}
+
+/* Setting the page's background color */
+body {
+  background-color: rgb(240, 234, 231);
+}
+
+/* Setting the border on the entire forum table section */
+#forum_section {
+  border: 4px solid black;
+}
+
+/* Setting the border on the rows of the forum table */
+.forum_row {
+  border: 2px solid black;
+}
+
+/* Setting the border and padding for the cells in the forum table */
+.forum_cell {
+  border: 2px solid black;
+  padding: 10px;
+}
+
+/* Setting the formatting for the remove and update entry buttons */
+.forum_cell_button {
+  border: 2px solid black;
+  padding: 10px;
+  width: 100%;
+}
+
+/* Setting the formatting for the table header */
+.forum_header {
+  border: 2px solid black;
+  padding: 10px;
+}
+
+/* Setting the formatting for the input fields that are being changed to take in info */
+.input_table_item {
+  font-size: 15px;
+  width: 90%;
+}
+
+/* Setting up the header area */
+.header_area {
+  grid-area: header;
+  text-align: center;
+}
+/* Setting up the table area */
+.table_area {
+  grid-area: table;
+  text-align: center;
+}
+/* Setting up the input area */
+.input_area {
+  grid-area: input;
+}
+/* Setting up the tutorial area */
+.tutorial_area {
+  grid-area: tutorial;
+}
+
+/* Setting the grid layout of the entire web page */
+.grid_layout {
+  display: grid;
+  grid-template-columns: 10% 50% 30% 10%;
+  grid-template-rows: 20%, 40%, 20%, 20%;
+  grid-template-areas: 
+    ". header header ."
+    ". table table ."
+    ". input tutorial . "
+    ". input tutorial .";
+}
