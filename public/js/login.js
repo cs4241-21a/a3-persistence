@@ -1,12 +1,11 @@
-const { application } = require("express")
-
 const login = function (e) {
     
     e.preventDefault()
 
     const username = document.querySelector('#username'),
-    const password = document.querySelector('#password');
+    password = document.querySelector('#password');
 
+    //Error checking that the user enters both fields
     if (username.value === "" || password.value === "") {
         console.log("Incorrect username or password");
         alert("Enter a valid username and password");
@@ -24,6 +23,7 @@ const login = function (e) {
         }
     })
 
+    //Launches the homepage
     .then(reponse => {
         if(reponse.ok) {
             window.location.href = "index.html";
