@@ -25,10 +25,15 @@ const submit = function (e) {
   document.getElementById("invalid").innerText = ''
   const body = JSON.stringify(json)
 
+  console.log(body)
+
   /* send the new json to the server */
   fetch("/submit", {
     method: "POST",
     body,
+    headers: {
+      'Content-Type' : 'application/json'
+    }
   })
     .then(function (response) {
       return response.json();
