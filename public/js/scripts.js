@@ -66,7 +66,7 @@ const editCross = function (cross, row) {
     const jsonUser = JSON.parse(x)
     const jsonBody = {name: nameTemp, age: ageTemp, gender: genderTemp, adult: adultTemp}
     const jsonTemp = Object.assign({}, jsonBody, jsonUser)
-    console.log("JSONTEMP = "+JSON.stringify(jsonTemp))
+    //console.log("JSONTEMP = "+JSON.stringify(jsonTemp))
     let id = ""
     fetch('/data/getID', {
         method: 'GET',
@@ -74,25 +74,25 @@ const editCross = function (cross, row) {
     }).then(function (response) {
         return response.json();
     }).then(function (data) {
-        console.log("JSONCROSS ID = "+JSON.stringify(data))
+        //console.log("JSONCROSS ID = "+JSON.stringify(data))
         let retJson = data[0]
         id = retJson._id
-        console.log(retJson._id)
-        console.log(id)
+        //console.log(retJson._id)
+        //console.log(id)
         const idJson = {"id": id}
-        console.log("ID FROM id = "+id)
-        console.log("ID FROM idJSON = "+JSON.stringify(idJson))
+        //console.log("ID FROM id = "+id)
+        //console.log("ID FROM idJSON = "+JSON.stringify(idJson))
         const jsonFinal = Object.assign({},jsonTemp,idJson)
         const len = (new TextEncoder().encode(JSON.stringify(jsonFinal))).length
-        console.log(len)
-        console.log("jsonFinal = ")
-        console.log(jsonFinal)
+        //console.log(len)
+        //console.log("jsonFinal = ")
+        //console.log(jsonFinal)
         fetch('/data/delete', {
             method: 'POST',
             body: JSON.stringify(jsonFinal),
             headers: {"Content-Type": "application/json; charset=UTF-8", 'Content-Length': len}
         }).then(function (res) {
-            console.log(res.toString())
+            //console.log(res.toString())
             updatePage()
         })
     })
@@ -169,7 +169,7 @@ const updatePage = function () {
             rowNum++;
         });
     });
-    console.log("Count = "+count);
+    //console.log("Count = "+count);
     fetch('/data/me', {//TODO:Modify update page so it calls to data and pulls from current user.
         method: 'GET',
         headers: {"Content-Type": "application/json; charset=UTF-8", "username": username, "token" : token}
@@ -177,10 +177,10 @@ const updatePage = function () {
         return response.json();
     }).then(function (data) {
         appdata = data;
-        console.log("APPDATA ON UPDATE = "+appdata.length);
-        console.log("APPDATA VALUE\n"+JSON.stringify(appdata));
+        //console.log("APPDATA ON UPDATE = "+appdata.length);
+        //console.log("APPDATA VALUE\n"+JSON.stringify(appdata));
         count = appdata.length;
-        console.log("COUNT ON UPDATE = "+count);
+        //console.log("COUNT ON UPDATE = "+count);
         counterDisplayElem.innerHTML = count.toString();
     });
 };
@@ -231,18 +231,17 @@ const makePost = function () {
         }).then(function (response) {
             return response.json();
         }).then(function (data) {
-            console.log(data)
+            //console.log(data)
             let retJson = data[0]
             if(retJson !== undefined)
                 id = retJson._id
-            console.log(id)
             const idJson = {"id": id}
-            console.log("ID FROM id = "+id)
-            console.log("ID FROM idJSON = "+JSON.stringify(idJson))
+            //console.log("ID FROM id = "+id)
+            //console.log("ID FROM idJSON = "+JSON.stringify(idJson))
             const jsonFinal = Object.assign({},jsonTemp,idJson)
             const len = (new TextEncoder().encode(JSON.stringify(jsonFinal))).length
-            console.log(len)
-            console.log(jsonFinal)
+            //console.log(len)
+            //console.log(jsonFinal)
 
             if(inputSelect === "add") {
                 fetch(`/data/${inputSelect}`, {
@@ -250,7 +249,7 @@ const makePost = function () {
                     body: JSON.stringify(jsonFinal),
                     headers: {"Content-Type": "application/json; charset=UTF-8", 'Content-Length': len}
                 }).then(function (response) {
-                    console.log("Post from makePost sent to server: " + response.toString());
+                    //console.log("Post from makePost sent to server: " + response.toString());
                     updatePage();
                     document.getElementById('yourname').value = "";
                     document.getElementById('age').value = "";
@@ -259,14 +258,14 @@ const makePost = function () {
                 });
             }
             else {
-                console.log("JSON FINAL:")
-                console.log(JSON.stringify(jsonFinal))
+                //console.log("JSON FINAL:")
+                //console.log(JSON.stringify(jsonFinal))
                 fetch(`/data/modify`, {
                     method: 'POST',
                     body: JSON.stringify(jsonFinal),
                     headers: {"Content-Type": "application/json; charset=UTF-8", 'Content-Length': len}
                 }).then(function (response) {
-                    console.log("Post from makePost sent to server: " + response.toString());
+                    //console.log("Post from makePost sent to server: " + response.toString());
                     updatePage();
                     document.getElementById('yourname').value = "";
                     document.getElementById('age').value = "";
