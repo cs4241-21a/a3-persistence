@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <link rel='preconnect' href='https://fonts.googleapis.com' />
+    <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin />
+    <link
+      href='https://fonts.googleapis.com/css2?family=Hina+Mincho&display=swap'
+      rel='stylesheet'
+    />
+    <link rel='stylesheet' href='css/style.css' />
+    <link rel='shortcut icon' href='#' />
+    <script src='js/scripts.js'></script>
+    <title>CS4241 Assignment 2</title>
+    <meta charset='utf-8' />
+  </head>
+  <body>
+    <header class='site-header'><h1>Hotel Reviews</h1></header>
+    <h2>Leave a review:</h2>
+    <form action='' method='POST'>
+      <div class='flex-container'>
+        <div>
+          <label>Hotel Name:</label>
+          <input type='text' id='hotel-name' value='Enter Hotel Name Here' />
+        </div>
+        <div>
+          <label>Hotel Location:</label>
+          <input
+            type='text'
+            id='hotel-location'
+            value='Enter Hotel Location Here'
+          />
+        </div>
+        <div>
+          <label>Cleanliness (1-10):</label>
+          <input
+            type='number'
+            id='cleanliness-score'
+            value='5'
+            min='1'
+            max='10'
+          />
+        </div>
+        <div>
+          <label>Service (1-10):</label>
+          <input type='number' id='service-score' value='5' min='1' max='10' />
+        </div>
+        <div>
+          <label>Amenities (1-10):</label>
+          <input type='number' id='amenity-score' value='5' min='1' max='10' />
+        </div>
+        <div id='Button-Container'>
+          <button id='Submit-Button'>Submit Review</button>
+        </div>
+      </div>
+    </form>
+    <h2>Check out other reviews:</h2>
+    <table></table>
+  </body>
+</html>
