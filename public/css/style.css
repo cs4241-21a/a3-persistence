@@ -95,6 +95,12 @@ h1 {
     font-family: "Courier New", monospace;
 }
 
+#warning2 {
+    display: flex;
+    color: red;
+    font-family: "Courier New", monospace;
+}
+
 .tableData {
     background-color: #8EE4AF;
 }
@@ -118,7 +124,6 @@ h1 {
 
 #warningCreate {
     display: flex;
-    justify-content: center;
     color: red;
     font-family: "Courier New", monospace;
 }

@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Submission for Matthew Malone",
   "author": "Matthew7758",
+  "main": "server.js",
   "scripts": {
     "start": "node server.js"
   },

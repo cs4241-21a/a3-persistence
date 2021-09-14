@@ -78,7 +78,7 @@ const makePost = function () {
                         warning.innerHTML = ""
                         window.location = "/main/index.html"
                     } else {
-                        warning.innerHTML = "Wrong Password!"
+                        warning.innerHTML = "Wrong Username/Password!"
                     }
                 })
             })
