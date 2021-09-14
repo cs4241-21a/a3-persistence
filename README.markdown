@@ -9,7 +9,7 @@ The goal of this application is to design a more in-depth census tracker that I 
 Challenges I faced were mainly in learning CSS to make the page look nice and getting the authentication posts to run correctly. I've done security before, but front end development is often a difficult task for me.
 Now only authenticated users can create data and view their own data.
 The authentication strategy I chose to implement was a simple one using Bcrypt and MongoDB to store usernames and passwords. I used a salt to prevent against rainbow attacks and brute force. I chose this because it seemed easier to implement and provided some sense of security for the user.
-
+I used a css template called [Water.css](https://watercss.kognise.dev/)
 
 1. Helmet: Helps secure app by setting http headers automatically.
 2. Morgan: Enables verbose logging for all HTTP requests. Used for debugging.
