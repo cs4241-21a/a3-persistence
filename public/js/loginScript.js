@@ -55,7 +55,6 @@ const makePost = function () {
                     method: 'GET',
                     headers: {"Content-Type": "application/json; charset=UTF-8", "token": json.token}
                 }).then(res => res.json()).then(json=>{
-                    //TODO: Store this into a cookie somehow.
                     //{_id: "613fbf031e4de4b36ee27f2c",
                     // username: "user123456",
                     // password: "$2a$10$ZuowAxZkv54tCxvTUKBvN.2n9R.qmIIuFmFrD/nfL7hgWA.iNFB7m",
@@ -75,7 +74,11 @@ const makePost = function () {
                     document.cookie = JSON.stringify(jsonFinal) + expires
                     console.log(jsonFinal)
                     warning.innerHTML = JSON.stringify(jsonFinal)
-                    window.location = "/main/index.html"
+                    if(!warning.innerHTML === "{\"message\":\"Invalid Token\"}")
+                        window.location = "/main/index.html"
+                    else {
+                        warning.innerHTML = "Wrong Password!"
+                    }
                 })
             })
             .catch(err=>{

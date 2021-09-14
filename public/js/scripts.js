@@ -1,4 +1,5 @@
 const submitBtn = document.getElementById('submit');
+const logoutBtn = document.getElementById('logout')
 const dataTable = document.getElementById('dataTable');
 const rightHeader = document.getElementById('rightHeader');
 const counterDisplayElem = document.getElementById('counter');
@@ -297,4 +298,12 @@ const handleInput = function (elt) {
     return false;
 };
 submitBtn.onclick = handleInput;
+
+function logoutUser() {
+    //document.cookie.split(";").forEach(function(c) { document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/"); });
+    //window.localStorage.clear()
+    window.location = "/"
+}
+
+logoutBtn.onclick = logoutUser;
 console.log("Welcome to assignment 3!")
