@@ -134,11 +134,14 @@ const makePageBody = function () {
     const age = document.getElementById('age');
     const genderSelect = document.getElementById('yourgender');
     let gender = genderSelect.options[genderSelect.selectedIndex];
+    let isAdult = false
+    if(parseInt(age.value) >= 18)
+        isAdult = true
     const json = {
         name: name.value,
         age: parseInt(age.value),
         gender: gender.value,
-        adult: "Unknown",
+        adult: isAdult,
         modifyIndex
     };
     return JSON.stringify(json);

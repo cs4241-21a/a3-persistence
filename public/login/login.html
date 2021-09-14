@@ -10,18 +10,25 @@
     <link href="../css/style.css" rel="stylesheet">
 </head>
 <body id="loginBody">
-<h1 id="loginH1">Login:</h1>
-<h4>If you do not have an account, a new one will be created with this login information.</h4>
-
-    <h2 id="rightHeader">Information:</h2>
+<h1 class="loginH1">Login:</h1>
     <form action="" id="loginForm">
         <label for='username'>Username: </label>
         <input id='username' placeholder="username" type='text'><br>
-        <label for='passwd'>Your Age: </label>
+        <label for='passwd'>Password: </label>
         <input id='passwd' placeholder="password" type='password'><br>
     </form>
     <button id="submit">Submit</button>
     <h3 id="warning">&nbsp;</h3>
+
+<h1 class="loginH1">Create User:</h1>
+<form action="" id="createForm">
+    <label for='usernameCreate'>Username: </label>
+    <input id='usernameCreate' placeholder="username" type='text'><br>
+    <label for='passwdCreate'>Password: </label>
+    <input id='passwdCreate' placeholder="password" type='password'><br>
+</form>
+<button id="submitCreate">Submit</button>
+<h3 id="warningCreate">&nbsp;</h3>
 
 <script src="../js/loginScript.js"></script>
 </body>

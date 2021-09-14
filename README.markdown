@@ -108,7 +108,11 @@ Include a very brief summary of your project here. Images are encouraged, along 
   - include any modifications to the CSS framework you made via custom CSS you authored
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
 add a little more detail about what it does.
-
+1. Helmet: Helps secure app by setting http headers automatically.
+2. Morgan: Enables verbose logging for all HTTP requests. Used for debugging.
+3. serve-static: Allows server to serve files in the public directory.
+4. serve-favicon: Serves favicon.
+5. Cors: Allows cross-origin requests.
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
 

@@ -99,12 +99,24 @@ h1 {
 }
 
 #loginBody {
-    background-image: url("../img/background.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+    background-color: blanchedalmond;
 }
-#loginH1 {
+.loginH1 {
     justify-content: start;
     font-family: "Courier New", monospace;
     display: flex;
+}
+#rightHeader2 {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+}
+#submitCreate {
+    font-family: "Courier New", monospace;
+}
+
+#warningCreate {
+    display: flex;
+    justify-content: center;
+    color: red;
+    font-family: "Courier New", monospace;
 }

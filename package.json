@@ -8,7 +8,15 @@
   },
   "repository": "https://github.com/Matthew7758-a3-persistence",
   "dependencies": {
-    "mime": "^2.4.4",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "mongodb": "^4.1.1",
+    "mongoose": "^6.0.5",
+    "express-validator": "^6.12.1",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "morgan": "^1.10.0",
+    "serve-favicon": "^2.5.0",
+    "cors": "^2.8.5"
   }
 }

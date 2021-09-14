@@ -1,7 +1,27 @@
 const express = require('express')
+const helmet = require("helmet");
+const user = require("./routes/user")
+const data = require("./routes/data")
+const morgan = require('morgan')
+const favicon = require('serve-favicon')
+const cors = require('cors')
+
+
+const InitiateMongoServer = require("./config/db");
+InitiateMongoServer().then(() => {
+    console.log("Connected to DB")
+});
 const app = express();
+app.use(helmet());
 app.use(express.static('public'))
-app.use(express.static(__dirname));
+//app.use(express.static(__dirname));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use("/user", user)
+app.use("/data", data)
+app.use(morgan('tiny'))
+app.use(favicon(__dirname+'/public/img/favicon.ico'))
+app.use('cors')
 
 
 app.use( function( req, res, next ) {
@@ -12,10 +32,10 @@ app.get( '/', function (req, res) {
     res.sendFile(__dirname + "/public/login/login.html" )
 })
 
-
 app.listen(3000, () => {
     console.log(`Example app listening at http://localhost:${3000}`)
 })
+
 
 /*const http = require('http'),
     fs = require('fs'),
