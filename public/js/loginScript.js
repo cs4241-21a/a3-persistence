@@ -26,7 +26,7 @@ const makePageBody2 = function () {
 const makePost = function () {
     let body = makePageBody();
     let jsonBody = JSON.parse(body);
-    let warning = document.getElementById('warning');
+    let warning = document.getElementById('warning2');
 
     if (jsonBody['username'] === ""
         || jsonBody['password'] === "") {
@@ -113,6 +113,7 @@ const makePost2 = function () {
             .then(res => res.json())
             .then(json=>{
                 console.log(json)
+                window.location = "/"
             })
             .catch(err=>{
                 warning.innerHTML = "Error: "+err;
