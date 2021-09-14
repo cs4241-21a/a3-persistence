@@ -37,7 +37,10 @@ const submit = function( e ) {
 
     fetch( '/submit', {
         method:'POST',
-        body
+        body,
+        headers:{
+            "Content-Type":"application/json"
+        }
     })
         .then( function( response ) {
             // do something with the response
@@ -83,6 +86,7 @@ function checkExisting(){
     }).then(function (json) {
         appdata = json;
         for(let user of appdata){
+            console.log(user.yourname);
             if (user.yourname === input.value){
                 window.alert("Please enter a unique username");
             }
@@ -98,10 +102,15 @@ const callEdit = function(){
         json = { newName: input.value,
             oldName: input2 },
         body = JSON.stringify( json )
-    checkExisting();
+
+    checkExisting(); // need to make promise
+
     fetch('/modify', {
         method: 'POST',
-        body
+        body,
+        headers:{
+            "Content-Type":"application/json"
+        }
     }).then(function (response) {
         // do something with the response
         console.log("Post made to server");
@@ -109,7 +118,8 @@ const callEdit = function(){
         console.log(json);
         updatePage();
         document.getElementById("editName").style.display = "none";
-        document.getElementById("submitNewNameBtn").style.display = "none";})
+        document.getElementById("submitNewNameBtn").style.display = "none";
+    });
     return false;
 }
 
@@ -147,13 +157,17 @@ const updatePage = function () {
             trash.id = `${rowNum}`;
             trash.innerHTML = "&#128465";
             trash.onclick = function (elt) {
-                let body = trash.id;
+                let json = {id: trash.id};
+                let body = JSON.stringify(json);
                 if(!window.confirm("Are you sure you want to delete someones score")){
                     return false;
                 }
                 fetch('/delete', {
                     method: 'POST',
-                    body
+                    body,
+                    headers:{
+                        "Content-Type":"application/json"
+                    }
                 }).then(function (response) {
                     console.log("Delete post sent to server: " + response);
                     updatePage();

@@ -2,7 +2,42 @@ const http = require( 'http' ),
     fs   = require( 'fs' ),
     mime = require( 'mime' ),
     dir  = 'public/',
-    port = 3000
+    port = 3000,
+    express = require('express'),
+    app = express(),
+    bodyParser = require("body-parser");
+const {response, request} = require("express");
+
+
+app.use(function(req, res,next){
+    console.log(req.url);
+    next();
+})
+app.use(express.static('./public/'));
+app.listen( port);
+
+app.post("/submit", bodyParser.json(), (request, response) =>{
+    addRow(request.body);
+    response.writeHead(200,"OK", {'Content-Type': 'text/plain'});
+    response.end();
+});
+
+app.get("/updatePage", (request,response) =>{
+    //console.log(appdata);
+    sendAppData(response, appdata);
+});
+
+app.post("/delete", bodyParser.json(), (request,response) =>{
+    deleteRow(request.body['id']);
+    response.writeHead(200,"OK", {'Content-Type': 'text/plain'});
+    response.end();
+});
+
+app.post("/modify", bodyParser.json(), (request, response) =>{
+    modifyRow(request.body);
+    response.writeHead(200,"OK", {'Content-Type': 'text/plain'});
+    response.end();
+});
 
 const appdata = [
     {'yourname': 'Greg', 'score': 745, 'rank': 1},
@@ -10,20 +45,13 @@ const appdata = [
     {'yourname': 'Liam', 'score': 590, 'rank': 3}
 ]
 
-const server = http.createServer( function( request,response ) {
+/*const server = http.createServer( function( request,response ) {
     if( request.method === 'GET' ) {
         handleGet( request, response )
     }else if( request.method === 'POST' ){
         handlePost( request, response )
     }
 })
-
-function sendAppData(response, data){
-    const type = mime.getType(appdata);
-    response.writeHead(200,{'Content-Type': type});
-    response.write(JSON.stringify(data));
-    response.end();
-}
 
 const handleGet = function( request, response ) {
     const filename = dir + request.url.slice(1)
@@ -59,12 +87,18 @@ const handlePost = function( request, response ) {
         response.end();
 
     })
+}*/
+
+function sendAppData(response, data){
+    const type = mime.getType(appdata);
+    response.writeHead(200,{'Content-Type': type});
+    response.write(JSON.stringify(data));
+    response.end();
 }
 
 function addRow(dataString) {
-    let jsonApp = JSON.parse(dataString);
-    console.log("jsonApp:\n" + JSON.stringify(jsonApp))
-
+    let jsonApp = dataString;
+    jsonApp['score'] = parseInt(jsonApp['score']);
     jsonApp['rank'] = 0;
     for(let i = 0; i < appdata.length; i++){
         let user = appdata[i];
@@ -78,6 +112,7 @@ function addRow(dataString) {
     }
     appdata.push(jsonApp);
     calcRank();
+    console.log(appdata);
 }
 
 function deleteRow(dataString) {
@@ -87,7 +122,7 @@ function deleteRow(dataString) {
 }
 
 function modifyRow(dataString) {
-    let jsonApp = JSON.parse(dataString);
+    let jsonApp = dataString;
     for(let user of appdata){
         if (user.yourname === jsonApp['newName']){
             return;
@@ -134,7 +169,7 @@ function updateRank(rankDel){
     calcRank();
 } //updates ranks when users are deleted
 
-const sendFile = function( response, filename ) {
+/*const sendFile = function( response, filename ) {
     const type = mime.getType( filename )
 
     fs.readFile( filename, function( err, content ) {
@@ -157,4 +192,4 @@ const sendFile = function( response, filename ) {
     })
 }
 
-server.listen( process.env.PORT || port )
+server.listen( process.env.PORT || port )*/
