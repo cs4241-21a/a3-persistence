@@ -21,7 +21,7 @@ app.use("/user", user)
 app.use("/data", data)
 app.use(morgan('tiny'))
 app.use(favicon(__dirname+'/public/img/favicon.ico'))
-app.use('cors')
+app.use(cors())
 
 
 app.use( function( req, res, next ) {

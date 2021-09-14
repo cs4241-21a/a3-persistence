@@ -114,7 +114,9 @@ add a little more detail about what it does.
 4. serve-favicon: Serves favicon.
 5. Cors: Allows cross-origin requests.
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I used BCrypt to encrypt user passwords to store them into the database instead of plaintext.
+- **Tech Achievement 2**: I setup custom routes for MongoDB and used Mongoose to create "schemas" to facilitate proper data entry.
+- 
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...

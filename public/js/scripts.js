@@ -32,6 +32,10 @@ const makeTableHead = function () {
     dataTable.appendChild(tableRow);
 };
 
+let nameTemp = ""
+let ageTemp = ""
+let genderTemp = ""
+let adultTemp = false
 //Edit Function
 const editPencil = function (pencil, row) {
     modifyIndex = pencil.id[6];
@@ -44,13 +48,65 @@ const editPencil = function (pencil, row) {
     if (row.gender === "Male") genderSelect[1].selected = true;
     else if (row.gender === "Female") genderSelect[2].selected = true;
     else genderSelect[3].selected = true;
+    nameTemp = row.name
+    ageTemp = row.age
+    genderTemp = row.gender
+    if(parseInt(row.age) >= 18)
+        adultTemp=true
 }
+const editCross = function (cross, row) {
+    modifyIndex = cross.id[6];
+    nameTemp = row.name
+    ageTemp = row.age
+    genderTemp = row.gender
+    if(parseInt(row.age) >= 18)
+        adultTemp=true
 
+    const x = document.cookie
+    const jsonUser = JSON.parse(x)
+    const jsonBody = {name: nameTemp, age: ageTemp, gender: genderTemp, adult: adultTemp}
+    const jsonTemp = Object.assign({}, jsonBody, jsonUser)
+    console.log("JSONTEMP = "+JSON.stringify(jsonTemp))
+    let id = ""
+    fetch('/data/getID', {
+        method: 'GET',
+        headers: {"Content-Type": "application/json; charset=UTF-8", "token" : jsonTemp.token, "name": nameTemp, "age" : ageTemp, "adult": adultTemp, "gender": genderTemp}
+    }).then(function (response) {
+        return response.json();
+    }).then(function (data) {
+        console.log("JSONCROSS ID = "+JSON.stringify(data))
+        let retJson = data[0]
+        id = retJson._id
+        console.log(retJson._id)
+        console.log(id)
+        const idJson = {"id": id}
+        console.log("ID FROM id = "+id)
+        console.log("ID FROM idJSON = "+JSON.stringify(idJson))
+        const jsonFinal = Object.assign({},jsonTemp,idJson)
+        const len = (new TextEncoder().encode(JSON.stringify(jsonFinal))).length
+        console.log(len)
+        console.log("jsonFinal = ")
+        console.log(jsonFinal)
+        fetch('/data/delete', {
+            method: 'POST',
+            body: JSON.stringify(jsonFinal),
+            headers: {"Content-Type": "application/json; charset=UTF-8", 'Content-Length': len}
+        }).then(function (res) {
+            console.log(res.toString())
+            updatePage()
+        })
+    })
+}
 
 //Updates page.
 const updatePage = function () {
-    fetch('/updatePage', {
-        method: 'GET'
+    const x = document.cookie
+    const jsonUser = JSON.parse(x)
+    const username = jsonUser.username
+    const token = jsonUser.token
+    fetch('/data/me', {
+        method: 'GET',
+        headers: {"Content-Type": "application/json; charset=UTF-8", "username": username, "token" : token}
     }).then(function (response) {
         return response.json();
     }).then(function (data) {
@@ -80,22 +136,25 @@ const updatePage = function () {
             cross.innerHTML = "&#x274C";
             cross.onclick = function (elt) {
                 let body = cross.id;
-                fetch('/delete', {
+                editCross(cross, row)
+                /*fetch('/data/delete', {
                     method: 'POST',
                     body
                 }).then(function (response) {
                     console.log("Delete post sent to server: " + response);
                     updatePage();
                     //count--;
-                });
+                });*/
                 elt.preventDefault();
                 return false;
             };
-
+            let isAdult = "No"
+            if(row.adult)
+                isAdult = "Yes"
             td1.innerHTML = row.name;
             td2.innerHTML = row.age;
             td3.innerHTML = row.gender;
-            td4.innerHTML = row.adult;
+            td4.innerHTML = isAdult;
             td5.appendChild(pencil);
             td6.appendChild(cross);
 
@@ -111,8 +170,9 @@ const updatePage = function () {
         });
     });
     console.log("Count = "+count);
-    fetch('/updatePage', {
-        method: 'GET'
+    fetch('/data/me', {//TODO:Modify update page so it calls to data and pulls from current user.
+        method: 'GET',
+        headers: {"Content-Type": "application/json; charset=UTF-8", "username": username, "token" : token}
     }).then(function (response) {
         return response.json();
     }).then(function (data) {
@@ -161,17 +221,60 @@ const makePost = function () {
         warning.innerHTML = "You must fill in all fields.";
     } else {
         warning.innerHTML = "";
-        fetch(`/${inputSelect}`, {
-            method: 'POST',
-            body
+        const x = document.cookie
+        const jsonUser = JSON.parse(x)
+        const jsonTemp = Object.assign({}, jsonBody, jsonUser)
+        let id = ""
+        fetch('/data/getID', {
+            method: 'GET',
+            headers: {"Content-Type": "application/json; charset=UTF-8", "token" : jsonTemp.token, "name": nameTemp, "age" : ageTemp, "adult": adultTemp.toString(), "gender": genderTemp}
         }).then(function (response) {
-            console.log("Post from makePost sent to server: " + response);
-            updatePage();
-            document.getElementById('yourname').value = "";
-            document.getElementById('age').value = "";
-            let genderSelect = document.getElementById('yourgender');
-            genderSelect[0].selected = true;
-        });
+            return response.json();
+        }).then(function (data) {
+            console.log(data)
+            let retJson = data[0]
+            if(retJson !== undefined)
+                id = retJson._id
+            console.log(id)
+            const idJson = {"id": id}
+            console.log("ID FROM id = "+id)
+            console.log("ID FROM idJSON = "+JSON.stringify(idJson))
+            const jsonFinal = Object.assign({},jsonTemp,idJson)
+            const len = (new TextEncoder().encode(JSON.stringify(jsonFinal))).length
+            console.log(len)
+            console.log(jsonFinal)
+
+            if(inputSelect === "add") {
+                fetch(`/data/${inputSelect}`, {
+                    method: 'POST',
+                    body: JSON.stringify(jsonFinal),
+                    headers: {"Content-Type": "application/json; charset=UTF-8", 'Content-Length': len}
+                }).then(function (response) {
+                    console.log("Post from makePost sent to server: " + response.toString());
+                    updatePage();
+                    document.getElementById('yourname').value = "";
+                    document.getElementById('age').value = "";
+                    let genderSelect = document.getElementById('yourgender');
+                    genderSelect[0].selected = true;
+                });
+            }
+            else {
+                console.log("JSON FINAL:")
+                console.log(JSON.stringify(jsonFinal))
+                fetch(`/data/modify`, {
+                    method: 'POST',
+                    body: JSON.stringify(jsonFinal),
+                    headers: {"Content-Type": "application/json; charset=UTF-8", 'Content-Length': len}
+                }).then(function (response) {
+                    console.log("Post from makePost sent to server: " + response.toString());
+                    updatePage();
+                    document.getElementById('yourname').value = "";
+                    document.getElementById('age').value = "";
+                    let genderSelect = document.getElementById('yourgender');
+                    genderSelect[0].selected = true;
+                });
+            }
+        })
     }
 };
 //Handles input once button is pressed.
@@ -195,4 +298,4 @@ const handleInput = function (elt) {
     return false;
 };
 submitBtn.onclick = handleInput;
-console.log("Welcome to assignment 2!")
+console.log("Welcome to assignment 3!")

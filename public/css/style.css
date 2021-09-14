@@ -29,6 +29,7 @@ form, input, label, select {
 
 #submit {
     font-family: "Courier New", monospace;
+    font-weight: bold;
 }
 
 .formData {
@@ -112,6 +113,7 @@ h1 {
 }
 #submitCreate {
     font-family: "Courier New", monospace;
+    font-weight: bold;
 }
 
 #warningCreate {
@@ -119,4 +121,8 @@ h1 {
     justify-content: center;
     color: red;
     font-family: "Courier New", monospace;
+}
+#logout {
+    font-family: "Courier New", monospace;
+    font-weight: bold;
 }

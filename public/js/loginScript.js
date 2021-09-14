@@ -45,6 +45,12 @@ const makePost = function () {
             .then(json=>{
                 console.log(json)
                 console.log(json.token)
+                let tokenVal = {token : json.token}
+                const expDays = 1
+                let date = new Date();
+                date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
+                const expires = "; expires=" + date.toUTCString();
+                document.cookie = JSON.stringify(tokenVal) + expires
                 fetch('user/me', {
                     method: 'GET',
                     headers: {"Content-Type": "application/json; charset=UTF-8", "token": json.token}
@@ -54,14 +60,21 @@ const makePost = function () {
                     // username: "user123456",
                     // password: "$2a$10$ZuowAxZkv54tCxvTUKBvN.2n9R.qmIIuFmFrD/nfL7hgWA.iNFB7m",
                     // __v: 0}
+                    let x = document.cookie
+                    let jsonToken = JSON.parse(x)
+                    console.log(jsonToken)
+                    console.log(json)
+                    let token = jsonToken.token
+                    console.log(token)
+                    let jsonFinal = Object.assign({}, json, jsonToken)
                     const expDays = 1
                     let date = new Date();
                     date.setTime(date.getTime() + (expDays * 24 * 60 * 60 * 1000));
                     const expires = "; expires=" + date.toUTCString();
 
-                    document.cookie = JSON.stringify(json) + expires
-                    console.log(json)
-                    warning.innerHTML = JSON.stringify(json)
+                    document.cookie = JSON.stringify(jsonFinal) + expires
+                    console.log(jsonFinal)
+                    warning.innerHTML = JSON.stringify(jsonFinal)
                     window.location = "/main/index.html"
                 })
             })
