@@ -267,7 +267,7 @@ const makePost = function () {
                     headers: {"Content-Type": "application/json; charset=UTF-8", 'Content-Length': len}
                 }).then(function (response) {
                     //console.log("Post from makePost sent to server: " + response.toString());
-                    updatePage();
+                    window.location = "/main/index.html"
                     document.getElementById('yourname').value = "";
                     document.getElementById('age').value = "";
                     let genderSelect = document.getElementById('yourgender');
