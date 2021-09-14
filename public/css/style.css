@@ -1,0 +1,163 @@
+p {
+    text-align: center;
+    font-size: 50px;
+    color: blue;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    font-family: "Glory";
+}
+
+.general {
+    alignment: center;
+    top: 0;
+    z-index: 1;
+    height: 100%;
+    overflow-x: hidden;
+    position: fixed;
+    font-family: "ZCOOL KuaiLe", monospace;
+}
+
+.gameArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    left: 0;
+    width: 70%;
+    background-color: beige;
+}
+
+.scoreArea {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    right: 0;
+    width: 30%;
+    background-color: mediumpurple;
+}
+
+table, th, td {
+    flex-shrink: 3;
+    border: 2px solid black;
+}
+
+tr:nth-child(2){
+    background-color: goldenrod;
+}
+tr:nth-child(3){
+    background-color: silver;
+}
+
+tr:nth-child(4){
+    background-color: saddlebrown;
+}
+
+tr {
+    background-color: beige;
+}
+canvas {
+    border:1px solid #d3d3d3;
+    background-color: #f1f1f1;
+}
+
+#container {
+    border:1px solid black;
+    width: 700px;
+    height: 400px;
+    position: relative;
+    background: grey;
+}
+#animate {
+    width: 30px;
+    height: 30px;
+    x: 10px;
+    y: 100px;
+    background: red;
+    position: absolute;
+}
+
+#myfilter{
+    position:absolute;
+    background-color:#000000;
+    opacity:0.3;
+    width:482px;
+    height:271px;
+}
+
+button {
+    font-family: "ABeeZee";
+    border-radius: 4px;
+    padding: 5px 20px;
+}
+
+button:hover{
+    background-color: blue;
+    color: white;
+}
+
+#myrestartbutton{
+    position:absolute;
+    padding-top:110px;
+    width: 75px;
+    margin-top: 20px;
+    margin-left: 210px;
+
+}
+
+input {
+    padding: 5px 15px;
+    font-family: "Glory";
+}
+
+input[type=text]:focus {
+    border: 3px solid #555;
+    background-color: lightblue;
+}
+
+#startBtn{
+    display: block;
+    background-color: red;
+    font-size: 20px;
+    padding: 14px 40px;
+    border-radius: 8px;
+    border: 2px solid white;
+
+}
+#startBtn:hover{
+    background-color: white;
+    border: 2px solid red;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: black;
+}
+
+.hidden{
+    display: none;
+}
+
+h1 {
+    font-size: 70px;
+    color: green;
+    margin-bottom: 20px;
+    margin-top: 30px;
+}
+
+h2 {
+    font-size: 40px;
+
+}
+
+#accelBtn {
+    padding: 14px 40px;
+}
+#accelBtn:hover{
+    background-color: lightblue;
+    border: 2px solid white;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
+    color: black;
+}
+#accelBtn:active {
+    background-color: lightblue;
+    box-shadow: 0 5px #666;
+    transform: translateY(3px);
+}
