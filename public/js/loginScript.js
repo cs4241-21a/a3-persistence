@@ -74,7 +74,7 @@ const makePost = function () {
                     document.cookie = JSON.stringify(jsonFinal) + expires
                     console.log(jsonFinal)
                     warning.innerHTML = JSON.stringify(jsonFinal)
-                    if(!warning.innerHTML === "{\"message\":\"Invalid Token\"}")
+                    if(!(warning.innerHTML === "{\"message\":\"Invalid Token\"}"))
                         window.location = "/main/index.html"
                     else {
                         warning.innerHTML = "Wrong Password!"
