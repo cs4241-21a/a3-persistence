@@ -14,7 +14,7 @@ let collection = null
 client.connect()
   .then( () => {
     // will only create collection if it doesn't exist
-    return client.db( 'XXXtest' ).collection( 'XXXtodos' )
+    return client.db( 'dataset' ).collection( 'test' )
   })
   .then( __collection => {
     // store reference to collection
