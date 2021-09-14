@@ -147,10 +147,10 @@ const submit = function( e ) {
     }   
   }
 
-  fetch('/add', {
+  /*fetch('/add', {
   method:'POST',
   body:JSON.stringify({test1}),
   headers: {
     "Content-Type": "application/json"
   }
-  })
+  })*/
