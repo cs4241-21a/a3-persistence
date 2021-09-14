@@ -1,61 +1,79 @@
-
 /* function to submit new/modified data to the server */
 const submit = function (e) {
   // prevent default form action from being carried out
   e.preventDefault();
 
   /* retrieve all data from the form and create json */
-  const name = document.getElementById("name")
-  const team = document.getElementById("team")
-  const time = document.getElementById("time")
-  const laps = document.getElementById("laps")
-  const fastest = document.getElementById("fastest")
-  const json = { name: name.value, team: team.value, time: time.value,
-     laps: laps.value, fastest: fastest.value }
+  const name = document.getElementById("name");
+  const team = document.getElementById("team");
+  const time = document.getElementById("time");
+  const laps = document.getElementById("laps");
+  const fastest = document.getElementById("fastest");
+  const json = {
+    name: name.value,
+    team: team.value,
+    time: time.value,
+    laps: laps.value,
+    fastest: fastest.value,
+  };
 
   /* validate that all json values filled */
-  for(x in json) {
-    if(json[x] === '') {
-      document.getElementById("invalid").innerText = "Invalid entry, missing: " + x
+  for (x in json) {
+    if (json[x] === "") {
+      document.getElementById("invalid").innerText =
+        "Invalid entry, missing: " + x;
       return;
     }
   }
 
   /* if valid, ensure invalid is empty */
-  document.getElementById("invalid").innerText = ''
-  const body = JSON.stringify(json)
-
-  console.log(body)
+  document.getElementById("invalid").innerText = "";
+  const body = JSON.stringify(json);
 
   /* send the new json to the server */
   fetch("/submit", {
     method: "POST",
     body,
     headers: {
-      'Content-Type' : 'application/json'
-    }
+      "Content-Type": "application/json",
+    },
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (res) {
+      /* redraw table with new json array */
+      if (res.acknowledged === true) {
+        getData();
+      }
+    });
+
+  return false;
+};
+
+function getData() {
+  fetch("/name", {
+    method: "GET",
   })
     .then(function (response) {
       return response.json();
     })
     .then(function (data) {
-      /* redraw table with new json array */
+      console.log(data);
       redrawTable(data);
-    })
-
-  return false
+    });
 }
 
 /* function to remove data from the server data */
 const remove = function (e) {
   // prevent default form action from being carried out
-  e.preventDefault()
+  e.preventDefault();
 
   /* get racer name and team from table and create json */
-  const name = e.path[1].cells[1].innerText
-  const team = e.path[1].cells[2].innerText
-  const json = { name: name, team: team }
-  const body = JSON.stringify(json)
+  const name = e.path[1].cells[1].innerText;
+  const team = e.path[1].cells[2].innerText;
+  const json = { name: name, team: team };
+  const body = JSON.stringify(json);
 
   /* send server the json to match name & team with server and remove old data */
   fetch("/remove", {
@@ -65,9 +83,11 @@ const remove = function (e) {
     .then(function (response) {
       return response.json();
     })
-    .then(function (data) {
-      /* redraw table with new data from server */
-      redrawTable(data);
+    .then(function (res) {
+      /* redraw table with new json array */
+      if (res.acknowledged === true) {
+        getData();
+      }
     });
 
   return false;
@@ -77,15 +97,15 @@ const remove = function (e) {
 function redrawTable(values) {
   /* list of headers for the table */
   const headers = [
-    'Place',
-    'Racer',
-    'Team',
-    'Total Time',
-    'Number of Laps',
-    'Fastest Lap',
-    'Average Lap Time',
-    'Remove'
-  ]
+    "Place",
+    "Racer",
+    "Team",
+    "Total Time",
+    "Number of Laps",
+    "Fastest Lap",
+    "Average Lap Time",
+    "Remove",
+  ];
   let table = document.getElementById("results-table");
 
   /* remove all the values from the table */
@@ -110,16 +130,19 @@ function redrawTable(values) {
 
   /* fill in new values */
   values.forEach((element) => {
+    console.log(element);
     let row = document.createElement("tr");
     let placeNode = document.createElement("td");
-    let placeText = document.createTextNode(values.indexOf(element) + 1)
-    placeNode.appendChild(placeText)
-    row.appendChild(placeNode)
+    let placeText = document.createTextNode(values.indexOf(element) + 1);
+    placeNode.appendChild(placeText);
+    row.appendChild(placeNode);
     for (let value in element) {
-      let valueNode = document.createElement("td");
-      let valueText = document.createTextNode(element[value]);
-      valueNode.appendChild(valueText);
-      row.appendChild(valueNode);
+      if (value !== "_id") {
+        let valueNode = document.createElement("td");
+        let valueText = document.createTextNode(element[value]);
+        valueNode.appendChild(valueText);
+        row.appendChild(valueNode);
+      }
     }
     let deleteElement = createDelete();
     row.appendChild(deleteElement);
@@ -130,7 +153,7 @@ function redrawTable(values) {
 /* helper function to create the delete column in the table */
 function createDelete() {
   let deleteNode = document.createElement("td");
-  let deleteText = document.createTextNode('delete');
+  let deleteText = document.createTextNode("delete");
   deleteNode.appendChild(deleteText);
   deleteNode.onclick = remove;
   return deleteNode;
@@ -140,4 +163,5 @@ function createDelete() {
 window.onload = function () {
   const button = document.querySelector("button");
   button.onclick = submit;
+  getData()
 };

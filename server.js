@@ -1,3 +1,5 @@
+const { query } = require('express')
+
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
       app = express()
@@ -31,10 +33,38 @@ app.get( '/', (req,res) => {
   }
 })
 
+app.get( '/name', (req,res) => {
+  if( collection !== null ) {
+    collection.find({ }).toArray().then( result => res.json( result ) )
+  }
+})
+
 app.post( '/submit', (req,res) => {
   // assumes only one object to insert
-  collection.insertOne( req.body ).then( result => res.json( result ) )
+  const dataJSON = req.body;
+  let avg = dataJSON.time / dataJSON.laps;
+  dataJSON.avg = avg;
+
+  collection
+    .findOne({ name:dataJSON.name, team:dataJSON.team })
+    .then( function (result) { 
+      return result;
+    })
+    .then(function (data) {
+      if(data === null) {
+        collection.insertOne( dataJSON ).then( result => res.json( result ))
+      } else {
+        collection.replaceOne( { name:dataJSON.name, team:dataJSON.team }, dataJSON ).then( result => res.json( result ))
+      }
+    })
 })
+
+
+app.post( '/remove', (req,res) => {
+  // removes an instance matching request body
+  collection.deleteOne( req.body ).then( result => res.json( result ) )
+})
+
   
 app.listen( 3000 )
 
