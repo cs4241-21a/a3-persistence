@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <link href="../img/favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="https://fonts.googleapis.com" rel="preconnect">
+    <link crossorigin href="https://fonts.gstatic.com" rel="preconnect">
+    <link href="https://fonts.googleapis.com/css2?family=Comic+Neue&display=swap" rel="stylesheet">
+    <link href="../css/style.css" rel="stylesheet">
+</head>
+<body>
+<div class="grid left">
+    <div class="tableData">
+        <h1 id="head">A3 Submission for Matthew Malone</h1>
+        <p>Alternate hosting at <a href="https://a3-matthew7758.glitch.me">Glitch.</a><br>
+        Alternate hosting at <a href="https://a3-matthew7758.herokuapp.com">Heroku.</a></p>
+        <h2 id="leftHeader">Census Data</h2>
+        <button id="logout">Logout</button>
+        <div>
+            <b id="counterText">Count:</b>
+            <b id="counter">(..)</b>
+        </div>
+
+        <table id="dataTable"></table>
+    </div>
+</div>
+<div class="grid right">
+    <div class="formData">
+        <h2 id="rightHeader">Add New Information</h2>
+        <form action="">
+            <label for='yourname'>Your Name: </label>
+            <input id='yourname' placeholder="Your name here" type='text'><br>
+            <label for='age'>Your Age: </label>
+            <input id='age' placeholder="Your age here" type='number'><br>
+            <label for='yourgender'>Your Gender: </label>
+            <select id='yourgender' name="gender">
+                <option disabled selected>Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select><br>
+        </form>
+        <button id="submit">Submit</button>
+        <h3 id="warning">&nbsp;</h3>
+    </div>
+</div>
+<script src="../js/scripts.js"></script>
+</body>
+</html>
