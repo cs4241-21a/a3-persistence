@@ -8,8 +8,11 @@
 const { report } = require("process"),
   express = require("express"),
   mongodb = require("mongodb"),
-  app = express();
-timeout = require("connect-timeout");
+  app = express(),
+  timeout = require("connect-timeout");
+
+// Github login information
+var GitHubStrategy = require("passport-github").Strategy;
 
 const uri =
   "mongodb+srv://" +
@@ -60,13 +63,13 @@ app.use(express.json());
 // app.use(timeout('5s'))
 // app.use(timeout("100ms"));
 app.use(timeout("1s"));
-app.use(haltOnTimedout)
+app.use(haltOnTimedout);
 
 function haltOnTimedout(req, res, next) {
   if (!req.timedout) {
     next();
   } else {
-    console.log("\n\nRequest timed out!!!!\n\n")
+    console.log("\n\nRequest timed out!!!!\n\n");
   }
 }
 
@@ -174,7 +177,6 @@ function newIDEntry(dataStringParsed) {
 
 // Handles updating an item in the forum
 app.post("/updateEntry", function (request, response) {
-
   let dataString = "";
 
   let updatePromise = undefined;
@@ -224,7 +226,6 @@ app.post("/updateEntry", function (request, response) {
 
     // Sends forum data back to front end
     response.end(stringDBData);
-
   });
 });
 
