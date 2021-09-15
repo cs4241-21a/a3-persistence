@@ -64,7 +64,7 @@
               <input class='table-input' id=<%= `deadline-${i}` %> type="text" value=<%= tasks[i].deadline %> readonly>
             </td>
             <td>
-                <button onclick="editTask('<%= i %>','<%= tasks[i] %>')" class="secondary-btn">Save Edits</button>
+                <button onclick="editTask('<%= i %>','<%= tasks[i].title %>')" class="secondary-btn">Save Edits</button>
                 <button onclick="delTask('<%= tasks[i].title %>')" class="warn-btn">Delete</button>
             </td>
             </tr>
@@ -81,7 +81,7 @@
       <input type="text" name="description" id="description" placeholder="description">
       <label for="priority">Priority:</label>
       <input type="number" id="priority" name="priority" min="0" max="10" value='5' required>
-      <button class="primary-btn">Submit</button>
+      <button id="addTask-btn" class="primary-btn">Submit</button>
     </form>
   </div>
 

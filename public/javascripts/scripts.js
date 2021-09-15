@@ -187,9 +187,10 @@ const submit = function (e) {
     return false;
 }
 
-const editTask = (i, element) => {
+const editTask = (i, title) => {
 
-    const priority = document.querySelector(`#priority-${i}`);
+    const index = parseInt(i);
+    const priority = document.querySelector(`#priority-${index}`);
 
     if ((!priority.valueAsNumber && priority.valueAsNumber !== 0) || priority.valueAsNumber < 0 || priority.valueAsNumber > 10) {
         alert('Priority must be 0 - 10');
@@ -202,9 +203,9 @@ const editTask = (i, element) => {
             "Content-Type": "application/json; charset=utf-8",
           },
         body: JSON.stringify({
-            oldTitle: element.title,
-            newTitle: document.querySelector(`#title-${i}`).value,
-            description: document.querySelector(`#description-${i}`).value,
+            oldTitle: title,
+            newTitle: document.querySelector(`#title-${index}`).value,
+            description: document.querySelector(`#description-${index}`).value,
             priority: priority.valueAsNumber
         })
     }).then(async (data) => {
@@ -239,17 +240,6 @@ const delTask = (title) => {
 };
 
 window.onload = function () {
-    const button = document.querySelector('button')
+    const button = document.querySelector('#addTask-btn');
     button.onclick = submit;
-
-    // Get initial table of data from server
-    // fetch('/get-data', {
-    //     method: 'GET'
-    // }).then(async (data) => {
-    //     const tasks = await data.json();
-
-    //     updateTasks(tasks);
-    // }).catch((err) => {
-    //     console.log(err);
-    // });
 }
