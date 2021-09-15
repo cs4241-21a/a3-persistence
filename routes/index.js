@@ -53,10 +53,14 @@ router.post('/delete', (req, res, next) => {
   try {
     const data = req.body;
 
+    console.log(data, appdata)
+
     // Delete task
     appdata = appdata.filter((element) => {
       return data.title !== element.title;
     });
+
+    console.log(appdata)
 
     res.json(appdata);
   } catch (err) {

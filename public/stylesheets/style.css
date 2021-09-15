@@ -42,29 +42,28 @@ tr {
 }
 
 #page-title {
-  text-align: center;
-  margin: 2rem auto;
+  text-align: start;
+  margin: 2rem;
   font-weight:bolder;
 }
 
 .instructions {
-  margin: 1rem auto;
-  text-align: center;
+  margin: 2rem;
+  text-align: start;
   max-width: 1000px;
 }
 
 .container {
   display: flex;
   flex-direction: row;
-  justify-content:center;
   align-items: flex-start;
   flex-wrap: wrap;
 }
 
 .table-holder {
-  margin: 1rem;
+  margin: 0 1rem auto 1rem;
+  min-width: 1300px;
   padding: 1rem;
-  width: 1300px;
   text-align: center;
   border: 3px solid black;
   border-radius: 1rem;
@@ -79,17 +78,17 @@ tr {
 
 .task-table {
   padding: 1rem;
-  width: 100%;
   border-top: 1px solid black;
 }
 
 .task-table th {
-  max-width: 230px;
+  min-width: 190px;
+  width: 190px;
 }
 
-.table-input {
+/* .table-input {
   margin: auto .5rem;
-}
+} */
 
 .form-title {
   margin-bottom: .75rem;
@@ -99,7 +98,7 @@ tr {
 }
 
 .add-task-form {
-  margin: 1rem;
+  margin: 0 1rem auto 1rem;
   padding: 1rem;
   display: flex;
   justify-content: center;

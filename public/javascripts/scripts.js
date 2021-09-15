@@ -1,6 +1,3 @@
-// Add some Javascript code here, to run on the front end.
-
-console.log("Welcome to assignment 2!")
 
 // Update the tasks table data
 let updateTasks = (tasks) => {
@@ -224,14 +221,14 @@ const editTask = (i, element) => {
     });
 };
 
-const delTask = (element) => {
+const delTask = (title) => {
 
     fetch('/delete', {
         method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",
           },
-        body: JSON.stringify({title: element.title})
+        body: JSON.stringify({title})
     }).then(async (data) => {
         const tasks = await data.json();
 
