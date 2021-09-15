@@ -7,7 +7,7 @@ const express = require( 'express' ),
 
 app.use( express.static( dir ) )
 app.use( function(req, res, next) {
-  console.log( req.body )
+  console.log( req )
   next()
 })
 app.use( bodyparser.json() )
