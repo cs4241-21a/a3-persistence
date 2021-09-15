@@ -33,12 +33,12 @@ app.use(passport.session());
 app.get('/auth/error', (req, res) => res.send('Unknown Error'))
 app.get('/github/callback',passport.authenticate('github', { failureRedirect: '/auth/error' }),
 function(req, res) {
-  res.redirect('/res?username=' + req.user.username);
+  res.redirect('/res?id=' + req.user.id);
 });
 
 
 app.get('/res', (req, res) => {
-  userID = req.query.username;
+  userID = req.query.id;
   res.redirect("results.html")
 })
 
