@@ -1,16 +1,11 @@
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
-      bodyparser = require( 'body-parser' ),
       dir = 'public'
       app = express(),
       dbclient = new mongodb.MongoClient( process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:true })
 
 app.use( express.static( dir ) )
-app.use( function(req, res, next) {
-  console.log( req )
-  next()
-})
-app.use( bodyparser.json() )
+app.use( express.json() )
 
 app.get( '/', function( request, response ) {
   response.sendFile( dir + '/index.html' )
