@@ -14,24 +14,24 @@ app.get( '/', function( request, response ) {
 
 app.post( '/add', ( request, response ) => {
   addTask( json.name, json.period, json.deadline )
-  sendResponse()
+  sendResponse( response )
 })
 
 app.post( '/edit', ( request, response ) => {
   editTask( json.id, json.name, json.period, json.deadline )
-  sendResponse()
+  sendResponse( response )
 })
 
 app.post( '/remove', ( request, response ) => {
   removeTask( json.id )
-  sendResponse()
+  sendResponse( response )
 })
 
 app.post( '/update', ( request, response ) => {
-  sendResponse()
+  sendResponse( reponse )
 })
 
-const sendResponse = function() {
+const sendResponse = function( response ) {
   response.writeHead( 200, "OK", { 'Content-Type': 'application/json' } )
   response.end( JSON.stringify( userdata ) )
 }
