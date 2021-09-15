@@ -28,49 +28,53 @@
   <div class="container">
     <div class="table-holder">
       <h2 class="table-title">Tasks</h3>
-      <table class="task-table">
-        <thead>
-          <tr>
-            <th>Task Title</th>
-            <th>Description</th>
-            <th>Priority</th>
-            <th>Date Created</th>
-            <th>Deadline</th>
-            <th></th>
-          </tr>
-        </thead>
-        <tbody id="task-holder">
-          <% for(let i=0;i<tasks.length; i++) {%>
-            
+        <table class="task-table">
+          <thead>
             <tr>
-            <td>
-              <label for="<%= `title-${i}` %>" aria-label="Task Title Input"></label>
-              <input class='table-input' id=<%= `title-${i}` %> type="text" value=<%= tasks[i].title %>>
-            </td>
-            <td>
-              <label for="<%= `description-${i}` %>" aria-label="Task Description Input"></label>
-              <input class='table-input' id=<%= `description-${i}` %> type="text" value=<%= tasks[i].description %>>
-            </td>
-            <td>
-              <label for="<%= `priority-${i}` %>" aria-label="Task Priority Input"></label>
-              <input class="table-input" type="number" id=<%= `priority-${i}` %> min="0" max="10" value=<%= tasks[i].priority %>>
-            </td>
-            <td>
-              <label for="<%= `dateCreated-${i}` %>" aria-label="Task Date Created"></label>
-              <input class='table-input' id=<%= `dateCreated-${i}` %> type="text" value=<%= tasks[i].dateCreated %> readonly>
-            </td>
-            <td>
-              <label for="<%= `deadline-${i}` %>" aria-label="Task Deadline"></label>
-              <input class='table-input' id=<%= `deadline-${i}` %> type="text" value=<%= tasks[i].deadline %> readonly>
-            </td>
-            <td>
-                <button onclick="editTask('<%= i %>','<%= tasks[i].title %>')" class="secondary-btn">Save Edits</button>
-                <button onclick="delTask('<%= tasks[i].title %>')" class="warn-btn">Delete</button>
-            </td>
+              <th>Task Title</th>
+              <th>Description</th>
+              <th>Priority</th>
+              <th>Date Created</th>
+              <th>Deadline</th>
+              <th></th>
             </tr>
-        <% } %>
-        </tbody>
-      </table>
+          </thead>
+          <tbody id="task-holder">
+            <% for(let i=0;i<tasks.length; i++) {%>
+
+              <tr>
+                <td>
+                  <label for="<%= `title-${i}` %>" aria-label="Task Title Input"></label>
+                  <input class='table-input' id=<%=`title-${i}` %> type="text" value=<%= tasks[i].title %>>
+                </td>
+                <td>
+                  <label for="<%= `description-${i}` %>" aria-label="Task Description Input"></label>
+                  <input class='table-input' id=<%=`description-${i}` %> type="text" value=<%= tasks[i].description %>>
+                </td>
+                <td>
+                  <label for="<%= `priority-${i}` %>" aria-label="Task Priority Input"></label>
+                  <input class="table-input" type="number" id=<%=`priority-${i}` %> min="0" max="10" value=<%=
+                    tasks[i].priority %>>
+                </td>
+                <td>
+                  <label for="<%= `dateCreated-${i}` %>" aria-label="Task Date Created"></label>
+                  <input class='table-input' id=<%=`dateCreated-${i}` %> type="text" value=<%= tasks[i].dateCreated %>
+                    readonly>
+                </td>
+                <td>
+                  <label for="<%= `deadline-${i}` %>" aria-label="Task Deadline"></label>
+                  <input class='table-input' id=<%=`deadline-${i}` %> type="text" value=<%= tasks[i].deadline %>
+                    readonly>
+                </td>
+                <td>
+                  <button onclick="editTask('<%= i %>','<%= tasks[i].title %>')" class="secondary-btn">Save
+                    Edits</button>
+                  <button onclick="delTask('<%= tasks[i].title %>')" class="warn-btn">Delete</button>
+                </td>
+              </tr>
+              <% } %>
+          </tbody>
+        </table>
     </div>
 
     <form class="add-task-form">

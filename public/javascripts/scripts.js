@@ -23,48 +23,71 @@ let updateTasks = (tasks) => {
 
         // Task title
         const titleData = document.createElement('td');
+        const titleLabel = document.createElement('label');
         const titleInput = document.createElement('input');
+        titleLabel.htmlFor = `title-${index}`;
+        titleLabel.ariaLabel = "Task Title Input";
         titleInput.className = 'table-input';
+        titleData.appendChild(titleLabel);
         titleData.appendChild(titleInput);
         titleInput.value = element.title;
         titleInput.id = `title-${index}`;
 
         // Task description
         const descriptionData = document.createElement('td');
+        const descriptionLabel = document.createElement('label');
         const descriptionInput = document.createElement('input');
+        descriptionLabel.htmlFor = `description-${index}`;
+        descriptionLabel.ariaLabel = "Task Description Input";
         descriptionInput.className = 'table-input';
+        descriptionData.appendChild(descriptionLabel);
         descriptionData.appendChild(descriptionInput);
         descriptionInput.value = element.description;
         descriptionInput.id = `description-${index}`;
 
         // Task priority
         const priorityData = document.createElement('td');
+        const priorityLabel = document.createElement('label');
         const priorityInput = document.createElement('input');
+        priorityLabel.htmlFor = `priority-${index}`;
+        priorityLabel.ariaLabel = "Task Priority Input";
         priorityInput.className = 'table-input';
         priorityInput.type = 'number';
         priorityInput.min = 0;
         priorityInput.max = 10;
+        priorityData.appendChild(priorityLabel);
         priorityData.appendChild(priorityInput);
         priorityInput.value = element.priority;
         priorityInput.id = `priority-${index}`;
 
         // Task creation date
         const dateCreatedData = document.createElement('td');
+        const dateCreatedLabel = document.createElement('label');
         const dateCreatedInput = document.createElement('input');
+        dateCreatedLabel.htmlFor = `dateCreated-${index}`;
+        dateCreatedLabel.ariaLabel = "Task Date Created";
+        dateCreatedInput.id = `dateCreated-${index}`;
         dateCreatedInput.className = 'table-input';
         dateCreatedInput.readOnly = true;
+        dateCreatedData.appendChild(dateCreatedLabel);
         dateCreatedData.appendChild(dateCreatedInput);
         dateCreatedInput.value = element.dateCreated;
 
         // Task deadline
         const deadlineData = document.createElement('td');
+        const deadlineLabel = document.createElement('label');
         const deadlineInput = document.createElement('input');
+        deadlineLabel.htmlFor = `deadline-${index}`;
+        deadlineLabel.ariaLabel = "Task Deadline";
+        deadlineInput.id = `deadline-${index}`;
         deadlineInput.className = 'table-input';
         deadlineInput.readOnly = true;
         deadlineData.appendChild(deadlineInput);
         deadlineInput.value = element.deadline;
 
         // Task delete button
+        const buttonData = document.createElement('td');
+
         const delBtn = document.createElement('button');
         delBtn.className = "warn-btn";
         delBtn.appendChild(document.createTextNode('Delete'));
@@ -123,6 +146,9 @@ let updateTasks = (tasks) => {
             });
         };
 
+        buttonData.appendChild(editBtn);
+        buttonData.appendChild(delBtn);
+
         // Append everything together
         row.appendChild(titleData);
         row.appendChild(descriptionData);
@@ -130,8 +156,7 @@ let updateTasks = (tasks) => {
         row.appendChild(dateCreatedData);
         row.appendChild(deadlineData);
 
-        row.appendChild(editBtn);
-        row.appendChild(delBtn);
+        row.appendChild(buttonData);
 
         holder.appendChild(row);
     });
