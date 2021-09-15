@@ -13,7 +13,7 @@ app.get( '/', function( request, response ) {
 })
 
 app.post( '/add|/edit|/remove|/update', ( request, response) => {
-  let json = request.json
+  let json = request.body
   switch( request.url ) {
     case '/add': addTask( json.name, json.period, json.deadline ); break
     case '/edit': editTask( json.id, json.name, json.period, json.deadline ); break
