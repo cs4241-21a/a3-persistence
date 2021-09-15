@@ -22,7 +22,6 @@ const login = function (e) {
             "Content-Type": "application/json"
         }
     })
-
     //Launches the homepage
     .then(reponse => {
         if(reponse.ok) {

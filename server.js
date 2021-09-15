@@ -43,20 +43,23 @@ app.post("/submit", bodyparser.json(), function(req,res) {
       .then( findResponse   => res.json( findResponse ) )
     })
 
-
 //Add a route to remove a todo
-app.post( '/remove', (req,res) => {
+app.post( '/remove', bodyparser.json(), function (req,res) {
     collection
       .deleteOne({ _id:mongodb.ObjectId( req.body.idElement ) })
       .then( result => res.json( result ) )
 })
 
 //Add a route to update a document
-app.post( '/update', (req,res) => {
+app.post( '/update', bodyparser.json(), function (req,res) {
     collection
       .updateOne(
-        { _id:mongodb.ObjectId( req.body._id ) },
-        { $set:{ name:req.body.name } }
+        { _id:mongodb.ObjectId( req.body.id ) },
+        { $set:{ 
+          name:req.body.yourname,
+          major:req.body.major,
+          hours:req.body.hours,
+          advice:req.body.advice } }
       )
       .then( result => res.json( result ) )
 })

@@ -41,11 +41,58 @@ const addEntry = (json) => {
 
   idElement = json._id;
 
+  //Adding text to fields
+  newName.innerHTML = json.yourname;
+  newMajor.innerHTML = json.major;
+  newHours.innerHTML = json.hours;
+  newAdvice.innerHTML = json.advice;
+
   //Appending edit button to td
   editButton.setAttribute('type','button')
   editButton.setAttribute('value', 'Edit')
   editButton.className = 'editButton';
   editElement.appendChild(editButton);
+
+  let nameInput = document.createElement('Input'),
+    majorInput = document.createElement('Input'),
+    hoursInput = document.createElement('Input'),
+    adviceInput = document.createElement('Input'),
+    id = idElement;
+
+    nameInput.value = newName.innerHTML;
+    majorInput.value = newMajor.innerHTML;
+    hoursInput.value = newHours.innerHTML;
+    adviceInput.value = adviceInput.innerHTML;
+
+  editButton.onclick = function() {
+
+    document.querySelector('#yourname').value = json.yourname
+    document.querySelector('#major').value = json.major
+    document.querySelector('#hours').value = json.hours
+
+    newRow.remove();
+
+    json = { yourname: nameInput.value, major: majorInput.value, hours: hoursInput.value, advice: adviceInput.value, id: id }
+    body = JSON.stringify( json )
+
+    fetch( '/update', {
+      method:'POST',
+      body,
+      headers: {
+        "Content-Type": "application/json"
+      } 
+    })
+    .then(response => response.json())
+    .then(json => {
+      
+      nameInput.value = newName.innerHTML
+      majorInput.value = newMajor.innerHTML
+      hoursInput.value = newHours.innerHTML
+      adviceInput.value = newAdvice.innerHTML
+
+      console.log("json:", json)
+    })
+  }
 
   //Appending remove button to td
   removeButton.setAttribute('type','button')
@@ -68,12 +115,6 @@ const addEntry = (json) => {
       newRow.remove();
     })
   }
-
-  //Adding text to fields
-  newName.innerHTML = json.yourname;
-  newMajor.innerHTML = json.major;
-  newHours.innerHTML = json.hours;
-  newAdvice.innerHTML = json.advice;
 };
 
 const submit = function( e ) {
@@ -122,23 +163,6 @@ const submit = function( e ) {
     })
     return false
   }
-
-  //Edits the selected row by removing it and adding it back to the table
-  const modify = function (e) {
-      e.preventDefault()
-  
-      //Gets the id of the row that needs to be editted
-      let entry = dataArr[Number(e.target.id.substring(4))];
-  
-      document.querySelector('#yourname').value = entry.yourname
-      document.querySelector('#major').value = entry.major
-      document.querySelector('#hours').value = entry.hours
-  
-      dataArr.splice(Number(e.target.id.substring(4)), 1);
-      console.log("Current dataArr when editing: " + JSON.stringify(dataArr))
-  
-      updateTable();
-    }
   
   window.onload = function() {
     const button = document.querySelector( 'button' )
