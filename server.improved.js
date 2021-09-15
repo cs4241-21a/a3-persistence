@@ -42,12 +42,12 @@ dbclient.connect()
     // will only create collection if it doesn't exist
     return dbclient.db( 'userdata' ).collection( 'testuser' )
   })
-  .then( __collection => {
+  .then( collection => {
     console.log("fetched collection")
     // store reference to collection
-    collection = __collection
+    userdata = collection.find({ }).toArray()
     // blank query returns all documents
-    return collection.find({ }).toArray()
+    return userdata.find({ }).toArray()
   })
   .then( console.log )
   .then( dbclient.close() )
