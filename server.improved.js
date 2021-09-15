@@ -14,6 +14,8 @@ app.get( '/', function( request, response ) {
 
 app.post( '/add|/edit|/remove|/update', ( request, response) => {
   let json = request.body
+  console.log( "received json: " + json )
+  console.log( "with url: " + request.url )
   switch( request.url ) {
     case '/add': addTask( json.name, json.period, json.deadline ); break
     case '/edit': editTask( json.id, json.name, json.period, json.deadline ); break
