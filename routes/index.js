@@ -6,7 +6,7 @@ const { createDeadline } = require('../util');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'TODOList' });
+  res.render('index', { title: 'TODOList', tasks: appdata });
 });
 
 router.get('/get-data', (req, res, next) => {

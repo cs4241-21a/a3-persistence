@@ -27,7 +27,7 @@ let updateTasks = (tasks) => {
         // Task title
         const titleData = document.createElement('td');
         const titleInput = document.createElement('input');
-        titleInput.className = 'table-intput';
+        titleInput.className = 'table-input';
         titleData.appendChild(titleInput);
         titleInput.value = element.title;
         titleInput.id = `title-${index}`;
@@ -190,13 +190,48 @@ const submit = function (e) {
     return false;
 }
 
-window.onload = function () {
-    const button = document.querySelector('button')
-    button.onclick = submit;
+const editTask = (i, element) => {
 
-    // Get initial table of data from server
-    fetch('/get-data', {
-        method: 'GET'
+    const priority = document.querySelector(`#priority-${i}`);
+
+    if ((!priority.valueAsNumber && priority.valueAsNumber !== 0) || priority.valueAsNumber < 0 || priority.valueAsNumber > 10) {
+        alert('Priority must be 0 - 10');
+        return;
+    }
+
+    fetch('/edit', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+        body: JSON.stringify({
+            oldTitle: element.title,
+            newTitle: document.querySelector(`#title-${i}`).value,
+            description: document.querySelector(`#description-${i}`).value,
+            priority: priority.valueAsNumber
+        })
+    }).then(async (data) => {
+        const tasks = await data.json();
+
+        if (tasks.error) {
+            alert(tasks.error);
+            return;
+        }
+
+        updateTasks(tasks);
+    }).catch((err) => {
+        console.log(err);
+    });
+};
+
+const delTask = (element) => {
+
+    fetch('/delete', {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json; charset=utf-8",
+          },
+        body: JSON.stringify({title: element.title})
     }).then(async (data) => {
         const tasks = await data.json();
 
@@ -204,4 +239,20 @@ window.onload = function () {
     }).catch((err) => {
         console.log(err);
     });
+};
+
+window.onload = function () {
+    const button = document.querySelector('button')
+    button.onclick = submit;
+
+    // Get initial table of data from server
+    // fetch('/get-data', {
+    //     method: 'GET'
+    // }).then(async (data) => {
+    //     const tasks = await data.json();
+
+    //     updateTasks(tasks);
+    // }).catch((err) => {
+    //     console.log(err);
+    // });
 }
