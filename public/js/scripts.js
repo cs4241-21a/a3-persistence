@@ -13,7 +13,10 @@ const getRequest = function(endpoint, data, callback) {
 const postRequest = function(endpoint, data, callback) {
   fetch( endpoint, {
     method:'POST',
-    body: JSON.stringify(data) 
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
   })
   .then( response => callback(response) )
   return false

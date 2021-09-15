@@ -31,11 +31,11 @@ exports.update = async function(data) {
 }
 
 exports.create = async function(collection, data) {
-    if (collection === 'lostitems') {
+    if (collection === 'lostItems') {
         const insertResult = await lostitems.insertMany([data])
         console.log('Inserted documents =>', insertResult)
         return insertResult
-    } else if (collection === "foundItems") {
+    } else if (collection === 'foundItems') {
         const insertResult = await founditems.insertMany([data])
         console.log('Inserted documents =>', insertResult)
         return insertResult
