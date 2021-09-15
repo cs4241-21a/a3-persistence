@@ -1,6 +1,6 @@
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
-      bodyparser = require( 'bodyparser' ),
+      bodyparser = require( 'body-parser' ),
       dir = 'public'
       app = express(),
       dbclient = new mongodb.MongoClient( process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:true })
