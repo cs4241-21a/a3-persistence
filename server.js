@@ -1,8 +1,45 @@
-const { query } = require('express')
+const { query, response } = require('express');
+const passport = require('passport');
+const GitHubStrategy = require('passport-github2').Strategy;
+const express = require( 'express' );
+const mongodb = require( 'mongodb' );
+const app = express();
 
-const express = require( 'express' ),
-      mongodb = require( 'mongodb' ),
-      app = express()
+const clientID = '6293d146755b88e66857'
+const clientSecret = '5c1676202596fb930a9a5b4e94d469b95d184d1f'
+
+passport.serializeUser(function(user, done){
+  done(null, user);
+})
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+})
+
+passport.use(new GitHubStrategy({
+  clientID: clientID,
+  clientSecret: clientSecret,
+  callbackURL: "http://localhost:3000/github/callback"
+},
+function(accessToken, refreshToken, profile, done) {
+  // console.log(profile)
+  return done(null, profile);
+}))
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/auth/error', (req, res) => res.send('Unknown Error'))
+app.get('/github/callback',passport.authenticate('github', { failureRedirect: '/auth/error' }),
+function(req, res) {
+  res.redirect('/res?username=' + req.user.username);
+});
+
+
+app.get('/res', (req, res) => {
+  console.log(req.query.username) // able to get username now
+  res.redirect("results.html")
+})
 
 app.use( express.static('public') )
 app.use( express.json() )
@@ -24,16 +61,12 @@ client.connect()
     // blank query returns all documents
     return collection.find({ }).toArray()
   })
-  // .then( console.log )
   
-// route to get all docs
+// route to get all docs maybe dont need????????
 app.get( '/', (req,res) => {
-  if( collection !== null ) {
-    collection.find({ }).toArray().then( result => res.json( result ) )
-  }
 })
 
-app.get( '/name', (req,res) => {
+app.get( '/results', (req,res) => {
   if( collection !== null ) {
     collection.find({ }).toArray().then( result => res.json( result ) )
   }

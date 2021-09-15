@@ -52,7 +52,7 @@ const submit = function (e) {
 };
 
 function getData() {
-  fetch("/name", {
+  fetch("/results", {
     method: "GET",
   })
     .then(function (response) {
