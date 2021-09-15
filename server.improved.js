@@ -12,29 +12,18 @@ app.get( '/', function( request, response ) {
   response.sendFile( dir + '/index.html' )
 })
 
-app.post( '/add', ( request, response ) => {
-  addTask( json.name, json.period, json.deadline )
-  sendResponse( response )
-})
+app.post( '/add|/edit|/remove|/update', ( request, response) => {
+  let json = request.json
+  switch( request.url ) {
+    case '/add': addTask( json.name, json.period, json.deadline ); break
+    case '/edit': editTask( json.id, json.name, json.period, json.deadline ); break
+    case '/remove': removeTask( json.id ); break
+    default: break
+  }
 
-app.post( '/edit', ( request, response ) => {
-  editTask( json.id, json.name, json.period, json.deadline )
-  sendResponse( response )
-})
-
-app.post( '/remove', ( request, response ) => {
-  removeTask( json.id )
-  sendResponse( response )
-})
-
-app.post( '/update', ( request, response ) => {
-  sendResponse( reponse )
-})
-
-const sendResponse = function( response ) {
   response.writeHead( 200, "OK", { 'Content-Type': 'application/json' } )
   response.end( JSON.stringify( userdata ) )
-}
+})
 
 app.listen( process.env.PORT || 3000 )
 
@@ -44,6 +33,7 @@ let highestId = 2
 
 let collection = null
 
+//test database connection
 dbclient.connect()
   .then( () => {
     // will only create collection if it doesn't exist
