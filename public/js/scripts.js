@@ -46,15 +46,18 @@ function refreshTable(data) {
   // Adding rows of data to the table
   for (let element of data) {
     let row = tBody.insertRow();
+    console.log(data);
     for (let key of Object.keys(data[0])) {
-      let cell = row.insertCell();
-      let text = document.createTextNode(element[key]);
-      cell.appendChild(text);
-      if(key === 'hotel' || key === 'location'){
-        cell.classList.add('title-field');
-      }
-      else{
-        cell.classList.add('number-button-field')
+      if(key !== '_id'){
+        let cell = row.insertCell();
+        let text = document.createTextNode(element[key]);
+        cell.appendChild(text);
+        if(key === 'hotel' || key === 'location'){
+          cell.classList.add('title-field');
+        }
+        else{
+          cell.classList.add('number-button-field')
+        }
       }
     }
 
@@ -66,7 +69,6 @@ function refreshTable(data) {
     const editBtnText = 'Edit';
     editBtn.innerHTML = editBtnText;
     editBtn.onclick = () => {
-      let originalEntry = element;
       document.querySelector('#hotel-name').value = element.hotel;
       document.querySelector('#hotel-location').value = element.location;
       document.querySelector('#cleanliness-score').value = element.cleanliness;
@@ -81,22 +83,14 @@ function refreshTable(data) {
           cleanlinessScore = document.querySelector('#cleanliness-score'),
           serviceScore = document.querySelector('#service-score'),
           amenityScore = document.querySelector('#amenity-score'),
-          json = [
-            {
-              hotel: originalEntry.hotel,
-              location: originalEntry.location,
-              cleanliness: originalEntry.cleanliness,
-              service: originalEntry.service,
-              amenity: originalEntry.amenity,
-            },
-            {
-              hotel: hotelName.value,
-              location: hotelLocation.value,
-              cleanliness: Number(cleanlinessScore.value),
-              service: Number(serviceScore.value),
-              amenity: Number(amenityScore.value),
-            },
-          ],
+          json = {
+            id: element._id,
+            hotel: hotelName.value,
+            location: hotelLocation.value,
+            cleanliness: Number(cleanlinessScore.value),
+            service: Number(serviceScore.value),
+            amenity: Number(amenityScore.value),
+          },
           body = JSON.stringify(json);
         fetch('/edit', {
           method: 'POST',
@@ -130,18 +124,10 @@ function refreshTable(data) {
       const formBtn = document.querySelector('#Submit-Button');
       formBtn.onclick = submit;
       formBtn.innerHTML = 'Submit Review';
-      const json = {
-          hotel: element.hotel,
-          location: element.location,
-          cleanliness: element.cleanliness,
-          service: element.service,
-          amenity: element.amenity,
-        },
-        body = JSON.stringify(json);
       fetch('/delete', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body,
+        body: JSON.stringify({id: element._id}),
       })
         .then(function (response) {
           return response.json();
