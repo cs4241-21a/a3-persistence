@@ -1,12 +1,18 @@
-const http = require('http'),
-  fs = require('fs'),
-  // IMPORTANT: you must run `npm install` in the directory for this assignment
-  // to install the mime library used in the following line of code
-  mime = require('mime'),
-  dir = 'public/',
-  port = 3000;
+  require('dotenv').config()
+  const express = require('express'),
+  app = express(),
+  //bodyParser = require('body-parser'),
+  mongodb = require('mongodb'),
+  MongoClient = mongodb.MongoClient,
+  uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}/HotelReviews?retryWrites=true&w=majority`,
+  client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true }) 
 
-const appdata = [
+  let collection = null
+  client.connect(err => {
+    collection = client.db('HotelReviews').collection('Reviews')
+  })
+
+  appdata = [
   {
     'hotel': 'Best Resort',
     'location': 'Miami',
@@ -25,23 +31,14 @@ const appdata = [
   },
 ];
 
-const server = http.createServer(function (request, response) {
-  if (request.method === 'GET') {
-    handleGet(request, response);
-  } else if (request.method === 'POST') {
-    handlePost(request, response);
-  }
-});
+port = 3000;
 
-const handleGet = function (request, response) {
-  const filename = dir + request.url.slice(1);
+// automatically deliver all files in the public folder with the correct headers 
+app.use( express.static( 'public' ))
 
-  if (request.url === '/') {
-    sendFile(response, 'public/index.html');
-  } else {
-    sendFile(response, filename);
-  }
-};
+app.get('/', function(request, response) {
+  response.sendFile(__dirname + 'public/index.html')
+})
 
 const getOverallScore = function (
   cleanlinessScore,
@@ -52,117 +49,76 @@ const getOverallScore = function (
   return Math.round((sum / 3) * 10) / 10;
 };
 
-const handlePost = function (request, response) {
-  let dataString = '';
+app.post('/table', function(request, response) {
+  response.writeHead(200, 'OK', { 'Content-Type': 'text/plain' })
+  response.end(JSON.stringify(appdata))
+})
 
-  request.on('data', function (data) {
-    dataString += data;
+app.post('/submit', express.json(), function(request, response) {
+  const overallScore = getOverallScore(
+    request.body.cleanliness,
+    request.body.service,
+    request.body.amenity
+    );
+  appdata.push({
+    hotel: request.body.hotel,
+    location: request.body.location,
+    cleanliness: request.body.cleanliness,
+    service: request.body.service,
+    amenity: request.body.amenity,
+    overallexperience: overallScore,
   });
+  response.writeHead(200, 'OK', { 'Content-Type': 'text/plain' });
+  response.end(JSON.stringify(appdata));
+})
 
-  request.on('end', function () {
-    switch (request.url) {
-      case '/table':
-        {
-          response.writeHead(200, 'OK', { 'Content-Type': 'text/plain' });
-          response.end(JSON.stringify(appdata));
-        }
-        break;
-
-      case '/submit':
-        {
-          const json = JSON.parse(dataString);
-          const overallScore = getOverallScore(
-            json.cleanliness,
-            json.service,
-            json.amenity
-          );
-          appdata.push({
-            hotel: json.hotel,
-            location: json.location,
-            cleanliness: json.cleanliness,
-            service: json.service,
-            amenity: json.amenity,
-            overallexperience: overallScore,
-          });
-          response.writeHead(200, 'OK', { 'Content-Type': 'text/plain' });
-          response.end(JSON.stringify(appdata));
-        }
-        break;
-      case '/delete':
-        {
-          const json = JSON.parse(dataString);
-          const overallScore = getOverallScore(
-            json.cleanliness,
-            json.service,
-            json.amenity
-          );
-          json['overallexperience'] = overallScore;
-          let index = -1;
-          for (let i = 0; i < appdata.length; i++) {
-            if (JSON.stringify(appdata[i]) === JSON.stringify(json)) {
-              index = i;
-            }
-          }
-          appdata.splice(index, 1);
-          response.writeHead(200, 'OK', { 'Content-Type': 'text/plain' });
-          response.end(JSON.stringify(appdata));
-        }
-        break;
-
-      case '/edit':
-        {
-          const json = JSON.parse(dataString);
-          const overallScoreForOriginal = getOverallScore(
-            json[0].cleanliness,
-            json[0].service,
-            json[0].amenity
-          );
-          const overallScore = getOverallScore(
-            json[1].cleanliness,
-            json[1].service,
-            json[1].amenity
-          );
-          json[0]['overallexperience'] = overallScoreForOriginal;
-          let index = -1;
-          for (let i = 0; i < appdata.length; i++) {
-            if (JSON.stringify(appdata[i]) === JSON.stringify(json[0])) {
-              index = i;
-            }
-          }
-          appdata.splice(index, 1, {
-            hotel: json[1].hotel,
-            location: json[1].location,
-            cleanliness: json[1].cleanliness,
-            service: json[1].service,
-            amenity: json[1].amenity,
-            overallexperience: overallScore,
-          });
-          response.writeHead(200, 'OK', { 'Content-Type': 'text/plain' });
-          response.end(JSON.stringify(appdata));
-        }
-        break;
-
-      default:
-        console.log('Hit default case in post switch statement');
+app.post('/delete', express.json(), function(request, response) {
+  const overallScore = getOverallScore(
+    request.body.cleanliness,
+    request.body.service,
+    request.body.amenity
+  );
+  request.body['overallexperience'] = overallScore;
+  let index = -1;
+  for (let i = 0; i < appdata.length; i++) {
+    if (JSON.stringify(appdata[i]) === JSON.stringify(request.body)) {
+      index = i;
     }
-  });
-};
+  }
+  appdata.splice(index, 1);
+  response.writeHead(200, 'OK', { 'Content-Type': 'text/plain' });
+  response.end(JSON.stringify(appdata));
+})
 
-const sendFile = function (response, filename) {
-  const type = mime.getType(filename);
-
-  fs.readFile(filename, function (err, content) {
-    // if the error = null, then we've loaded the file successfully
-    if (err === null) {
-      // status code: https://httpstatuses.com
-      response.writeHeader(200, { 'Content-Type': type });
-      response.end(content);
-    } else {
-      // file not found, error code 404
-      response.writeHeader(404);
-      response.end('404 Error: File Not Found');
+app.post('/edit', express.json(), function(request,response) {
+  const overallScoreForOriginal = getOverallScore(
+    request.body[0].cleanliness,
+    request.body[0].service,
+    request.body[0].amenity
+  );
+  const overallScore = getOverallScore(
+    request.body[1].cleanliness,
+    request.body[1].service,
+    request.body[1].amenity
+  );
+  request.body[0]['overallexperience'] = overallScoreForOriginal;
+  let index = -1;
+  for (let i = 0; i < appdata.length; i++) {
+    if (JSON.stringify(appdata[i]) === JSON.stringify(request.body[0])) {
+      index = i;
     }
+  }
+  appdata.splice(index, 1, {
+    hotel: request.body[1].hotel,
+    location: request.body[1].location,
+    cleanliness: request.body[1].cleanliness,
+    service: request.body[1].service,
+    amenity: request.body[1].amenity,
+    overallexperience: overallScore,
   });
-};
+  response.writeHead(200, 'OK', { 'Content-Type': 'text/plain' });
+  response.end(JSON.stringify(appdata));
+})
 
-server.listen(process.env.PORT || port);
+app.listen(process.env.PORT || port)
+

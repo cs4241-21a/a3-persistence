@@ -10,6 +10,7 @@
     <link rel='stylesheet' href='css/style.css' />
     <link rel='shortcut icon' href='#' />
     <script src='js/scripts.js'></script>
+    <meta name="viewport" content="initial-scale=1">
     <title>CS4241 Assignment 2</title>
     <meta charset='utf-8' />
   </head>
@@ -19,19 +20,21 @@
     <form action='' method='POST'>
       <div class='flex-container'>
         <div>
-          <label>Hotel Name:</label>
+          <label>Hotel Name:
           <input type='text' id='hotel-name' value='Enter Hotel Name Here' />
+          </label>
         </div>
         <div>
-          <label>Hotel Location:</label>
+          <label>Hotel Location:
           <input
             type='text'
             id='hotel-location'
             value='Enter Hotel Location Here'
           />
+          </label>
         </div>
         <div>
-          <label>Cleanliness (1-10):</label>
+          <label>Cleanliness (1-10):
           <input
             type='number'
             id='cleanliness-score'
@@ -39,14 +42,17 @@
             min='1'
             max='10'
           />
+          </label>
         </div>
         <div>
-          <label>Service (1-10):</label>
+          <label>Service (1-10):
           <input type='number' id='service-score' value='5' min='1' max='10' />
+          </label>  
         </div>
         <div>
-          <label>Amenities (1-10):</label>
+          <label>Amenities (1-10):
           <input type='number' id='amenity-score' value='5' min='1' max='10' />
+          </label>
         </div>
         <div id='Button-Container'>
           <button id='Submit-Button'>Submit Review</button>

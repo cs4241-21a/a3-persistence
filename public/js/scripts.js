@@ -100,6 +100,7 @@ function refreshTable(data) {
           body = JSON.stringify(json);
         fetch('/edit', {
           method: 'POST',
+          headers: {'Content-Type': 'application/json'},
           body,
         })
           .then(function (response) {
@@ -139,6 +140,7 @@ function refreshTable(data) {
         body = JSON.stringify(json);
       fetch('/delete', {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         body,
       })
         .then(function (response) {
@@ -174,6 +176,7 @@ const submit = function (e) {
 
   fetch('/submit', {
     method: 'POST',
+    headers: {'Content-Type': 'application/json'},
     body,
   })
     .then(function (response) {

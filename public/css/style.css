@@ -26,7 +26,7 @@ body {
     margin: 0 auto;
     font-family: 'Hina Mincho', serif;
     font-size: 25px;
-    background-color: #ede7dd;
+    background-color: lightgray;
 }
 
 h1 {
@@ -58,7 +58,7 @@ input {
     display: flex;
     align-items: center;
     justify-content: center;
-    background-image: url('../images/palmtrees.jpg');
+    background-color: black;
     background-size: cover;
     background-position: top;
     white-space: nowrap;
@@ -78,10 +78,9 @@ input {
 
 .flex-container {
     display: flex;
-    background-image: url('../images/cancun.jpg');
+    background-color: black;
     background-size: auto;
-    border-radius: 20px;
-    border: 10px double black;
+    border: 5px solid black;
     flex-direction: column;
     align-items: center;
     justify-content: center;
