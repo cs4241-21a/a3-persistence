@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+
+    <script src="js/scripts.js" defer></script>
+
+    
+  </head>
+
+
+  <body>
+
+    <div class="nav_bar">
+      <a class="active" href="index.html">Contacts</a>
+    </div>
+
+
+
+  <section class="grid"> 
+    <div style="overflow-x:auto" class="left-half">
+      <h1> Contact Log </h1>
+    
+      <b id="contact_counter" ></b>
+      <br> 
+      <br> 
+      <table id="dataTable">
+        <tr>
+          <th class= "left_border"> Contact Number </th>
+          <th> Name </th>
+          <th> Email </th>
+          <th> Number </th>
+          <th> Age </th>
+          <th> Occupation </th>
+          <th> Age Group </th>
+          <th> Education Level </th>
+          <th class= "right_border"> Notes </th> 
+        </tr>
+      </table>
+      
+    </div>
+
+    <div class="verticalLine middle-half"></div>
+    
+
+    <div class = "right-half">
+      
+      <h2 class="center"> Add Contact </h2>
+
+      <br>
+      <br>
+      <form>
+        <label for="inptName" class="bold_text"> Name: </label>
+        <input type='text' id='inptName'> 
+      </form>
+
+      <br> 
+      
+      <form>
+        <label for="inptEmail" class="bold_text"> Email: </label>
+        <input type='text' id='inptEmail'> 
+      </form>
+
+      <br> 
+
+
+      <form>
+        <label for="inptNumber" class="bold_text"> Number: </label>
+        <input type='text' id='inptNumber'> 
+      </form>
+
+      <br> 
+
+      <form>
+        <label for="inptAge" class="bold_text"> Age: </label>
+        <input type='number' id='inptAge'> 
+      </form>
+
+      <br> 
+
+      
+        <label for="inptOccupation" class="bold_text"> Occupation: </label>
+        <select id="inptOccupation" class="bold_text">
+          <option value="Student" class="bold_text">Student</option>
+          <option value="Working" class="bold_text" >Working</option>
+          <option value="Unemployed" class="bold_text">Unemployed</option>
+        </select>
+
+      <br> 
+
+      <form>
+        <label for="inptNotes" class="bold_text"> Notes: </label>
+        <textarea id='inptNotes' maxlength="200"> </textarea> 
+        <div id="counter"></div>
+      </form>
+
+      <button class="submit_btn">Submit</button>
+    </div>
+  </section>
+
+  <div class="popup" id="popup_1"> 
+    <div class="overlay"> </div>
+    <div class="content"> 
+        <div class="close_btn" onclick="closeEdit()">&times;</div>
+        
+        <h2> Edit Contact </h2>
+        <form>
+          <label for="editName" class="bold_text"> Name: </label>
+          <input type='text' id='editName'> 
+        </form>
+  
+        <br> 
+        
+        <form>
+          <label for="editEmail" class="bold_text"> Email: </label>
+          <input type='text' id='editEmail'> 
+        </form>
+  
+        <br> 
+  
+  
+        <form>
+          <label for="editNumber" class="bold_text"> Number: </label>
+          <input type='text' id='editNumber'> 
+        </form>
+  
+        <br> 
+
+        <form>
+          <label for="editAge" class="bold_text"> Age: </label>
+          <input type='number' id='editAge'> 
+        </form>
+  
+        <br> 
+
+        
+          <label for="editOccupation" class="bold_text"> Occupation: </label>
+          <select id="editOccupation" class="bold_text">
+            <option value="Student" class="bold_text" >Student</option>
+            <option value="Working" class="bold_text">Working</option>
+            <option value="Unemployed" class="bold_text">Unemployed</option>
+          </select>
+        
+
+        <br>
+
+        <form>
+          <label for="editNotes" class="bold_text"> Notes: </label>
+          <textarea id='editNotes' maxlength="200"> </textarea> 
+        </form>
+
+        
+
+        
+        <button id = "update_btn" class="update_btn">Update</button>
+        <button id = "delete_btn" class="delete_btn">Delete</button>
+    </div>
+  </div>
+
+  </body>
+
+</html>
