@@ -1,66 +1,78 @@
 @import url('https://fonts.googleapis.com/css?family=Tangerine');
 @import url('https://fonts.googleapis.com/css?family=Comic+Sans+MS');
-button{
-    font-size: 18px;
-    background-color: antiquewhite;
+
+button {
+  font-size: 18px;
+  background-color: antiquewhite;
 }
-h1{
-    font-family: Tangerine;
-    font-size: 100px;
-    display: flex;
-    justify-content: center;
-    color: black;
-    padding-bottom: 20px;
+
+h1 {
+  font-family: Tangerine, serif;
+  font-size: 100px;
+  display: flex;
+  justify-content: center;
+  color: black;
+  padding-bottom: 20px;
 }
-h2{
-    font-family: "Comic Sans MS";
-    display: flex;
-    justify-content: center;
-    color: black;
-    padding-bottom: 5px;
-    padding-top: 20px;
+
+h2 {
+  font-family: "Comic Sans MS", sans-serif;
+  display: flex;
+  justify-content: center;
+  color: black;
+  padding-bottom: 5px;
+  padding-top: 20px;
 }
-body{
-    background-color: skyblue;
+
+body {
+  background-color: skyblue;
 }
-input{
-    font-family: "Century Gothic";
-    justify-content: center;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    font-size: 16px;
-    padding: 3px 3px 20px;
+
+input {
+  font-family: "Century Gothic", serif;
+  justify-content: center;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+  padding: 3px 3px 20px;
 }
-table, th, td {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    table-layout: auto;
-    border: 1px solid gray;
-    border-collapse: collapse;
-    white-space: nowrap;
+
+table,
+th,
+td {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  table-layout: auto;
+  border: 1px solid gray;
+  border-collapse: collapse;
+  white-space: nowrap;
 }
-th, td {
-    font-family: Constantia;
-    size: A3;
-    background-color: aliceblue;
+
+th,
+td {
+  font-family: Constantia, serif;
+  size: a3;
+  background-color: aliceblue;
 }
+
 .flex-outer li,
 .flex-inner {
-    justify-content: center;
-    display: flex;
-    flex-wrap: wrap;
-    align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
 }
+
 .flex-outer li button {
-    justify-content: center;
-    align-items: center;
-    padding: 8px 16px;
-    border: none;
-    background: #333;
-    color: #f2f2f2;
-    text-transform: lowercase;
-    letter-spacing: .09em;
-    border-radius: 2px;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 16px;
+  border: none;
+  background: #333;
+  color: #f2f2f2;
+  text-transform: lowercase;
+  letter-spacing: 0.09em;
+  border-radius: 2px;
 }
