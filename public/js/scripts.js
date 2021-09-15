@@ -32,6 +32,7 @@ const submit = function( e ) {
 
     fetch( requestType, {
         method: "POST",
+        headers: { 'Content-Type': 'application/json' },
         body
     })
     .then( ( response ) => response.json() )
@@ -90,6 +91,7 @@ const remove = function( e, utask ) {
 
     fetch( "/remove", {
         method: "POST",
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify( { id } )
     })
     .then( ( response ) => response.json() )
