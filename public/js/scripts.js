@@ -137,7 +137,7 @@ function redrawTable(values) {
     placeNode.appendChild(placeText);
     row.appendChild(placeNode);
     for (let value in element) {
-      if (value !== "_id") {
+      if (value !== "_id" && value !== "userID") {
         let valueNode = document.createElement("td");
         let valueText = document.createTextNode(element[value]);
         valueNode.appendChild(valueText);

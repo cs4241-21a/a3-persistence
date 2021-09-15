@@ -5,8 +5,9 @@ const express = require( 'express' );
 const mongodb = require( 'mongodb' );
 const app = express();
 
-const clientID = '6293d146755b88e66857'
-const clientSecret = '5c1676202596fb930a9a5b4e94d469b95d184d1f'
+const clientID = '6293d146755b88e66857';
+const clientSecret = '5c1676202596fb930a9a5b4e94d469b95d184d1f';
+let userID = '';
 
 passport.serializeUser(function(user, done){
   done(null, user);
@@ -37,7 +38,7 @@ function(req, res) {
 
 
 app.get('/res', (req, res) => {
-  console.log(req.query.username) // able to get username now
+  userID = req.query.username;
   res.redirect("results.html")
 })
 
@@ -68,7 +69,7 @@ app.get( '/', (req,res) => {
 
 app.get( '/results', (req,res) => {
   if( collection !== null ) {
-    collection.find({ }).toArray().then( result => res.json( result ) )
+    collection.find({ userID: userID }).toArray().then( result => res.json( result ) )
   }
 })
 
@@ -77,9 +78,9 @@ app.post( '/submit', (req,res) => {
   const dataJSON = req.body;
   let avg = dataJSON.time / dataJSON.laps;
   dataJSON.avg = avg;
-
+  dataJSON.userID = userID;
   collection
-    .findOne({ name:dataJSON.name, team:dataJSON.team })
+    .findOne({ name:dataJSON.name, team:dataJSON.team, userID:dataJSON.userID })
     .then( function (result) { 
       return result;
     })
@@ -87,7 +88,7 @@ app.post( '/submit', (req,res) => {
       if(data === null) {
         collection.insertOne( dataJSON ).then( result => res.json( result ))
       } else {
-        collection.replaceOne( { name:dataJSON.name, team:dataJSON.team }, dataJSON ).then( result => res.json( result ))
+        collection.replaceOne( { name:dataJSON.name, team:dataJSON.team, userID:dataJSON.userID }, dataJSON ).then( result => res.json( result ))
       }
     })
 })
