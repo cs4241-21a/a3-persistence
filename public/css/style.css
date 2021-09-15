@@ -7,7 +7,8 @@
 
 /* Setting the page's background color */
 body {
-  background-color: rgb(240, 234, 231);
+  background-color: rgb(240, 234, 0);
+  /* background-color: rgb(240, 234, 231); */
 }
 
 /* Setting the border on the entire forum table section */
