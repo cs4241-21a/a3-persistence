@@ -4,11 +4,21 @@
   "description": "abandon all hope yea who enter here",
   "author": "Keval Ashara",
   "scripts": {
-    "start": "node server.improved.js"
+    "start": "node server.improved.js",
+    "dev": "nodemon server.improved.js"
   },
   "dependencies": {
+    "D": "^1.0.0",
+    "bcrypt": "^5.0.1",
+    "dotenv": "^10.0.0",
+    "ejs": "^3.1.6",
+    "express": "^4.17.1",
+    "express-ejs-layouts": "^2.5.1",
+    "express-session": "^1.17.2",
     "mime": "^2.5.2",
     "mongodb": "^4.1.2",
+    "nodemon": "^2.0.12",
+    "passport": "^0.4.1",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0"
   }
