@@ -1,5 +1,6 @@
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
+      bodyparser = require('body-parser'),
       dotenv = require('dotenv').config(),
       app = express();
 
@@ -32,11 +33,16 @@ app.get( '/', (req,res) => {
   }
 })
 
-//Add a route to insert a todo
-app.post( '/add', (req,res) => {
-    // assumes only one object to insert
-    collection.insertOne( req.body ).then( result => res.json( result ) )
-})
+app.post("/submit", bodyparser.json(), function(req,res) {
+    console.log('body: ', req.body)
+
+      //req.body['username'] = user
+
+      collection.insertOne( req.body )
+      .then( insertResponse => collection.findOne( insertResponse.insertedId ) ) 
+      .then( findResponse   => res.json( findResponse ) )
+    })
+
 
 //Add a route to remove a todo
 app.post( '/remove', (req,res) => {
@@ -53,6 +59,6 @@ app.post( '/update', (req,res) => {
         { $set:{ name:req.body.name } }
       )
       .then( result => res.json( result ) )
-  })
-  
+})
+
 app.listen( 3000 )

@@ -1,5 +1,62 @@
 let dataArr = [];
 
+const getAdvice = function (hours) {
+
+  let advice = ""
+  
+    if (hours === "0-4 hours") {
+  
+      advice = 'Go get some sleep'
+  
+    } else if (hours === "5-7 hours") {
+  
+      advice = 'Moderate amount of hours of sleep'
+  
+    } else if (hours === "8 hours") {
+  
+      advice = 'Perfect amount of hours of sleep'
+  
+    } else {
+  
+      advice = 'Cut back on some hours'
+  
+    }
+
+  return advice;
+}
+
+const addEntry = (json) => {
+
+  let table = document.getElementById('sleeptable')
+  
+  let newRow = table.insertRow(-1),
+  newName = newRow.insertCell(0),
+  newMajor = newRow.insertCell(1),
+  newHours = newRow.insertCell(2),
+  newAdvice = newRow.insertCell(3),
+  editElement = newRow.insertCell(4),
+  editButton = document.createElement('Input'),
+  removeElement = newRow.insertCell(5),
+  removeButton = document.createElement('Input');
+
+  editButton.setAttribute('type','button')
+  editButton.setAttribute('value', 'Edit')
+  editButton.className = 'editButton';
+
+  editElement.appendChild(editButton);
+
+  removeButton.setAttribute('type','button')
+  removeButton.setAttribute('value', 'Remove')
+  removeButton.className = 'removeButton';
+
+  removeElement.appendChild(removeButton);
+
+  newName.innerHTML = json.yourname;
+  newMajor.innerHTML = json.major;
+  newHours.innerHTML = json.hours;
+  newAdvice.innerHTML = json.advice;
+};
+
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
@@ -7,6 +64,11 @@ const submit = function( e ) {
     const name = document.querySelector( '#yourname' ),
     major = document.querySelector('#major'),
     sleep = document.querySelector('#hours');
+    console.log("sleep.value:", sleep.value)
+
+    advice = getAdvice(sleep.value)
+
+    console.log("advice:", Object.getPrototypeOf(advice))
 
     //Error checking to make sure the fields are not empty
     if (name.value === "" || major.value === "" || sleep.value === "") {
@@ -28,23 +90,21 @@ const submit = function( e ) {
         alert("Enter valid fields only.")
         return false
     }
-          json = { yourname: name.value, major: major.value, hours:sleep.value }
-          body = JSON.stringify( json )
+  
+    json = { yourname: name.value, major: major.value, hours:sleep.value, advice: advice }
+    body = JSON.stringify( json )
   
     fetch( '/submit', {
       method:'POST',
-      body 
+      body: body,
+      headers: {
+        "Content-Type": "application/json"
+      } 
     })
-    .then( function( response ) {
-      return response.text()
+    .then(response => response.json())
+    .then(json => {
+      addEntry(json)
     })
-
-    .then( function ( text ) {
-        dataArr.push(JSON.parse(text));
-        updateTable();
-        console.log("dataArr: " + JSON.stringify(dataArr));
-    })
-  
     return false
   }
 
@@ -79,70 +139,4 @@ const submit = function( e ) {
   window.onload = function() {
     const button = document.querySelector( 'button' )
     button.onclick = submit
-  }
-
-  //Function updates the table either by adding, editing, or deleting a row from the table
-  function updateTable() {
-
-    let tbody = document.querySelector('tbody')
-    tbody.innerHTML = ""
-
-    for (let index = 0; index < dataArr.length; index++) {
-
-        let newRow = document.createElement('tr')
-
-        for (let cell = 0; cell < 6; cell++) {
-
-            let newCell = document.createElement('td')
-            let newText;
-
-           switch(cell) {
-               case 0:
-                   //Creates a new cell that contains the Name value
-                   newText = document.createTextNode(dataArr[index].yourname);
-                   break;
-                case 1:
-                    //Creates a new cell that contains the Major value
-                    newText = document.createTextNode(dataArr[index].major);
-                    break;
-                case 2:
-                    //Creates a new cell that contains the Hours value
-                    newText = document.createTextNode(dataArr[index].hours);
-                    break;
-                case 3:
-                    //Creates a new cell that contains the Advice value
-                    newText = document.createTextNode(dataArr[index].advice);
-                    break;
-                case 4:
-                    //Creates a new cell that contains the Edit button
-                    newText = document.createElement('Input')
-                    newText.setAttribute('type','button')
-                    newText.setAttribute('value', 'Edit')
-                    newText.className = 'editButton';
-                    break;
-                case 5:
-                    //Creates a new cell that contains the Remove button
-                    newText = document.createElement('Input')
-                    newText.setAttribute('type','button')
-                    newText.setAttribute('value', 'Remove')
-                    newText.className = 'removeButton';
-                    break;
-           }
-            //Adds an event to the Edit button
-            if (cell === 4) {
-                newText.id = "Edit" + index.toString()
-                newText.onclick = modify;
-            }
-            //Adds an event to the Remove button
-            if (cell === 5) {
-                newText.id = "Delete" + index.toString()
-                newText.onclick = remove;
-            }
-            //Placing each text to there appropriate cell and placing each cell to a row
-            newCell.appendChild(newText)
-            newRow.appendChild(newCell)
-        }
-        //Placing the row in the tbody
-        tbody.appendChild(newRow)
-    }   
   }
