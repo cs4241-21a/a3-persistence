@@ -57,6 +57,9 @@ const addTask = function( name, period, deadline ) {
   let ms = 60 * 60 * 1000 // number of milliseconds in an hour
   deadline = Math.round( deadline / ms ) * ms
 
+  console.log( "in addTask: " )
+  console.log( "id: " + id + "name: " + name + "start: " + Date.parse( Date() ) + "period: " + period + "deadline: " + deadline )
+
   let dataEntry = { 'id': id, 'name': name, 'start': Date.parse( Date() ), 'period': period, 'deadline': deadline }
   userdata.push(dataEntry)
 
@@ -69,6 +72,9 @@ const editTask = function( id, name, period, deadline ) {
   let ms = 60 * 60 * 1000 // number of milliseconds in an hour
   deadline = Math.round( deadline / ms ) * ms
 
+  console.log( "in editTask: " )
+  console.log( "id: " + id + "name: " + name + "period: " + period + "deadline: " + deadline )
+
   userdata[i].name = name
   userdata[i].period = period
   userdata[i].deadline = deadline
@@ -78,6 +84,9 @@ const editTask = function( id, name, period, deadline ) {
 
 const removeTask = function( id ) {
   let i = userdata.findIndex( ( entry ) => entry.id === id )
+
+  console.log( "in removeTask: " )
+  console.log( "id: " + id )
 
   userdata.splice(i, 1)
 
