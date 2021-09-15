@@ -1,0 +1,70 @@
+/*Style your own assignment! This is fun! */
+
+body {
+    background-color: #2C2F33;
+}
+
+a {
+    color: #F6F6F6;
+}
+
+h1 {
+    color: #F6F6F6;
+    font-family: 'Roboto Mono', monospace;
+}
+
+h2 {
+    color:#F6F6F6;
+    font-family: 'Sacramento', cursive;
+    text-align: center;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+hr {
+    border: dotted #404EED 6px;
+    border-bottom: none;
+}
+
+th {
+    color: #FFFFFF;
+    font-family: 'Sacramento', cursive;
+    font-size: larger;
+}
+
+tr, td {
+    border: 1px solid;
+    color: #F6F6F6;
+    padding: 5px 115px;
+    text-align: center;
+    font-family: 'Montserrat', sans-serif;
+}
+
+table {
+    background-color: #23272A;
+    width: 100%;
+    display: block;
+    position: relative;
+    border-spacing: 0 4px;
+    table-layout: fixed;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.form {
+    display:flex;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.c0 {
+    display: flexbox;
+    background-color:#23272A;
+    margin: 10px
+}
+
+.c1 {
+    display: flexbox;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
