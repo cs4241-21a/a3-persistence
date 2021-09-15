@@ -39,18 +39,37 @@ const addEntry = (json) => {
   removeElement = newRow.insertCell(5),
   removeButton = document.createElement('Input');
 
+  idElement = json._id;
+
+  //Appending edit button to td
   editButton.setAttribute('type','button')
   editButton.setAttribute('value', 'Edit')
   editButton.className = 'editButton';
-
   editElement.appendChild(editButton);
 
+  //Appending remove button to td
   removeButton.setAttribute('type','button')
   removeButton.setAttribute('value', 'Remove')
   removeButton.className = 'removeButton';
-
   removeElement.appendChild(removeButton);
 
+  //Handles remove function
+  removeButton.onclick = function () {
+
+    fetch( '/remove', {
+      method:'POST',
+      body: JSON.stringify({idElement}),
+      headers: {
+        "Content-Type": "application/json"
+      } 
+    })
+    .then(response => response.json())
+    .then(json => {
+      newRow.remove();
+    })
+  }
+
+  //Adding text to fields
   newName.innerHTML = json.yourname;
   newMajor.innerHTML = json.major;
   newHours.innerHTML = json.hours;
@@ -64,11 +83,7 @@ const submit = function( e ) {
     const name = document.querySelector( '#yourname' ),
     major = document.querySelector('#major'),
     sleep = document.querySelector('#hours');
-    console.log("sleep.value:", sleep.value)
-
-    advice = getAdvice(sleep.value)
-
-    console.log("advice:", Object.getPrototypeOf(advice))
+    advice = getAdvice(sleep.value);
 
     //Error checking to make sure the fields are not empty
     if (name.value === "" || major.value === "" || sleep.value === "") {
@@ -93,7 +108,7 @@ const submit = function( e ) {
   
     json = { yourname: name.value, major: major.value, hours:sleep.value, advice: advice }
     body = JSON.stringify( json )
-  
+
     fetch( '/submit', {
       method:'POST',
       body: body,
@@ -124,17 +139,6 @@ const submit = function( e ) {
   
       updateTable();
     }
-
-  //Removes the selected row from the table
-  const remove = function (e) {
-    e.preventDefault()
-
-    //Gets the id of the row that needs to be deleted
-    dataArr.splice(Number(e.target.id.substring(6)), 1);
-    console.log("Current dataArr after deletion: " + JSON.stringify(dataArr))
-
-    updateTable();
-  }
   
   window.onload = function() {
     const button = document.querySelector( 'button' )

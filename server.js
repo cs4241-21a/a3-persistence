@@ -15,7 +15,7 @@ let collection = null
 client.connect()
   .then( () => {
     // will only create collection if it doesn't exist
-    return client.db( 'dataset' ).collection( 'test' )
+    return client.db( 'SleepDataset' ).collection( 'SleepData' )
   })
   .then( __collection => {
     // store reference to collection
@@ -35,7 +35,7 @@ app.get( '/', (req,res) => {
 
 app.post("/submit", bodyparser.json(), function(req,res) {
     console.log('body: ', req.body)
-
+    console.log("username: ", req.body.USER)
       //req.body['username'] = user
 
       collection.insertOne( req.body )
@@ -47,7 +47,7 @@ app.post("/submit", bodyparser.json(), function(req,res) {
 //Add a route to remove a todo
 app.post( '/remove', (req,res) => {
     collection
-      .deleteOne({ _id:mongodb.ObjectId( req.body._id ) })
+      .deleteOne({ _id:mongodb.ObjectId( req.body.idElement ) })
       .then( result => res.json( result ) )
 })
 
