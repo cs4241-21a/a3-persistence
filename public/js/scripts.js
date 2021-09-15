@@ -65,7 +65,7 @@ function getItems(listname) {
       if (info.emailme === loggedInUser) {
         row += `<td><form><button class="deleteBtn">Delete</button><button class="editBtn">Edit</button></form></td>`
       }
-      table += `<tr id="${info.uid}">${row}</tr>`
+      table += `<tr id="${info._id}">${row}</tr>`
     }
     let header = '<tr><th>Item</th><th>When</th><th>Where</th><th>Description</th><th>Photo</th><th>Email me!</th><th>Created</th><th>Actions</th></tr>'
     document.querySelector('#' + listname).innerHTML = header + table
@@ -127,9 +127,9 @@ function createElement() {
   })
 }
 
-function deleteValue(uid) {
+function deleteValue(_id) {
   // Submit to server
-  postRequest('/api/delete', { uid }, (response) => {
+  postRequest('/api/delete', { _id }, (response) => {
     if (response.status === 200) {
       // Update lists
       console.log('Updating lists')
@@ -141,10 +141,10 @@ function deleteValue(uid) {
   })
 }
 
-const editValue = (uid) => {
-  console.log("Editing value " + uid)
+const editValue = (_id) => {
+  console.log("Editing value " + _id)
   let values = {}
-  let row = document.querySelector(`#${uid}`)
+  let row = document.querySelector(`#${_id}`)
   row.childNodes
   .forEach( e => {
     console.log(e)
@@ -160,12 +160,12 @@ const editValue = (uid) => {
   })
   editForm.querySelector('#editentry-button').onclick = (e) => {
     e.preventDefault()
-    saveEdits(uid)
+    saveEdits(_id)
   }
 }
 
-function saveEdits(uid) {
-  console.log(`Saving edits for ${uid}`)
+function saveEdits(_id) {
+  console.log(`Saving edits for ${_id}`)
   let row = document.querySelector(`#editform`)
   // Get fields
   let entry = {
@@ -174,7 +174,7 @@ function saveEdits(uid) {
     'where' : row.querySelector( '#where-edit' ).value,
     'description' : row.querySelector( '#description-edit' ).value,
     'photo' : row.querySelector( '#photo-edit' ).value,
-    'uid' : uid
+    '_id' : _id
   }
   // Submit to server
   postRequest('/api/update', entry, (response) => {

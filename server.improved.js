@@ -1,50 +1,14 @@
+const { Db } = require('mongodb')
+
+require('dotenv').config()
 const http = require( 'http' ),
       fs   = require( 'fs' ),
+      mongodbclient = require( './services/mongodb-service.js' ),
       // IMPORTANT: you must run `npm install` in the directory for this assignment
       // to install the mime library used in the following line of code
       mime = require( 'mime' ),
       dir  = 'public/',
       port = 3000
-
-const appdata = {
-  foundItems: [
-    {
-      'item': 'AirPods',
-      'when': '10/01/2021',
-      'where': 'FH 311',
-      'description': 'Red case',
-      'photo': 'https://apple.com',
-      'emailme': 'john',
-      'uid': 'ApplePen09012021FH311foundItems1631163168733',
-      'timestamp': 1631163168733
-    }
-  ],
-  lostItems: [
-    {
-      'item': 'Apple Pen',
-      'when': '09/01/2021',
-      'where': 'FH 311',
-      'description': 'White, pen, red cap, Apple original',
-      'photo': 'https://google.com',
-      'emailme': 'federico',
-      'uid': 'ApplePen09012021FH311lostItems1631163183361',
-      'timestamp': 1631163183361
-    }
-  ],
-  users: {
-    'federico' : {'password': 'abc123'},
-    'john' : {'password': 'aaa111'},
-    'amanda' : {'password': 'ab24'},
-    'sophia' : {'password': 'asdasd5'}
-  },
-  find: function(uid) {
-    let res = this.lostItems.findIndex( e => e.uid === uid)
-    if (res >= 0) { return { 'table': 'lostItems', 'idx': res } }
-    res = this.foundItems.findIndex( e => e.uid === uid)
-    if (res >= 0) { return { 'table': 'foundItems', 'idx': res } }
-    else { return undefined }
-  }
-}
 
 const server = http.createServer( function( request,response ) {
   if ( request.method === 'GET' ) {
@@ -60,22 +24,18 @@ const handleGet = function( request, response ) {
   if( request.url === '/' ) {
     sendFile( response, 'public/index.html' )
   } else if ( request.url === '/api/lostitems') {
-    sendData(response, appdata.lostItems)
+    mongodbclient.getLostItems()
+    .then(e => {
+      sendData(response, e)
+    })
   } else if ( request.url === '/api/founditems') {
-    sendData(response, appdata.foundItems)
+    mongodbclient.getFoundItems()
+    .then(e => {
+      sendData(response, e)
+    })
   } else {
     sendFile( response, filename )
   }
-}
-
-const login = function ( credentials ) {
-  if (credentials.username in appdata.users) {
-    let password = appdata.users[credentials.username].password
-    if (credentials.password === password) {
-      return true
-    }
-  }
-  return false
 }
 
 const handlePost = function( request, response ) {
@@ -102,21 +62,21 @@ const handlePost = function( request, response ) {
   })
 }
 
+const login = function ( credentials ) {
+  return true;
+}
+
 const handleEdit = (data, response) => {
-  console.log(data)
-  let dt = appdata.find(data.uid)
-  if (dt === undefined) {
-    response.writeHead( 404, "Invalid UID", {'Content-Type': 'text/plain' })
-    response.end()  
-  } else {
-    appdata[dt.table][dt.idx].item = data.item
-    appdata[dt.table][dt.idx].when = data.when
-    appdata[dt.table][dt.idx].where = data.where
-    appdata[dt.table][dt.idx].description = data.description
-    appdata[dt.table][dt.idx].photo = data.photo
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end()  
-  }
+  mongodbclient.update(data)
+  .then(e => {
+    if (dt === undefined) {
+      response.writeHead( 404, "Invalid UID", {'Content-Type': 'text/plain' })
+      response.end()  
+    } else {
+      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+      response.end()  
+    }
+  })
 }
 
 const handleLogin = (data, response) => {
@@ -144,34 +104,30 @@ const handleCreate = (data, response) => {
   } else if (data.found === true) {
     collection = "foundItems"
   }
-  filtered['uid'] = (data.item + data.when + data.where + collection + Date.now()).replace(' ', '+')
   console.log("Adding to " + collection)
-  appdata[collection].push(filtered)
-  response.writeHeader( 200 )
-  response.end()
+  mongodbclient.create(collection, filtered)
+  .then(e => {
+    if (e) {
+      response.writeHeader( 200 )
+      response.end()
+    } else {
+      response.writeHeader( 404 )
+      response.end()
+    }  
+  })
 }
 
 const handleDelete = (data, response) => {
-  for(const [idx, e] of appdata.lostItems.entries()) {
-    if (e.uid === data.uid) {
-      console.log("Deleting " + e.uid)
-      appdata.lostItems.splice(idx, 1)
+  mongodbclient.delete(data._id)
+  .then((e) => {
+    if (e) {
       response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
       response.end()    
-      return
+    } else {
+      response.writeHead( 404, "UID not found", {'Content-Type': 'text/plain' })
+      response.end()  
     }
-  }
-  for(const [idx, e] of appdata.foundItems.entries()) {
-    if (e.uid === data.uid) {
-      console.log("Deleting " + e.uid)
-      appdata.foundItems.splice(idx, 1)
-      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-      response.end()    
-      return
-    }
-  }
-  response.writeHead( 404, "UID not found", {'Content-Type': 'text/plain' })
-  response.end()    
+  })
 }
 
 const sendFile = function( response, filename ) {
