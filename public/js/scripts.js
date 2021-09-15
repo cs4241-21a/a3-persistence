@@ -28,6 +28,7 @@ const submit = function( e ) {
     }
 
     const body = JSON.stringify( json )
+    console.log( body )
 
     fetch( requestType, {
         method: "POST",
