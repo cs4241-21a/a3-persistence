@@ -125,13 +125,13 @@ function modifyRow(dataString) {
     let jsonApp = dataString;
     for(let user of appdata){
         if (user.yourname === jsonApp['newName']){
-            return;
+            return true;
         }
     }
     for (let user of appdata){
         if (user.yourname === jsonApp['oldName']){
             user.yourname = jsonApp['newName'];
-            return;
+            return false;
         }
     }
 }

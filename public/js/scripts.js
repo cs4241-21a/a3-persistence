@@ -3,6 +3,7 @@ const gameCanvas = document.getElementById('canvascontainer');
 let submitBtn = document.getElementById( 'submitBtn' );
 let editSubBtn = document.getElementById('submitNewNameBtn');
 let rowNumEdit;
+let killEdit = false;
 
 window.onload = function() {
     makeTableHead();
@@ -89,6 +90,7 @@ function checkExisting(){
             console.log(user.yourname);
             if (user.yourname === input.value){
                 window.alert("Please enter a unique username");
+                killEdit = true;
             }
         }
     })
@@ -96,20 +98,32 @@ function checkExisting(){
 }
 
 //Edit Function
-const callEdit = function(){
-    const input = document.querySelector( '#editName' ),
+const callEdit = async function () {
+    const input = document.querySelector('#editName'),
         input2 = rowNumEdit,
-        json = { newName: input.value,
-            oldName: input2 },
-        body = JSON.stringify( json )
+        json = {
+            newName: input.value,
+            oldName: input2
+        },
+        body = JSON.stringify(json)
 
-    checkExisting(); // need to make promise
+    /*const promise1 = ()=> new Promise( async (resolve) => {
+        checkExisting();
+        resolve();
+    });
 
+    await promise1;*/
+    await checkExisting();
+
+    if (killEdit) {
+        killEdit = false;
+        return false;
+    }
     fetch('/modify', {
         method: 'POST',
         body,
-        headers:{
-            "Content-Type":"application/json"
+        headers: {
+            "Content-Type": "application/json"
         }
     }).then(function (response) {
         // do something with the response
@@ -119,7 +133,24 @@ const callEdit = function(){
         updatePage();
         document.getElementById("editName").style.display = "none";
         document.getElementById("submitNewNameBtn").style.display = "none";
-    });
+    })
+    /*if (fetch('/modify', {
+        method: 'POST',
+        body,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }).then(function (response) {
+        // do something with the response
+        console.log("Post made to server");
+    }).then(function (json) {
+        console.log(json);
+        updatePage();
+        document.getElementById("editName").style.display = "none";
+        document.getElementById("submitNewNameBtn").style.display = "none";
+    })){
+        window.alert("Please enter a unique username");
+    }*/
     return false;
 }
 
