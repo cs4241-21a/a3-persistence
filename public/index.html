@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" >
+
+  </head>
+
+
+  <body>
+    <div class='page'>
+    <h1 class='center'>Chore Log</h1>
+    <div class='center'>
+    <table id='table'>
+      <tr id='headers'>
+        <th>Item #</th>
+        <th>Assigned To</th>
+        <th>Task</th>
+        <th>Status</th>
+        <th>Tasks Assigned</th>
+      </tr>
+  </table>
+</div>
+<br>
+<div class='center'>
+    <form>
+      <p>Add new row:</p>
+      <input type='text' id='name' placeholder="name here">
+      <input type='text' id='chore' placeholder="chore here">
+      <input type='text' id='complete' placeholder="complete or not">
+      <button id = 'submit' >Add</button>
+      <p>Edit existing row:</p>
+      <input type='text' id='modDel' placeholder="0"> 
+      <button id = 'modify'>Modify</button>
+      <button id = 'delete'>Delete</button>
+    </form>
+
+      </div>
+    </div>
+  </body>
+  <script>
+
+  //function submit(e) {
+  const submit = function( e ) {
+    // prevent default form action from being carried out*/
+    e.preventDefault()
+
+    const inputName = document.querySelector( '#name' )
+    const inputChore = document.querySelector( '#chore' )
+    const inputComplete = document.querySelector( '#complete' )
+
+    if(inputName.value === "" || inputChore.value === "" || inputComplete.value === ""){
+      return false;
+    }
+
+          json = {name: inputName.value, chore: inputChore.value , complete:inputComplete.value, load:0, id:-1}
+          body = JSON.stringify( json )
+
+          fetch( '/submit', {
+      method:'POST',
+      body 
+    })
+    .then(function( response ) {
+         return response.json();
+    })
+    .then (function(json){
+
+      let htmlStr = "<tr id='headers'><th>Item #</th><th>Assigned To</th><th>Task</th><th>Status</th><th>Tasks Assigned</th></tr>"//header row 
+      for(let i = 0; i<json.length; i++){
+        //let obj = json[i]
+        
+      
+        htmlStr = htmlStr + "<tr>" 
+          + "<td>" + JSON.parse(json[i]).id + "</td>"
+          + "<td>" + JSON.parse(json[i]).name + "</td>"
+          + "<td>" + JSON.parse(json[i]).chore + "</td>"
+          + "<td>" + JSON.parse(json[i]).complete + "</td>"
+          + "<td>" + JSON.parse(json[i]).load + "</td>" 
+          + "</tr>"
+      }
+
+      let theTable= document.getElementById('table')
+      theTable.innerHTML = htmlStr
+    });
+    return false
+  };
+
+  const modify = function( e ) {
+    // prevent default form action from being carried out
+    e.preventDefault()
+
+
+    const inputName = document.querySelector( '#name' )
+    const inputChore = document.querySelector( '#chore' )
+    const inputComplete = document.querySelector( '#complete' )
+    const inputId = document.querySelector( '#modDel' )
+
+    if(inputName.value === "" || inputChore.value === "" || inputComplete.value === "" || inputId.value === ""){
+      return false;
+    }
+
+    if(isNaN(inputId.value)){
+      return false;
+    }
+    else if(inputId.value.includes(".")){//decimal
+      return false;
+    }
+    else if(parseInt(inputId.value) < 0){
+      return false;
+    }
+    
+
+          json = {name: inputName.value, chore: inputChore.value , complete:inputComplete.value, load:0, id:inputId.value}
+          body = JSON.stringify( json )
+
+          fetch( '/submit', {
+      method:'POST',
+      body 
+    })
+    .then(function( response ) {
+         return response.json();
+    })
+    .then (function(json){
+
+
+      if(json.length > 0){
+        if(JSON.parse(json[0]).load == -1){
+          return false;
+        }
+      }
+
+      let htmlStr = "<tr id='headers'><th>Item #</th><th>Assigned To</th><th>Task</th><th>Status</th><th>Tasks Assigned</th></tr>"//header row 
+      for(let i = 0; i<json.length; i++){
+        //let obj = json[i]
+        
+        
+        htmlStr = htmlStr + "<tr>" 
+          + "<td>" + JSON.parse(json[i]).id + "</td>"
+          + "<td>" + JSON.parse(json[i]).name + "</td>"
+          + "<td>" + JSON.parse(json[i]).chore + "</td>"
+          + "<td>" + JSON.parse(json[i]).complete + "</td>"
+          + "<td>" + JSON.parse(json[i]).load + "</td>" 
+          + "</tr>"
+      }
+
+      let theTable= document.getElementById('table')
+      theTable.innerHTML = htmlStr
+    });
+    return false
+  };
+
+  const deleting = function( e ) {
+    // prevent default form action from being carried out
+    e.preventDefault()
+
+    console.log( "response" )
+
+    const inputId = document.querySelector( '#modDel' )
+    if(inputId.value === ""){
+      return false;
+    }
+
+    if(isNaN(inputId.value)){
+      return false;
+    }
+    else if(inputId.value.includes(".")){//decimal
+      return false;
+    }
+    else if(parseInt(inputId.value) < 0){
+      return false;
+    }
+    
+          json = {name: "n/a", chore: "n/a" , complete:"n/a", load:-1, id:parseInt(inputId.value)}
+          body = JSON.stringify( json )
+
+          fetch( '/submit', {
+      method:'POST',
+      body 
+    })
+    .then(function( response ) {
+         return response.json();
+    })
+    .then (function(json){
+
+      if(json.length > 0){
+        if(JSON.parse(json[0]).load == -1){
+          return false;
+        }
+      }
+
+
+      let htmlStr = "<tr id='headers'><th>Item #</th><th>Assigned To</th><th>Task</th><th>Status</th><th>Tasks Assigned</th></tr>"//header row 
+      for(let i = 0; i<json.length; i++){
+        //let obj = json[i]
+        
+      
+        htmlStr = htmlStr + "<tr>" 
+          + "<td>" + JSON.parse(json[i]).id + "</td>"
+          + "<td>" + JSON.parse(json[i]).name + "</td>"
+          + "<td>" + JSON.parse(json[i]).chore + "</td>"
+          + "<td>" + JSON.parse(json[i]).complete + "</td>"
+          + "<td>" + JSON.parse(json[i]).load + "</td>" 
+          + "</tr>"
+      }
+
+      let theTable= document.getElementById('table')
+      theTable.innerHTML = htmlStr
+    });
+    return false
+  };
+
+  window.onload = function() {
+
+    
+    const subbutton = document.querySelector( '#submit' )
+    subbutton.onclick = submit
+    const modbutton = document.querySelector( '#modify' )
+    modbutton.onclick = modify
+    const delbutton = document.querySelector( '#delete' )//delete not allowed
+    delbutton.onclick = deleting
+  }
+
+  </script>
+</html>
