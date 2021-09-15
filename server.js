@@ -23,7 +23,6 @@ passport.use(new GitHubStrategy({
   callbackURL: "http://localhost:3000/github/callback"
 },
 function(accessToken, refreshToken, profile, done) {
-  // console.log(profile)
   return done(null, profile);
 }))
 
@@ -40,6 +39,12 @@ function(req, res) {
 app.get('/res', (req, res) => {
   userID = req.query.id;
   res.redirect("results.html")
+})
+
+app.get( '/logout', (req, res) => {
+  userID = '';
+  req.logout();
+  res.redirect('/');
 })
 
 app.use( express.static('public') )
@@ -62,10 +67,6 @@ client.connect()
     // blank query returns all documents
     return collection.find({ }).toArray()
   })
-  
-// route to get all docs maybe dont need????????
-app.get( '/', (req,res) => {
-})
 
 app.get( '/results', (req,res) => {
   if( collection !== null ) {

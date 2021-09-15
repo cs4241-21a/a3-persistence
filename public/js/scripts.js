@@ -51,6 +51,13 @@ const submit = function (e) {
   return false;
 };
 
+const userlogout = function() {
+  fetch("/logout", {
+    method: "GET"
+  })
+  window.location.href="/";
+}
+
 function getData() {
   fetch("/results", {
     method: "GET",
@@ -59,7 +66,6 @@ function getData() {
       return response.json();
     })
     .then(function (data) {
-      console.log(data);
       redrawTable(data);
     });
 }
@@ -130,7 +136,6 @@ function redrawTable(values) {
 
   /* fill in new values */
   values.forEach((element) => {
-    console.log(element);
     let row = document.createElement("tr");
     let placeNode = document.createElement("td");
     let placeText = document.createTextNode(values.indexOf(element) + 1);
@@ -163,5 +168,7 @@ function createDelete() {
 window.onload = function () {
   const button = document.querySelector("button");
   button.onclick = submit;
+  const logout = document.getElementById("logout");
+  logout.onclick = userlogout;
   getData()
 };
