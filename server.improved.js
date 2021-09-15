@@ -45,7 +45,7 @@ dbclient.connect()
   .then( collection => {
     console.log( "fetched collection" )
     // store reference to collection
-    userdata.splice( 0, userdata.size() )
+    userdata.splice( 0, userdata.length )
     collection.find({ }).toArray().forEach( ( task ) => userdata.push( task ) )
     // blank query returns all documents
     return userdata
