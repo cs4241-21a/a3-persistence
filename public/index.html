@@ -87,7 +87,10 @@
       if (!showingAll) {
         fetch('/all', {
           method: 'POST',
-          '': ''
+          body: '',
+          headers: {
+            'Content-Type': 'application/json'
+          }
         })
           .then(function (response) {
             return response.json()
@@ -112,12 +115,14 @@
       const name = row.querySelector('.name')
       const dob = row.querySelector('.dob')
       const gender = row.querySelector('.gender')
-      json = { yourname: name.value, yourdob: dob.value, yourgender: gender.value, uid: row.id },
-        body = JSON.stringify(json)
+      json = { yourname: name.value, yourdob: dob.value, yourgender: gender.value, uid: row.id }
 
       fetch('/update', {
         method: 'POST',
-        body
+        body: JSON.stringify(json),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
         .then(function (response) {
           return response.json()
@@ -150,13 +155,15 @@
       const name = row.querySelector('.name')
       const dob = row.querySelector('.dob')
       const gender = row.querySelector('.gender')
-      json = { yourname: name.value, yourdob: dob.value, yourgender: gender.value, uid: row.id },
-        body = JSON.stringify(json)
+      json = { yourname: name.value, yourdob: dob.value, yourgender: gender.value, uid: row.id }
 
       // Tell the server to discard the record with this uid
       fetch('/remove', {
         method: 'POST',
-        body
+        body: JSON.stringify(json),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
         .then(function (response) {
           return response.json()
@@ -176,12 +183,16 @@
       const gender = document.querySelector('#yourgender')
       // This just gets the item with an id of yourname
       // can use document.querySelectorAll() to get a list of all instances
-      json = { yourname: name.value, yourdob: dob.value, yourgender: gender.value },
-        body = JSON.stringify(json)
+      json = { yourname: name.value, yourdob: dob.value, yourgender: gender.value }
+
+      console.log(json)
 
       fetch('/add', {
         method: 'POST',
-        body
+        body: JSON.stringify(json),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
         .then(function (response) {
           return response.json()
