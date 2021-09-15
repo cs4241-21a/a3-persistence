@@ -1,77 +1,62 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library used in the following line of code
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const express = require( 'express' ),
+      mongodb = require( 'mongodb' ),
+      bodyparser = require( 'bodyparser' ),
+      dir = 'public'
+      app = express(),
+      dbclient = new mongodb.MongoClient( process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:true })
 
-const appdata = []
+app.use( express.static( dir ) )
+app.use( bodyparser.json() )
+
+app.get( '/', function( request, response ) {
+  response.sendFile( dir + '/index.html' )
+})
+
+app.post( '/add', ( request, response ) => {
+  addTask( json.name, json.period, json.deadline )
+  sendResponse()
+})
+
+app.post( '/edit', ( request, response ) => {
+  editTask( json.id, json.name, json.period, json.deadline )
+  sendResponse()
+})
+
+app.post( '/remove', ( request, response ) => {
+  removeTask( json.id )
+  sendResponse()
+})
+
+app.post( '/update', ( request, response ) => {
+  sendResponse()
+})
+
+const sendResponse = function() {
+  response.writeHead( 200, "OK", { 'Content-Type': 'application/json' } )
+  response.end( JSON.stringify( userdata ) )
+}
+
+app.listen( process.env.PORT || 3000 )
+
+const userdata = []
 
 let highestId = 2
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
-  }
-})
+let collection = null
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
-}
-
-const handlePost = function( request, response ) {
-  let dataString = ''
-
-  request.on( 'data', function( data ) {
-      dataString += data 
+dbclient.connect()
+  .then( () => {
+    // will only create collection if it doesn't exist
+    return client.db( 'userdata' ).collection( 'testuser' )
   })
-
-  request.on( 'end', function() {
-    let json = JSON.parse( dataString )
-
-    // ... do something with the data here!!!
-    switch( request.url ){
-      case '/add': addTask( json.name, json.period, json.deadline ); break
-      case '/edit': editTask( json.id, json.name, json.period, json.deadline ); break
-      case '/remove': removeTask( json.id ); break
-      default:
-    }
-
-    response.writeHead( 200, "OK", { 'Content-Type': 'application/json' } )
-    response.end( JSON.stringify( appdata ) )
+  .then( __collection => {
+    // store reference to collection
+    collection = __collection
+    // blank query returns all documents
+    return collection.find({ }).toArray()
   })
-}
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
+  .then( console.log )
+  .then( dbclient.close() )
 
 const addTask = function( name, period, deadline ) {
   let id = highestId + 1
@@ -81,33 +66,33 @@ const addTask = function( name, period, deadline ) {
   deadline = Math.round( deadline / ms ) * ms
 
   let dataEntry = { 'id': id, 'name': name, 'start': Date.parse( Date() ), 'period': period, 'deadline': deadline }
-  appdata.push(dataEntry)
+  userdata.push(dataEntry)
 
   recalculateStarts()
 }
 
 const editTask = function( id, name, period, deadline ) {
-  let i = appdata.findIndex( ( entry ) => entry.id === id )
+  let i = userdata.findIndex( ( entry ) => entry.id === id )
 
   let ms = 60 * 60 * 1000 // number of milliseconds in an hour
   deadline = Math.round( deadline / ms ) * ms
 
-  appdata[i].name = name
-  appdata[i].period = period
-  appdata[i].deadline = deadline
+  userdata[i].name = name
+  userdata[i].period = period
+  userdata[i].deadline = deadline
 
   recalculateStarts()
 }
 
 const removeTask = function( id ) {
-  let i = appdata.findIndex( ( entry ) => entry.id === id )
+  let i = userdata.findIndex( ( entry ) => entry.id === id )
 
-  appdata.splice(i, 1)
+  userdata.splice(i, 1)
 
   //update highestId to next lowest id if necessary
   if (id === highestId){
     highestId = 0
-    appdata.forEach(entry => {
+    userdata.forEach(entry => {
       if ( id > highestId ) {
         highestId = id
       }
@@ -121,16 +106,16 @@ const recalculateStarts = function() {
   // calculate latest starts based on deadlines and periods
 
   // sort by latest deadline first
-  appdata.sort( function( entry1, entry2 ) {
+  userdata.sort( function( entry1, entry2 ) {
     return entry2.deadline - entry1.deadline
   })
 
   // calculate time to start
   const interval = 60 * 60 * 1000 // one hour in milliseconds
-  if ( appdata.length > 0 ) {
-    let effectiveDeadline = appdata[0].deadline
+  if ( userdata.length > 0 ) {
+    let effectiveDeadline = userdata[0].deadline
 
-    appdata.forEach( ( task ) => {
+    userdata.forEach( ( task ) => {
       if ( task.deadline < effectiveDeadline ) {
         effectiveDeadline = task.deadline
       }
@@ -140,7 +125,5 @@ const recalculateStarts = function() {
   }
 
   // sort by earliest start first by reversing array
-  appdata.reverse()
+  userdata.reverse()
 }
-
-server.listen( process.env.PORT || port )

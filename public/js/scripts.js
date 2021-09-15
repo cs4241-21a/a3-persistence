@@ -15,19 +15,21 @@ let requestType = 0; //0 is add, 1 is edit, 2 is delete
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
+    form.hidden = true
 
-    const json = { id, name: task.value, period: Number.parseInt(period.value), deadline: Date.parse(deadline.value) }
-    
-    const body = JSON.stringify( json )
-
-    let url
-
+    let json
     switch( requestType ) {
-        case 0: url = "/add"; form.hidden = true; break
-        case 1: url = "/edit"; form.hidden = true; break
+        case "/add":
+            json = { name: task.value, period: Number.parseInt( period.value ), deadline: Date.parse( deadline.value ) };
+            break;
+        case "/edit": 
+            json = { id, name: task.value, period: Number.parseInt( period.value ), deadline: Date.parse( deadline.value ) };
+            break;
     }
 
-    fetch( url, {
+    const body = JSON.stringify( json )
+
+    fetch( requestType, {
         method: "POST",
         body
     })
@@ -47,8 +49,7 @@ const add = function ( e ) {
     task.value = "Task Name"
     period.value = "1"
     deadline.value = numberToDateValue( Date.parse( Date() ) )
-    requestType = 0
-    id = NaN
+    requestType = "/add"
 
     return false
 }
@@ -75,8 +76,8 @@ const edit = function( e, utask ) {
     task.value = utask.name
     period.value = utask.period
     deadline.value = numberToDateValue( utask.deadline )
-    requestType = 1
-    id = utask.id
+    requestType = "/edit"
+    id = utask._id
 
     return false
 }
@@ -84,8 +85,7 @@ const edit = function( e, utask ) {
 const remove = function( e, utask ) {
     e.preventDefault()
 
-    requestType = 2
-    id = utask.id
+    id = utask._id
 
     fetch( "/remove", {
         method: "POST",
