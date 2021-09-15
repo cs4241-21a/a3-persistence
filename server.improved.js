@@ -38,16 +38,17 @@ let collection = null
 //test database connection
 dbclient.connect()
   .then( () => {
-    console.log("connected with client")
+    console.log( "connected with client" )
     // will only create collection if it doesn't exist
     return dbclient.db( 'userdata' ).collection( 'testuser' )
   })
   .then( collection => {
-    console.log("fetched collection")
+    console.log( "fetched collection" )
     // store reference to collection
-    userdata = collection.find({ }).toArray()
+    userdata.splice( 0, userdata.size() )
+    collection.find({ }).toArray().forEach( ( task ) => userdata.push( task ) )
     // blank query returns all documents
-    return userdata.find({ }).toArray()
+    return userdata
   })
   .then( console.log )
   .then( dbclient.close() )
