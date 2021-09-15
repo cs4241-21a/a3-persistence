@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <script src="js/scripts.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <h2>Shopping List</h2>
+    <div class="instructions">
+      <p>Add items to the shopping list by entering an item in the first field and how many of that item you need in the second.</p>
+      <p>Note that the quantity field only accepts numbers.</p>
+      <p>You can also indicate if an item is urgent so it can be visually indicated as such.</p>
+    </div>
+    <form id="my_form">
+      <input type='text' id='list_entry' name='list_entry' placeholder="Add item to shopping list">
+      <input type='number' id='quantity' name='quantity' placeholder="Quantity">
+      <div class="checkbox">
+        <input type='checkbox' id='urgency' name="urgency">
+        <label for="urgency">Urgent?</label>
+      </div>
+      <button id="submit_button">Add item</button>
+    </form>
+    <br><br><br>
+    <table id="shopping_list">
+      <tr class="header_row">
+        <th>Item</th>
+        <th>Quantity</th>
+        <th>Recommended Deadline</th>
+        <th>Got Item?</th>
+      </tr>
+    </table>
+
+    <script src="js/server_communication.js"></script>
+  </body>
+</html>

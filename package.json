@@ -1,0 +1,12 @@
+{
+  "name": "Ido Katz",
+  "version": "2.0",
+  "description": "",
+  "author": "Ido Katz",
+  "scripts": {
+    "start": ""
+  },
+  "dependencies": {
+    "mime": "^2.4.4"
+  }
+}
