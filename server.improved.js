@@ -6,6 +6,10 @@ const express = require( 'express' ),
       dbclient = new mongodb.MongoClient( process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:true })
 
 app.use( express.static( dir ) )
+app.use( function(req, res, next) {
+  console.log( req.body )
+  next()
+})
 app.use( bodyparser.json() )
 
 app.get( '/', function( request, response ) {
