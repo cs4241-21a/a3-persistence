@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro&display=swap');
+    </style> 
+    <title>CS4241 Assignment 2 | Race Results</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+  </head>
+  <body>
+    <header>
+      <h1 id="title"> Race Results </h1>
+    </header>
+    <main>
+      <h1>
+        Athlete:
+      </h1>
+      <p>To Add a participant, enter their name, team, total time, number of laps, and fastest lap. </p>
+      <p>To Modify a participant, enter their name, team, and update their total time, laps, and fastest lap. </p>
+      <form id="race-form">
+        <label for="name">Racer:</label>
+        <input class="race" type='text' id='name' value="" placeholder="Name (Ex: John Doe)">
+        <label for="team">Team:</label>
+        <input class="race" type='text' id='team' value="" placeholder="Team (Ex: Blue)">
+        <label for="time">Total Time:</label>
+        <input class="race" type='number' id='time' value="" placeholder="Time(minutes) (Ex: 125)">
+        <label for="laps">Number of Laps:</label>
+        <input class="race" type='number' id='laps' value="" placeholder="Time (Ex: 23)">
+        <label for="fastest">Fastest Lap:</label>
+        <input class="race" type='number' id='fastest' value="" placeholder="Time(seconds) (Ex: 105.63)">
+        <button id="submit-button">submit</button>
+      </form>
+      <p id="invalid"></p>
+      <h1>
+        Race Results:
+      </h1>
+      <table id="results-table">
+        <tr>
+          <th>Place</th>
+          <th>Racer</th>
+          <th>Team</th>
+          <th>Total Time</th>
+          <th>Number of Laps</th>
+          <th>Fastest Lap</th>
+          <th>Average Lap Time</th>
+          <th>Remove</th>
+        </tr>
+      </table>
+    </main>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
