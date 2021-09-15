@@ -1,0 +1,12 @@
+{
+  "name": "libraryofhorrors",
+  "version": "0.0.1",
+  "description": "abandon all hope yea who enter here",
+  "author": "Keval Ashara",
+  "scripts": {
+    "start": "node server.improved.js"
+  },
+  "dependencies": {
+    "mime": "^2.5.2"
+  }
+}

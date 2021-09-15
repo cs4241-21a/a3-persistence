@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/scripts.js"></script>
+</head>
+<body>
+<h1> Welcome to my Terrible Library System!</h1>
+<h2> Here is how to input books into the system</h2>
+<form>
+  <ul class="flex-outer">
+    <li>
+      <input type="text" id="bookname" placeholder="name of book here" required />
+    </li>
+    <li>
+      <input type="number" id="Identification" placeholder="ID of book here" required />
+    </li>
+    <li>
+      <input type="text" id="author" placeholder="author of book here" required />
+    </li>
+    <li>
+      <input type="number" id="priority" placeholder="Weeks checked out" required />
+    </li>
+    <li>
+      <button id = "submit">Submit</button>
+    </li>
+    <li>
+      <h3 id="insertconf"></h3>
+    </li>
+  </ul>
+</form>
+<h2> Here is how to delete a record of a book</h2>
+<form>
+  <ul class="flex-outer">
+    <li>
+      <input type="text" id="pointer" placeholder="index value to remove" title="leave blank to remove index 0" required>
+    </li>
+    <li>
+      <button id = "delete">remove record</button>
+    </li>
+    <li>
+      <h3 id="remconf"></h3>
+    </li>
+  </ul>
+</form>
+<h2> Here is how to show all of the books in the record</h2>
+<form>
+  <table id="result"></table>
+  <ul class="flex-outer">
+    <li>
+      <button id="reveal"> show all records</button>
+    </li>
+  </ul>
+</form>
+</body>
+</html>
