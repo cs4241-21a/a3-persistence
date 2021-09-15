@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+    <%- include('common/header') %>
+
+    <body>
+        <%- include('common/navbar') %>
+        <div class="container">
+            <div class="row">
+              <div class="col-sm-12 offset-md-2 col-md-8">
+                  <div class="p-5 mb-4 bg-light rounded-3 border">
+                      <h2 class="text-center">Register</h2>
+                      <div class="row">
+                          <div class="col-sm-12 col-md-12">
+                              <!-- Signup form -->
+                              <form action="/signup" method="POST">
+                                <div class="form-group">
+
+                                    <label class="small mb-1 mt-3" for="username">Username:</label>
+                                    <input class="form-control" placeholder="Enter Your Username" name="username" type="text" required 
+                                        value=
+                                        <% if (typeof formData != 'undefined') { %>
+                                            <%= formData.email %>
+                                        <% } else { %>
+                                            <%= '' %>
+                                        <% } %>
+                                        >
+
+                                    <% if (typeof errors != 'undefined' && typeof errors.email != 'undefined') { %>
+                                        <p class="small text-danger"><%= errors.email %></p>
+                                    <% } %>
+
+                                    <label class="small mb-1 mt-3" for="password">Password:</label>
+                                    <input class="form-control" 
+                                        placeholder="Password" name="password" type="password" value="" required>
+                                    <% if (typeof errors != 'undefined' && typeof errors.password != 'undefined') { %>
+                                        <p class="small text-danger"><%= errors.password %></p>
+                                    <% } %>
+
+                                    <button class="mt-3 btn btn-primary" type="submit">Register</button>
+                                    <p class="mt-2 mb-0">Already have an account? 
+                                        <a href="/login"> Log in here</a>
+                                    </p>
+                                </div>
+                              </form>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,6 +1,8 @@
 var express = require('express');
 var router = express.Router();
 
+const User = require('../schemas/users');
+const Task = require('../schemas/tasks');
 let appdata = require('../data');
 const { createDeadline } = require('../util');
 
@@ -9,11 +11,25 @@ router.get('/', function (req, res, next) {
   res.render('index', { title: 'TODOList', tasks: appdata });
 });
 
-router.get('/get-data', (req, res, next) => {
+router.get('/login', (req, res, next) => {
+  res.render('login', {title: 'TODOList'});
+});
+
+router.get('/register', (req, res, next) => {
+  res.render('register', {title: 'TODOList'});
+});
+
+router.get('/get-data', async (req, res, next) => {
+  try {
+    const data = await Tasks.find();
+    console.log(data);
+  } catch (err) {
+    console.log(err);
+  }
   res.json(appdata);
 });
 
-router.post('/submit', (req, res, next) => {
+router.post('/submit', async (req, res, next) => {
   try {
     const data = req.body;
 
@@ -42,6 +58,19 @@ router.post('/submit', (req, res, next) => {
       }
     );
 
+    let newTask = new Task({
+      title: data.title,
+      description: data.description,
+      priority: data.priority,
+      dateCreated: data.dateCreated,
+      deadline: createDeadline(data.dateCreated, data.priority)
+    });
+
+    // save to db
+    newTask = await newTask.save();
+
+    console.log(newTask);
+
     res.json(appdata);
 
   } catch (err) {
@@ -65,7 +94,6 @@ router.post('/delete', (req, res, next) => {
 
 });
 
-// TODO: needs fixing
 router.post('/edit', (req, res, next) => {
   const data = req.body;
 

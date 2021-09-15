@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark" aria-label="Navbar">
+  <div class="container-fluid">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbars"
+      aria-controls="navbars" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbars">
+      <!-- Left navbar -->
+      <ul class="navbar-nav me-auto mb-2 mb-sm-0">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="/">Home</a>
+        </li>
+      </ul>
+    </div>
+    <!-- Right navbar -->
+    <% if (typeof user !='undefined' ) { %>
+      <div class="ms-auto">
+        <span class="navbar-text">Hello <%= user.email%>!</span>
+      </div>
+      <% } %>
+        <div class="ms-auto">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Register</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <% if (typeof user !='undefined' ) { %>
+              <li class="nav-item">
+                <a class="nav-link" href="/logout">Logout</a>
+              </li>
+              <% } %>
+          </ul>
+        </div>
+  </div>
+</nav>
+
+</html>
