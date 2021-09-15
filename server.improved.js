@@ -40,7 +40,7 @@ dbclient.connect()
   .then( () => {
     console.log("connected with client")
     // will only create collection if it doesn't exist
-    return client.db( 'userdata' ).collection( 'testuser' )
+    return dbclient.db( 'userdata' ).collection( 'testuser' )
   })
   .then( __collection => {
     console.log("fetched collection")
