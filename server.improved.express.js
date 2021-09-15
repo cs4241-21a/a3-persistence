@@ -1,7 +1,15 @@
+/**
+ * TODO Questions for SA
+ * What is middleware?
+ * Packages, push node_modules?
+ * Lighthouse performance question Cumulative Layout Shift
+ */
+
 const { report } = require("process"),
   express = require("express"),
   mongodb = require("mongodb"),
   app = express();
+timeout = require("connect-timeout");
 
 const uri =
   "mongodb+srv://" +
@@ -48,6 +56,19 @@ app.get("/", (req, res) => {
 
 app.use(express.static("public"));
 app.use(express.json());
+
+// app.use(timeout('5s'))
+// app.use(timeout("100ms"));
+app.use(timeout("1s"));
+app.use(haltOnTimedout)
+
+function haltOnTimedout(req, res, next) {
+  if (!req.timedout) {
+    next();
+  } else {
+    console.log("\n\nRequest timed out!!!!\n\n")
+  }
+}
 
 // Handles adding an item to the forum
 app.post("/submit", function (request, response) {
@@ -153,6 +174,7 @@ function newIDEntry(dataStringParsed) {
 
 // Handles updating an item in the forum
 app.post("/updateEntry", function (request, response) {
+
   let dataString = "";
 
   let updatePromise = undefined;
@@ -175,7 +197,7 @@ app.post("/updateEntry", function (request, response) {
     };
 
     // Update the entry with the same id in the database
-    updatePromise = collection.update(newIDEntry(dataStringParsed), {
+    updatePromise = collection.updateOne(newIDEntry(dataStringParsed), {
       $set: new_student,
     });
   });
@@ -202,6 +224,7 @@ app.post("/updateEntry", function (request, response) {
 
     // Sends forum data back to front end
     response.end(stringDBData);
+
   });
 });
 

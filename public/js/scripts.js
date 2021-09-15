@@ -1,9 +1,6 @@
 // Stores server data on the frontend, updated with every action and on page reset / initialization.
 let previous_app_data = [];
 
-// Call that ensures the page has updated data when reset / initialized
-update_based_on_existing_data();
-
 // Function that is responsible for adding an item to our forum
 const addItemFunc = function (e) {
   // prevent default form action from being carried out
@@ -66,7 +63,7 @@ function update_based_on_existing_data() {
 // Function that is responsible for deleting an item from our forum
 function deleteItemFunc(button) {
   // POST request variables
-  const input = button.composedPath()[0].id,
+  const input = button.composedPath()[0].id.substring(1),
     json = { _id: input },
     body = JSON.stringify(json);
 
@@ -97,7 +94,7 @@ function updateItemFunc(button) {
   const name_input = document.querySelector("#StudentName"),
     class_input = document.querySelector("#StudentClass"),
     role_input = document.querySelector("#StudentRole"),
-    id_value = button.composedPath()[0].id,
+    id_value = button.composedPath()[0].id.substring(1),
     json = {
       StudentName: name_input.value,
       StudentClass: class_input.value,
@@ -206,10 +203,10 @@ function initialize_list(data_points) {
     element_list_info_hours.setAttribute("class", "forum_cell");
     element_list_info_hours.innerHTML = data_point.StudentHours;
 
-    element_list_delete.setAttribute("id", data_point._id.toString());
+    element_list_delete.setAttribute("id", "r" + data_point._id.toString());
     element_list_delete.setAttribute("class", "forum_cell_button");
     element_list_delete.innerHTML = "Remove Entry";
-    element_list_update.setAttribute("id", data_point._id.toString());
+    element_list_update.setAttribute("id", "u" + data_point._id.toString());
     element_list_update.setAttribute("class", "forum_cell_button");
     element_list_update.innerHTML = "Update Entry";
 
@@ -247,4 +244,7 @@ function initialize_list(data_points) {
 window.onload = function () {
   const button = document.querySelector("button");
   button.onclick = addItemFunc;
+
+  // Call that ensures the page has updated data when reset / initialized
+  update_based_on_existing_data();
 };

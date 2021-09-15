@@ -3,6 +3,11 @@
   <head>
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="An application which allows for the storing of WPI CS course staff info."
+    />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -10,16 +15,17 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="css/style.css" />
-    <script src="js/scripts.js">
-    </script>
+    <script src="js/scripts.js"></script>
   </head>
   <body class="grid_layout">
-    <h1 class="header_area">WPI Computer Science SA, TA, and GLA Tracking Sheet</h1>
+    <h1 class="header_area">
+      WPI Computer Science SA, TA, and GLA Tracking Sheet
+    </h1>
     <form class="input_area">
       <h2>Input Area</h2>
       <ul>
         <li>
-          <label>Student Name:</label>
+          <label for="StudentName">Student Name:</label>
           <input
             type="text"
             class="input_table_item"
@@ -27,8 +33,9 @@
             value="Enter Name Here"
           />
         </li>
+        <!-- <label for="StudentName">Area to Enter Student Name</label> -->
         <li>
-          <label>Student Class: </label>
+          <label for="StudentClass">Student Class: </label>
           <input
             type="text"
             id="StudentClass"
@@ -36,6 +43,7 @@
             value="Enter Course Here"
           />
         </li>
+        <!-- <label for="StudentClass">Area to Enter Student Class</label> -->
         <li>
           <label>Student Role:</label>
           <select class="input_table_item" id="StudentRole">
@@ -54,10 +62,14 @@
       <h2>How To Use:</h2>
       <p>Enter the necessary information in the <b>Input Area</b>.</p>
       <p>When you've entered new information, click <b>Add Entry</b>.</p>
-      <p>To remove a item, click the <b>Remove Entry</b> button in the respective row.</p>
+      <p>
+        To remove a item, click the <b>Remove Entry</b> button in the respective
+        row.
+      </p>
       <p>
         To update a item, input the necessary information you wish the result to
-        contain in the <b>Input Area</b> and add click the respective row's update entry.
+        contain in the <b>Input Area</b> and add click the respective row's
+        update entry.
       </p>
     </form>
   </body>
