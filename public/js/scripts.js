@@ -10,7 +10,7 @@ const taskContainer = document.getElementById( "task-container" )
 const taskTemplate = document.getElementById( "task-template" ).content.children[0]
 
 let id = NaN;
-let requestType = 0; //0 is add, 1 is edit, 2 is delete
+let requestType = "/add";
 
 const submit = function( e ) {
     // prevent default form action from being carried out
@@ -79,7 +79,7 @@ const edit = function( e, utask ) {
     period.value = utask.period
     deadline.value = numberToDateValue( utask.deadline )
     requestType = "/edit"
-    id = utask._id
+    id = utask.id
 
     return false
 }
@@ -87,7 +87,7 @@ const edit = function( e, utask ) {
 const remove = function( e, utask ) {
     e.preventDefault()
 
-    id = utask._id
+    id = utask.id
 
     fetch( "/remove", {
         method: "POST",
