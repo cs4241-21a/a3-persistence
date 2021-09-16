@@ -18,7 +18,8 @@
   "homepage": "https://github.com/jhsul/a3-persistence#readme",
   "dependencies": {
     "express": "^4.17.1",
-    "mongodb": "^4.1.1"
-  },
-  "type": "module"
+    "mongodb": "^4.1.1",
+    "passport": "^0.4.1",
+    "passport-github2": "^0.1.12"
+  }
 }
