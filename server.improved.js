@@ -36,7 +36,13 @@ app.post( '/login', ( request, response ) => {
     request.session.username = "testuser"
     console.log( "logged in as testuser" )
     console.log( __dirname + "/" + dir + "/tasks.html" )
-    response.sendFile( __dirname + "/" + dir + "/tasks.html" )
+    response.sendFile( __dirname + "/" + dir + "/tasks.html", function ( err ) {
+      if ( err ) {
+        console.log( "error" );
+      } else {
+        console.log( 'Sent:', fileName );
+      }
+    })
   }
   else {
     console.log( "not logged in" )
