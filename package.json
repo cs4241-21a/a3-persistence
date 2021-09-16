@@ -16,5 +16,10 @@
     "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/ChrisVieira/a3-persistence"
+  },
+  "license": "BSD-3-Clause"
 }
