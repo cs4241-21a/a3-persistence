@@ -42,7 +42,7 @@ const addItemFunc = function (e) {
 function update_based_on_existing_data() {
   // Use a GET request to get the existing data
   fetch("/initializeData", {
-    method: "GET",
+    method: "POST",
   })
     .then(function (response) {
       return response.json();

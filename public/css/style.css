@@ -64,6 +64,24 @@ body {
   grid-area: tutorial;
 }
 
+.link_area {
+  grid-area: link;
+  text-align: center;
+}
+
+.welcome_area {
+  grid-area: welcome;
+  text-align: center;
+}
+
+.logo_area {
+  grid-area: logo;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 40%;
+}
+
 /* Setting the grid layout of the entire web page */
 .grid_layout {
   display: grid;
@@ -74,6 +92,17 @@ body {
     ". input tutorial . "
     ". input tutorial ."
     ". table table .";
+}
+
+.login_grid_layout {
+  display: grid;
+  grid-template-columns: 10% 80% 10%;
+  grid-template-rows: 20%, 20%, 20%, 40%;
+  grid-template-areas:
+    ". header ."
+    ". welcome . "
+    ". link ."
+    ". logo .";
 }
 
 /* ". header header ."
