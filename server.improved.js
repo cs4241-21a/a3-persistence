@@ -23,7 +23,7 @@ app.post( '/login', ( request, response ) => {
   if( request.body.username === "testuser") {
     request.session.username = "testuser"
     console.log( "logged in as testuser" )
-    res.sendFile( __dirname + "/" + dir + "/tasks.html" )
+    response.sendFile( __dirname + "/" + dir + "/tasks.html" )
   }
   else {
     console.log( "not logged in" )
