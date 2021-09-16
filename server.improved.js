@@ -14,15 +14,15 @@ app.use( cookie({
   name: "session",
   keys: ["key1", "key2"],
   user: "testuser",
-  password: "testpass"
+  password: "testpass",
 }) )
 
 // send signed out users to the login page
 app.use( function( request, response, next ) {
-  if( request.session.loggedIn === true )
+  if( request.session.user === "testuser")
     next()
   else
-    response.sendFile( dir + '/index.html' )
+    response.sendFile( __dirname + dir + '/index.html' )
 })
 
 // app.get( '/', function( request, response ) {
