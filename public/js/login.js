@@ -23,11 +23,14 @@ const login = function (e) {
         }
     })
     //Launches the homepage
-    .then(reponse => {
-        if(reponse.ok) {
-            window.location.href = "index.html";
-        }
-    })
+    .then(reponse => response.json())
+     .then(user => {
+         if (user.length == 0) {
+             window.alert("Require username and password")
+         } else {
+             window.location.href = "index.html"
+         }
+     })
 
     return false
 }

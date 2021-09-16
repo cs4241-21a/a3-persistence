@@ -4,10 +4,29 @@ const express = require( 'express' ),
       dotenv = require('dotenv').config(),
       app = express();
 
-app.use( express.static('public') )
-app.use( express.json() )
+app.use( express.static('public') );
+app.use( express.json() );
 
 const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
+let userAccount = "";
+
+app.get("/", (request, response) => {
+  response.sendFile(__dirname + "/public/login.html");
+});
+
+app.get("/login.html", (request, response) => {
+  response.sendFile(__dirname + "/public/login.html");
+});
+
+app.get("/index.html", (request, response) => {
+  response.sendFile(__dirname + "/public/index.html");
+});
+
+app.get('/logout', function(request, response) {
+  //request.logout
+  response.ok = true;
+  return response.end();
+})
 
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
@@ -24,14 +43,6 @@ client.connect()
     return collection.find({ }).toArray()
   })
   .then( console.log )
-  
-// route to get all docs
-app.get( '/', (req,res) => {
-  if( collection !== null ) {
-    // get array and pass to res.json
-    collection.find({ }).toArray().then( result => res.json( result ) )
-  }
-})
 
 app.post("/submit", bodyparser.json(), function(req,res) {
     console.log('body: ', req.body)
@@ -64,4 +75,27 @@ app.post( '/update', bodyparser.json(), function (req,res) {
       .then( result => res.json( result ) )
 })
 
+//Login
+let loginCollection = null;
+
+app.post('/login', bodyparser.json(), function(req,res) {
+
+let userData = req.body
+console.log("userData: ", userData);
+
+let username = userData.username;
+let password = userData.password;
+
+const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+  const loginCollection = client.db("UserDataset").collection("UserData");
+  // perform actions on the collection object
+  //client.close();
+});
+})
+
 app.listen( 3000 )
+
+const listener = app.listen(process.env.PORT, () => {
+  console.log("Your app is listening on port " + listener.address().port);
+});
