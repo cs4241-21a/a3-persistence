@@ -5,7 +5,7 @@ const express = require( 'express' ),
 app.use( express.static('public') )
 app.use( express.json() )
 
-const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
+const uri = 'mongodb+srv://tester:tester123@cluster0.hkv0v.mongodb.net/'
 
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
@@ -13,7 +13,7 @@ let collection = null
 client.connect()
   .then( () => {
     // will only create collection if it doesn't exist
-    return client.db( 'XXXtest' ).collection( 'XXXtodos' )
+    return client.db( 'Database1' ).collection( 'Collection1' )
   })
   .then( __collection => {
     // store reference to collection
@@ -32,3 +32,4 @@ app.get( '/', (req,res) => {
 })
   
 app.listen( 3000 )
+
