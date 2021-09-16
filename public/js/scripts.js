@@ -29,7 +29,7 @@ const submit = function (e) {
   /* if valid, ensure invalid is empty */
   document.getElementById("invalid").innerText = "";
   const body = JSON.stringify(json);
-
+  
   /* send the new json to the server */
   fetch("/submit", {
     method: "POST",
@@ -166,7 +166,7 @@ function createDelete() {
 
 /* on startup, assigning functions to existing html */
 window.onload = function () {
-  const button = document.querySelector("button");
+  const button = document.getElementById("submit-button");
   button.onclick = submit;
   const logout = document.getElementById("logout");
   logout.onclick = userlogout;

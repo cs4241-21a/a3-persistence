@@ -1,13 +1,19 @@
-const { query, response } = require('express');
+const { query, response } = require('express'); //might not need
 const passport = require('passport');
 const GitHubStrategy = require('passport-github2').Strategy;
 const express = require( 'express' );
 const mongodb = require( 'mongodb' );
+const cookie = require( 'cookie-session' );
 const app = express();
 
 const clientID = '6293d146755b88e66857';
 const clientSecret = '5c1676202596fb930a9a5b4e94d469b95d184d1f';
-let userID = '';
+
+app.use( cookie({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
 
 passport.serializeUser(function(user, done){
   done(null, user);
@@ -37,12 +43,12 @@ function(req, res) {
 
 
 app.get('/res', (req, res) => {
-  userID = req.query.id;
+  req.session.id = req.query.id;
   res.redirect("results.html")
 })
 
 app.get( '/logout', (req, res) => {
-  userID = '';
+  req.session.id = '';
   req.logout();
   res.redirect('/');
 })
@@ -70,7 +76,7 @@ client.connect()
 
 app.get( '/results', (req,res) => {
   if( collection !== null ) {
-    collection.find({ userID: userID }).toArray().then( result => res.json( result ) )
+    collection.find({ userID: req.session.id }).toArray().then( result => res.json( result ) )
   }
 })
 
@@ -79,7 +85,7 @@ app.post( '/submit', (req,res) => {
   const dataJSON = req.body;
   let avg = dataJSON.time / dataJSON.laps;
   dataJSON.avg = avg;
-  dataJSON.userID = userID;
+  dataJSON.userID = req.session.id;
   collection
     .findOne({ name:dataJSON.name, team:dataJSON.team, userID:dataJSON.userID })
     .then( function (result) { 
