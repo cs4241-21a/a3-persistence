@@ -1,18 +1,15 @@
 // Add some Javascript code here, to run on the front end.
 
-const loginForm = document.getElementById( "login" )
-const accountMessage = document.getElementById( "account-message" )
 const username = document.getElementById( "username" )
-const password = document.getElementById( "password" )
 
 const form = document.getElementById( "form" )
 const formTitle = document.getElementById( "form-title" )
 const task = document.getElementById( "name" )
 const period = document.getElementById( "period" )
 const deadline = document.getElementById( "deadline" )
+const submitButton = document.getElementById( "submit-form-button" )
 
-
-const tasklist = document.getElementById( "tasklist" )
+const addButton = document.getElementById( "add-button" )
 
 const taskContainer = document.getElementById( "task-container" )
 const taskTemplate = document.getElementById( "task-template" ).content.children[0]
@@ -64,30 +61,6 @@ const add = function ( e ) {
     return false
 }
 
-const login = function( e ) {
-    e.preventDefault()
-
-    let body = { username: username.value, password: password.value }
-
-    //load data from server
-    fetch( "/update", {
-        method: "POST",
-        body
-    })
-    .then( ( response ) => response.json() )
-    .then( function( appData ) {
-        if ( appData !== null) {
-            update( appData )
-            tasklist.hidden = false
-            accountMessage.innerText = "Welcome testuser! (refresh the page to log out)"
-            loginForm.hidden = true
-        }
-        else {
-            accountMessage.innerText = "Could not sign you in, you might have used the wrong password."
-        }
-    })
-}
-
 const getEditCallback = function( task ) {
     const utask = task
     return function( e ) {
@@ -105,7 +78,7 @@ const getRemoveCallback = function( task ) {
 const edit = function( e, utask ) {
     e.preventDefault()
 
-    form.removeAttribute( "hidden" )
+    form.hidden = false
     formTitle.innerText = "Edit task:"
     task.value = utask.name
     period.value = utask.period
@@ -155,13 +128,10 @@ const update = function ( json ) {
 }
 
 window.onload = function() {
-    const submitButton = document.getElementById( "submit-form-button" )
-    const addButton = document.getElementById( "add-button" )
-    const loginButton = document.getElementById( "login-button" )
-    
     submitButton.onclick = submit
     addButton.onclick = add
-    loginButton.onclick = login
+
+    //set username innertext to current username
 }
 
 const numberToHoursText = function( number ) {

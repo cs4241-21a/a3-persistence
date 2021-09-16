@@ -6,20 +6,6 @@
     <script src="https://kit.fontawesome.com/e2bce667f0.js" crossorigin="anonymous"></script>
     <link type="text/css" rel="stylesheet" href="css/reset.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">
-
-    <!--template for row of data corresponding to a task-->
-    <template id="task-template" >
-      <div class="task">
-        <span class="name">Task name</span>
-        <span class="startdate">11PM 9/30/2021</span>
-        <span class="period">1 hour</span>
-        <span class="deadline">12AM 10/1/2021</span>
-        <span class="modify">
-          <button class="edit" title="edit task"><i class="fas fa-edit"></i></button>
-          <button class="delete" title="remove task"><i class="fas fa-trash"></i></button>
-        </span>
-      </div>
-    </template>
   </head>
 
   <body>
@@ -42,54 +28,15 @@
               <td><label>Password:</label></td>
               <td><input type="password" id="password"></td>
             </tr>
-            <tr>
+            <tr class="input-container">
               <td></td>
               <td><button id="login-button" class="text-button">Login/Register</button><i class="fas fa-question-circle fa-xs" title="Logging in with a username that doesn't exist will create a new account and log you in as that account."></i></td>
             </tr>
           </table>
         </form>
       </div>
-
-      <form id="form" hidden>
-        <h2 id="form-title">Add new task:</h2>
-        <table id="form-table">
-          <tr class="input-container">
-            <td><label>Task name:</label></td>
-            <td><input type="text" id="name" value="task name"></td>
-          </tr>
-          <tr class="input-container">
-            <td><label>Time to complete:<i class="fas fa-question-circle fa-xs" title="The expected number of hours it will take to complete the task"></i></label></td>
-            <td><input type="number" id="period" value=1 min=1></td>
-          </tr>
-          <tr class="input-container">
-            <td><label>Deadline:<i class="fas fa-question-circle fa-xs" title="The latest the task can afford to be completed. Rounds to the next hour"></i></label></td>
-            <td><input type="datetime-local" id="deadline"></td>
-          </tr>
-          <tr>
-            <td></td>
-            <td><button id="submit-form-button" class="text-button">Submit</button></td>
-          </tr>
-        </table>
-      </form>
-
-      <div id="tasklist" hidden>
-        <h2>Tracked tasks:</h2>
-        <p><button id="add-button" class="icon-button" title="Add new task"><i class="fas fa-plus"></i></button> New task</p>
-        <div id="tasklist-table">
-          <div id="tasklist-header">
-            <span id="name-header">Task Name:</span>
-            <span id="startdate-header">Start Date:</span>
-            <span id="period-header">Time to Complete:</span>
-            <span id="deadline-header">Deadline:</span>
-            <span id="modify-header">Modify:</span>
-          </div>
-          <div id="task-container">
-            <!-- Empty to start -->
-          </div>
-        </div>
-      </div>
     </div>
 
-    <script src="js/scripts.js"></script>
+    <script src="js/indexScript.js"></script>
   </body>
 </html>

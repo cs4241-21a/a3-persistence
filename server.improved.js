@@ -1,16 +1,29 @@
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
-      bodyparser = require( 'body-parser' ),
+      serveFavicon = require( 'serve-favicon' ),
+      cookie = require( 'cookie-session' ),
       dir = 'public',
       app = express(),
       dbclient = new mongodb.MongoClient( process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:true })
 
 app.use( express.static( dir ) )
-app.use( bodyparser.json() )
+app.use( express.json() )
 
-app.get( '/', function( request, response ) {
-  response.sendFile( dir + '/index.html' )
+app.use( express.urlencoded() )
+
+app.use( express.cookieSession() )
+
+// send signed out users to the login page
+app.use( function( request, response, next ) {
+  if( request.session.loggedIn === true )
+    next()
+  else
+    response.sendFile( dir + '/index.html' )
 })
+
+// app.get( '/', function( request, response ) {
+//   response.sendFile( dir + '/index.html' )
+// })
 
 app.post( '/add|/edit|/remove|/update', ( request, response) => {
   let json = request.body
@@ -107,11 +120,6 @@ const removeTask = function( id ) {
   }
 
   recalculateStarts()
-}
-
-const login = function( username, password ) {
-  //TODO check database for valid password and replace appdata
-  //TODO create new account with password if username isn't in database
 }
 
 const recalculateStarts = function() {
