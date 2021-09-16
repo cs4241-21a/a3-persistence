@@ -25,18 +25,18 @@ const addItemFunc = function (e) {
 
   // Create the variables necessary for our POST request by reading the input fields
   // const name_input = document.querySelector("#StudentName"),
-  // class_input = document.querySelector("#StudentClass"),
-  // role_input = document.querySelector("#StudentRole"),
-  // json = {
-  //   StudentName: name_input.value,
-  //   StudentClass: class_input.value,
-  //   StudentRole: role_input.value,
-  //   StudentYear: radio_result,
-  // },
+    // class_input = document.querySelector("#StudentClass"),
+    // role_input = document.querySelector("#StudentRole"),
+    // json = {
+    //   StudentName: name_input.value,
+    //   StudentClass: class_input.value,
+    //   StudentRole: role_input.value,
+    //   StudentYear: radio_result,
+    // },
 
-  const json = getNewStudentFromFields();
+    const json = getNewStudentFromFields()
 
-  body = JSON.stringify(json);
+    body = JSON.stringify(json);
 
   // Submit the POST request
   fetch("/submit", {
@@ -126,7 +126,7 @@ function getNewStudentFromFields() {
       StudentRole: role_input.value,
       StudentYear: radio_result,
     };
-  return json;
+    return json
 }
 
 // Function that is responsible for updating an existing item in our forum
@@ -144,10 +144,11 @@ function updateItemFunc(button) {
   //   },
   //   body = JSON.stringify(json);
 
-  const json = getNewStudentFromFields();
-  (id_value = button.composedPath()[0].id.substring(1)),
-    (json._id = id_value),
-    (body = JSON.stringify(json));
+  const json = getNewStudentFromFields()
+    id_value = button.composedPath()[0].id.substring(1),
+    json._id = id_value,
+    body = JSON.stringify(json);
+
 
   // Send POST request
   fetch("/updateEntry", {
@@ -254,7 +255,7 @@ function initialize_list(data_points) {
     element_list_info_hours.setAttribute("class", "forum_cell");
     element_list_info_hours.innerHTML = data_point.StudentHours;
     element_list_info_year.setAttribute("class", "forum_cell");
-    element_list_info_year.innerHTML = "Testing";
+    element_list_info_year.innerHTML = data_point.StudentYear;
 
     element_list_delete.setAttribute("id", "r" + data_point._id.toString());
     element_list_delete.setAttribute("class", "forum_cell_button");

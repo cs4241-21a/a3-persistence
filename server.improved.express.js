@@ -1,10 +1,3 @@
-/**
- * TODO Questions for SA
- * What is middleware?
- * Packages, push node_modules?
- * Lighthouse performance question Cumulative Layout Shift
- */
-
 const { report } = require("process"),
   express = require("express"),
   mongodb = require("mongodb"),
@@ -22,12 +15,13 @@ const { report } = require("process"),
   port = 3000,
   path = require("path"),
   cors = require("cors"),
-  morgan = require('morgan');
+  morgan = require("morgan");
 
 app.use(express.json());
 app.use(cors());
-app.use(morgan('combined'))
+app.use(morgan("combined"));
 
+// Creates session information needed to keep track of users
 app.use(
   session({
     secret: "superSecret",
@@ -41,21 +35,23 @@ app.use(
   })
 );
 
+// Initializes passport
 app.use(passport.initialize());
+
+// Starts the passport session
 app.use(passport.session());
 
+// Serialize the user
 passport.serializeUser(function (user, cb) {
-  // console.log("Serializing the user")
-  // console.log(user)
   cb(null, user.id);
 });
 
+// Deserialize the user
 passport.deserializeUser(function (id, cb) {
-  // console.log("Deserializing the user")
-  // console.log(id)
   cb(null, id);
 });
 
+// The Github strategy and connection we are using for Github OAuth
 passport.use(
   new GitHubStrategy(
     {
@@ -64,14 +60,6 @@ passport.use(
       callbackURL: "http://127.0.0.1:3000/auth/github/callback",
     },
     function (accessToken, refreshToken, profile, cb) {
-      // console.log("\n\nPrinting the profile... ")
-      // console.log(profile)
-
-      // collection.find({ githubId: profile.id }.then( function (err, user) {
-      //   return cb(err, user);
-      // }));
-      // console.log(profile)
-
       cb(null, profile);
     }
   )
@@ -92,6 +80,7 @@ const client = new mongodb.MongoClient(uri, {
   useUnifiedTopology: true,
 });
 
+// Middleware used to check if the user has logged in or not
 const userIsAuthorized = (req, res, next) => {
   if (req.user) {
     console.log(__dirname);
@@ -102,7 +91,7 @@ const userIsAuthorized = (req, res, next) => {
   }
 };
 
-// The collection we are connected to
+// The collection we are connected to in mongodb
 let collection = null;
 
 // Connects the client and sets up the collection
@@ -115,70 +104,35 @@ client
   .then((__collection) => {
     // store reference to collection
     collection = __collection;
-    // blank query returns all documents
-    return collection.find({}).toArray();
   });
 
-// app.get("index.html", (req, res) => {
-//   console.log("\nUser: ");
-//   console.log(req.user);
-//   console.log("\n");
-//   if (req.user) {
-//     console.log(__dirname)
-//     return res.redirect("html/forum_page.html")
-//   }
-//   sendFile(res, "index.html");
-// });
-
-// app.get("/public/css/style.css", (req, res) => {
-//   console.log("We are trying... ")
-//   sendFile(res, "public/css/style.css");
-// });
-
+// Get request for both possible forum_page links, only allow is authorized
 app.get(
   ["/public/html/forum_page.html", "/html/forum_page.html"],
   userIsAuthorized,
   (req, res) => {
-    // console.log("------------------------------------------------------------");
-    // console.log("------------------------------------------------------------");
-    // console.log("------------------------------------------------------------");
-    // console.log("------------------------------------------------------------");
-    // console.log("------------------------------------------------------------");
-    // console.log("------------------------------------------------------------");
-    // console.log("\nUser: ");
-    // console.log(req.user);
-    // console.log("\n");
     sendFile(res, "public/html/forum_page.html");
   }
 );
 
-// route to get all docs
+// route to get index page, only allowed if not logged in
 app.get("/", (req, res) => {
-  // console.log("****************************************************");
-  // console.log("****************************************************");
-  // console.log("****************************************************");
-  // console.log("****************************************************");
-  // console.log("****************************************************");
-  // console.log("****************************************************");
-  // console.log("****************************************************");
-  // console.log("\nUser: ");
-  // console.log(req.user);
-  // console.log("\n");
   if (req.user != undefined) {
     return res.redirect("public/html/forum_page.html");
   }
   sendFile(res, "public/index.html");
 });
 
+// Logs the user out
 app.get("/logout", (req, res) => {
-  console.log("\nUser: ");
-  console.log(req.user);
   req.logOut();
   res.redirect("/");
 });
 
+// Adds a route for Github Authentication
 app.get("/auth/github", passport.authenticate("github"));
 
+// Adds the callback after Github Authentication works
 app.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/" }),
@@ -190,11 +144,11 @@ app.get(
   }
 );
 
-// app.use(timeout('5s'))
-// app.use(timeout("100ms"));
+// Sets the default timeout and adds middleware function
 app.use(timeout("5s"));
 app.use(haltOnTimedout);
 
+// Middleware timeout function
 function haltOnTimedout(req, res, next) {
   if (!req.timedout) {
     next();
@@ -233,6 +187,7 @@ app.post("/submit", function (request, response) {
       StudentRole: dataStringParsed.StudentRole,
       StudentHours: studentHours,
       GitHubUserID: request.user,
+      StudentYear: dataStringParsed.StudentYear,
     };
 
     // Insert it into the database
@@ -335,6 +290,7 @@ app.post("/updateEntry", function (request, response) {
       StudentRole: dataStringParsed.StudentRole,
       StudentHours: studentHours,
       GitHubUserID: request.user,
+      StudentYear: dataStringParsed.StudentYear,
     };
 
     // Update the entry with the same id in the database
@@ -427,5 +383,3 @@ function getStudentHours(studentRole) {
 }
 
 app.use(express.static("public"));
-// app.use(express.static(path.join(__dirname,"/css")));
-// app.use(express.static("js"));
