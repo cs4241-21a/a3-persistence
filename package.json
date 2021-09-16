@@ -8,10 +8,12 @@
   },
   "dependencies": {
     "connect-timeout": "^1.9.0",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "mime": "^2.5.2",
     "mongodb": "^4.1.2",
+    "morgan": "^1.10.0",
     "passport": "^0.4.1",
     "passport-github": "^1.1.0"
   }

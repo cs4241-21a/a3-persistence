@@ -9,20 +9,24 @@ const { report } = require("process"),
   express = require("express"),
   mongodb = require("mongodb"),
   app = express(),
-  timeout = require("connect-timeout");
-// Github login information
-passport = require("passport");
-GitHubStrategy = require("passport-github").Strategy;
-(session = require("express-session")),
-  (fs = require("fs")),
+  timeout = require("connect-timeout"),
+  // Github login information
+  passport = require("passport"),
+  GitHubStrategy = require("passport-github").Strategy,
+  session = require("express-session"),
+  fs = require("fs"),
   // IMPORTANT: you must run `npm install` in the directory for this assignment
   // to install the mime library used in the following line of code
-  (mime = require("mime")),
-  (dir = "public/"),
-  (port = 3000),
-  (path = require("path"));
+  mime = require("mime"),
+  dir = "public/",
+  port = 3000,
+  path = require("path"),
+  cors = require("cors"),
+  morgan = require('morgan');
 
 app.use(express.json());
+app.use(cors());
+app.use(morgan('combined'))
 
 app.use(
   session({
@@ -131,18 +135,22 @@ client
 //   sendFile(res, "public/css/style.css");
 // });
 
-app.get("/public/html/forum_page.html", userIsAuthorized, (req, res) => {
-  // console.log("------------------------------------------------------------");
-  // console.log("------------------------------------------------------------");
-  // console.log("------------------------------------------------------------");
-  // console.log("------------------------------------------------------------");
-  // console.log("------------------------------------------------------------");
-  // console.log("------------------------------------------------------------");
-  // console.log("\nUser: ");
-  // console.log(req.user);
-  // console.log("\n");
-  sendFile(res, "public/html/forum_page.html");
-});
+app.get(
+  ["/public/html/forum_page.html", "/html/forum_page.html"],
+  userIsAuthorized,
+  (req, res) => {
+    // console.log("------------------------------------------------------------");
+    // console.log("------------------------------------------------------------");
+    // console.log("------------------------------------------------------------");
+    // console.log("------------------------------------------------------------");
+    // console.log("------------------------------------------------------------");
+    // console.log("------------------------------------------------------------");
+    // console.log("\nUser: ");
+    // console.log(req.user);
+    // console.log("\n");
+    sendFile(res, "public/html/forum_page.html");
+  }
+);
 
 // route to get all docs
 app.get("/", (req, res) => {
@@ -193,7 +201,9 @@ function haltOnTimedout(req, res, next) {
   } else {
     console.log("\n\nRequest timed out!\n\n");
 
-    response.writeHead(408, "Request Timed Out", { "Content-Type": "text/plain" });
+    response.writeHead(408, "Request Timed Out", {
+      "Content-Type": "text/plain",
+    });
 
     // Sends forum data back to front end
     response.end();
