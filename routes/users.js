@@ -6,21 +6,25 @@ const Task = require('../schemas/tasks');
 const { createDeadline } = require('../util');
 
 // Show the tasks list page to a user with id
-router.get('/:id', async function(req, res, next) {
+router.get('/:id', async function (req, res, next) {
   const id = req.params.id;
   let tasks;
-  
-  await checkUserExists(id, res);
+
+  const user = await checkUserExists(id, res);
 
   try {
 
-    tasks = await Task.find({owner: id});
+    tasks = await Task.find({ owner: id });
 
-  } catch(err) {
+  } catch (err) {
     res.redirect('/login');
   }
 
-  res.render('index', { title: 'TODOList', tasks, userId: id });
+  res.render('index', {
+    title: 'TODOList',
+    tasks, userId: id,
+    user: { username: user.username }
+  });
 });
 
 // Submit a task from a user
@@ -36,8 +40,8 @@ router.post('/:id/submit', async (req, res, next) => {
 
     // Check if task title is duplicate
     let dupe = false;
-    const dupes = await Task.find({owner: id, title: data.title});
-    if(dupes.length > 0) {
+    const dupes = await Task.find({ owner: id, title: data.title });
+    if (dupes.length > 0) {
       const resData = { error: 'Duplicate Task titles not allowed' };
       res.json(resData);
     }
@@ -59,7 +63,7 @@ router.post('/:id/submit', async (req, res, next) => {
     // save to db
     newTask = await newTask.save();
 
-    let tasks = await Task.find({owner: id});
+    let tasks = await Task.find({ owner: id });
 
     res.json(tasks);
 
@@ -69,12 +73,14 @@ router.post('/:id/submit', async (req, res, next) => {
 });
 
 const checkUserExists = async (id, res) => {
-  try{
+  try {
     const user = await User.findById(id);
-    if(!user) {
+    if (!user) {
       res.redirect('/login');
     }
-  } catch(err){
+
+    return user;
+  } catch (err) {
     res.redirect('/login');
   }
 }
