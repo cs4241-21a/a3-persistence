@@ -8,7 +8,7 @@ const express = require( 'express' ),
 app.use( express.static( dir ) )
 app.use( express.json() )
 
-app.use( express.urlencoded() )
+app.use( express.urlencoded( { extended: true } ) )
 
 app.use( cookie({
   name: "session",
