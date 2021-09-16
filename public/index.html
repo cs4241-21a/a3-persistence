@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>CS4241 Assignment 2</title>
+	<meta charset="utf-8">
+	<link rel="icon" href="G3P-3D-REN-Filled-Fixed-Transparent.png">
+	<link rel="stylesheet" href="css/style.css">
+	<script src="js/scripts.js"></script>
+</head>
+<body>
+<div class="cardHolder">
+	<div class="title card">
+		<h1>Expense Tracker</h1>
+		<div id="totals">
+			<p id="totalIn">Total Income: $0.00</p>
+			<p id="totalOut">Total Expense: $0.00</p>
+			<p id="budget">Budget: $0.00</p>
+		</div>
+	</div>
+</div>
+<div class="cardHolder">
+	<div class="card">
+		<form>
+			<label for="budgetNew">Update Budget:</label>
+			<input type="number" id="budgetNew" name="budget" min="0" step=".01" required>
+			<button id="submitBudget">Submit</button>
+		</form>
+	</div>
+</div>
+<div class="cardHolder">
+	<div class="card">
+		<form id="newEntry">
+			<h3>Create New Entry:</h3>
+
+			<label for="type">Type:</label>
+			<select id="type" name="type">
+				<option value="expense" selected>Expense</option>
+				<option value="income">Income</option>
+			</select>
+
+			<label for="amount">Amount:</label>
+			<input type="number" id="amount" name="amount" min="0.01" step=".01" placeholder="required" required>
+
+			<label for="date">Date:</label>
+			<input type="date" id="date" name="date" required>
+
+			<label for="category">Note:</label>
+			<input type="text" id="category" name="category" placeholder="optional">
+
+			<button id="submitEntry">enter</button>
+		</form>
+	</div>
+</div>
+</body>
+</html>
