@@ -1,0 +1,59 @@
+:root {
+    --dark-blue: #91bdd3;
+    --light-blue: #57C7FF;
+    --blue: #3BB7F5;
+    --dark-brown: #A86007;
+    --light-brown: #b48142;
+}
+
+body {
+    -webkit-transition:background-color 1s ease;
+    -moz-transition:background-color 1s ease;
+    -o-transition:background-color 1s ease;
+    transition:background-color .1s ease;
+    background-color: var(--dark-blue);
+}
+
+section {
+    display: flex;
+    flex-direction: row;;
+}
+
+main {
+
+}
+
+.gameForm{
+    padding-right: 20px;
+}
+
+.gameLabel{
+    font-family: 'Source Code Pro', serif;
+    color: var(--dark-brown);
+}
+
+#game-leaderboard{
+    border-collapse: separate;
+    border-radius: 13px;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: 'Source Code Pro', serif;
+    text-align: center;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0,0,0, 0.15);
+}
+
+#game-leaderboard thead tr{
+    background-color: var(--dark-blue);
+    color: var(--light-brown);
+}
+
+#game-leaderboard th,
+#game-leaderboard td{
+    padding: 12px 15px;
+}
+
+#game-leaderboard tbody tr{
+    border-bottom: 1px solid #dddddd;
+    color: var(--dark-brown);
+}

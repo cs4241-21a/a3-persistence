@@ -1,0 +1,38 @@
+First screen:
+    Two buttons: 
+        Play Game
+            - Plays game.
+            - Once game is done, ask player if they want to register score 
+            - POST request that adds player's rank to the leaderboard and tells them current rank
+            - GET request that gets the leaderboard.
+
+        View Results
+            - GET request that retrieves the score leaderboard
+            - Pressing the button again will result
+
+All actions:
+
+    Start game - Pure JS
+    View results - GET
+    Add score to leaderboard - POST
+
+Questions:
+    -How are we going to format the leaderboard?
+        -Fill out a table dynamically?
+    
+Sub-tasks:
+    -Make a circle clicker game in Javascript
+    -Make a GET request for leaderboard
+    -Make a POST request for adding a score to the leaderboard
+    -Make a form for the user to fill out that is added to the leaderboard
+
+Fields:
+    -Rank
+    -Name
+    -User score
+
+Notes:
+    -Allow user to delete their own info
+    -Login is a bit high in terms of scope
+        -Make an admin user that can edit leaderboard
+    
