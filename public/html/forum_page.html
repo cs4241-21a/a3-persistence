@@ -8,19 +8,27 @@
       name="description"
       content="An application which allows for the storing of WPI CS course staff info."
     />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap"
       rel="stylesheet"
-    />
+    /> -->
     <link rel="stylesheet" href="../../css/style.css" />
+    <link href="https://unpkg.com/sanitize.css" rel="stylesheet" />
+    <link
+      href="https://unpkg.com/sanitize.css/typography.css"
+      rel="stylesheet"
+    />
+    <link href="https://unpkg.com/sanitize.css/forms.css" rel="stylesheet" />
+
     <script src="../../js/scripts.js"></script>
   </head>
   <body class="grid_layout">
     <h1 class="header_area">
       WPI Computer Science SA, TA, and GLA Tracking Sheet
     </h1>
+    <a href= "../../logout" class="logout_area">Click to Logout</a>
     <form class="input_area">
       <h2>Input Area</h2>
       <ul>
@@ -54,7 +62,7 @@
         </li>
         <li>
           <label>Confirm Input:</label>
-          <button class="input_table_item">Add Entry</button>
+          <button class="input_table_item", id="add_entry_button">Add Entry</button>
         </li>
       </ul>
     </form>
@@ -74,11 +82,20 @@
     </form>
     <!-- <input type=button onClick="parent.location='html/forum_page.html'"
  value='click here'> -->
- <a href= "../../logout">logout of github</a>
  <!-- <a href="/auth/github">login with github</a> -->
   </body>
 </html>
 
+
+
+<!-- <p>
+  <input type="radio" id="html" name="fav_language" value="HTML">
+  <label for="html">HTML</label><br>
+  <input type="radio" id="css" name="fav_language" value="CSS">
+  <label for="css">CSS</label><br>
+  <input type="radio" id="javascript" name="fav_language" value="JavaScript">
+  <label for="javascript">JavaScript</label>
+</p> -->
 
 
 

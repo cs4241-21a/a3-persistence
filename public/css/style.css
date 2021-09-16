@@ -1,13 +1,20 @@
 /* Default styling for the entire webpage */
 * {
-  font-family: "Roboto Slab", serif;
+  /* font-family: "Roboto Slab", serif; */
   box-sizing: border-box;
   list-style-type: none;
 }
 
 /* Setting the page's background color */
 body {
-  background-color: rgb(240, 234, 231);
+  /* background-color: rgb(240, 234, 231); */
+  background-color: rgb(169, 176, 183);
+}
+
+#StudentName,
+#StudentClass,
+#StudentRole {
+  background-color: rgb(255, 255, 255);
 }
 
 /* Setting the border on the entire forum table section */
@@ -26,17 +33,48 @@ body {
   padding: 10px;
 }
 
+#add_entry_button,
+.forum_cell_button {
+  background-color: rgb(172, 43, 55);
+  color: rgb(255, 255, 255);
+}
+
 /* Setting the formatting for the remove and update entry buttons */
 .forum_cell_button {
   border: 2px solid black;
   padding: 10px;
   width: 100%;
+  /* background-color: rgb(235, 121, 87); */
 }
 
 /* Setting the formatting for the table header */
 .forum_header {
+  background-color: rgb(172, 43, 55);
+  color: rgb(255, 255, 255);
   border: 2px solid black;
   padding: 10px;
+}
+
+a {
+  /* background-color: rgb(172, 43, 55); */
+  background-color: rgb(244, 212, 147);
+  color: rgb(20, 22, 163);
+  font-size: 20px;
+  font-weight: bold;
+}
+
+img {
+  padding: 30px;
+}
+
+p, th, td, .input_area {
+  font-size: 18px;
+}
+
+button:hover,
+#add_entry_button:hover {
+  /* background-color: rgb(169, 176, 183); */
+  background-color: rgb(0, 0, 0);
 }
 
 /* Setting the formatting for the input fields that are being changed to take in info */
@@ -47,9 +85,15 @@ body {
 
 /* Setting up the header area */
 .header_area {
+  background-color: rgb(172, 43, 55);
+  color: rgb(255, 255, 255);
   grid-area: header;
   text-align: center;
+  margin: 0px;
+  padding: 20px;
+  /* position: sticky; */
 }
+
 /* Setting up the table area */
 .table_area {
   grid-area: table;
@@ -74,6 +118,11 @@ body {
   text-align: center;
 }
 
+.logout_area {
+  grid-area: logout;
+  text-align: center;
+}
+
 .logo_area {
   grid-area: logo;
   display: block;
@@ -86,9 +135,10 @@ body {
 .grid_layout {
   display: grid;
   grid-template-columns: 10% 50% 30% 10%;
-  grid-template-rows: 20%, 20%, 20%, 40%;
+  grid-template-rows: 20%, 5%, 20%, 20%, 40%;
   grid-template-areas:
-    ". header header ."
+    "header header header header"
+    "logout logout logout logout"
     ". input tutorial . "
     ". input tutorial ."
     ". table table .";
@@ -97,11 +147,11 @@ body {
 .login_grid_layout {
   display: grid;
   grid-template-columns: 10% 80% 10%;
-  grid-template-rows: 20%, 20%, 20%, 40%;
+  grid-template-rows: 20%, 5%, 20%, 55%;
   grid-template-areas:
-    ". header ."
+    "header header header"
+    "link link link"
     ". welcome . "
-    ". link ."
     ". logo .";
 }
 

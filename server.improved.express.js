@@ -10,17 +10,17 @@ const { report } = require("process"),
   mongodb = require("mongodb"),
   app = express(),
   timeout = require("connect-timeout");
-  // Github login information
-  passport = require("passport");
-  GitHubStrategy = require("passport-github").Strategy;
-  session = require("express-session"),
-  fs = require("fs"),
+// Github login information
+passport = require("passport");
+GitHubStrategy = require("passport-github").Strategy;
+(session = require("express-session")),
+  (fs = require("fs")),
   // IMPORTANT: you must run `npm install` in the directory for this assignment
   // to install the mime library used in the following line of code
-  mime = require("mime"),
-  dir = "public/",
-  port = 3000,
-  path = require('path');
+  (mime = require("mime")),
+  (dir = "public/"),
+  (port = 3000),
+  (path = require("path"));
 
 app.use(express.json());
 
@@ -81,7 +81,6 @@ const uri =
   "tester_user_pw" +
   "@" +
   "cluster0.dpk53.mongodb.net/";
-
 
 // Client representing the database
 const client = new mongodb.MongoClient(uri, {
@@ -166,8 +165,8 @@ app.get("/", (req, res) => {
 app.get("/logout", (req, res) => {
   console.log("\nUser: ");
   console.log(req.user);
-  req.logOut()
-  res.redirect("/")
+  req.logOut();
+  res.redirect("/");
 });
 
 app.get("/auth/github", passport.authenticate("github"));
@@ -185,14 +184,19 @@ app.get(
 
 // app.use(timeout('5s'))
 // app.use(timeout("100ms"));
-app.use(timeout("1s"));
+app.use(timeout("5s"));
 app.use(haltOnTimedout);
 
 function haltOnTimedout(req, res, next) {
   if (!req.timedout) {
     next();
   } else {
-    console.log("\n\nRequest timed out!!!!\n\n");
+    console.log("\n\nRequest timed out!\n\n");
+
+    response.writeHead(408, "Request Timed Out", { "Content-Type": "text/plain" });
+
+    // Sends forum data back to front end
+    response.end();
   }
 }
 
@@ -234,7 +238,7 @@ app.post("/submit", function (request, response) {
 
     // Fetch the most up to date version of the data
     dbDataPromise = collection
-      .find({"GitHubUserID": request.user})
+      .find({ GitHubUserID: request.user })
       .toArray()
       .then((newData) => (dbData = newData));
 
@@ -277,7 +281,7 @@ app.post("/deleteEntry", function (request, response) {
 
     // Fetch up to date data
     dbDataPromise = collection
-      .find({"GitHubUserID": request.user})
+      .find({ GitHubUserID: request.user })
       .toArray()
       .then((newData) => (dbData = newData));
 
@@ -337,7 +341,7 @@ app.post("/updateEntry", function (request, response) {
 
     // Fetch the new data
     dbDataPromise = collection
-      .find({"GitHubUserID": request.user})
+      .find({ GitHubUserID: request.user })
       .toArray()
       .then((newData) => (dbData = newData));
 
@@ -365,7 +369,7 @@ app.post("/initializeData", async function (request, response) {
 
   // Fetch the new up to date data
   dbDataPromise = collection
-    .find({"GitHubUserID": request.user})
+    .find({ GitHubUserID: request.user })
     .toArray()
     .then((newData) => (dbData = newData));
 
