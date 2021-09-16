@@ -1,9 +1,27 @@
 const bodyParser = require('body-parser')
-var express = require('express')
-var app = express()
-var bodyparser = require('body-parser')
+const express = require('express')
+const mongodb = require('mongodb')
+require('dotenv').config()
+const app = express()
+// var bodyparser = require('body-parser')
 
-let uid = 0
+
+const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
+const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+let collection = null
+
+client.connect()
+  .then(() => {
+    // will only create collection if it doesn't exist
+    return client.db('a3').collection('data')
+  })
+  .then(__collection => {
+    // store reference to collection
+    collection = __collection
+  })
+
+
+let _id = 0
 
 const appdata = []
 
@@ -44,6 +62,14 @@ app.use(express.urlencoded({
   extended: true
 }));
 
+app.use((request, response, next) => {
+  if (collection !== null) {
+    next()
+  } else {
+    response.status(503).send()
+  }
+})
+
 app.get('/', function (request, response) {
   response.sendFile(__dirname + '/public/index.html')
 })
@@ -52,160 +78,57 @@ app.post('/add', function (request, response) {
   console.log(request.body)
   const percentDead = getPercentDead(request.body.yourdob, request.body.yourgender)
   request.body.percentDead = percentDead
-  request.body.uid = uid++
-  appdata.push(request.body) // Add the created object to the servers memory
-  console.log('ADD:')
-  console.log(request.body)
+  collection.insertOne(request.body)
+    .then(result => {
+      console.log(result.insertedId.toString())
+      request.body._id = result.insertedId.toString()
+      console.log('ADD:')
+      console.log(request.body)
 
-  response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
-  response.end(JSON.stringify(request.body))
+      response.json(request.body).end()
+    })
 })
 
 app.post('/update', function (request, response) {
-  console.log(appdata)
-  //Update server record to reflect post data
-  const serverObj = appdata.filter(record => record.uid == request.body.uid)[0]
-  //console.log(serverObj)
-  serverObj.yourname = request.body.yourname
-  serverObj.yourdob = request.body.yourdob
-  serverObj.yourgender = request.body.yourgender
-  serverObj.percentDead = getPercentDead(request.body.yourdob, request.body.yourgender)
-  console.log('UPDATE:')
-  console.log(serverObj)
-
-  response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
-  response.end(JSON.stringify(serverObj))
+  collection
+    .updateOne(
+      { _id: mongodb.ObjectId(request.body._id) },
+      {
+        $set: {
+          yourname: request.body.yourname,
+          yourdob: request.body.yourdob,
+          yourgender: request.body.yourgender,
+          percentDead: getPercentDead(request.body.yourdob, request.body.yourgender)
+        }
+      }
+    )
+    .then(function () {
+      collection.findOne({ _id: mongodb.ObjectId(request.body._id) })
+        .then(result => {
+          console.log('UPDATE:')
+          console.log(result)
+          response.json(result).end()
+        })
+    })
 })
 
 app.post('/remove', function (request, response) {
-  console.log(appdata)
-  console.log('REMOVE:')
-  //console.log(postObj)
-  const objToRemove = appdata.filter(record => record.uid == request.body.uid)[0]
-  console.log(objToRemove)
-  const indexToRemove = appdata.indexOf(objToRemove)
-  appdata.splice(indexToRemove, 1)
 
-  response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
-  response.end(JSON.stringify(request.body))
+  console.log('REMOVE:')
+  console.log(request.body)
+  collection
+    .deleteOne({ _id: mongodb.ObjectId(request.body._id) })
+    .then(function () { response.json(request.body) })
 })
 
 app.post('/all', function (request, response) {
   console.log("Sending appdata")
-
-  response.writeHead(200, "OK", { 'Content-Type': 'application/json' })
-  response.end(JSON.stringify(appdata))
+  // get array and pass to res.json
+  collection.find({}).toArray()
+    .then(function (result) {
+      console.log(result)
+      response.json(result).end()
+    })
 })
 
-app.listen(3000)
-
-
-
-// const server = http.createServer(function (request, response) {
-//   if (request.method === 'GET') {
-//     handleGet(request, response)
-//   } else if (request.method === 'POST') {
-//     handlePost(request, response)
-//   }
-// })
-
-// const handleGet = function (request, response) {
-//   const filename = dir + request.url.slice(1)
-
-//   if (request.url === '/') {
-//     sendFile(response, 'public/index.html')
-//   } else {
-//     sendFile(response, filename)
-//   }
-// }
-
-// const handlePost = function (request, response) {
-//   let dataString = ''
-//   request.on('data', function (data) {
-//     dataString += data
-//   })
-//   if (request.url === '/add') {
-//     request.on('end', function () {
-//       // Must convert JSON to string before seding and then convert it back on the server
-//       // Create record to send back to client and store on server
-//       const dataObj = JSON.parse(dataString)
-//       const percentDead = getPercentDead(dataObj.yourdob, dataObj.yourgender)
-//       dataObj.percentDead = percentDead
-//       dataObj.uid = uid++
-//       appdata.push(dataObj) // Add the created object to the servers memory
-//       console.log('ADD:')
-//       console.log(dataObj)
-
-//       dataString = JSON.stringify(dataObj)
-
-//       response.writeHead(200, "OK", { 'Content-Type': 'text/plain' })
-//       response.end(dataString)
-//     })
-//   } else if (request.url === '/update') {
-//     request.on('end', function () {
-//       console.log(appdata)
-//       //Update server record to reflect post data
-//       const postObj = JSON.parse(dataString)
-//       //console.log(postObj)
-//       const serverObj = appdata.filter(record => record.uid == postObj.uid)[0]
-//       //console.log(serverObj)
-//       serverObj.yourname = postObj.yourname
-//       serverObj.yourdob = postObj.yourdob
-//       serverObj.yourgender = postObj.yourgender
-//       serverObj.percentDead = getPercentDead(postObj.yourdob, postObj.yourgender)
-//       console.log('UPDATE:')
-//       console.log(serverObj)
-
-//       dataString = JSON.stringify(serverObj)
-
-//       response.writeHead(200, "OK", { 'Content-Type': 'text/plain' })
-//       response.end(dataString)
-//     })
-//   } else if (request.url === '/remove') {
-//     request.on('end', function () {
-//       postObj = JSON.parse(dataString)
-//       console.log(appdata)
-//       console.log('REMOVE:')
-//       //console.log(postObj)
-//       const objToRemove = appdata.filter(record => record.uid == postObj.uid)[0]
-//       console.log(objToRemove)
-//       const indexToRemove = appdata.indexOf(objToRemove)
-//       appdata.splice(indexToRemove, 1)
-
-//       response.writeHead(200, "OK", { 'Content-Type': 'text/plain' })
-//       response.end(dataString)
-//     })
-//   } else if (request.url === '/all') {
-//     request.on('end', function () {
-//       console.log("Sending appdata")
-//       dataString = JSON.stringify(appdata)
-
-//       response.writeHead(200, "OK", { 'Content-Type': 'text/plain' })
-//       response.end(dataString)
-//     })
-//   }
-// }
-
-// const sendFile = function (response, filename) {
-//   const type = mime.getType(filename)
-
-//   fs.readFile(filename, function (err, content) {
-
-//     // if the error = null, then we've loaded the file successfully
-//     if (err === null) {
-
-//       // status code: https://httpstatuses.com
-//       response.writeHeader(200, { 'Content-Type': type })
-//       response.end(content)
-
-//     } else {
-
-//       // file not found, error code 404
-//       response.writeHeader(404)
-//       response.end('404 Error: File Not Found')
-
-//     }
-//   })
-// }
-
-// server.listen(process.env.PORT || port)
+app.listen(process.env.PORT || 3000)

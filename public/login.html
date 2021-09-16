@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@100;400&display=swap" rel="stylesheet">
+    <script src='js/login.js'></script>
+</head>
+
+<body>
+    <p id="intro">This site takes your name, date of birth and gender and calculates how far through the average
+        lifespan (according to <a href="https://www.cdc.gov/nchs/data/vsrr/VSRR10-508.pdf">the CDC</a>) you are.</p>
+    <p id="instructions">Enter your infromation below and click the "Add" button to see how far through your life you
+        are.
+    </p>
+    <form id='input'>
+        <label class='buttonLabel' for='yourname'>Name:
+            <input type='text' id='yourname' value="">
+        </label>
+        <label class='buttonLabel' for='yourbirthdate'>Birthday:
+            <input type='date' id='yourbirthdate' value="">
+        </label>
+        <label class='buttonLabel' for='yourgender'>Gender:
+            <select name='Gender' id='yourgender'>
+                <option value='Male'>Male</option>
+                <option value='Female'>Female</option>
+                <option value='Other'>Other</option>
+            </select>
+        </label>
+        <div>
+            <button id='add'>Add</button>
+        </div>
+    </form>
+</body>
+
+
+</html>
