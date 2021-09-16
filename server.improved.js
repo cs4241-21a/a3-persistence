@@ -12,33 +12,35 @@ app.use( express.json() )
 
 app.use( cookie({
   name: "session",
-  keys: ["key1", "key2"],
-  user: "testuser",
-  password: "testpass",
+  keys: [ "key1", "key2" ]
 }) )
 
 // send signed out users to the login page
 app.use( function( request, response, next ) {
-  if( request.body.username === "testuser") {
+  if( request.session.username === "testuser" ) {
     next()
-    console.log("logged in as testuser")
+    console.log( "logged in as testuser" )
   }
   else {
-    response.sendFile( __dirname + "/" + dir + '/index.html' )
-    console.log("not logged in")
+    response.sendFile( __dirname + "/" + dir + "/index.html" )
+    console.log( "not logged in" )
   }
 })
 
-// app.get( '/', function( request, response ) {
-//   response.sendFile( dir + '/index.html' )
-// })
 app.post( '/login', ( request, response ) => {
   let json = request.body
   console.log( "received json: " + json )
   console.log( "with url: " + request.url )
 
-  response.writeHead( 200, "OK" )
-  // response.end( JSON.stringify( userdata ) )
+  if( request.body.username === "testuser") {
+    request.session.username = "testuser"
+    console.log( "logged in as testuser" )
+    res.sendFile( __dirname + "/" + dir + "/tasks.html" )
+  }
+  else {
+    console.log( "not logged in" )
+    response.sendFile( __dirname + "/" + dir + "/index.html" )
+  }
 })
 
 app.post( '/add|/edit|/remove|/update', ( request, response) => {
