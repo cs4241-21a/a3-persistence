@@ -20,9 +20,9 @@ app.use( cookie({
 // send signed out users to the login page
 app.use( function( request, response, next ) {
   if( request.body.username === "testuser")
-    response.sendFile( __dirname + "/" + dir + '/tasks.html' )
-  else
     next()
+  else
+    response.sendFile( __dirname + "/" + dir + '/index.html' )
 })
 
 // app.get( '/', function( request, response ) {
@@ -33,7 +33,7 @@ app.post( '/login', ( request, response ) => {
   console.log( "received json: " + json )
   console.log( "with url: " + request.url )
 
-  // response.writeHead( 200, "OK", { 'Content-Type': 'application/json' } )
+  response.writeHead( 200, "OK" )
   // response.end( JSON.stringify( userdata ) )
 })
 
