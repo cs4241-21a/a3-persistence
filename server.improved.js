@@ -1,6 +1,5 @@
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
-      serveFavicon = require( 'serve-favicon' ),
       cookie = require( 'cookie-session' ),
       dir = 'public',
       app = express(),
@@ -11,7 +10,11 @@ app.use( express.json() )
 
 app.use( express.urlencoded() )
 
-app.use( express.cookieSession() )
+app.use( cookie({
+  name: "session",
+  user: "testuser",
+  password: "testpass"
+}) )
 
 // send signed out users to the login page
 app.use( function( request, response, next ) {
