@@ -7,7 +7,8 @@ const loginButton = document.getElementById( "login-button" )
 const login = function( e ) {
     e.preventDefault()
 
-    let body = { username: username.value, password: password.value }
+    let json = { username: username.value, password: password.value }
+    const body = JSON.stringify( json )
 
     //load data from server
     fetch( "/login", {
