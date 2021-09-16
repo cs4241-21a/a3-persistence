@@ -1,10 +1,16 @@
 // Add some Javascript code here, to run on the front end.
 
+const username = document.getElementById( "username" )
+const password = document.getElementById( "password" )
+
 const form = document.getElementById( "form" )
 const formTitle = document.getElementById( "form-title" )
 const task = document.getElementById( "name" )
 const period = document.getElementById( "period" )
 const deadline = document.getElementById( "deadline" )
+
+
+const tasklist = document.getElementById( "tasklist" )
 
 const taskContainer = document.getElementById( "task-container" )
 const taskTemplate = document.getElementById( "task-template" ).content.children[0]
@@ -54,6 +60,25 @@ const add = function ( e ) {
     requestType = "/add"
 
     return false
+}
+
+const login = function( e ) {
+    e.preventDefault()
+
+    let body = { username: username.value, password: password.value }
+
+    //load data from server
+    fetch( "/update", {
+        method: "POST",
+        body
+    })
+    .then( ( response ) => response.json() )
+    .then( function( appData ) {
+        if ( appData !== null) {
+            update( appData )
+            tasklist.hidden = false
+        }
+    })
 }
 
 const getEditCallback = function( task ) {
@@ -106,7 +131,7 @@ const update = function ( json ) {
     //clear tasks
     taskContainer.innerHTML = ""
 
-    //load tasks from json
+    //load tasks from json and none if login was invalid
     json.forEach(task => {
         let element = taskTemplate.cloneNode( true )
         element.children[0].innerText = task.name
@@ -125,19 +150,11 @@ const update = function ( json ) {
 window.onload = function() {
     const submitButton = document.getElementById( "submit-form-button" )
     const addButton = document.getElementById( "add-button" )
+    const loginButton = document.getElementById( "login-button" )
     
     submitButton.onclick = submit
     addButton.onclick = add
-
-    //load data from server
-    fetch( "/update", {
-        method: "POST",
-        body: "{}"
-    })
-    .then( ( response ) => response.json() )
-    .then( function( appData ) {
-        update( appData )
-    })
+    loginButton.onclick = login
 }
 
 const numberToHoursText = function( number ) {

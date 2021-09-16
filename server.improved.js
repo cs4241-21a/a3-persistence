@@ -20,6 +20,7 @@ app.post( '/add|/edit|/remove|/update', ( request, response) => {
     case '/add': addTask( json.name, json.period, json.deadline ); break
     case '/edit': editTask( json.id, json.name, json.period, json.deadline ); break
     case '/remove': removeTask( json.id ); break
+    case '/update': login( json.username, json.password ); break
     default: break
   }
 
@@ -106,6 +107,11 @@ const removeTask = function( id ) {
   }
 
   recalculateStarts()
+}
+
+const login = function( username, password ) {
+  //TODO check database for valid password and replace appdata
+  //TODO create new account with password if username isn't in database
 }
 
 const recalculateStarts = function() {
