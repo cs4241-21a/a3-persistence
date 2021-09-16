@@ -1,7 +1,9 @@
 const express = require( 'express' ),
     mongodb = require( 'mongodb' ),
     app = express(),
-    port = 3000
+    port = 3000,
+    mongoDatabase = 'dataset',
+    mongoCollection = 'test'
 
 app.use( express.static('public') )
 app.use( express.json() )
@@ -15,7 +17,7 @@ let collection = null
 client.connect()
   .then( () => {
           // will only create collection if it doesn't exist
-          return client.db( 'dataset' ).collection( 'test' )
+          return client.db( mongoDatabase ).collection( mongoCollection )
         })
   .then( __collection => {
           // store reference to collection
