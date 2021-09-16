@@ -4,7 +4,6 @@ const TaskSchema = new Schema(
     {
         title: {
             type: String,
-            unique: true
         },
         description: {
             type: String
@@ -12,7 +11,7 @@ const TaskSchema = new Schema(
         priority: {
             type: Number
         },
-        createdOn: {
+        dateCreated: {
             type: String,
         },
         deadline: {

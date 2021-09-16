@@ -11,27 +11,30 @@
                       <h2 class="text-center">Register</h2>
                       <div class="row">
                           <div class="col-sm-12 col-md-12">
-                              <!-- Signup form -->
-                              <form action="/signup" method="POST">
+                              <!-- Register form -->
+                              <form action="/register" method="POST">
                                 <div class="form-group">
 
                                     <label class="small mb-1 mt-3" for="username">Username:</label>
                                     <input class="form-control" placeholder="Enter Your Username" name="username" type="text" required 
                                         value=
                                         <% if (typeof formData != 'undefined') { %>
-                                            <%= formData.email %>
+                                            <%= formData.username %>
                                         <% } else { %>
                                             <%= '' %>
                                         <% } %>
                                         >
 
-                                    <% if (typeof errors != 'undefined' && typeof errors.email != 'undefined') { %>
-                                        <p class="small text-danger"><%= errors.email %></p>
+                                    <% if (typeof errors != 'undefined' && typeof errors.username != 'undefined') { %>
+                                        <p class="small text-danger"><%= errors.username %></p>
                                     <% } %>
 
                                     <label class="small mb-1 mt-3" for="password">Password:</label>
                                     <input class="form-control" 
                                         placeholder="Password" name="password" type="password" value="" required>
+                                    <label class="small mb-1 mt-3" for="password">Confirm Password:</label>
+                                    <input class="form-control" 
+                                        placeholder="Confirm Password" name="confirmPassword" type="password" value="" required>
                                     <% if (typeof errors != 'undefined' && typeof errors.password != 'undefined') { %>
                                         <p class="small text-danger"><%= errors.password %></p>
                                     <% } %>

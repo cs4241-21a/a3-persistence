@@ -191,7 +191,7 @@ const submit = function (e) {
     const body = JSON.stringify(json)
 
     // Send data
-    fetch('/submit', {
+    fetch(`/user/${e.target.getAttribute('userid')}/submit`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",

@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+const bcrypt = require('bcrypt');
 
 const User = require('../schemas/users');
 const Task = require('../schemas/tasks');
@@ -8,7 +9,8 @@ const { createDeadline } = require('../util');
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
-  res.render('index', { title: 'TODOList', tasks: appdata });
+  // res.render('index', { title: 'TODOList', tasks: appdata });
+  res.redirect('/login');
 });
 
 router.get('/login', (req, res, next) => {
@@ -19,14 +21,31 @@ router.get('/register', (req, res, next) => {
   res.render('register', {title: 'TODOList'});
 });
 
-router.get('/get-data', async (req, res, next) => {
+router.post('/register', async (req, res, next) => {
+  const { username, password, confirmPassword } = req.body;
+  let passwordHash;
+  let newUser;
+
+  if(password === confirmPassword) {
+    passwordHash = await bcrypt.hash(password, 12);
+  }
+
   try {
-    const data = await Tasks.find();
-    console.log(data);
+
+    newUser = new User({
+      username,
+      passwordHash
+    });
+
+    // save to db
+    newUser = await newUser.save();
+
   } catch (err) {
     console.log(err);
+    res.render('register', {title: 'TODOList'});
   }
-  res.json(appdata);
+
+  res.redirect(`/user/${newUser._id}`);
 });
 
 router.post('/submit', async (req, res, next) => {
