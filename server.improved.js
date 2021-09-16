@@ -8,7 +8,7 @@ const express = require( 'express' ),
 app.use( express.static( dir ) )
 app.use( express.json() )
 
-//app.use( express.urlencoded( { extended: true } ) )
+app.use( express.urlencoded( { extended: true } ) )
 
 app.use( cookie({
   name: "session",
@@ -40,7 +40,7 @@ app.post( '/login', ( request, response ) => {
       if ( err ) {
         console.log( "error" );
       } else {
-        console.log( 'Sent:', fileName );
+        console.log( 'Sent: tasks.html' );
       }
     })
   }
