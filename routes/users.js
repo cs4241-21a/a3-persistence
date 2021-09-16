@@ -1,14 +1,17 @@
 var express = require('express');
 var router = express.Router();
 
+const User = require('../schemas/users');
 const Task = require('../schemas/tasks');
 const { createDeadline } = require('../util');
 
-/* GET users listing. */
+// Show the tasks list page to a user with id
 router.get('/:id', async function(req, res, next) {
   const id = req.params.id;
   let tasks;
   
+  await checkUserExists(id, res);
+
   try {
 
     tasks = await Task.find({owner: id});
@@ -20,10 +23,13 @@ router.get('/:id', async function(req, res, next) {
   res.render('index', { title: 'TODOList', tasks, userId: id });
 });
 
+// Submit a task from a user
 router.post('/:id/submit', async (req, res, next) => {
   console.log('User Task submission');
 
   const id = req.params.id;
+
+  await checkUserExists(id, res);
 
   try {
     const data = req.body;
@@ -61,5 +67,16 @@ router.post('/:id/submit', async (req, res, next) => {
     console.error(err);
   }
 });
+
+const checkUserExists = async (id, res) => {
+  try{
+    const user = await User.findById(id);
+    if(!user) {
+      res.redirect('/login');
+    }
+  } catch(err){
+    res.redirect('/login');
+  }
+}
 
 module.exports = router;
