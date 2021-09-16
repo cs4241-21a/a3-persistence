@@ -12,7 +12,7 @@ Baseline Requirements
 Your application is required to implement the following functionalities:
 
 - a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows all data associated with a logged in user (except passwords)
+- a `Results` functionality which shows the entire dataset residing in the server's memory
 - a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
 - Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! One of these five middleware 
 can be a custom function that you write yourself; if you choose to do this, make sure to describe what this function is in your README.  
