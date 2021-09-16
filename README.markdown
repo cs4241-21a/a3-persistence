@@ -1,6 +1,6 @@
 ## WPI Computer Science SA, TA, and GLA Tracking Sheet V2
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+Server link e.g. https://a3-christopher-vieira.herokuapp.com/
 
 
 ### Application Goal:
