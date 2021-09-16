@@ -19,10 +19,21 @@
                                 <div class="form-group">
                                     <label class="small mb-1 mt-3" for="username">Username:</label>
                                     <input class="form-control" 
-                                        placeholder="Enter Your Username" name="username" type="text", value="" required>
+                                        placeholder="Enter Your Username" name="username" type="text", value=
+                                        <% if (typeof formData != 'undefined') { %>
+                                            <%= formData.username %>
+                                        <% } else { %>
+                                            <%= '' %>
+                                        <% } %> required>
+                                    <% if (typeof errors != 'undefined' && typeof errors.username != 'undefined') { %>
+                                        <p class="small text-danger"><%= errors.username %></p>
+                                    <% } %>
                                     <label class="small mb-1 mt-3" for="password">Password:</label>
                                     <input class="form-control" 
-                                        placeholder="Password" name="password" type="password" value="" required>
+                                        placeholder="Password" name="password" type="password" required>
+                                    <% if (typeof errors != 'undefined' && typeof errors.password != 'undefined') { %>
+                                        <p class="small text-danger"><%= errors.password %></p>
+                                    <% } %>
                                     <button class="mt-3 btn btn-primary" type="submit">Log in</button>
                                     <p class="m=0">Don't have an account?
                                         <a href="/register"> Sign up here</a>

@@ -13,12 +13,43 @@ router.get('/', function (req, res, next) {
   res.redirect('/login');
 });
 
+// Login endpoints
 router.get('/login', (req, res, next) => {
-  res.render('login', {title: 'TODOList'});
+  res.render('login', { title: 'TODOList' });
 });
 
+router.post('/login', async (req, res, next) => {
+  const { username, password } = req.body;
+
+  try {
+
+    const user = await User.findOne({ username });
+    if (!user) {
+      res.render('login', {
+        title: 'TODOList',
+        errors: { username: `User with username ${username} does not exist`},
+        formData: { username }
+      });
+    }
+
+    const match = await bcrypt.compare(password, user.passwordHash);
+    if (!match) {
+      res.render('login', {
+        title: 'TODOList',
+        errors: { password: 'Password Does Not Match' },
+        formData: { username }
+      });
+    }
+
+    res.redirect(`/user/${user._id}`);
+  } catch {
+    res.render('login', { title: 'TODOList' });
+  }
+});
+
+// Register Account endpoints
 router.get('/register', (req, res, next) => {
-  res.render('register', {title: 'TODOList'});
+  res.render('register', { title: 'TODOList' });
 });
 
 router.post('/register', async (req, res, next) => {
@@ -26,7 +57,7 @@ router.post('/register', async (req, res, next) => {
   let passwordHash;
   let newUser;
 
-  if(password === confirmPassword) {
+  if (password === confirmPassword) {
     passwordHash = await bcrypt.hash(password, 12);
   }
 
@@ -42,7 +73,7 @@ router.post('/register', async (req, res, next) => {
 
   } catch (err) {
     console.log(err);
-    res.render('register', {title: 'TODOList'});
+    res.render('register', { title: 'TODOList' });
   }
 
   res.redirect(`/user/${newUser._id}`);
