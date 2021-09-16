@@ -1,5 +1,3 @@
-const loginForm = document.getElementById( "login" )
-const accountMessage = document.getElementById( "account-message" )
 const username = document.getElementById( "username" )
 const password = document.getElementById( "password" )
 const loginButton = document.getElementById( "login-button" )
@@ -9,6 +7,7 @@ const login = function( e ) {
 
     let json = { username: username.value, password: password.value }
     const body = JSON.stringify( json )
+    console.log( body )
 
     //load data from server
     fetch( "/login", {
