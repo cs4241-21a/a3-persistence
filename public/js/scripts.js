@@ -1,7 +1,7 @@
 // Add some Javascript code here, to run on the front end.
 
 const loginForm = document.getElementById( "login" )
-const accountMessage = document.getElementById( "accountMessage" )
+const accountMessage = document.getElementById( "account-message" )
 const username = document.getElementById( "username" )
 const password = document.getElementById( "password" )
 
