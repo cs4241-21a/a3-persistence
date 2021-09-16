@@ -1,5 +1,7 @@
 // Add some Javascript code here, to run on the front end.
 
+const loginForm = document.getElementById( "login" )
+const accountMessage = document.getElementById( "accountMessage" )
 const username = document.getElementById( "username" )
 const password = document.getElementById( "password" )
 
@@ -77,6 +79,11 @@ const login = function( e ) {
         if ( appData !== null) {
             update( appData )
             tasklist.hidden = false
+            accountMessage.innerText = "Welcome testuser! (refresh the page to log out)"
+            loginForm.hidden = true
+        }
+        else {
+            accountMessage.innerText = "Could not sign you in, you might have used the wrong password."
         }
     })
 }
