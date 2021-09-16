@@ -15,22 +15,6 @@ app.use( cookie({
   keys: [ "key1", "key2" ]
 }) )
 
-app.post( '/login', ( request, response ) => {
-  let json = request.body
-  console.log( "received json: " + json )
-  console.log( "with url: " + request.url )
-
-  if( request.body.username === "testuser") {
-    request.session.username = "testuser"
-    console.log( "logged in as testuser" )
-    response.sendFile( __dirname + "/" + dir + "/tasks.html" )
-  }
-  else {
-    console.log( "not logged in" )
-    response.sendFile( __dirname + "/" + dir + "/index.html" )
-  }
-})
-
 // send signed out users to the login page
 app.use( function( request, response, next ) {
   if( request.session.username === "testuser" ) {
@@ -40,6 +24,23 @@ app.use( function( request, response, next ) {
   else {
     response.sendFile( __dirname + "/" + dir + "/index.html" )
     console.log( "not logged in" )
+  }
+})
+
+app.post( '/login', ( request, response ) => {
+  let json = request.body
+  console.log( "received json: " + JSON.stringify( json ) )
+  console.log( "with url: " + request.url )
+
+  if( request.body.username === "testuser") {
+    request.session.username = "testuser"
+    console.log( "logged in as testuser" )
+    console.log( __dirname + "/" + dir + "/tasks.html" )
+    response.sendFile( __dirname + "/" + dir + "/tasks.html" )
+  }
+  else {
+    console.log( "not logged in" )
+    response.sendFile( __dirname + "/" + dir + "/index.html" )
   }
 })
 
