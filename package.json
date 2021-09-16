@@ -17,6 +17,7 @@
     "express-session": "^1.17.2",
     "mime": "^2.5.2",
     "mongodb": "^4.1.2",
+    "mongoose": "^6.0.6",
     "nodemon": "^2.0.12",
     "passport": "^0.4.1",
     "stylelint": "^13.13.1",
