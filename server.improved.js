@@ -28,6 +28,14 @@ app.use( function( request, response, next ) {
 // app.get( '/', function( request, response ) {
 //   response.sendFile( dir + '/index.html' )
 // })
+app.post( '/login', ( request, response ) => {
+  let json = request.body
+  console.log( "received json: " + json )
+  console.log( "with url: " + request.url )
+
+  // response.writeHead( 200, "OK", { 'Content-Type': 'application/json' } )
+  // response.end( JSON.stringify( userdata ) )
+})
 
 app.post( '/add|/edit|/remove|/update', ( request, response) => {
   let json = request.body
@@ -37,7 +45,6 @@ app.post( '/add|/edit|/remove|/update', ( request, response) => {
     case '/add': addTask( json.name, json.period, json.deadline ); break
     case '/edit': editTask( json.id, json.name, json.period, json.deadline ); break
     case '/remove': removeTask( json.id ); break
-    case '/update': login( json.username, json.password ); break
     default: break
   }
 
