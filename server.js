@@ -2,31 +2,26 @@ const express = require("express");
 const { MongoClient } = require("mongodb");
 const passport = require("passport");
 const GithubStrategy = require("passport-github2").Strategy;
-
-const GITHUB_CLIENT_ID = "514c43022bd7c6465568";
-const GITHUB_CLIENT_SECRET = "200ac9324ceb8855983f8575893a47a109e5cbfa";
+const dotenv = require("dotenv").config();
 
 const port = 3000;
 
 /* MongoDB Setup */
 
-const uri = "mongodb+srv://a3-app:a3-app@cluster0.fe9fr.mongodb.net/";
+const uri = `mongodb+srv://${process.env.MONGO_USER}:${process.env.MONGO_PASS}@cluster0.fe9fr.mongodb.net/`;
 const client = new MongoClient(uri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 });
 
 client.connect((err) => {
-  const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-  client.close();
+  //const collection = client.db("test").collection("devices");
 });
 
 /* Express server and middleware */
 
 const app = express();
 
-app.use(express.static("public"));
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -43,8 +38,8 @@ passport.deserializeUser((obj, done) => {
 passport.use(
   new GithubStrategy(
     {
-      clientID: GITHUB_CLIENT_ID,
-      clientSecret: GITHUB_CLIENT_SECRET,
+      clientID: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
       callbackURL: "http://localhost:3000/auth/github/callback",
     },
     (accessToken, refreshToken, profile, done) => {
@@ -55,7 +50,13 @@ passport.use(
   )
 );
 
-/* API Routes */
+/* Page Routes */
+
+app.get("/", (req, res) => {
+  if (req.user) res.redirect("/account");
+});
+
+/* OAuth Routes */
 
 app.get(
   "/auth/github",
@@ -68,11 +69,30 @@ app.get(
 app.get(
   "/auth/github/callback",
   passport.authenticate("github", { failureRedirect: "/" }),
-  (req, res) => {
+  async (req, res) => {
     if (!req.user) {
       res.redirect("/");
     }
-    console.log(req.user);
+    //if (!client.) await client.connect();
+
+    const userRes = await client
+      .db("a3")
+      .collection("users")
+      .findOne({ _id: req.user.id });
+
+    if (!userRes) {
+      console.log(`Adding new user with Github ID ${req.user.id}`);
+      await client
+        .db("a3")
+        .collection("users")
+        .insertOne({ _id: req.user.id, loginTimes: [Date.now()] });
+    } else {
+      console.log(`Logging in existing user with Github ID ${req.user.id}`);
+      await client
+        .db("a3")
+        .collection("users")
+        .updateOne({ _id: req.user.id }, { $push: { loginTimes: Date.now() } });
+    }
     res.redirect("/");
   }
 );
