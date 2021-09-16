@@ -12,6 +12,7 @@ const login = function( e ) {
     //load data from server
     fetch( "/login", {
         method: "POST",
+        headers: { 'Content-Type': 'application/json' },
         body
     })
 }
