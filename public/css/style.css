@@ -8,7 +8,20 @@
 /* Setting the page's background color */
 body {
   /* background-color: rgb(240, 234, 231); */
+  font-family: "Raleway", sans-serif;
   background-color: rgb(169, 176, 183);
+}
+
+h1, h2 {
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+h2 {
+  background-color: rgb(172, 43, 55);
+  color: rgb(255, 255, 255);
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border: 1px solid black;
 }
 
 #StudentName,
@@ -35,8 +48,10 @@ body {
 
 #add_entry_button,
 .forum_cell_button {
-  background-color: rgb(172, 43, 55);
-  color: rgb(255, 255, 255);
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  /* background-color: rgb(172, 43, 55); */
+  /* color: rgb(255, 255, 255); */
 }
 
 /* Setting the formatting for the remove and update entry buttons */
@@ -67,20 +82,38 @@ img {
   padding: 30px;
 }
 
-p, th, td, .input_area {
+p,
+th,
+td,
+li,
+.input_area
+.tutorial_area {
   font-size: 18px;
+}
+
+.radio_input_fields_item{
+  background-color: rgb(255, 255, 255);
+  border: 1px solid black;
 }
 
 button:hover,
 #add_entry_button:hover {
   /* background-color: rgb(169, 176, 183); */
   background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
 }
 
 /* Setting the formatting for the input fields that are being changed to take in info */
-.input_table_item {
-  font-size: 15px;
+.input_table_item  {
+  font-size: 18px;
   width: 90%;
+  border: 1px solid black;
+}
+
+.radio_input_fields_list {
+  font-size: 18px;
+  width: 90%;
+  padding-left: 0px;
 }
 
 /* Setting up the header area */

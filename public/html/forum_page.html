@@ -22,13 +22,20 @@
     />
     <link href="https://unpkg.com/sanitize.css/forms.css" rel="stylesheet" />
 
+    <!-- Font Information -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:wght@500&family=Source+Sans+Pro&display=swap"
+      rel="stylesheet"
+    />
     <script src="../../js/scripts.js"></script>
   </head>
   <body class="grid_layout">
     <h1 class="header_area">
       WPI Computer Science SA, TA, and GLA Tracking Sheet
     </h1>
-    <a href= "../../logout" class="logout_area">Click to Logout</a>
+    <a href="../../logout" class="logout_area">Click to Logout</a>
     <form class="input_area">
       <h2>Input Area</h2>
       <ul>
@@ -61,8 +68,33 @@
           </select>
         </li>
         <li>
+          <label>Select the Student's Year:</label>
+          <ul class="radio_input_fields_list">
+            <li class="radio_input_fields_item">
+              <input type="radio" name="year_radio" id="first_year" name="s_year" value="first" checked/>
+              <label for="first_year">First Year Student</label>
+            </li>
+            <li class="radio_input_fields_item">
+              <input type="radio" name="year_radio" id="second_year" name="s_year" value="second" />
+              <label for="second_year">Second Year Student</label>            </li>
+            <li class="radio_input_fields_item">
+              <input type="radio" name="year_radio" id="third_year" name="s_year" value="third" />
+              <label for="third_year">Third Year Student</label>            </li>
+            <li class="radio_input_fields_item">
+              <input type="radio" name="year_radio" id="fourth_year" name="s_year" value="fourth" />
+              <label for="fourth_year">Fourth Year Student</label>              
+            </li>
+            <li class="radio_input_fields_item">
+              <input type="radio" name="year_radio" id="fourth_plus_year" name="s_year" value="fourth_plus" />
+              <label for="fourth_plus_year">Fourth Plus Year Student</label>              
+            </li>
+          </ul>
+        </li>
+        <li>
           <label>Confirm Input:</label>
-          <button class="input_table_item", id="add_entry_button">Add Entry</button>
+          <button class="input_table_item" , id="add_entry_button">
+            Add Entry
+          </button>
         </li>
       </ul>
     </form>
@@ -79,14 +111,21 @@
         contain in the <b>Input Area</b> and add click the respective row's
         update entry.
       </p>
+      <p>
+        To logout of your account click the link called <b>Click to Logout</b>.
+        This will <b>NOT</b> log you out of Github, your browser saves this
+        information.
+      </p>
+      <p>
+        All information presented is your information. Other users can not see
+        your information and you can not see their information.
+      </p>
     </form>
     <!-- <input type=button onClick="parent.location='html/forum_page.html'"
  value='click here'> -->
- <!-- <a href="/auth/github">login with github</a> -->
+    <!-- <a href="/auth/github">login with github</a> -->
   </body>
 </html>
-
-
 
 <!-- <p>
   <input type="radio" id="html" name="fav_language" value="HTML">
@@ -96,8 +135,6 @@
   <input type="radio" id="javascript" name="fav_language" value="JavaScript">
   <label for="javascript">JavaScript</label>
 </p> -->
-
-
 
 <!-- <!DOCTYPE html>
 <html lang="en">

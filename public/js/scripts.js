@@ -6,16 +6,37 @@ const addItemFunc = function (e) {
   // prevent default form action from being carried out
   e.preventDefault();
 
+  // let radio_elements = document.getElementsByName("year_radio"),
+  //   radio_result = "";
+
+  // for (i = 0; i < radio_elements.length; i++) {
+  //   if (radio_elements[i].checked)
+  //     radio_result = radio_elements[i].value;
+  // }
+
+  // console.log(radio_result)
+
+  // console.log(ele[i].checked)
+  // console.log(ele[i].value)
+
+  // if(ele[i].checked)
+  // document.getElementById("result").innerHTML
+  //         = "Gender: "+ele[i].value;
+
   // Create the variables necessary for our POST request by reading the input fields
-  const name_input = document.querySelector("#StudentName"),
-    class_input = document.querySelector("#StudentClass"),
-    role_input = document.querySelector("#StudentRole"),
-    json = {
-      StudentName: name_input.value,
-      StudentClass: class_input.value,
-      StudentRole: role_input.value,
-    },
-    body = JSON.stringify(json);
+  // const name_input = document.querySelector("#StudentName"),
+  // class_input = document.querySelector("#StudentClass"),
+  // role_input = document.querySelector("#StudentRole"),
+  // json = {
+  //   StudentName: name_input.value,
+  //   StudentClass: class_input.value,
+  //   StudentRole: role_input.value,
+  //   StudentYear: radio_result,
+  // },
+
+  const json = getNewStudentFromFields();
+
+  body = JSON.stringify(json);
 
   // Submit the POST request
   fetch("/submit", {
@@ -88,20 +109,45 @@ function deleteItemFunc(button) {
   return false;
 }
 
-// Function that is responsible for updating an existing item in our forum
-function updateItemFunc(button) {
-  // Generate variables necessary for POST request
+function getNewStudentFromFields() {
+  let radio_elements = document.getElementsByName("year_radio"),
+    radio_result = "";
+
+  for (i = 0; i < radio_elements.length; i++) {
+    if (radio_elements[i].checked) radio_result = radio_elements[i].value;
+  }
+
   const name_input = document.querySelector("#StudentName"),
     class_input = document.querySelector("#StudentClass"),
     role_input = document.querySelector("#StudentRole"),
-    id_value = button.composedPath()[0].id.substring(1),
     json = {
       StudentName: name_input.value,
       StudentClass: class_input.value,
       StudentRole: role_input.value,
-      _id: id_value,
-    },
-    body = JSON.stringify(json);
+      StudentYear: radio_result,
+    };
+  return json;
+}
+
+// Function that is responsible for updating an existing item in our forum
+function updateItemFunc(button) {
+  // Generate variables necessary for POST request
+  // const name_input = document.querySelector("#StudentName"),
+  //   class_input = document.querySelector("#StudentClass"),
+  //   role_input = document.querySelector("#StudentRole"),
+  //   id_value = button.composedPath()[0].id.substring(1),
+  //   json = {
+  //     StudentName: name_input.value,
+  //     StudentClass: class_input.value,
+  //     StudentRole: role_input.value,
+  //     _id: id_value,
+  //   },
+  //   body = JSON.stringify(json);
+
+  const json = getNewStudentFromFields();
+  (id_value = button.composedPath()[0].id.substring(1)),
+    (json._id = id_value),
+    (body = JSON.stringify(json));
 
   // Send POST request
   fetch("/updateEntry", {
@@ -143,6 +189,7 @@ function initialize_list(data_points) {
   const info_class_header = document.createElement("th");
   const info_role_header = document.createElement("th");
   const info_hours_header = document.createElement("th");
+  const info_year_header = document.createElement("th");
   const info_delete_header = document.createElement("th");
   const info_update_header = document.createElement("th");
 
@@ -155,22 +202,25 @@ function initialize_list(data_points) {
   info_class_header.setAttribute("class", "forum_header");
   info_role_header.setAttribute("class", "forum_header");
   info_hours_header.setAttribute("class", "forum_header");
+  info_year_header.setAttribute("class", "forum_header");
   info_delete_header.setAttribute("class", "forum_header");
   info_update_header.setAttribute("class", "forum_header");
 
   // Set information
   info_name_header.innerHTML = "Student Name";
   info_class_header.innerHTML = "Class Assignment";
-  info_role_header.innerHTML = "Student Role";
-  info_hours_header.innerHTML = "Student Hours Per Week";
+  info_role_header.innerHTML = "Role";
+  info_hours_header.innerHTML = "Hrs/Week";
+  info_year_header.innerHTML = "Class Year";
   info_delete_header.innerHTML = "Remove Student";
-  info_update_header.innerHTML = "Update Student Information";
+  info_update_header.innerHTML = "Update Student Info";
 
   // Append them to teh header row
   element_table_header_row.appendChild(info_name_header);
   element_table_header_row.appendChild(info_class_header);
   element_table_header_row.appendChild(info_role_header);
   element_table_header_row.appendChild(info_hours_header);
+  element_table_header_row.appendChild(info_year_header);
   element_table_header_row.appendChild(info_delete_header);
   element_table_header_row.appendChild(info_update_header);
 
@@ -184,6 +234,7 @@ function initialize_list(data_points) {
     const element_list_info_class = document.createElement("td");
     const element_list_info_role = document.createElement("td");
     const element_list_info_hours = document.createElement("td");
+    const element_list_info_year = document.createElement("td");
     const element_list_delete = document.createElement("BUTTON");
     const element_list_delete_table_cell = document.createElement("td");
     const element_list_update = document.createElement("BUTTON");
@@ -202,6 +253,8 @@ function initialize_list(data_points) {
     element_list_info_role.innerHTML = data_point.StudentRole;
     element_list_info_hours.setAttribute("class", "forum_cell");
     element_list_info_hours.innerHTML = data_point.StudentHours;
+    element_list_info_year.setAttribute("class", "forum_cell");
+    element_list_info_year.innerHTML = "Testing";
 
     element_list_delete.setAttribute("id", "r" + data_point._id.toString());
     element_list_delete.setAttribute("class", "forum_cell_button");
@@ -226,6 +279,7 @@ function initialize_list(data_points) {
     element_table_row.appendChild(element_list_info_class);
     element_table_row.appendChild(element_list_info_role);
     element_table_row.appendChild(element_list_info_hours);
+    element_table_row.appendChild(element_list_info_year);
     element_table_row.appendChild(element_list_delete_table_cell);
     element_table_row.appendChild(element_list_update_table_cell);
 
