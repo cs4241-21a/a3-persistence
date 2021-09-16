@@ -34,7 +34,7 @@ const userdata = []
 
 let highestId = 2
 
-let collection = null
+/*let collection = null
 
 //test database connection
 dbclient.connect()
@@ -54,7 +54,7 @@ dbclient.connect()
     return userdata
   })
   .then( console.log )
-  .then( dbclient.close() )
+  .then( dbclient.close() )*/
 
 const addTask = function( name, period, deadline ) {
   let id = highestId + 1
