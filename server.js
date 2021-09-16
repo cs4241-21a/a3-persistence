@@ -27,6 +27,11 @@ client.connect()
         })
   .then( console.log )
 
+app.get('/add', function (req, res) {
+    collection
+        .insertOne(req.body)
+})
+
 app.listen(port, () => {
     console.log(`Listening at https://localhost:${port}`)
 })
