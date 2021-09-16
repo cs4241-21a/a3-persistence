@@ -1,7 +1,12 @@
+//import {login} from '/js/login.js'
+let id = null;
 
 function generateTable() {
+  
   fetch('/table', {
     method: 'POST',
+    body: JSON.stringify({userid: id}),
+    headers: {'Content-Type': 'application/json'}
   })
     .then(function (response) {
       return response.json();
@@ -46,9 +51,8 @@ function refreshTable(data) {
   // Adding rows of data to the table
   for (let element of data) {
     let row = tBody.insertRow();
-    console.log(data);
     for (let key of Object.keys(data[0])) {
-      if(key !== '_id'){
+      if(key !== '_id' && key !== 'creator'){
         let cell = row.insertCell();
         let text = document.createTextNode(element[key]);
         cell.appendChild(text);
@@ -85,6 +89,7 @@ function refreshTable(data) {
           amenityScore = document.querySelector('#amenity-score'),
           json = {
             id: element._id,
+            userid: id,
             hotel: hotelName.value,
             location: hotelLocation.value,
             cleanliness: Number(cleanlinessScore.value),
@@ -127,7 +132,7 @@ function refreshTable(data) {
       fetch('/delete', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({id: element._id}),
+        body: JSON.stringify({id: element._id, userid:id}),
       })
         .then(function (response) {
           return response.json();
@@ -152,6 +157,7 @@ const submit = function (e) {
   serviceScore = document.querySelector('#service-score'),
   amenityScore = document.querySelector('#amenity-score'),
     json = {
+      userid: id,
       hotel: hotelName.value,
       location: hotelLocation.value,
       cleanliness: Number(cleanlinessScore.value),
@@ -179,6 +185,8 @@ const submit = function (e) {
 };
 
 window.onload = function () {
+  id = window.sessionStorage.getItem('userid')
+  document.querySelector('#title').innerHTML = `Welcome, ${window.sessionStorage.getItem('username')}!`
   generateTable();
   const button = document.querySelector('#Submit-Button');
   button.onclick = submit;

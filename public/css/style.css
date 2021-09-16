@@ -31,6 +31,8 @@ body {
 
 h1 {
     font-size:150px;
+    white-space: normal;
+    word-wrap: break-word;
 }
 
 h2 {
@@ -126,11 +128,13 @@ input[type='number'] {
     font-size: 25px;
 }
 
-input[type='text'] {
+input[type='text'], input[type='password']{
     font-family: 'Hina Mincho', serif;
     text-align: center;
     font-size: 25px;
 }
+
+
 
 
 
