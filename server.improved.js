@@ -19,10 +19,10 @@ app.use( cookie({
 
 // send signed out users to the login page
 app.use( function( request, response, next ) {
-  if( request.session.user === "testuser")
+  if( request.body.username === "testuser")
     next()
   else
-    response.sendFile( __dirname + dir + '/index.html' )
+    response.sendFile( __dirname + "/" + dir + '/index.html' )
 })
 
 // app.get( '/', function( request, response ) {
