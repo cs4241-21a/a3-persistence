@@ -15,7 +15,10 @@ const { report } = require("process"),
   port = 3000,
   path = require("path"),
   cors = require("cors"),
-  morgan = require("morgan");
+  morgan = require("morgan"),
+  dotenv = require("dotenv");
+
+dotenv.config()
 
 app.use(express.json());
 app.use(cors());
@@ -55,9 +58,9 @@ passport.deserializeUser(function (id, cb) {
 passport.use(
   new GitHubStrategy(
     {
-      clientID: "af506d93ad7d9a859f05",
-      clientSecret: "7b2e9570a51a19bab0ab6d46dfc9ce23adb8520a",
-      callbackURL: "http://127.0.0.1:3000/auth/github/callback",
+      clientID: process.env.GIT_CLIENT_ID,
+      clientSecret: process.env.GIT_CLIENT_SECRET,
+      callbackURL: process.env.GIT_CALLBACK_URL,
     },
     function (accessToken, refreshToken, profile, cb) {
       cb(null, profile);
@@ -68,11 +71,11 @@ passport.use(
 // TODO Make these env variables
 const uri =
   "mongodb+srv://" +
-  "test_user" +
+  process.env.MONGO_USER +
   ":" +
-  "tester_user_pw" +
+  process.env.MONGO_PASS +
   "@" +
-  "cluster0.dpk53.mongodb.net/";
+  process.env.MONGO_HOST;
 
 // Client representing the database
 const client = new mongodb.MongoClient(uri, {

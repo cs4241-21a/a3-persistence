@@ -4,11 +4,13 @@
   "description": "A tracking sheet that can be used for SAs, TAs, and GLAs of the WPI Computer Science Department. This was done as an assignment for CS 4241 to work on server and client javascript communication along with stylized elements.",
   "author": "Christopher Vieira",
   "scripts": {
+    "dev": "TESTVAR=localhost",
     "start": "node server.improved.express.js"
   },
   "dependencies": {
     "connect-timeout": "^1.9.0",
     "cors": "^2.8.5",
+    "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "express-session": "^1.17.2",
     "mime": "^2.5.2",
