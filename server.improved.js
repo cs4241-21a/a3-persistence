@@ -12,6 +12,7 @@ app.use( express.urlencoded( { extended: true } ) )
 
 app.use( cookie({
   name: "session",
+  keys: ["key1", "key2"],
   user: "testuser",
   password: "testpass"
 }) )
