@@ -11,19 +11,30 @@ const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.e
 let userAccount = "";
 
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/public/login.html");
-});
-
-app.get("/login.html", (request, response) => {
-  response.sendFile(__dirname + "/public/login.html");
+  console.log("hello")
+  if (userAccount.length === 0) {
+    console.log("why")
+    response.sendFile(__dirname + "/views/login.html")
+  } else {
+    console.log("alice")
+    response.sendFile(__dirname + "/views/index.html");
+  }
 });
 
 app.get("/index.html", (request, response) => {
-  response.sendFile(__dirname + "/public/index.html");
+  console.log("ye")
+  if (userAccount != null) {
+    console.log("world")
+    response.sendFile(__dirname + "/views/login.html")
+  } else {
+    console.log("bob")
+    response.sendFile(__dirname + "/views/index.html");
+  }
 });
 
 app.get('/logout', function(request, response) {
-  //request.logout
+  console.log("whoo")
+  request.logout
   response.ok = true;
   return response.end();
 })
