@@ -4,10 +4,13 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const express = require( 'express' );
 const mongodb = require( 'mongodb' );
 const cookie = require( 'cookie-session' );
+const helmet = require( 'helmet' );
 const app = express();
 
 const clientID = '6293d146755b88e66857';
 const clientSecret = '5c1676202596fb930a9a5b4e94d469b95d184d1f';
+
+app.use(helmet())
 
 app.use( cookie({
   name: 'session',

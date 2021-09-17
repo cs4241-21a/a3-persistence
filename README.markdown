@@ -101,6 +101,8 @@ your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.m
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
+cookie-session | passport | helmet | need 2 more
+
 - the goal of the application
 - challenges you faced in realizing the application
 - what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)

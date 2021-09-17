@@ -152,6 +152,9 @@ function redrawTable(values) {
         let valueNode = document.createElement("td");
         let valueText = document.createTextNode(element[value]);
         valueNode.appendChild(valueText);
+        if(value === "comments") {
+          valueNode.classList.add("max-w-xs");
+        }
         row.appendChild(valueNode);
       }
     }
