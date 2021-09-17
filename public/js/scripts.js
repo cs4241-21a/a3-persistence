@@ -17,6 +17,22 @@ const taskTemplate = document.getElementById( "task-template" ).content.children
 let _id = NaN;
 let requestType = "/add";
 
+window.onload = function() {
+    submitButton.onclick = submit
+    addButton.onclick = add
+
+    //set username innertext to current username
+    fetch( "/update", {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: "{}"
+    })
+    .then( ( response ) => response.json() )
+    .then( function( appData ) {
+        update( appData )
+    })
+}
+
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
@@ -127,12 +143,9 @@ const update = function ( json ) {
     return false
 }
 
-window.onload = function() {
-    submitButton.onclick = submit
-    addButton.onclick = add
-
-    //set username innertext to current username
-}
+// --------------------------------------------------------------
+// ---------- Data to text conversion helper functions ----------
+// --------------------------------------------------------------
 
 const numberToHoursText = function( number ) {
     let suffix = ( number == 1 )?"":"s"

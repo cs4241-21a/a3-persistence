@@ -9,7 +9,7 @@ let users
 let userdata
 let tasklist
 
-//connect to users collection
+//open connection to database and save account data
 dbclient.connect()
   .then( () => {
     console.log( "connected with client" )
@@ -21,6 +21,10 @@ dbclient.connect()
     users = collection
     return users.find( { } ).toArray().then( console.log )
   })
+
+// -------------------------------------------------------------
+// ---------- Express request handling and middleware ----------
+// -------------------------------------------------------------
 
 app.use( express.json() )
 
@@ -107,6 +111,10 @@ app.post( '/add|/edit|/remove|/update', async ( request, response) => {
 })
 
 app.listen( process.env.PORT || 3000 )
+
+// -----------------------------------------------------------------
+// ---------- Database Actions and Startdate Calculations ----------
+// -----------------------------------------------------------------
 
 const addTask = async function( json ) {
   console.log( "in addTask: " )
