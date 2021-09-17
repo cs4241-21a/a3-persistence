@@ -53,9 +53,7 @@ router.post('/:id/submit', checkAuth, async (req, res, next) => {
     }
 
     if (dupe)
-      next();
-
-    console.log(data);
+      return;
 
     let newTask = new Task({
       title: data.title,
@@ -76,6 +74,28 @@ router.post('/:id/submit', checkAuth, async (req, res, next) => {
   } catch (err) {
     console.error(err);
   }
+});
+
+// Edit a user's task
+router.post('/:id/edit', checkAuth, async (req, res, next) => {
+  const data = req.body;
+  const id = req.params.id;
+  await checkUserExists(id, res);
+
+  // Upate the task
+  const oldTask = await Task.findOne({ title: data.oldTitle });
+
+  await Task.updateOne({ title: data.oldTitle },
+    {
+      title: data.newTitle,
+      description: data.description,
+      priority: data.priority,
+      deadline: createDeadline(oldTask.dateCreated, data.priority)
+    });
+
+  const tasks = await Task.find({ owner: id })
+
+  res.json(tasks);
 });
 
 // Delete a task for a user

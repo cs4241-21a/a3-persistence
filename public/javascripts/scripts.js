@@ -93,10 +93,9 @@ let updateTasks = (tasks) => {
 
         const delBtn = document.createElement('button');
         delBtn.className = "warn-btn";
-        // TODO: add custom id attribute userId
         delBtn.appendChild(document.createTextNode('Delete'));
         delBtn.onclick = (e) => {
-            delTask(element.title, e.target);
+            delTask(element.title);
         };
 
         // Task edit button
@@ -104,37 +103,7 @@ let updateTasks = (tasks) => {
         editBtn.className = 'secondary-btn';
         editBtn.appendChild(document.createTextNode('Save Edits'));
         editBtn.onclick = (e) => {
-
-            const priority = document.querySelector(`#priority-${index}`);
-
-            if ((!priority.valueAsNumber && priority.valueAsNumber !== 0) || priority.valueAsNumber < 0 || priority.valueAsNumber > 10) {
-                alert('Priority must be 0 - 10');
-                return;
-            }
-
-            fetch('/edit', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8",
-                },
-                body: JSON.stringify({
-                    oldTitle: element.title,
-                    newTitle: document.querySelector(`#title-${index}`).value,
-                    description: document.querySelector(`#description-${index}`).value,
-                    priority: priority.valueAsNumber
-                })
-            }).then(async (data) => {
-                const tasks = await data.json();
-
-                if (tasks.error) {
-                    alert(tasks.error);
-                    return;
-                }
-
-                updateTasks(tasks);
-            }).catch((err) => {
-                console.log(err);
-            });
+            editTask(index, element.title);
         };
 
         buttonData.appendChild(editBtn);
@@ -204,7 +173,7 @@ const submit = async function (e) {
     return false;
 }
 
-const editTask = (i, title) => {
+const editTask = async (i, title) => {
 
     const index = parseInt(i);
     const priority = document.querySelector(`#priority-${index}`);
@@ -214,7 +183,8 @@ const editTask = (i, title) => {
         return;
     }
 
-    fetch('/edit', {
+    const userId = await getUserId();
+    fetch(`/user/${userId}/edit`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",

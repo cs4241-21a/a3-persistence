@@ -92,60 +92,6 @@ router.post('/register', async (req, res, next) => {
   res.redirect(`/user/${newUser._id}`);
 });
 
-router.post('/submit', async (req, res, next) => {
-  try {
-    const data = req.body;
-
-    // Check if task title is duplicate
-    let dupe = false;
-    appdata.forEach((element) => {
-      if (element.title === data.title) {
-
-        const resData = { ...appdata, error: 'Duplicate Task titles not allowed' };
-        res.json(resData);
-        dupe = true;
-      }
-    });
-
-    if (dupe)
-      next();
-
-    let newTask = new Task({
-      title: data.title,
-      description: data.description,
-      priority: data.priority,
-      dateCreated: data.dateCreated,
-      deadline: createDeadline(data.dateCreated, data.priority)
-    });
-
-    // save to db
-    newTask = await newTask.save();
-
-    console.log(newTask);
-
-    res.json(appdata);
-
-  } catch (err) {
-    console.error(err);
-  }
-});
-
-router.post('/delete', (req, res, next) => {
-  try {
-    const data = req.body;
-
-    // Delete task
-    appdata = appdata.filter((element) => {
-      return data.title !== element.title;
-    });
-
-    res.json(appdata);
-  } catch (err) {
-    console.error(err);
-  }
-
-});
-
 router.post('/edit', (req, res, next) => {
   const data = req.body;
 
