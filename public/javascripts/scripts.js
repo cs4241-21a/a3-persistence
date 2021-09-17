@@ -154,7 +154,7 @@ let updateTasks = (tasks) => {
 }
 
 // Add task submit callback
-const submit = function (e) {
+const submit = async function (e) {
     // prevent default form action from being carried out
     e.preventDefault();
 
@@ -182,7 +182,8 @@ const submit = function (e) {
     const body = JSON.stringify(json)
 
     // Send data
-    fetch(`/user/${e.target.getAttribute('userid')}/submit`, {
+    const userId = await getUserId();
+    fetch(`/user/${userId}/submit`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -238,9 +239,10 @@ const editTask = (i, title) => {
     });
 };
 
-const delTask = (title, btn) => {
+const delTask = async (title) => {
 
-    fetch(`/user/${btn.getAttribute('userid')}/delete`, {
+    const userId = await getUserId();
+    fetch(`/user/${userId}/delete`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",
@@ -254,6 +256,13 @@ const delTask = (title, btn) => {
         console.log(err);
     });
 };
+
+const getUserId = async () => {
+    const data = await fetch(`/user/get-login-cookie`, {
+        method: 'GET'
+    });
+    return (await data.json()).userId;
+}
 
 window.onload = function () {
     const button = document.querySelector('#addTask-btn');

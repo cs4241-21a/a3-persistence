@@ -8,3 +8,13 @@ module.exports.checkLogin = (req, res, next) => {
 
     next();
 }
+
+module.exports.checkAuth = (req, res, next) => {
+    // not logged in
+    if (!req.cookies.loginCookie) {
+        res.redirect(`/login`);
+        return;
+    }
+
+    next();
+}

@@ -4,13 +4,14 @@ var router = express.Router();
 const User = require('../schemas/users');
 const Task = require('../schemas/tasks');
 const { createDeadline } = require('../util');
+const { checkAuth } = require('../middleware');
 
-router.get('/get-login-cookie', (req, res, next) => {
+router.get('/get-login-cookie', checkAuth, (req, res, next) => {
   res.json(req.cookies.loginCookie);
 });
 
 // Show the tasks list page to a user with id
-router.get('/:id', async function (req, res, next) {
+router.get('/:id', checkAuth, async function (req, res, next) {
   const id = req.params.id;
   let tasks;
 
@@ -22,6 +23,7 @@ router.get('/:id', async function (req, res, next) {
 
   } catch (err) {
     res.redirect('/login');
+    return;
   }
 
   res.render('index', {
@@ -32,7 +34,7 @@ router.get('/:id', async function (req, res, next) {
 });
 
 // Submit a task from a user
-router.post('/:id/submit', async (req, res, next) => {
+router.post('/:id/submit', checkAuth, async (req, res, next) => {
   console.log('User Task submission');
 
   const id = req.params.id;
@@ -77,7 +79,7 @@ router.post('/:id/submit', async (req, res, next) => {
 });
 
 // Delete a task for a user
-router.post('/:id/delete', async (req, res, next) => {
+router.post('/:id/delete', checkAuth, async (req, res, next) => {
 
   const id = req.params.id;
   await checkUserExists(id, res);
@@ -87,7 +89,7 @@ router.post('/:id/delete', async (req, res, next) => {
 
     // Delete task
     await Task.deleteOne({ title: data.title, owner: id });
-    
+
     let tasks = await Task.find({ owner: id });
 
     res.json(tasks);

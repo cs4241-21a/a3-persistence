@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 
 const User = require('../schemas/users');
 const Task = require('../schemas/tasks');
-let appdata = require('../data');
 const { createDeadline } = require('../util');
 const { checkLogin } = require('../middleware');
 
