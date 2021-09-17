@@ -2,6 +2,7 @@
 
 Server link e.g. https://a3-christopher-vieira.herokuapp.com/
 
+All testing was completed in Chrome in incognito mode.
 
 ### Application Goal:
 The goal of this application is to provide a logging sheet for computer science department SAs, TAs, and GLAs. It stores information about them such as their name, class they are course staff for, hours worked a week, and more. 
