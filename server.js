@@ -33,14 +33,35 @@ client.connect()
             // blank query returns all documents
         return collection.find({}).toArray()
     })
-    // .then(console.log)
+    //.then(console.log)
 
-app.get("/reviews", (request, response) => {
+app.post("/reviews", bodyParser.json(), (request, response) => {
     if (collection !== null) {
         collection
-            .find({ "review": { $exists: true } })
+            .find({ "user": request.body.user })
             .toArray()
             .then(result => response.json(result))
+            .catch(err => console.log(err));
+    }
+});
+
+app.post("/addUser", bodyParser.json(), (request, response) => {
+    if (collection !== null) {
+        collection
+            .find({ "username": request.body.username })
+            .toArray()
+            .then(result => {
+                if (result.length === 0) {
+
+                    collection.insertOne(request.body)
+                        .then(insertResponse => collection.findOne(insertResponse.insertedId))
+                        .then(findResponse => {
+                            response.json({ "newUser": "1" })
+                        });
+                } else {
+                    response.json({ "newUser": "0" })
+                }
+            })
             .catch(err => console.log(err));
     }
 });
@@ -54,7 +75,6 @@ app.use(cookie({
     name: 'session',
     keys: ['key1', 'key2']
 }))
-
 
 
 app.post('/login', (request, response) => {
@@ -116,7 +136,6 @@ app.use(function(request, response, next) {
         response.sendFile(__dirname + '/public/index.html')
 })
 
-//calls bodyParser.json() in the middle of receiving the request and sending a response
 app.post("/add", bodyParser.json(), (request, response) => {
     console.log("body:", request.body);
     collection.insertOne(request.body)
@@ -140,7 +159,7 @@ app.post("/remove", bodyParser.json(), (request, response) => {
 app.post('/update', bodyParser.json(), (request, response) => {
     console.log("id: ", request.body._id)
     collection
-        .updateOne({ _id: ObjectId(request.body._id) }, { $set: { review: request.body.review } })
+        .updateOne({ _id: ObjectId(request.body._id) }, { $set: { review: request.body.review, user: request.body.user } })
         .then(result => {
             console.log(result)
             response.json(result)

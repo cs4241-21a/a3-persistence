@@ -1,9 +1,31 @@
+body {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
 input,
 textarea {
     display: block;
 }
 
+.display-inline {
+    display: inline;
+}
+
 table {
-    border-collapse: separate;
-    border-spacing: 1em;
+    border-spacing: 0px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 1000px;
+}
+
+td {
+    word-wrap: break-word;
+}
+
+.login {
+    width: 30%;
+}
+
+.title {
+    font-family: 'Bebas Neue', cursive;
 }

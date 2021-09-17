@@ -2,20 +2,25 @@
 // run by the browser each time the page is loaded
 
 // define variables that reference elements on our page
-let reviewsList = document.getElementById("dreams");
 let reviewsForm = document.getElementById("form");
 let submitButton = document.getElementById("submit");
 let table = document.getElementById("reviews");
 
 let tableIDs = []
 
-let username = localStorage["username"];
+let user = localStorage["username"];
 
 // fetch the initial list of reviews
-fetch("/reviews")
+fetch("/reviews", {
+        method: "POST", //tells it to use the post method
+        body: JSON.stringify({ "user": user }),
+        headers: {
+            //bodyparser only kicks in if the content type is application/json
+            "Content-Type": "application/json"
+        }
+    })
     .then(response => response.json()) // parse the JSON from the server
     .then(reviews => {
-        console.log("username: ", username)
         console.log("reviews: ", reviews)
             // iterate through every review and add it to our page
         for (let review of reviews) {
@@ -43,7 +48,7 @@ submitButton.addEventListener("click", event => {
 
         fetch("/add", {
                 method: "POST", //tells it to use the post method
-                body: JSON.stringify({ review: newReview }),
+                body: JSON.stringify({ "review": newReview, "user": user }),
                 headers: {
                     //bodyparser only kicks in if the content type is application/json
                     "Content-Type": "application/json"
@@ -71,7 +76,7 @@ const remove = function(e) {
     }
     if (target) {
         let cells = target.getElementsByTagName("td");
-        let body = JSON.stringify({ _id: cells[0].innerHTML })
+        let body = JSON.stringify({ "_id": cells[0].innerHTML })
         console.log("body:", body)
 
         let index = tableIDs.indexOf(String(cells[0].innerHTML)) + 1
@@ -169,7 +174,7 @@ const save = function(e) {
             cells[5].innerHTML = '';
             cells[5].append(editButton);
 
-            var body = JSON.stringify({ _id: cells[0].innerHTML, review: updatedReview })
+            var body = JSON.stringify({ "_id": cells[0].innerHTML, "review": updatedReview, "user": user })
             console.log("body:", body)
 
             fetch('/update', {
@@ -197,21 +202,26 @@ function populateTable(data) {
     const cellID = document.createElement("td")
     cellID.appendChild(document.createTextNode(String(data._id)))
     tableIDs.push(String(data._id))
-    cellID.style.display = "none";
+    cellID.style.display = "none"
 
     const cellTitle = document.createElement("td")
+    cellTitle.colSpan = "1"
     cellTitle.appendChild(document.createTextNode(String(data.review.title)))
 
     const cellAuthor = document.createElement("td")
+    cellAuthor.colSpan = "1"
     cellAuthor.appendChild(document.createTextNode(String(data.review.author)))
 
     const cellRating = document.createElement("td")
+    cellRating.colSpan = "1"
     cellRating.appendChild(document.createTextNode(String(data.review.rating)))
 
     const cellDescription = document.createElement("td")
+    cellDescription.colSpan = "2"
     cellDescription.appendChild(document.createTextNode(String(data.review.description)))
 
     const cellEdit = document.createElement("td")
+    cellEdit.colSpan = "1"
     var editButton = document.createElement('button')
     editButton.textContent = 'Edit';
     editButton.classList.add('btn', 'btn-primary');
@@ -221,6 +231,7 @@ function populateTable(data) {
     cellEdit.appendChild(editButton)
 
     const cellDelete = document.createElement("td")
+    cellDelete.colSpan = "1"
     var deleteButton = document.createElement('button')
     deleteButton.textContent = 'Delete';
     deleteButton.classList.add('btn', 'btn-danger');
