@@ -59,6 +59,7 @@ app.post( '/login', async ( request, response ) => {
       request.session.username = json.username
       request.session.password = json.password
       console.log( "new account registered as " + json.username )
+      response.end()
     }
     // if incorrect, or nonexistent but invalid username, redirect to login page
     else {
