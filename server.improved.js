@@ -91,7 +91,7 @@ app.post( '/add|/edit|/remove|/update', async ( request, response) => {
   // round given deadline to nearest hour
   if ( 'deadline' in json ) {
     const ms = 60 * 60 * 1000 // number of milliseconds in an hour
-    json.deadline = Math.round( deadline / ms ) * ms
+    json.deadline = Math.round( json.deadline / ms ) * ms
   }
 
   switch( request.url ) {
