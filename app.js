@@ -66,7 +66,7 @@ const fs = require('fs');
 // const credentials = fs.readFileSync(filePath, 'utf-8');
 const credentials = "./mongoAccess.pem"
 
-const client = new MongoClient('mongodb+srv://liadaviscs4241a3.pt3ux.mongodb.net/myFirstDatabase?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority', {
+const client = new MongoClient(/*Env code goes here*/, {
   sslKey: credentials,
   sslCert: credentials
 });
