@@ -15,18 +15,6 @@ app.use( cookie({
   keys: [ "key1", "key2" ]
 }) )
 
-// send signed out users to the login page
-app.use( function( request, response, next ) {
-  if( request.session.username === "testuser" ) {
-    next()
-    console.log( "logged in as testuser" )
-  }
-  else {
-    response.sendFile( __dirname + "/" + dir + "/index.html" )
-    console.log( "not logged in" )
-  }
-})
-
 app.post( '/login', ( request, response ) => {
   let json = request.body
   console.log( "received json: " + JSON.stringify( json ) )
@@ -41,6 +29,18 @@ app.post( '/login', ( request, response ) => {
   else {
     console.log( "not logged in" )
     response.sendFile( __dirname + "/" + dir + "/index.html" )
+  }
+})
+
+// send signed out users to the login page
+app.use( function( request, response, next ) {
+  if( request.session.username === "testuser" ) {
+    next()
+    console.log( "logged in as testuser" )
+  }
+  else {
+    response.sendFile( __dirname + "/" + dir + "/index.html" )
+    console.log( "not logged in" )
   }
 })
 
