@@ -1,6 +1,8 @@
 const bodyParser = require('body-parser')
 const express = require('express')
 const mongodb = require('mongodb')
+const crypto = require('crypto')
+const cookie = require('cookie-session')
 require('dotenv').config()
 const app = express()
 // var bodyparser = require('body-parser')
@@ -8,22 +10,26 @@ const app = express()
 
 const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
-let collection = null
+let data = null
+let logins = null
 
 client.connect()
   .then(() => {
     // will only create collection if it doesn't exist
     return client.db('a3').collection('data')
   })
-  .then(__collection => {
+  .then(collection => {
     // store reference to collection
-    collection = __collection
+    data = collection
+  })
+  .then(() => {
+    return client.db('a3').collection('logins')
+  })
+  .then(collection => {
+    logins = collection
   })
 
-
-let _id = 0
-
-const appdata = []
+const activeSessions = []
 
 const getPercentDead = function (dob, gender) {
   let year = dob.substr(0, 4)
@@ -50,12 +56,26 @@ const getPercentDead = function (dob, gender) {
   return `${((age / expectedDeath) * 100).toFixed(2)}%`
 }
 
+const validatePassword = function (user, pass) {
+  const hash = crypto.pbkdf2Sync(pass, user.salt, 1000, 64, `sha512`).toString(`hex`)
+  return hash === user.hash
+}
+
+const createUser = function (user) {
+  const salt = crypto.randomBytes(16).toString('hex')
+  const hash = crypto.pbkdf2Sync(user.pass, salt, 1000, 64, `sha512`).toString(`hex`)
+  const userObj = { username: user.username, salt: salt, hash: hash }
+  logins.insertOne(userObj)
+    .then(result => {
+      console.log('ADD USER:')
+      console.log(user.username)
+    })
+}
+
 app.use(function (req, res, next) {
   console.log('url:', req.url)
   next()
 })
-
-app.use(express.static('public'))
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -63,22 +83,25 @@ app.use(express.urlencoded({
 }));
 
 app.use((request, response, next) => {
-  if (collection !== null) {
+  if (data !== null) {
     next()
   } else {
+    console.log(data)
     response.status(503).send()
   }
 })
 
-app.get('/', function (request, response) {
-  response.sendFile(__dirname + '/public/index.html')
-})
+app.use(cookie({
+  name: 'session',
+  keys: [process.env.KEY1, process.env.KEY2]
+}))
 
 app.post('/add', function (request, response) {
   console.log(request.body)
   const percentDead = getPercentDead(request.body.yourdob, request.body.yourgender)
   request.body.percentDead = percentDead
-  collection.insertOne(request.body)
+  request.body.owner = request.session.username
+  data.insertOne(request.body)
     .then(result => {
       console.log(result.insertedId.toString())
       request.body._id = result.insertedId.toString()
@@ -90,7 +113,7 @@ app.post('/add', function (request, response) {
 })
 
 app.post('/update', function (request, response) {
-  collection
+  data
     .updateOne(
       { _id: mongodb.ObjectId(request.body._id) },
       {
@@ -103,7 +126,7 @@ app.post('/update', function (request, response) {
       }
     )
     .then(function () {
-      collection.findOne({ _id: mongodb.ObjectId(request.body._id) })
+      data.findOne({ _id: mongodb.ObjectId(request.body._id) })
         .then(result => {
           console.log('UPDATE:')
           console.log(result)
@@ -116,19 +139,75 @@ app.post('/remove', function (request, response) {
 
   console.log('REMOVE:')
   console.log(request.body)
-  collection
+  data
     .deleteOne({ _id: mongodb.ObjectId(request.body._id) })
     .then(function () { response.json(request.body) })
 })
 
 app.post('/all', function (request, response) {
-  console.log("Sending appdata")
   // get array and pass to res.json
-  collection.find({}).toArray()
+  data.find({ owner: request.session.username }).toArray()
     .then(function (result) {
       console.log(result)
       response.json(result).end()
     })
 })
+
+app.post('/login', function (request, response) {
+  console.log(request.body)
+  logins.findOne({ username: request.body.username })
+    .then(result => {
+      console.log(result)
+      if (result === null) {
+        createUser(request.body)
+        request.session.login = true
+        request.session.username = request.body.username
+        console.log('created user')
+        return response.redirect('/index.html')
+      } else {
+        if (validatePassword(result, request.body.pass)) {
+          request.session.login = true
+          request.session.username = result.username
+          console.log('successful login')
+          return response.redirect('/index.html')
+        } else {
+          request.session.login = false
+          console.log('failed login')
+          return response.status(400).send({
+            message: 'Wrong Password'
+          })
+        }
+      }
+    })
+})
+
+app.post('/signout', function (request, response) {
+  request.session.login = false
+  console.log('logging user out')
+  response.redirect('/login.html')
+})
+
+app.get('/login.html', function (req, res) {
+  res.sendFile(__dirname + '/public/login.html')
+})
+
+app.get('/css/style.css', function (request, response) {
+  response.sendFile(__dirname + '/public/css/style.css')
+})
+
+app.use(function (req, res, next) {
+  if (req.session.login === true)
+    next()
+  else {
+    console.log('failed load')
+    res.redirect('/login.html')
+  }
+})
+
+app.get('/', function (request, response) {
+  response.sendFile(__dirname + '/public/index.html')
+})
+
+app.use(express.static('public'))
 
 app.listen(process.env.PORT || 3000)

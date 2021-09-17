@@ -190,9 +190,25 @@ const add = function (event) {
     return false
 }
 
+const signout = function (event) {
+    event.preventDefault()
+
+    fetch('/signout', {
+        method: 'POST',
+        body: ''
+    })
+        .then(function (response) {
+            console.log('logging out')
+            location.replace('http://127.0.0.1:3000/login.html')
+        })
+    return false
+}
+
 window.onload = function () {
     const addBtn = document.querySelector('#add')
     addBtn.onclick = add
+    const signoutButton = document.querySelector('#signOut')
+    signoutButton.onclick = signout
     //const allBtn = document.querySelector('#all')
     addExistingData()
 }
