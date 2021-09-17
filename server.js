@@ -50,18 +50,18 @@ client.connect()
   })
   .then( console.log )
 
-app.get('/getData', bodyparser.json(), function(request, response){
+app.get('/getData', async(request, response) => {
   const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true })
-  client.connect()
+  await client.connect()
   const collection = client.db('SleepDataset').collection( 'SleepData' )
-  const sleeps = collection.find({username: userAccount}).toArray()
-  client.close()
+  const sleeps = await collection.find({username: userAccount}).toArray()
+  await client.close()
   return response.json(sleeps)
 })
 
 app.post("/submit", bodyparser.json(), function(req,res) {
 
-    console.log("username: ", req.body.USER)
+    console.log("username: ", req.body.username)
       //req.body['username'] = user
 
       collection.insertOne( req.body )
