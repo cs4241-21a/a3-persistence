@@ -33,7 +33,7 @@ client.connect()
             // blank query returns all documents
         return collection.find({}).toArray()
     })
-    //.then(console.log)
+    .then(console.log)
 
 app.post("/reviews", bodyParser.json(), (request, response) => {
     if (collection !== null) {

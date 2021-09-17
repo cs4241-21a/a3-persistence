@@ -28,8 +28,8 @@ document.getElementById("create").onclick = function() {
                     userAlert.classList.add("alert-success")
                     userAlert.innerHTML = "Your account has been created. Please login again."
                 } else {
-                    userAlert.classList.add("alert-danger", "d-none")
-                    userAlert.classList.remove("alert-success")
+                    userAlert.classList.add("alert-danger")
+                    userAlert.classList.remove("alert-success", "d-none")
                     userAlert.innerHTML = "This username is already taken. Please choose a different username."
                 }
             });
