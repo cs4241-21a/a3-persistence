@@ -36,23 +36,24 @@ app.post( '/logout', ( request, response ) => {
   response.redirect( "/index.html" )
 })
 
-app.use( express.static( dir ) )
-
 // send signed out users to the login page
 app.use( function( request, response, next ) {
   console.log( request.session.username )
   console.log( "url: " + request.url + "username: " + request.session.username)
-  // if logged in, or fetching the login page or a non html file, do nothing
-  if( !request.url.endsWith( ".html" ) || request.session.username === "testuser" || request.url.endsWith( "/index.html" ) ) {
+  // if logged in, or logging in, or fetching the login page or a non html file, do nothing
+  if( ( !request.url.endsWith( ".html" ) && request.method === "GET" ) ||
+        request.session.username === "testuser" || request.url.endsWith( "/index.html" ) || request.url.endsWith( "/login" ) ) {
     next()
     console.log( "logged in as testuser" )
   }
-  // if loading an html file other than the login page and not logged in, redirect to the login page
+  // if loading an html file other than the login page, or using a non login post request and not logged in, redirect to the login page
   else {
     response.redirect( "/index.html" )
     console.log( "not logged in" )
   }
 })
+
+app.use( express.static( dir ) )
 
 app.post( '/add|/edit|/remove|/update', ( request, response) => {
   let json = request.body
