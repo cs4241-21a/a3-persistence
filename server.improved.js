@@ -24,11 +24,11 @@ app.post( '/login', ( request, response ) => {
     request.session.username = "testuser"
     console.log( "logged in as testuser" )
     console.log( __dirname + "/" + dir + "/tasks.html" )
-    response.sendFile( __dirname + "/" + dir + "/tasks.html")
+    response.redirect( __dirname + "/" + dir + "/tasks.html")
   }
   else {
     console.log( "not logged in" )
-    response.sendFile( __dirname + "/" + dir + "/index.html" )
+    response.redirect( __dirname + "/" + dir + "/index.html" )
   }
 })
 
@@ -39,7 +39,7 @@ app.use( function( request, response, next ) {
     console.log( "logged in as testuser" )
   }
   else {
-    response.sendFile( __dirname + "/" + dir + "/index.html" )
+    response.redirect( __dirname + "/" + dir + "/index.html" )
     console.log( "not logged in" )
   }
 })
