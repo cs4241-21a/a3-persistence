@@ -6,6 +6,9 @@ const User = require('../schemas/users');
 const Task = require('../schemas/tasks');
 let appdata = require('../data');
 const { createDeadline } = require('../util');
+const { checkLogin } = require('../middleware');
+
+const loginCookieName = 'loginCookie';
 
 /* GET home page. */
 router.get('/', function (req, res, next) {
@@ -14,7 +17,8 @@ router.get('/', function (req, res, next) {
 });
 
 // Login endpoints
-router.get('/login', (req, res, next) => {
+router.get('/login', checkLogin, (req, res, next) => {
+
   res.render('login', { title: 'TODOList' });
 });
 
@@ -27,7 +31,7 @@ router.post('/login', async (req, res, next) => {
     if (!user) {
       res.render('login', {
         title: 'TODOList',
-        errors: { username: `User with username ${username} does not exist`},
+        errors: { username: `User with username ${username} does not exist` },
         formData: { username }
       });
     }
@@ -41,14 +45,21 @@ router.post('/login', async (req, res, next) => {
       });
     }
 
+    // login success
+    res.cookie(loginCookieName, { userId: user._id }, { maxAge: 21600000 });
     res.redirect(`/user/${user._id}`);
   } catch {
-    res.render('login', { title: 'TODOList' });
+    res.redirect('/login');
   }
 });
 
+router.get('/logout', (req, res, next) => {
+  res.clearCookie(loginCookieName);
+  res.redirect('/login');
+});
+
 // Register Account endpoints
-router.get('/register', (req, res, next) => {
+router.get('/register', checkLogin, (req, res, next) => {
   res.render('register', { title: 'TODOList' });
 });
 
@@ -74,8 +85,11 @@ router.post('/register', async (req, res, next) => {
   } catch (err) {
     console.log(err);
     res.render('register', { title: 'TODOList' });
+    return;
   }
 
+  // register success
+  res.cookie(loginCookieName, { userId: newUser._id }, { maxAge: 21600000 });
   res.redirect(`/user/${newUser._id}`);
 });
 
@@ -96,17 +110,6 @@ router.post('/submit', async (req, res, next) => {
 
     if (dupe)
       next();
-
-    // Add data to array
-    appdata.push(
-      {
-        title: data.title,
-        description: data.description,
-        priority: data.priority,
-        dateCreated: data.dateCreated,
-        deadline: createDeadline(data.dateCreated, data.priority)
-      }
-    );
 
     let newTask = new Task({
       title: data.title,

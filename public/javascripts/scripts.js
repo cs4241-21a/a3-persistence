@@ -1,3 +1,5 @@
+console.log(document.cookie)
+
 
 // Update the tasks table data
 let updateTasks = (tasks) => {
@@ -15,6 +17,7 @@ let updateTasks = (tasks) => {
 
     const holder = document.querySelector('#task-holder');
     holder.innerHTML = '';
+    const userId = document.querySelector('#addTask-btn').getAttribute('userid');
 
     tasks.forEach((element, index) => {
 
@@ -90,22 +93,10 @@ let updateTasks = (tasks) => {
 
         const delBtn = document.createElement('button');
         delBtn.className = "warn-btn";
+        // TODO: add custom id attribute userId
         delBtn.appendChild(document.createTextNode('Delete'));
-        delBtn.onclick = () => {
-
-            fetch('/delete', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/json; charset=utf-8",
-                  },
-                body: JSON.stringify({title: element.title})
-            }).then(async (data) => {
-                const tasks = await data.json();
-
-                updateTasks(tasks);
-            }).catch((err) => {
-                console.log(err);
-            });
+        delBtn.onclick = (e) => {
+            delTask(element.title, e.target);
         };
 
         // Task edit button
@@ -125,7 +116,7 @@ let updateTasks = (tasks) => {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json; charset=utf-8",
-                  },
+                },
                 body: JSON.stringify({
                     oldTitle: element.title,
                     newTitle: document.querySelector(`#title-${index}`).value,
@@ -195,7 +186,7 @@ const submit = function (e) {
         method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",
-          },
+        },
         body
     })
         .then(async function (response) {
@@ -226,7 +217,7 @@ const editTask = (i, title) => {
         method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",
-          },
+        },
         body: JSON.stringify({
             oldTitle: title,
             newTitle: document.querySelector(`#title-${index}`).value,
@@ -247,14 +238,14 @@ const editTask = (i, title) => {
     });
 };
 
-const delTask = (title) => {
+const delTask = (title, btn) => {
 
-    fetch('/delete', {
+    fetch(`/user/${btn.getAttribute('userid')}/delete`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json; charset=utf-8",
-          },
-        body: JSON.stringify({title})
+        },
+        body: JSON.stringify({ title })
     }).then(async (data) => {
         const tasks = await data.json();
 

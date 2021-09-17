@@ -5,6 +5,10 @@ const User = require('../schemas/users');
 const Task = require('../schemas/tasks');
 const { createDeadline } = require('../util');
 
+router.get('/get-login-cookie', (req, res, next) => {
+  res.json(req.cookies.loginCookie);
+});
+
 // Show the tasks list page to a user with id
 router.get('/:id', async function (req, res, next) {
   const id = req.params.id;
@@ -70,6 +74,27 @@ router.post('/:id/submit', async (req, res, next) => {
   } catch (err) {
     console.error(err);
   }
+});
+
+// Delete a task for a user
+router.post('/:id/delete', async (req, res, next) => {
+
+  const id = req.params.id;
+  await checkUserExists(id, res);
+
+  try {
+    const data = req.body;
+
+    // Delete task
+    await Task.deleteOne({ title: data.title, owner: id });
+    
+    let tasks = await Task.find({ owner: id });
+
+    res.json(tasks);
+  } catch (err) {
+    console.error(err);
+  }
+
 });
 
 const checkUserExists = async (id, res) => {
