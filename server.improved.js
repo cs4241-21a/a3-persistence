@@ -23,12 +23,12 @@ app.post( '/login', ( request, response ) => {
   if( request.body.username === "testuser") {
     request.session.username = "testuser"
     console.log( "logged in as testuser" )
-    console.log( __dirname + "/" + dir + "/tasks.html" )
-    response.redirect( __dirname + "/" + dir + "/tasks.html")
+    console.log( "tasks.html" )
+    response.redirect( "tasks.html" )
   }
   else {
     console.log( "not logged in" )
-    response.redirect( __dirname + "/" + dir + "/index.html" )
+    response.redirect( "index.html" )
   }
 })
 
@@ -39,7 +39,7 @@ app.use( function( request, response, next ) {
     console.log( "logged in as testuser" )
   }
   else {
-    response.redirect( __dirname + "/" + dir + "/index.html" )
+    response.redirect( "index.html" )
     console.log( "not logged in" )
   }
 })
