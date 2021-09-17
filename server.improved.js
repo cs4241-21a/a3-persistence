@@ -35,13 +35,13 @@ app.use( cookie({
   keys: [ process.env.COOKIE_KEY_1, process.env.COOKIE_KEY_2 ]
 }) )
 
-app.post( '/login', ( request, response ) => {
+app.post( '/login', async ( request, response ) => {
   console.log( "logging in/registering" )
   let json = request.body
   console.log( "received json: " + JSON.stringify( json ) )
   console.log( "with url: " + request.url )
 
-  let logInResult = checkCredentials( json.username, json.password )
+  let logInResult = await checkCredentials( json.username, json.password )
   console.log( "logInResult: " + logInResult )
   // log in if credentials are correct
   if( logInResult === "correct" ) {
@@ -74,13 +74,13 @@ app.get( '/logout', ( request, response ) => {
 })
 
 // send signed out users to the login page
-app.use( function( request, response, next ) {
+app.use( async function( request, response, next ) {
   console.log( "checking for logged out user, cookie username: " + request.session.username )
   console.log( "url: " + request.url + "username: " + request.session.username)
   // if logged in, or logging in, or fetching the login page or a non html file, do nothing
   if( ( !request.url.endsWith( ".html" ) && request.method === "GET" ) ||
-      checkCredentials( request.session.username, request.session.password ) === "correct" ||
-      request.url.endsWith( "/index.html" ) || request.url.endsWith( "/login" ) ) {
+      request.url.endsWith( "/index.html" ) || request.url.endsWith( "/login" ) || 
+      await checkCredentials( request.session.username, request.session.password ) === "correct" ) {
     next()
     console.log( "logged in as " + request.session.username )
   }
