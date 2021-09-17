@@ -116,10 +116,15 @@ server.listen( process.env.PORT || port )
 
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
+      cookie = require("cookie-session"),
       app = express()
 
 app.use( express.static('public') )
 app.use( express.json() )
+
+// use express.urlencoded to get data sent by defaut form actions
+// or GET requests
+app.use( express.urlencoded({ extended:true }) )
 
 const uri = "mongodb+srv://TestUser:Mario35@cluster0.oxb6m.mongodb.net/"
 
@@ -150,6 +155,8 @@ app.get( '/', (req,res) => {
 
 app.post( '/add', (req,res) => {
   // assumes only one object to insert
+  
+  //Check to make sure this is typical user data
   collection.insertOne( req.body ).then( result => res.json( result ) )
 })
   
