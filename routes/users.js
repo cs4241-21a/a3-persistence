@@ -26,9 +26,21 @@ router.get('/:id', checkAuth, async function (req, res, next) {
     return;
   }
 
+  // sort based on priority
+  tasks.sort((elem1, elem2) => {
+    if (elem1.priority > elem2.priority) {
+        return -1;
+    } else if (elem1.priority === elem2.priority) {
+        return 0;
+    } else {
+        return 1;
+    }
+});
+
   res.render('index', {
     title: 'TODOList',
-    tasks, userId: id,
+    tasks, 
+    userId: id,
     user: { username: user.username }
   });
 });
@@ -50,6 +62,7 @@ router.post('/:id/submit', checkAuth, async (req, res, next) => {
     if (dupes.length > 0) {
       const resData = { error: 'Duplicate Task titles not allowed' };
       res.json(resData);
+      return;
     }
 
     if (dupe)

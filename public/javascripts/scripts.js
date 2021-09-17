@@ -17,7 +17,6 @@ let updateTasks = (tasks) => {
 
     const holder = document.querySelector('#task-holder');
     holder.innerHTML = '';
-    const userId = document.querySelector('#addTask-btn').getAttribute('userid');
 
     tasks.forEach((element, index) => {
 
@@ -30,7 +29,8 @@ let updateTasks = (tasks) => {
         const titleInput = document.createElement('input');
         titleLabel.htmlFor = `title-${index}`;
         titleLabel.ariaLabel = "Task Title Input";
-        titleInput.className = 'table-input';
+        titleLabel.className = 'd-none';
+        titleInput.className = 'form-control';
         titleData.appendChild(titleLabel);
         titleData.appendChild(titleInput);
         titleInput.value = element.title;
@@ -42,7 +42,8 @@ let updateTasks = (tasks) => {
         const descriptionInput = document.createElement('input');
         descriptionLabel.htmlFor = `description-${index}`;
         descriptionLabel.ariaLabel = "Task Description Input";
-        descriptionInput.className = 'table-input';
+        descriptionLabel.className = 'd-none';
+        descriptionInput.className = 'form-control';
         descriptionData.appendChild(descriptionLabel);
         descriptionData.appendChild(descriptionInput);
         descriptionInput.value = element.description;
@@ -54,7 +55,8 @@ let updateTasks = (tasks) => {
         const priorityInput = document.createElement('input');
         priorityLabel.htmlFor = `priority-${index}`;
         priorityLabel.ariaLabel = "Task Priority Input";
-        priorityInput.className = 'table-input';
+        priorityLabel.className = 'd-none';
+        priorityInput.className = 'form-control';
         priorityInput.type = 'number';
         priorityInput.min = 0;
         priorityInput.max = 10;
@@ -69,8 +71,9 @@ let updateTasks = (tasks) => {
         const dateCreatedInput = document.createElement('input');
         dateCreatedLabel.htmlFor = `dateCreated-${index}`;
         dateCreatedLabel.ariaLabel = "Task Date Created";
+        dateCreatedLabel.className = 'd-none';
         dateCreatedInput.id = `dateCreated-${index}`;
-        dateCreatedInput.className = 'table-input';
+        dateCreatedInput.className = 'form-control';
         dateCreatedInput.readOnly = true;
         dateCreatedData.appendChild(dateCreatedLabel);
         dateCreatedData.appendChild(dateCreatedInput);
@@ -82,8 +85,9 @@ let updateTasks = (tasks) => {
         const deadlineInput = document.createElement('input');
         deadlineLabel.htmlFor = `deadline-${index}`;
         deadlineLabel.ariaLabel = "Task Deadline";
+        deadlineLabel.className = 'd-none';
         deadlineInput.id = `deadline-${index}`;
-        deadlineInput.className = 'table-input';
+        deadlineInput.className = 'form-control';
         deadlineInput.readOnly = true;
         deadlineData.appendChild(deadlineInput);
         deadlineInput.value = element.deadline;
@@ -92,7 +96,7 @@ let updateTasks = (tasks) => {
         const buttonData = document.createElement('td');
 
         const delBtn = document.createElement('button');
-        delBtn.className = "warn-btn";
+        delBtn.className = "btn btn-danger";
         delBtn.appendChild(document.createTextNode('Delete'));
         delBtn.onclick = (e) => {
             delTask(element.title);
@@ -100,7 +104,7 @@ let updateTasks = (tasks) => {
 
         // Task edit button
         const editBtn = document.createElement('button');
-        editBtn.className = 'secondary-btn';
+        editBtn.className = 'btn btn-warning';
         editBtn.appendChild(document.createTextNode('Save Edits'));
         editBtn.onclick = (e) => {
             editTask(index, element.title);

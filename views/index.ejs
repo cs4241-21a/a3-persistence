@@ -4,7 +4,7 @@
 <head>
   <%- include('common/header'); %>
 
-  <link rel='stylesheet' href='/stylesheets/style.css' />
+    <!-- <link rel='stylesheet' href='/stylesheets/style.css' /> -->
 </head>
 
 <body>
@@ -21,16 +21,17 @@
         server based on the priority. Tasks are sorted in the
         table by priority in descending order.
       </p>
-      <div class="table-holder">
-        <h2 class="table-title">Tasks</h3>
+      <div class="row">
+        <h2 class="h2">Tasks</h3>
           <table class="table table-striped table-hover">
-            <thead>
+            <thead class="table-dark">
               <tr>
                 <th>Task Title</th>
                 <th>Description</th>
                 <th>Priority</th>
                 <th>Date Created</th>
                 <th>Deadline</th>
+                <!-- Col Holds buttons, Intentionally empty -->
                 <th></th>
               </tr>
             </thead>
@@ -39,33 +40,36 @@
 
                 <tr>
                   <td>
-                    <label for="<%= `title-${i}` %>" aria-label="Task Title Input"></label>
-                    <input class='table-input' id=<%=`title-${i}` %> type="text" value=<%= tasks[i].title %>>
+                    <label class="d-none" for="<%= `title-${i}` %>" aria-label="Task Title Input"></label>
+                    <input class='form-control' id=<%=`title-${i}` %> type="text" value=<%= tasks[i].title %>>
                   </td>
                   <td>
-                    <label for="<%= `description-${i}` %>" aria-label="Task Description Input"></label>
-                    <input class='table-input' id=<%=`description-${i}` %> type="text" value=<%= tasks[i].description %>
+                    <label class="d-none" for="<%= `description-${i}` %>" aria-label="Task Description Input"></label>
+                    <input class='form-control' id=<%=`description-${i}` %> type="text" value=<%= tasks[i].description %>
                       >
                   </td>
                   <td>
-                    <label for="<%= `priority-${i}` %>" aria-label="Task Priority Input"></label>
-                    <input class="table-input" type="number" id=<%=`priority-${i}` %> min="0" max="10" value=<%=
+                    <label class="d-none" for="<%= `priority-${i}` %>" aria-label="Task Priority Input"></label>
+                    <input class='form-control' type="number" id=<%=`priority-${i}` %> min="0" max="10" value=<%=
                       tasks[i].priority %>>
                   </td>
                   <td>
-                    <label for="<%= `dateCreated-${i}` %>" aria-label="Task Date Created"></label>
-                    <input class='table-input' id=<%=`dateCreated-${i}` %> type="text" value='<%= tasks[i].dateCreated %>'
+                    <label class="d-none" for="<%= `dateCreated-${i}` %>" aria-label="Task Date Created"></label>
+                    <input class='form-control' id=<%=`dateCreated-${i}` %> type="text" value='<%= tasks[i].dateCreated
+                      %>'
                       readonly>
                   </td>
                   <td>
-                    <label for="<%= `deadline-${i}` %>" aria-label="Task Deadline"></label>
-                    <input class='table-input' id=<%=`deadline-${i}` %> type="text" value='<%= tasks[i].deadline %>'
+                    <label class="d-none" for="<%= `deadline-${i}` %>" aria-label="Task Deadline"></label>
+                    <input class='form-control' id=<%=`deadline-${i}` %> type="text" value='<%= tasks[i].deadline %>'
                       readonly>
                   </td>
                   <td>
-                    <button onclick="editTask('<%= i %>','<%= tasks[i].title %>')" class="secondary-btn">Save
-                      Edits</button>
-                    <button onclick="delTask('<%= tasks[i].title %>')" class="warn-btn">Delete</button>
+                    <div class="btn-group">
+                      <button onclick="editTask('<%= i %>','<%= tasks[i].title %>')" class="btn btn-warning">Save
+                        Edits</button>
+                      <button onclick="delTask('<%= tasks[i].title %>')" class="btn btn-danger">Delete</button>
+                    </div>
                   </td>
                 </tr>
                 <% } %>
@@ -73,15 +77,15 @@
           </table>
       </div>
 
-      <form class="add-task-form">
-        <h3 class="form-title">Add a Task</h3>
-        <label for="title">Title:</label>
-        <input type='text' name='title' id='title' placeholder="title" required>
-        <label for="description">Description(optional):</label>
-        <input type="text" name="description" id="description" placeholder="description">
-        <label for="priority">Priority:</label>
-        <input type="number" id="priority" name="priority" min="0" max="10" value='5' required>
-        <button id="addTask-btn" class="primary-btn">Submit</button>
+      <form class="border border-dark border-3 rounded rounded-5 p-3">
+        <h3 class="h3">Add a Task</h3>
+        <label for="title" class="form-label">Title:</label>
+        <input class='form-control' type='text' name='title' id='title' placeholder="title" required>
+        <label for="description" class="form-label">Description(optional):</label>
+        <input class='form-control' type="text" name="description" id="description" placeholder="description">
+        <label for="priority" class="form-label">Priority:</label>
+        <input class='form-control' type="number" id="priority" name="priority" min="0" max="10" value='5' required>
+        <button id="addTask-btn" class="btn btn-primary btn-lg">Submit</button>
       </form>
     </div>
 
