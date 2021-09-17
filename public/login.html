@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <script src="https://kit.fontawesome.com/e2bce667f0.js" crossorigin="anonymous"></script>
+    <!--<link type="text/css" rel="stylesheet" href="css/reset.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css">-->
+    <link href="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.css" rel="stylesheet">
+    <script src="https://unpkg.com/material-components-web@latest/dist/material-components-web.min.js"></script>
+  </head>
+
+  <body>
+    <div id="content">
+      <header>
+        <h1>Procrast-inator</h1>
+      </header>
+
+      <p>Add tasks with a deadline and a time to complete in hours, and Procrast-inator will calculate the latest time you can start doing each task!</p>
+      
+      <div>
+        <p>Please log in or register a new account to view and edit your tasks</p>
+        <form action="/login" method="POST">
+          <table>
+            <tr>
+              <td><label for="username">Username:</label></td>
+              <td><input type="text" name="username"></td>
+            </tr>
+            <tr>
+              <td><label for="password">Password:</label></td>
+              <td><input type="password" name="password"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td><input type="submit" value="Log in or Register"><i class="fas fa-question-circle fa-xs" title="Logging in with a username that doesn't exist will create a new account and log you in as that account."></i></td>
+            </tr>
+          </table>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

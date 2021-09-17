@@ -128,7 +128,7 @@ const update = function ( json ) {
     taskContainer.innerHTML = ""
 
     //load tasks from json and none if login was invalid
-    json.forEach(task => {
+    json.forEach( task => {
         let element = taskTemplate.cloneNode( true )
         element.children[0].innerText = task.name
         element.children[1].innerText = numberToDateText( task.start )

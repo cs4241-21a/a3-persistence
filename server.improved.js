@@ -50,7 +50,7 @@ app.post( '/login', async ( request, response ) => {
     console.log( "correct password" )
     console.log( "logged in as " + json.username )
     console.log( "redirecting to tasks" )
-    response.redirect( "/tasks.html" )
+    response.redirect( "/index.html" )
   }
   else {
     // if not in database, and account name is valid, create new account
@@ -59,19 +59,19 @@ app.post( '/login', async ( request, response ) => {
       request.session.username = json.username
       request.session.password = json.password
       console.log( "new account registered as " + json.username )
-      response.redirect( "/tasks.html" )
+      response.redirect( "/index.html" )
     }
     // if incorrect, or nonexistent but invalid username, redirect to login page
     else {
       console.log( "incorrect password or invalid username, resetting login screen" )
-      response.redirect( "/index.html" )
+      response.redirect( "/login.html" )
     }
   }
 })
 
 app.get( '/logout', ( request, response ) => {
   request.session.username = ""
-  response.redirect( "/index.html" )
+  response.redirect( "/login.html" )
 })
 
 // send signed out users to the login page
@@ -80,7 +80,7 @@ app.use( async function( request, response, next ) {
   console.log( "url: " + request.url + "username: " + request.session.username)
   // if logged in, or logging in, or fetching the login page or a non html file, do nothing
   if( ( !request.url.endsWith( ".html" ) && request.method === "GET" ) ||
-      request.url.endsWith( "/index.html" ) || request.url.endsWith( "/login" ) || 
+      request.url.endsWith( "/login.html" ) || request.url.endsWith( "/login" ) || 
       await checkCredentials( request.session.username, request.session.password ) === "correct" ) {
     next()
     console.log( "logged in as " + request.session.username )
