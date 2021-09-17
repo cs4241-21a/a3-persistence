@@ -1,0 +1,38 @@
+/*Style your own assignment! This is fun! */
+.flex-container {
+    display: flex;
+    background-color: DodgerBlue;
+  }
+  
+.flex-container > div {
+  background-color: #f1f1f1;
+  margin: 10px;
+  padding: 20px;
+  font-size: 18px;
+}
+
+.theLabels{
+  width:30%;
+  float:left;
+}
+
+.theInputs{
+  width:60%;
+  float:right;
+}
+
+button {
+  margin-top: 20px;
+  margin-left: 25%;
+  margin-right: 25%;
+  width: 50%;
+}
+
+table {
+  width: 80%;
+}
+
+table, th, td {
+  border: solid #000;
+  border-width: 1px;
+}

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <link rel="stylesheet" href="css/style.css">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <h1>Book Keeper App</h1>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <div class="flex-container">
+      <div style="width: 70%;">
+        <h3>Books</h3>
+        <table id="table">
+          <thead>
+            <tr>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Score (1-5)</th>
+              <th>Notes</th>
+              <th>Year Read</th>
+              <th>Edit</th>
+              <th>Delete</th>
+            </tr>
+          </thead>
+          <tbody id="tbody">
+            <tr></tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="width: 30%;">
+        <form action="" autocomplete="off">
+          <p>Add Book</p>
+          <div><label for="title" class="theLabels">Title: </label><input type='text' id='title' placeholder="Title" class="theInputs"/></div>
+          <div><label for="author" class="theLabels">Author: </label><input type='text' id='author' placeholder="Author" class="theInputs"/></div>
+          <div><label for="score" class = "theLabels">Score (1-5): </label><input type='number' id='score' placeholder="Score" min="1" max="5" class="theInputs"/></div>
+          <div><label for="notes" class="theLabels">Notes: </label><input type='text' id='notes' placeholder="Notes" class="theInputs"/></div>
+          <div><label for="year" class="theLabels">Year Read: </label><input type='number' id='year' placeholder="Year Read" min="1900" max="2021" class="theInputs"/></div>
+          <div><button>Submit</button></div>
+        </form>
+      </div>
+    </div>
+  </body>
+  <script src="./js/scripts.js"></script>
+</html>
