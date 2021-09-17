@@ -14,7 +14,7 @@ const addButton = document.getElementById( "add-button" )
 const taskContainer = document.getElementById( "task-container" )
 const taskTemplate = document.getElementById( "task-template" ).content.children[0]
 
-let id = NaN;
+let _id = NaN;
 let requestType = "/add";
 
 const submit = function( e ) {
@@ -28,7 +28,7 @@ const submit = function( e ) {
             json = { name: task.value, period: Number.parseInt( period.value ), deadline: Date.parse( deadline.value ) };
             break;
         case "/edit": 
-            json = { id, name: task.value, period: Number.parseInt( period.value ), deadline: Date.parse( deadline.value ) };
+            json = { _id, name: task.value, period: Number.parseInt( period.value ), deadline: Date.parse( deadline.value ) };
             break;
     }
 
@@ -84,7 +84,7 @@ const edit = function( e, utask ) {
     period.value = utask.period
     deadline.value = numberToDateValue( utask.deadline )
     requestType = "/edit"
-    id = utask.id
+    _id = utask._id
 
     return false
 }
@@ -92,12 +92,12 @@ const edit = function( e, utask ) {
 const remove = function( e, utask ) {
     e.preventDefault()
 
-    id = utask.id
+    _id = utask._id
 
     fetch( "/remove", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify( { id } )
+        body: JSON.stringify( { _id } )
     })
     .then( ( response ) => response.json() )
     .then( function( appData ) {

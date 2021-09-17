@@ -5,6 +5,23 @@ const express = require( 'express' ),
       app = express(),
       dbclient = new mongodb.MongoClient( process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:true })
 
+let users
+let userdata
+const tasklist = []
+
+//connect to users collection
+dbclient.connect()
+  .then( () => {
+    console.log( "connected with client" )
+    // will only create collection if it doesn't exist
+    return dbclient.db( 'userdata' ).collection( 'userinfo' )
+  })
+  .then( collection => {
+    console.log( "fetched collection" )
+    users = collection
+    return users.find( { } ).toArray().then( console.log )
+  })
+
 app.use( express.json() )
 
 app.use( express.urlencoded( { extended: true } ) )
@@ -56,106 +73,87 @@ app.use( function( request, response, next ) {
 app.use( express.static( dir ) )
 
 app.post( '/add|/edit|/remove|/update', ( request, response) => {
+  // get user's tasks from database
+  dbclient.db( 'userdata' ).collection( request.session.username )
+  .then( collection => {
+    console.log( "fetched collection" )
+    userdata = collection
+    return userdata.find( { } ).toArray().then( console.log )
+  })
+  
+  // check for failed connection
+  if( userdata === null ) {
+    response.status( 503 ).send()
+    return
+  }
+
   let json = request.body
   console.log( "received json: " + json )
   console.log( "with url: " + request.url )
+
+  // round given deadline to nearest hour
+  if ( 'deadline' in json ) {
+    const ms = 60 * 60 * 1000 // number of milliseconds in an hour
+    json.deadline = Math.round( deadline / ms ) * ms
+  }
   switch( request.url ) {
-    case '/add': addTask( json.name, json.period, json.deadline ); break
+    case '/add': addTask( json ); break
     case '/edit': editTask( json.id, json.name, json.period, json.deadline ); break
     case '/remove': removeTask( json.id ); break
+    case '/update': recalculateStarts(); break
     default: break
   }
 
   response.writeHead( 200, "OK", { 'Content-Type': 'application/json' } )
-  response.end( JSON.stringify( userdata ) )
+  response.end( JSON.stringify( tasklist ) )
 })
 
 app.listen( process.env.PORT || 3000 )
 
-const userdata = []
-
-let highestId = 2
-
-//test database connection
-dbclient.connect()
-  .then( () => {
-    console.log( "connected with client" )
-    // will only create collection if it doesn't exist
-    return dbclient.db( 'userdata' ).collection( 'userinfo' )
-  })
-  .then( collection => {
-    console.log( "fetched collection" )
-    users = collection
-    return users.find( { } ).toArray().then( console.log )
-  })
-
-const addTask = function( name, period, deadline ) {
-  let id = highestId + 1
-  highestId++;
-
-  let ms = 60 * 60 * 1000 // number of milliseconds in an hour
-  deadline = Math.round( deadline / ms ) * ms
-
+const addTask = function( json ) {
   console.log( "in addTask: " )
-  console.log( "id: " + id + "name: " + name + "start: " + Date.parse( Date() ) + "period: " + period + "deadline: " + deadline )
+  console.log( "name: " + json.name + "start: " + Date.parse( Date() ) + "period: " + json.period + "deadline: " + json.deadline )
 
-  let dataEntry = { 'id': id, 'name': name, 'start': Date.parse( Date() ), 'period': period, 'deadline': deadline }
-  userdata.push(dataEntry)
-
-  recalculateStarts()
+  json.start = Date.parse( Date() )
+  userdata.insertOne( json ).then( () => recalculateStarts() )
 }
 
-const editTask = function( id, name, period, deadline ) {
-  let i = userdata.findIndex( ( entry ) => entry.id === id )
-
-  let ms = 60 * 60 * 1000 // number of milliseconds in an hour
-  deadline = Math.round( deadline / ms ) * ms
-
+const editTask = function( json ) {
   console.log( "in editTask: " )
-  console.log( "id: " + id + "name: " + name + "period: " + period + "deadline: " + deadline )
+  console.log( "_id: " + json._id + "name: " + json.name + "period: " + json.period + "deadline: " + json.deadline )
 
-  userdata[i].name = name
-  userdata[i].period = period
-  userdata[i].deadline = deadline
-
-  recalculateStarts()
+  userdata
+    .updateOne(
+      { _id: mongodb.ObjectId( json._id ) },
+      { $set: { name: json.name, period: json.period, deadline: json.deadline } },
+    )
+    .then( () => recalculateStarts() )
 }
 
 const removeTask = function( id ) {
-  let i = userdata.findIndex( ( entry ) => entry.id === id )
-
   console.log( "in removeTask: " )
   console.log( "id: " + id )
 
-  userdata.splice(i, 1)
-
-  //update highestId to next lowest id if necessary
-  if (id === highestId){
-    highestId = 0
-    userdata.forEach(entry => {
-      if ( id > highestId ) {
-        highestId = id
-      }
-    });
-  }
-
-  recalculateStarts()
+  userdata.deleteOne( { _id: mongodb.ObjectId( json._id ) } )
+    .then( () => recalculateStarts() )
 }
 
+// calculate latest starts based on deadlines and periods
 const recalculateStarts = function() {
-  // calculate latest starts based on deadlines and periods
+  // get array from collection
+  tasklist = userdata.find( { } ).toArray()
 
   // sort by latest deadline first
-  userdata.sort( function( entry1, entry2 ) {
+  tasklist.sort( function( entry1, entry2 ) {
     return entry2.deadline - entry1.deadline
   })
 
-  // calculate time to start
+  // calculate time to start for each task
   const interval = 60 * 60 * 1000 // one hour in milliseconds
-  if ( userdata.length > 0 ) {
-    let effectiveDeadline = userdata[0].deadline
+  if ( tasklist.length > 0 ) {
+    let effectiveDeadline = tasklist[0].deadline
 
-    userdata.forEach( ( task ) => {
+    tasklist.forEach( ( task ) => {
       if ( task.deadline < effectiveDeadline ) {
         effectiveDeadline = task.deadline
       }
@@ -165,5 +163,13 @@ const recalculateStarts = function() {
   }
 
   // sort by earliest start first by reversing array
-  userdata.reverse()
+  tasklist.reverse()
+
+  // update database with tasklist start data
+  tasklist.forEach( task => {
+    userdata.updateOne(
+      { _id: task._id},
+      { $set: { start: task.start } }
+    )
+  })
 }
