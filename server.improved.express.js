@@ -191,6 +191,7 @@ app.post("/submit", function (request, response) {
       StudentHours: studentHours,
       GitHubUserID: request.user,
       StudentYear: dataStringParsed.StudentYear,
+      StudentGradDate: dataStringParsed.StudentGradDate,
     };
 
     // Insert it into the database
@@ -294,6 +295,7 @@ app.post("/updateEntry", function (request, response) {
       StudentHours: studentHours,
       GitHubUserID: request.user,
       StudentYear: dataStringParsed.StudentYear,
+      StudentGradDate: dataStringParsed.StudentGradDate,
     };
 
     // Update the entry with the same id in the database

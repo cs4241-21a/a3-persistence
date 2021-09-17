@@ -26,7 +26,8 @@ h2 {
 
 #StudentName,
 #StudentClass,
-#StudentRole {
+#StudentRole,
+#StudentGradDate {
   background-color: rgb(255, 255, 255);
 }
 
