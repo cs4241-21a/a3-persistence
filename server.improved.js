@@ -31,6 +31,13 @@ app.post( '/login', ( request, response ) => {
   }
 })
 
+app.post( '/logout', ( request, response ) => {
+  request.session.username = ""
+  response.redirect( "/index.html" )
+})
+
+app.use( express.static( dir ) )
+
 // send signed out users to the login page
 app.use( function( request, response, next ) {
   console.log( request.session.username )
@@ -46,8 +53,6 @@ app.use( function( request, response, next ) {
     console.log( "not logged in" )
   }
 })
-
-app.use( express.static( dir ) )
 
 app.post( '/add|/edit|/remove|/update', ( request, response) => {
   let json = request.body
