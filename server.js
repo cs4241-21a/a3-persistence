@@ -1,31 +1,23 @@
-// server.js
-// where your node app starts
+const { count } = require('console')
 
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
+const http = require( 'http' ),
+      fs   = require( 'fs' ),
+      // IMPORTANT: you must run `npm install` in the directory for this assignment
+      // to install the mime library used in the following line of code
+      mime = require( 'mime' ),
+      dir  = 'public/',
+      port = 3000
+
 const express = require("express");
 const app = express();
 const mongodb = require('mongodb');
 const bodyparser = require('body-parser');
 
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
-app.use(express.json());
-
-// https://expressjs.com/en/starter/basic-routing.html
-app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
-});
-
-// listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
-
+let appdata = [ 
+]
 
 const MongoClient = mongodb.MongoClient;
-const uri = `mongodb+srv://admin:$admin@cluster0.kt8ex.mongodb.net/data?retryWrites=true&w=majority`;
+const uri = 'mongodb+srv://admin:admin@cluster0.kt8ex.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true });
 let collection = null
 
@@ -43,16 +35,103 @@ app.post('/add', bodyparser.json(),function(req, res){
   console.log('body:', req.body)
   collection.insertOne(req.body)
   .then(dbresponse => {
-    console.log(dbresponse)
-    //res.json(dbresponse.ops[0])
+    return collection.find({'_id':dbresponse.insertedId}).toArray()
+  })
+  .then(dbresponse =>{
+  res.json(dbresponse[0])
+  console.log(dbresponse[0])
   })
 })
+
+
 /*
-app.post('/delete',bodyparser.json(), function(req, res){
-  collection
-  .deleteOne({_id:mongodb.ObjectID(req.body.id)})
-  .then( result => res.json( result ) )
+
+const server = http.createServer( function( request,response ) {
+  if( request.method === 'GET' ) {
+    handleGet( request, response )    
+  }else if( request.method === 'POST' ){
+    handlePost( request, response ) 
+  }
 })
+
+const handleGet = function( request, response ) {
+  const filename = dir + request.url.slice( 1 ) 
+
+  if( request.url === '/' ) {
+    sendFile( response, 'views/index.html' )
+  }else{
+    sendFile( response, filename )
+  }
+}
+
+const handlePost = function( request, response ) {
+  console.log(request.url)
+  let dataString = ''
+
+  request.on( 'data', function( data ) {
+      dataString += data 
+  })
+
+  request.on( 'end', function() {
+    dataString = JSON.parse( dataString )
+    console.log( dataString )
+
+    appdata.push(dataString)
+
+    for(let count = 0; count < appdata.length; count++){
+      
+      if(appdata[count].day === 'Sunday'){
+        appdata[count].difficulty = appdata[count].priority * 5
+      }
+      else if(appdata[count].day === 'Monday'){
+        appdata[count].difficulty = appdata[count].priority * 10
+      }
+      else if(appdata[count].day === 'Tuesday'){
+        appdata[count].difficulty = appdata[count].priority * 7
+      }
+      else if(appdata[count].day === 'Wednesday'){
+        appdata[count].difficulty = appdata[count].priority * 6
+      }
+      else if(appdata[count].day === 'Thursday'){
+        appdata[count].difficulty = appdata[count].priority * 10
+      }
+      else if(appdata[count].day === 'Friday'){
+        appdata[count].difficulty = appdata[count].priority * 6
+      }
+      else if(appdata[count].day === 'Saturday'){
+        appdata[count].difficulty = appdata[count].priority * 5
+      }
+    }
+
+  console.log(appdata)
+
+    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+    response.write(JSON.stringify(appdata))
+    response.end()
+  })
+}
 */
 
-app.listen(3000)
+const sendFile = function( response, filename ) {
+   //const type = mime.getType( filename ) 
+
+   fs.readFile( filename, function( err, content ) {
+
+     // if the error = null, then we've loaded the file successfully
+     if( err === null ) {
+
+       // status code: https://httpstatuses.com
+       // response.writeHeader( 200, { 'Content-Type': type })
+       response.end( content )
+
+     }else{
+
+       // file not found, error code 404
+       response.writeHeader( 404 )
+       response.end( '404 Error: File Not Found' )
+
+     }
+   })
+}
+
+server.listen( process.env.PORT || port )

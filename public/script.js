@@ -1,65 +1,84 @@
-// client-side js, loaded by index.html
-// run by the browser each time the page is loaded
+const submit = function( e ) {
+  // prevent default form action from being carried out
+  e.preventDefault()
 
-console.log("hello world :o");
-
-// define variables that reference elements on our page
-const dreamsList = document.getElementById("dreams");
-const dreamsForm = document.querySelector("form");
-
-// a helper function that creates a list item for a given dream
-function appendNewDream(dream, id) {
-  const newListItem = document.createElement("li");
-  newListItem.innerText = dream;
+  const todoInput = document.querySelector( '#todo' )
+  const dayInput = document.querySelector( '#day' )
+  const priority = document.querySelector('#priority')
+ // const difficulty = document.querySelector('#difficulty')
   
-  newListItem.onclick = function(){
-     fetch('/delete', {
-        method: 'POST',
-        body:JSON.stringify({ id }),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json() )
-      .then( json => {
-      newListItem.remove();
-      })
-  }
-  
-  dreamsList.appendChild(newListItem);
-}
+        json = { todo: todoInput.value, 
+                  day: dayInput.value, 
+                  priority: priority.value, 
+                  }
+        body = JSON.stringify( json )
 
-// fetch the initial list of dreams
-fetch("/dreams")
-  .then(response => response.json()) // parse the JSON from the server
-  .then(dreams => {
-    // remove the loading text
-    dreamsList.firstElementChild.remove();
-  
-    // iterate through every dream and add it to our page
-    dreams.forEach(appendNewDream);
+
+
+  fetch( '/submit', {
+    method:'POST',
+    body 
+  })
+  .then( function( response ) {
+      return response.json()
+  })
+  .then(function(json){
+      console.log(json)
+      document.getElementById('dataTable').remove()
+      createTable(json)
   });
 
-// listen for the form to be submitted and add a new dream when it is
-    dreamsForm.addEventListener("submit", event => {
-      // stop our form submission from refreshing the page
-      event.preventDefault();
+  return false
+}
 
-      // get dream value and add it to the list
-      let newDream = dreamsForm.elements.dream.value;
-      
-      fetch('/add', {
-        method: 'POST',
-        body:JSON.stringify({dream:newDream}),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => response.json() )
-      .then( json => {
-      appendNewDream(json.dream);
-      })
-      // reset form
-      dreamsForm.reset();
-      dreamsForm.elements.dream.focus();
-    });
+window.onload = function() {
+  const button = document.querySelector( 'button' )
+  button.onclick = submit
+}
+
+function createTable(data) {
+  let table = document.createElement('table')
+  let tr = document.createElement('tr')
+  let tableHeaders = ['Day of the Week', 'Items/Difficulties...']
+
+  for (let count = 0; count < tableHeaders.length; count++) {
+    let header = document.createTextNode(tableHeaders[count])
+    let th = document.createElement('th')
+    th.appendChild(header)
+    tr.appendChild(th)
+  }
+  table.appendChild(tr)
+  tr = document.createElement('tr');
+
+  function populateDay(day){
+    let dayOfWeek = document.createTextNode(day)
+    let td = document.createElement('td')
+
+    td.appendChild(dayOfWeek)
+    tr.appendChild(td)
+
+    for (let count = 0; count < data.length; count++){
+      if(data[count].day === day){
+        let item = document.createTextNode('Todo: '+data[count].todo +', Raw Difficulty: '+ data[count].priority + ', Adjusted Difficulty: '+data[count].difficulty)
+        let td = document.createElement('td')
+        td.appendChild(item)
+        tr.appendChild(td)
+      }
+  }
+  table.appendChild(tr);
+  tr = document.createElement('tr');
+
+}
+  table.id = 'dataTable'
+
+populateDay("Sunday")
+populateDay("Monday")
+populateDay("Tuesday")
+populateDay("Wednesday")
+populateDay("Thursday")
+populateDay("Friday")
+populateDay("Saturday")
+
+document.body.appendChild(table)
+
+}

@@ -1,52 +1,69 @@
-<!-- This is a static file -->
-<!-- served from your routes in server.js -->
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
+    <title>CS4241 Assignment 3</title>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="A cool thing made with Glitch">
-
-    <title>Welcome to Glitch!</title>
-
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
-    <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
-
-    <!-- import the webpage's client-side javascript file -->
     <script src="/script.js" defer></script>
   </head>
   <body>
-    <header>
-      <h1>A Dream of the Future</h1>
-    </header>
+    <form method="post">
+    <h1>A simple todo list app</h1>
+    <ul>
+      <li>
+        <label for="todo">Todo:</label>
+        <textarea id="todo" name="todo"></textarea>
+      </li>
+      <li>
+        <label for="day">Select Day of the Week:</label>
+          <select id="day" name="day">
+            <option value="Sunday">Sunday</option>
+            <option value="Monday">Monday</option>
+            <option value="Tuesday">Tuesday</option>
+            <option value="Wednesday">Wednesday</option>
+            <option value="Thursday">Thursday</option>
+            <option value="Friday">Friday</option>
+            <option value="Saturday">Saturday</option>
+        </select>
+      </li>
+      <li>
+        <label for="priority">Select Task Difficulty:</label>
+          <select id="priority" name="priority">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+      </li>
+      <li class="button">
+        <button type="button">submit</button>
+      </li>     
+    </ul>
+    </form>
+    <p>In the table, Raw Difficulty is your input, Adjusted Difficulty is calculated using a multiplier based on the day of the week</p>
+    <h2>Your Todos:</h2>
+    <table style="table-layout: auto;" id="dataTable">
+    <tr>
+      <th>Day of the Week</th>
+      <th>Items/Difficulties...</th>
+    </tr>
+    <tr><td>Sunday</td></tr>
+    <tr><td>Monday</td></tr>
+    <tr><td>Tuesday</td></tr>
+    <tr><td>Wednesday</td></tr>
+    <tr><td>Thursday</td></tr>
+    <tr><td>Friday</td></tr>
+    <tr><td>Saturday</td></tr>
 
-    <main>
-      <h2>Oh hi,</h2>
-
-      <p>Tell me your hopes and dreams:</p>
-
-      <form>
-        <label>
-          New Dream
-          <input name="dream" type="text" maxlength="100" required placeholder="Dreams!">
-        </label>
-        <button type="submit" id="submit-dream">Add Dream</button>
-      </form>
-
-      <section class="dreams">
-        <ul id="dreams">
-          <em>loading dreams&hellip;</em>
-        </ul>
-      </section>
-    </main>
-
-    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
-
-    <!-- include the Glitch button to show what the webpage is about and
-          to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js" defer></script>
+    
+    </table>
   </body>
+
+  
 </html>
