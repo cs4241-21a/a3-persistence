@@ -77,9 +77,11 @@ const remove = function (e) {
   // prevent default form action from being carried out
   e.preventDefault();
 
+  var path = e.path || (e.composedPath && e.composedPath())
+
   /* get racer name and team from table and create json */
-  const name = e.path[1].cells[1].innerText;
-  const team = e.path[1].cells[2].innerText;
+  const name = path[1].cells[1].innerText;
+  const team = path[1].cells[2].innerText;
   const json = { name: name, team: team };
   const body = JSON.stringify(json);
 
@@ -159,6 +161,7 @@ function redrawTable(values) {
       }
     }
     let deleteElement = createDelete();
+    deleteElement.onclick = remove;
     row.appendChild(deleteElement);
     table.appendChild(row);
   });
@@ -169,7 +172,7 @@ function createDelete() {
   let deleteNode = document.createElement("td");
   let deleteText = document.createTextNode("delete");
   deleteNode.appendChild(deleteText);
-  deleteNode.onclick = remove;
+  // deleteNode.onclick = remove;
   return deleteNode;
 }
 
