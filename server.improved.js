@@ -34,6 +34,7 @@ app.post( '/login', ( request, response ) => {
 // send signed out users to the login page
 app.use( function( request, response, next ) {
   console.log( request.session.username )
+  console.log( "url: " + request.url + "username: " + request.session.username)
   // if logged in, or fetching the login page or a non html file, do nothing
   if( !request.url.endsWith( ".html" ) || request.session.username === "testuser" || request.url.endsWith( "public/index.html" ) ) {
     next()
