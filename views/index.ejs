@@ -40,27 +40,27 @@
 
                 <tr>
                   <td>
-                    <label class="d-none" for="<%= `title-${i}` %>" aria-label="Task Title Input"></label>
+                    <label class="d-inline" for="<%= `title-${i}` %>" aria-label="Task Title Input"></label>
                     <input class='form-control' id=<%=`title-${i}` %> type="text" value=<%= tasks[i].title %>>
                   </td>
                   <td>
-                    <label class="d-none" for="<%= `description-${i}` %>" aria-label="Task Description Input"></label>
+                    <label class="d-inline" for="<%= `description-${i}` %>" aria-label="Task Description Input"></label>
                     <input class='form-control' id=<%=`description-${i}` %> type="text" value=<%= tasks[i].description %>
                       >
                   </td>
                   <td>
-                    <label class="d-none" for="<%= `priority-${i}` %>" aria-label="Task Priority Input"></label>
+                    <label class="d-inline" for="<%= `priority-${i}` %>" aria-label="Task Priority Input"></label>
                     <input class='form-control' type="number" id=<%=`priority-${i}` %> min="0" max="10" value=<%=
                       tasks[i].priority %>>
                   </td>
                   <td>
-                    <label class="d-none" for="<%= `dateCreated-${i}` %>" aria-label="Task Date Created"></label>
+                    <label class="d-inline" for="<%= `dateCreated-${i}` %>" aria-label="Task Date Created"></label>
                     <input class='form-control' id=<%=`dateCreated-${i}` %> type="text" value='<%= tasks[i].dateCreated
                       %>'
                       readonly>
                   </td>
                   <td>
-                    <label class="d-none" for="<%= `deadline-${i}` %>" aria-label="Task Deadline"></label>
+                    <label class="d-inline" for="<%= `deadline-${i}` %>" aria-label="Task Deadline"></label>
                     <input class='form-control' id=<%=`deadline-${i}` %> type="text" value='<%= tasks[i].deadline %>'
                       readonly>
                   </td>

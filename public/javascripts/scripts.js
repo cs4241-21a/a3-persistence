@@ -29,7 +29,7 @@ let updateTasks = (tasks) => {
         const titleInput = document.createElement('input');
         titleLabel.htmlFor = `title-${index}`;
         titleLabel.ariaLabel = "Task Title Input";
-        titleLabel.className = 'd-none';
+        titleLabel.className = 'd-inline';
         titleInput.className = 'form-control';
         titleData.appendChild(titleLabel);
         titleData.appendChild(titleInput);
@@ -42,7 +42,7 @@ let updateTasks = (tasks) => {
         const descriptionInput = document.createElement('input');
         descriptionLabel.htmlFor = `description-${index}`;
         descriptionLabel.ariaLabel = "Task Description Input";
-        descriptionLabel.className = 'd-none';
+        descriptionLabel.className = 'd-inline';
         descriptionInput.className = 'form-control';
         descriptionData.appendChild(descriptionLabel);
         descriptionData.appendChild(descriptionInput);
@@ -55,7 +55,7 @@ let updateTasks = (tasks) => {
         const priorityInput = document.createElement('input');
         priorityLabel.htmlFor = `priority-${index}`;
         priorityLabel.ariaLabel = "Task Priority Input";
-        priorityLabel.className = 'd-none';
+        priorityLabel.className = 'd-inline';
         priorityInput.className = 'form-control';
         priorityInput.type = 'number';
         priorityInput.min = 0;
@@ -71,7 +71,7 @@ let updateTasks = (tasks) => {
         const dateCreatedInput = document.createElement('input');
         dateCreatedLabel.htmlFor = `dateCreated-${index}`;
         dateCreatedLabel.ariaLabel = "Task Date Created";
-        dateCreatedLabel.className = 'd-none';
+        dateCreatedLabel.className = 'd-inline';
         dateCreatedInput.id = `dateCreated-${index}`;
         dateCreatedInput.className = 'form-control';
         dateCreatedInput.readOnly = true;
@@ -85,7 +85,7 @@ let updateTasks = (tasks) => {
         const deadlineInput = document.createElement('input');
         deadlineLabel.htmlFor = `deadline-${index}`;
         deadlineLabel.ariaLabel = "Task Deadline";
-        deadlineLabel.className = 'd-none';
+        deadlineLabel.className = 'd-inline';
         deadlineInput.id = `deadline-${index}`;
         deadlineInput.className = 'form-control';
         deadlineInput.readOnly = true;
