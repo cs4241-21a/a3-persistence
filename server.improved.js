@@ -51,7 +51,7 @@ app.post( '/login', ( request, response ) => {
   }
   else {
     // if not in database, and account name is valid, create new account
-    if ( logInResult === "nonexistent" || ( json.username !== "" && json.username !== "userinfo" ) ) {
+    if ( logInResult === "nonexistent" && json.username !== "" && json.username !== "userinfo" ) {
       users.insertOne( { username: json.username, password: json.password } )
       request.session.username = json.username
       request.session.password = json.password
@@ -137,7 +137,7 @@ const checkCredentials = function( username, password ) {
   let account
   if ( account = users.findOne( { username: username } ) ) {
     // return whether the given password matches the account's password
-    if ( account.password === true ) {
+    if ( account.password === password ) {
       return "correct"
     }
     return "incorrect"
