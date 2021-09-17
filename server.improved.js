@@ -137,8 +137,9 @@ const checkCredentials = function( username, password ) {
   console.log( "checking credentials with username: " + username + " and password: " + password )
 
   // check existing accounts for account with the given username
-  let account
-  if ( account = users.findOne( { username: username } ) ) {
+  let account = users.findOne( { username: username } )
+  console.log( account )
+  if ( account !== null ) {
     // return whether the given password matches the account's password
     if ( account.password === password ) {
       console.log( "correct credentials" )
