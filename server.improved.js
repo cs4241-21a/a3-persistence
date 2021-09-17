@@ -42,6 +42,7 @@ app.post( '/login', ( request, response ) => {
   console.log( "with url: " + request.url )
 
   let logInResult = checkCredentials( json.username, json.password )
+  console.log( "logInResult: " + logInResult )
   // log in if credentials are correct
   if( logInResult === "correct" ) {
     request.session.username = json.username
