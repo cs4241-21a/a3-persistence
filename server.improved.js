@@ -7,7 +7,7 @@ const express = require( 'express' ),
 
 let users
 let userdata
-const tasklist = []
+let tasklist
 
 //connect to users collection
 dbclient.connect()
