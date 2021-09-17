@@ -4,6 +4,11 @@ const express = require( 'express' ),
 
 app.use( express.static('public') )
 app.use( express.json() )
+const path = require('path');
+
+app.get('/', function(req, res) {
+  res.sendFile(path.join(__dirname, '/public/login.html'));
+});
 
 // make sure to substitute your username / password for tester:tester123 below!!! 
 const uri = "mongodb+srv://testUser:testing123@cluster0.gieka.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
@@ -24,13 +29,13 @@ client.connect()
   })
   .then( console.log )
   
-// route to get all docs
-app.get( '/', (req,res) => {
-  if( collection !== null ) {
-    debugger
-    collection.find({ }).toArray().then( result => res.json( result ) )
-  }
-})
+// // route to get all docs
+// app.get( '/', (req,res) => {
+//   if( collection !== null ) {
+//     debugger
+//     collection.find({ }).toArray().then( result => res.json( result ) )
+//   }
+// })
 
 app.post( '/add', (req,res) => {
   // assumes only one object to insert
