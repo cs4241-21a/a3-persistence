@@ -5,7 +5,6 @@ const express = require( 'express' ),
       app = express(),
       dbclient = new mongodb.MongoClient( process.env.DBURI, { useNewUrlParser: true, useUnifiedTopology:true })
 
-app.use( express.static( dir ) )
 app.use( express.json() )
 
 app.use( express.urlencoded( { extended: true } ) )
@@ -44,6 +43,8 @@ app.use( function( request, response, next ) {
     console.log( "not logged in" )
   }
 })
+
+app.use( express.static( dir ) )
 
 app.post( '/add|/edit|/remove|/update', ( request, response) => {
   let json = request.body
