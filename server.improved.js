@@ -1,8 +1,6 @@
-  require('dotenv').config()
-  const express = require('express'),
+require('dotenv').config()
+const express = require('express'),
   app = express(),
-  path = require('path'),
-  favicon = require('serve-favicon'),
   compression = require('compression'),
   helmet = require('helmet'),
   mongodb = require('mongodb'),
@@ -11,33 +9,28 @@
   client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true }),
   port = 3000
 
+let collection = null
+client.connect(err => {
+  collection = client.db('HotelReviews').collection('Reviews')
+})
 
-  let collection = null
-  client.connect(err => {
-    collection = client.db('HotelReviews').collection('Reviews')
-  })
-
-  // Middleware to check connection to database
-  app.use( (req,res,next) => {
-    if( collection !== null ) {
-      next()
-    }else{
-      res.status( 503 ).send()
-    }
-  })
+// Middleware to check connection to database
+app.use( (req,res,next) => {
+  if( collection !== null ) {
+    next()
+  }else{
+    res.status( 503 ).send()
+  }
+})
 
 app.use(helmet())
 
 app.use(compression())
 
+
 app.get('/', function(request, response) {
   response.sendFile(__dirname + '/public/login.html')
 })
-
-// automatically deliver all files in the public folder with the correct headers 
-app.use( express.static('public'))
-
-app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 const getOverallScore = function (
   cleanlinessScore,
@@ -120,6 +113,9 @@ app.post('/edit', express.json(), function(request,response) {
   .then(() => collection.find({creator: request.body.userid}).toArray())
   .then(result => response.json(result))
 })
+
+// automatically deliver all files in the public folder with the correct headers 
+app.use( express.static('public'))
 
 app.listen(process.env.PORT || port)
 

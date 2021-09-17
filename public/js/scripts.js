@@ -1,4 +1,3 @@
-//import {login} from '/js/login.js'
 let id = null;
 
 function generateTable() {
@@ -20,7 +19,6 @@ function refreshTable(data) {
   let table = document.querySelector('table');
   if (table === null) {
     table = document.createElement('table');
-    document.body.appendChild(table);
   }
   let tBody = table.createTBody();
   let tHead = table.createTHead();
@@ -145,6 +143,7 @@ function refreshTable(data) {
     };
     deleteButtonCell.appendChild(deleteBtn);
   }
+  document.body.appendChild(table);
 }
 
 const submit = function (e) {

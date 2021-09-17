@@ -1,5 +1,9 @@
 /* ---------- Element Selectors ---------- */
 
+a {
+    color: white;
+}
+
 h1, h2 {
     font-family: 'Hina Mincho', serif;
     white-space: nowrap;
@@ -30,9 +34,7 @@ body {
 }
 
 h1 {
-    font-size:150px;
-    white-space: normal;
-    word-wrap: break-word;
+    font-size:120px;
 }
 
 h2 {
