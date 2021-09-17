@@ -34,6 +34,7 @@ app.post( '/login', ( request, response ) => {
 
 // send signed out users to the login page
 app.use( function( request, response, next ) {
+  console.log( request.session.username )
   if( request.session.username === "testuser" ) {
     next()
     console.log( "logged in as testuser" )
