@@ -34,10 +34,12 @@ app.post( '/login', ( request, response ) => {
 // send signed out users to the login page
 app.use( function( request, response, next ) {
   console.log( request.session.username )
-  if( request.session.username === "testuser" ) {
+  // if already at /index.html or logged in successfully, do nothing
+  if( request.url.endsWith() || request.session.username === "testuser" ) {
     next()
     console.log( "logged in as testuser" )
   }
+  // otherwise redirect to /index.html
   else {
     response.redirect( "/index.html" )
     console.log( "not logged in" )
