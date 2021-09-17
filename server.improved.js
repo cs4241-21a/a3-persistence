@@ -79,7 +79,7 @@ app.use( function( request, response, next ) {
   // if logged in, or logging in, or fetching the login page or a non html file, do nothing
   if( ( !request.url.endsWith( ".html" ) && request.method === "GET" ) ||
       checkCredentials( request.session.username, request.session.password ) === "correct" ||
-      request.url.endsWith( "/index.html" ) || request.url.endsWith( "/login" ) ) {
+      request.url === "/index.html" || request.url === "/" || request.url === "/login" ) {
     next()
     console.log( "logged in as " + request.session.username )
   }
