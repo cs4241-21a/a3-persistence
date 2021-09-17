@@ -32,6 +32,7 @@ app.post( '/login', (req,res)=> {
   if( loginCollection !== null ) {
     loginCollection.find({ username:req.body.username }).toArray().then( result => { 
       console.log(req.body.password)
+      console.log(req.body.username)
       console.log(result)
       if(result.length === 1){
 
@@ -49,12 +50,14 @@ app.post( '/login', (req,res)=> {
           res.sendFile( __dirname + '/public/index.html' )
         }
       }
+      else{
+        console.log("Wrong email")
+        req.session.login = false
+        res.sendFile( __dirname + '/public/index.html' )
+      }
     })
   }
-  else{
-    req.session.login = false
-    res.sendFile( __dirname + '/public/index.html' )
-  }
+  
   
   
 })
