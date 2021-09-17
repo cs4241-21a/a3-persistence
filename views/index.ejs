@@ -79,13 +79,13 @@
 
       <form class="border border-dark border-3 rounded rounded-5 p-3">
         <h3 class="h3">Add a Task</h3>
-        <label for="title" class="form-label">Title:</label>
+        <label for="title" class="form-label mt-3">Title:</label>
         <input class='form-control' type='text' name='title' id='title' placeholder="title" required>
-        <label for="description" class="form-label">Description(optional):</label>
+        <label for="description" class="form-label mt-3">Description(optional):</label>
         <input class='form-control' type="text" name="description" id="description" placeholder="description">
-        <label for="priority" class="form-label">Priority:</label>
-        <input class='form-control' type="number" id="priority" name="priority" min="0" max="10" value='5' required>
-        <button id="addTask-btn" class="btn btn-primary btn-lg">Submit</button>
+        <label for="priority-range" class="form-label mt-3">Priority (0 - 10):</label>
+        <input id='priority-range' type="range" class="form-range" min="0" max="10" step="1" id="customRange2">
+        <button id="addTask-btn" class="btn btn-primary btn-lg mt-3">Submit</button>
       </form>
     </div>
 

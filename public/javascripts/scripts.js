@@ -139,7 +139,7 @@ const submit = async function (e) {
     const title = document.querySelector('#title');
     const description = document.querySelector('#description');
 
-    const priority = document.querySelector('#priority');
+    const priority = document.querySelector('#priority-range');
     if ((!priority.valueAsNumber && priority.valueAsNumber !== 0) || priority.valueAsNumber < 0 || priority.valueAsNumber > 10) {
         alert('Priority must be 0 - 10');
         return;
