@@ -1,27 +1,95 @@
 const express    = require('express'),
       bodyParser = require( 'body-parser' ),
+      cookie  = require( 'cookie-session' ),
+      cookieParser = require('cookie-parser'),
+      serveStatic = require('serve-static')
       app        = express()
 
-app.use( express.static( 'public' ) )
 
-
-
+const { request } = require('express')
 const mongodb = require('mongodb');
 const MongoClient = mongodb.MongoClient;
-let collection= null
+
+app.use( express.urlencoded({ extended:true }) )
+app.use(cookieParser())
+
+
+app.use( cookie({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
+let loginCollection = null
 const uri = `mongodb+srv://dbUser:Michael1@csweb.0knbq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+
+client.connect(err => {
+  loginCollection = client.db("contactApp").collection("loginInfo");
+});
+
+app.post( '/login', (req,res)=> {
+
+  if( loginCollection !== null ) {
+    loginCollection.find({ username:req.body.username }).toArray().then( result => { 
+      console.log(req.body.password)
+      console.log(result)
+      if(result.length === 1){
+
+        if( req.body.password === result[0].password ) {
+
+          req.session.login = true
+          req.session.username = req.body.username
+          
+          console.log('Cookies: ', cookieParser.JSONCookies(req.cookies))
+
+          console.log('Signed Cookies: ', req.signedCookies)
+          res.redirect( 'main.html' )
+        }else{
+          req.session.login = false
+          res.sendFile( __dirname + '/public/index.html' )
+        }
+      }
+    })
+  }
+  else{
+    req.session.login = false
+    res.sendFile( __dirname + '/public/index.html' )
+  }
+  
+  
+})
+
+app.use( function( req,res,next) {
+  if( req.session.login === true )
+    next()
+  else
+    res.sendFile( __dirname + '/public/index.html' )
+})
+
+
+app.use(serveStatic('public/', { 'index': ['index.html', 'index.htm']}))
+
+
+
+
+let collection= null
+
 
 client.connect(err => {
   collection = client.db("contactApp").collection("userData");
 });
 
 
-app.get('/', function(request, response) {
-  response.sendFile( __dirname + '/index.html' )
+
+app.post( '/signOut', bodyParser.json(), function( request, response ) {
+  console.log("In sign out: " + request.session.login)
+  request.session.login = false
+  console.log("In sign out: " + request.session.login)
+  response.sendFile( __dirname + '/public/index.html' )
 })
 
 app.post( '/submit', bodyParser.json(), function( request, response ) {
+  request.body.username = request.session.username
   collection.insertOne( request.body )
     .then( insertResponse => collection.findOne( insertResponse.insertedId ) ) 
     .then( findResponse   => response.json( findResponse ) )
@@ -30,7 +98,7 @@ app.post( '/submit', bodyParser.json(), function( request, response ) {
 
 app.get('/getData', function(request, response) {
   if( collection !== null ) {
-    collection.find({ }).toArray().then( result => { response.json( result ) } )
+    collection.find({ username:request.session.username }).toArray().then( result => { response.json( result ) } )
   }
 })
 
@@ -48,7 +116,6 @@ app.post('/delete', bodyParser.json(), function(request, response) {
 })
 
 app.post('/update', bodyParser.json(), function(request, response) {
- 
   collection
     .updateOne(
       { _id:mongodb.ObjectId( request.body.modifyInput ) },

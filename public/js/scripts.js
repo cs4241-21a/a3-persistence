@@ -1,7 +1,7 @@
 let currEdit = 1
 
 window.onload = function() {
-    const button = document.querySelector( 'button' )
+    const button = document.getElementById( 'submit_btn' )
     button.onclick = submit
     initData()
   }
@@ -287,6 +287,16 @@ const submit = function( e ) {
         showEditWindow(id)
       }
 
+  }
+
+  function signOut() {
+    fetch( '/logOut', {
+      method:'POST',
+      body: JSON.stringify({test: 1}),
+      headers:{
+        "Content-Type":"application/json"
+      }
+    })
   }
 
   
