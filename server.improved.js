@@ -76,27 +76,18 @@ const userdata = []
 
 let highestId = 2
 
-/*let collection = null
-
 //test database connection
 dbclient.connect()
   .then( () => {
     console.log( "connected with client" )
     // will only create collection if it doesn't exist
-    return dbclient.db( 'userdata' ).collection( 'testuser' )
+    return dbclient.db( 'userdata' ).collection( 'userinfo' )
   })
   .then( collection => {
     console.log( "fetched collection" )
-    // store reference to collection
-    userdata.splice( 0, userdata.length )
-    collection.find({ }).toArray().then( tasks => {
-      tasks.forEach( ( task ) => userdata.push( task ) )
-    })
-    // blank query returns all documents
-    return userdata
+    users = collection
+    return users.find( { } ).toArray().then( console.log )
   })
-  .then( console.log )
-  .then( dbclient.close() )*/
 
 const addTask = function( name, period, deadline ) {
   let id = highestId + 1
