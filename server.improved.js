@@ -31,7 +31,7 @@ app.post( '/login', ( request, response ) => {
   }
 })
 
-app.post( '/logout', ( request, response ) => {
+app.get( '/logout', ( request, response ) => {
   request.session.username = ""
   response.redirect( "/index.html" )
 })
