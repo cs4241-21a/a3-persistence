@@ -167,13 +167,12 @@ const submit = function( e ) {
   const logout = function (e) {
     e.preventDefault();
 
-    fetch('/logout', {
-      method: 'POST',
-      headers: {
-        "Content-Type":"application/json"
+    fetch('/logout')
+    .then(response => {
+      if (response.ok) {
+        window.location.href = "/"
       }
     })
-    window.location.href = "login.html"
   }
   
   window.onload = function() {
@@ -182,4 +181,10 @@ const submit = function( e ) {
 
     const logoutButton = document.getElementById('logoutBtn')
     logoutButton.onclick = logout
+
+    fetch('/getData')
+    .then(response => response.json())
+    .then((json)=> {
+      addEntry(json)
+    })
   }

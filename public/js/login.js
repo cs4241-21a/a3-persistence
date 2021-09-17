@@ -23,15 +23,14 @@ const login = function (e) {
         }
     })
     //Launches the homepage
-    .then(reponse => response.json())
-     .then(user => {
-         if (user.length == 0) {
-             window.alert("Require username and password")
-         } else {
-             window.location.href = "index.html"
-         }
-     })
-
+    .then(response => {
+        if(response.ok) {
+            console.log("response:", response)
+            window.location.href = "index.html"
+        } else {
+            alert("Network Error")
+        }
+    })
     return false
 }
 
@@ -43,8 +42,8 @@ window.onload = function() {
 
     logout();
 
-    const loginBtn = document.getElementById('loginBtn');
-    loginBtn.onclick = login;
+    const loginButton = document.getElementById('loginBtn');
+    loginButton.onclick = login;
 
     document.getElementById('username').value = "";
     document.getElementById('password').value = "";

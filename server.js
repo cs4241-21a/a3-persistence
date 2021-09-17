@@ -11,30 +11,25 @@ const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.e
 let userAccount = "";
 
 app.get("/", (request, response) => {
-  console.log("hello")
-  if (userAccount.length === 0) {
-    console.log("why")
+  
+  if (userAccount != null) {
     response.sendFile(__dirname + "/views/login.html")
   } else {
-    console.log("alice")
     response.sendFile(__dirname + "/views/index.html");
   }
 });
 
 app.get("/index.html", (request, response) => {
-  console.log("ye")
-  if (userAccount != null) {
-    console.log("world")
+
+  if (userAccount.length === 0) {
     response.sendFile(__dirname + "/views/login.html")
   } else {
-    console.log("bob")
     response.sendFile(__dirname + "/views/index.html");
   }
 });
 
 app.get('/logout', function(request, response) {
-  console.log("whoo")
-  request.logout
+  //request.logout
   response.ok = true;
   return response.end();
 })
@@ -45,7 +40,7 @@ let collection = null
 client.connect()
   .then( () => {
     // will only create collection if it doesn't exist
-    return client.db( 'SleepDataset' ).collection( 'SleepData' )
+    return client.db('SleepDataset').collection('SleepData')
   })
   .then( __collection => {
     // store reference to collection
@@ -55,8 +50,17 @@ client.connect()
   })
   .then( console.log )
 
+app.get('/getData', bodyparser.json(), function(request, response){
+  const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true })
+  client.connect()
+  const collection = client.db('SleepDataset').collection( 'SleepData' )
+  const sleeps = collection.find({username: userAccount}).toArray()
+  client.close()
+  return response.json(sleeps)
+})
+
 app.post("/submit", bodyparser.json(), function(req,res) {
-    console.log('body: ', req.body)
+
     console.log("username: ", req.body.USER)
       //req.body['username'] = user
 
@@ -87,9 +91,7 @@ app.post( '/update', bodyparser.json(), function (req,res) {
 })
 
 //Login
-let loginCollection = null;
-
-app.post('/login', bodyparser.json(), function(req,res) {
+app.post('/login', async(req,response) => {
 
 let userData = req.body
 console.log("userData: ", userData);
@@ -98,11 +100,39 @@ let username = userData.username;
 let password = userData.password;
 
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
-client.connect(err => {
-  const loginCollection = client.db("UserDataset").collection("UserData");
-  // perform actions on the collection object
-  //client.close();
-});
+await client.connect()
+const collection = client.db("SleepDataset").collection("UserData");
+const user = await collection.find({username: username}).toArray()
+
+  if (user.length === 0) {
+  
+    console.log("whoho")
+    await collection.insertOne(userData)
+    await client.close()
+    userAccount = username
+
+    response.ok = true
+  
+  } else {
+    
+    await client.close();
+    console.log("password:", password)
+    console.log("user:",JSON.stringify(user))
+    
+    if (user[0].password == password) {
+      console.log("it got here")
+      userAccount = username
+      response.ok = false
+      client.close()
+  
+    } else {
+  
+      userAccount = ""
+      response.ok = false
+  
+    }
+    return response.end()
+  };
 })
 
 app.listen( 3000 )
