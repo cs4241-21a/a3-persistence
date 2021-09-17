@@ -72,14 +72,11 @@ app.use( function( request, response, next ) {
 
 app.use( express.static( dir ) )
 
-app.post( '/add|/edit|/remove|/update', ( request, response) => {
+app.post( '/add|/edit|/remove|/update', async ( request, response) => {
   // get user's tasks from database
-  dbclient.db( 'userdata' ).collection( request.session.username )
-  .then( collection => {
-    console.log( "fetched collection" )
-    userdata = collection
-    return userdata.find( { } ).toArray().then( console.log )
-  })
+  userdata = await dbclient.db( 'userdata' ).collection( request.session.username )
+  console.log( "fetched collection" )
+  console.log( await userdata.find( { } ).toArray() )
   
   // check for failed connection
   if( userdata === null ) {
@@ -96,11 +93,12 @@ app.post( '/add|/edit|/remove|/update', ( request, response) => {
     const ms = 60 * 60 * 1000 // number of milliseconds in an hour
     json.deadline = Math.round( deadline / ms ) * ms
   }
+
   switch( request.url ) {
-    case '/add': addTask( json ); break
-    case '/edit': editTask( json.id, json.name, json.period, json.deadline ); break
-    case '/remove': removeTask( json.id ); break
-    case '/update': recalculateStarts(); break
+    case '/add': await addTask( json ); break
+    case '/edit': await editTask( json.id, json.name, json.period, json.deadline ); break
+    case '/remove': await removeTask( json.id ); break
+    case '/update': await recalculateStarts(); break
     default: break
   }
 
@@ -110,38 +108,42 @@ app.post( '/add|/edit|/remove|/update', ( request, response) => {
 
 app.listen( process.env.PORT || 3000 )
 
-const addTask = function( json ) {
+const addTask = async function( json ) {
   console.log( "in addTask: " )
   console.log( "name: " + json.name + "start: " + Date.parse( Date() ) + "period: " + json.period + "deadline: " + json.deadline )
 
   json.start = Date.parse( Date() )
-  userdata.insertOne( json ).then( () => recalculateStarts() )
+  await userdata.insertOne( json )
+  
+  await recalculateStarts()
 }
 
-const editTask = function( json ) {
+const editTask = async function( json ) {
   console.log( "in editTask: " )
   console.log( "_id: " + json._id + "name: " + json.name + "period: " + json.period + "deadline: " + json.deadline )
 
-  userdata
+  await userdata
     .updateOne(
       { _id: mongodb.ObjectId( json._id ) },
       { $set: { name: json.name, period: json.period, deadline: json.deadline } },
     )
-    .then( () => recalculateStarts() )
+  
+  await recalculateStarts()
 }
 
-const removeTask = function( id ) {
+const removeTask = async function( id ) {
   console.log( "in removeTask: " )
   console.log( "id: " + id )
 
-  userdata.deleteOne( { _id: mongodb.ObjectId( json._id ) } )
-    .then( () => recalculateStarts() )
+  await userdata.deleteOne( { _id: mongodb.ObjectId( json._id ) } )
+  
+  await recalculateStarts()
 }
 
 // calculate latest starts based on deadlines and periods
-const recalculateStarts = function() {
+const recalculateStarts = async function() {
   // get array from collection
-  tasklist = userdata.find( { } ).toArray()
+  tasklist = await userdata.find( { } ).toArray()
 
   // sort by latest deadline first
   tasklist.sort( function( entry1, entry2 ) {
@@ -166,8 +168,8 @@ const recalculateStarts = function() {
   tasklist.reverse()
 
   // update database with tasklist start data
-  tasklist.forEach( task => {
-    userdata.updateOne(
+  tasklist.forEach( async function( task ) {
+    await userdata.updateOne(
       { _id: task._id},
       { $set: { start: task.start } }
     )
