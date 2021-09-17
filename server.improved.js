@@ -96,8 +96,8 @@ app.post( '/add|/edit|/remove|/update', async ( request, response) => {
 
   switch( request.url ) {
     case '/add': await addTask( json ); break
-    case '/edit': await editTask( json.id, json.name, json.period, json.deadline ); break
-    case '/remove': await removeTask( json.id ); break
+    case '/edit': await editTask( json ); break
+    case '/remove': await removeTask( json ); break
     case '/update': await recalculateStarts(); break
     default: break
   }
@@ -131,9 +131,9 @@ const editTask = async function( json ) {
   await recalculateStarts()
 }
 
-const removeTask = async function( id ) {
+const removeTask = async function( json ) {
   console.log( "in removeTask: " )
-  console.log( "id: " + id )
+  console.log( "id: " + json._id )
 
   await userdata.deleteOne( { _id: mongodb.ObjectId( json._id ) } )
   
