@@ -1,21 +1,21 @@
 // client-side js, loaded by index.html
 // run by the browser each time the page is loaded
 
-console.log("hello world :o");
-
 // define variables that reference elements on our page
 let reviewsList = document.getElementById("dreams");
 let reviewsForm = document.getElementById("form");
 let submitButton = document.getElementById("submit");
 let table = document.getElementById("reviews");
 
-let ids = []
+let tableIDs = []
+
+let username = localStorage["username"];
 
 // fetch the initial list of reviews
 fetch("/reviews")
     .then(response => response.json()) // parse the JSON from the server
     .then(reviews => {
-
+        console.log("username: ", username)
         console.log("reviews: ", reviews)
             // iterate through every review and add it to our page
         for (let review of reviews) {
@@ -36,7 +36,7 @@ submitButton.addEventListener("click", event => {
 
     if (inputTitle === '' || inputAuthor === '' ||
         inputRating === '' || inputDescription === '') {
-        alert("Fill in all the fields")
+        // alert("Fill in all the fields")
     } else {
 
         let newReview = { "title": inputTitle, "author": inputAuthor, "rating": inputRating, "description": inputDescription }
@@ -57,7 +57,6 @@ submitButton.addEventListener("click", event => {
 
         // reset form
         reviewsForm.reset();
-        reviewsForm.elements.dream.focus();
     }
 });
 
@@ -75,7 +74,7 @@ const remove = function(e) {
         let body = JSON.stringify({ _id: cells[0].innerHTML })
         console.log("body:", body)
 
-        let index = ids.indexOf(String(cells[0].innerHTML)) + 1
+        let index = tableIDs.indexOf(String(cells[0].innerHTML)) + 1
 
         if (index != null) {
             table.deleteRow(index)
@@ -111,7 +110,7 @@ const edit = function(e) {
 
         let cells = target.getElementsByTagName("td");
 
-        let index = ids.indexOf(String(cells[0].innerHTML)) + 1;
+        let index = tableIDs.indexOf(String(cells[0].innerHTML)) + 1;
 
         let titleValue = cells[1].innerHTML;
         console.log("Title: ", String(titleValue))
@@ -197,7 +196,7 @@ function populateTable(data) {
 
     const cellID = document.createElement("td")
     cellID.appendChild(document.createTextNode(String(data._id)))
-    ids.push(String(data._id))
+    tableIDs.push(String(data._id))
     cellID.style.display = "none";
 
     const cellTitle = document.createElement("td")

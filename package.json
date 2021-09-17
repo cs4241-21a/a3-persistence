@@ -7,6 +7,7 @@
         "start": "node server.js"
     },
     "dependencies": {
+        "cookie-session": "^1.4.0",
         "mime": "^2.4.4"
     },
     "devDependencies": {

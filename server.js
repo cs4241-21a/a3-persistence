@@ -1,12 +1,8 @@
-// server.js
-// where your node app starts
-
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
-const express = require("express");
-const bodyParser = require("body-parser"); //middleware(middle man function that does some sort of function)
-const app = express();
-const mongodb = require("mongodb");
+const express = require("express"),
+    bodyParser = require("body-parser"),
+    cookie = require('cookie-session'),
+    app = express(),
+    mongodb = require("mongodb");
 
 var ObjectId = require('mongodb').ObjectId;
 
@@ -26,18 +22,99 @@ const client = new mongodb.MongoClient(uri, {
 
 let collection = null;
 
-client.connect(err => {
-    collection = client.db("appdata").collection("event");
-    //console.log(collection);
-})
+client.connect()
+    .then(() => {
+        // will create collection if it doesn't exist
+        return client.db("data").collection("data");
+    })
+    .then(__collection => {
+        // store reference to collection
+        collection = __collection
+            // blank query returns all documents
+        return collection.find({}).toArray()
+    })
+    // .then(console.log)
 
 app.get("/reviews", (request, response) => {
-    collection
-        .find({})
-        .toArray()
-        .then(result => response.json(result))
-        .catch(err => console.log(err));
+    if (collection !== null) {
+        collection
+            .find({ "review": { $exists: true } })
+            .toArray()
+            .then(result => response.json(result))
+            .catch(err => console.log(err));
+    }
 });
+
+// use express.urlencoded to get data sent by defaut form actions
+// or GET requests
+app.use(express.urlencoded({ extended: true }))
+
+//  The keys are used for encryption and should be changed
+app.use(cookie({
+    name: 'session',
+    keys: ['key1', 'key2']
+}))
+
+
+
+app.post('/login', (request, response) => {
+    // express.urlencoded will put your key value pairs 
+    // into an object, where the key is the name of each
+    // form field and the value is whatever the user entered
+
+
+    collection.find({ "username": request.body.username }).toArray(function(err, results) {
+        if (err) {
+            console.log(err);
+        } else {
+            if (results[0] === undefined) {
+                request.session.login = false
+
+                // username incorrect, redirect back to login page
+                response.sendFile(__dirname + '/public/index.html')
+            } else if (results[0].password === request.body.password) {
+                // define a variable that we can check in other middleware
+                // the session object is added to our requests by the cookie-session middleware
+                request.session.login = true
+
+                // since login was successful, send the user to the main content
+                response.sendFile(__dirname + '/public/main.html')
+            } else {
+                request.session.login = false
+                    // password incorrect, redirect back to login page
+                response.sendFile(__dirname + '/public/index.html')
+            }
+
+            // if (results[0] === undefined) {
+            //     request.session.login = false
+            //     console.log("Incorrect Username")
+            //         // username incorrect, redirect back to login page
+            //     response.json({ "correctUser": 0 })
+            // } else if (results[0].password === request.body.password) {
+            //     // define a variable that we can check in other middleware
+            //     // the session object is added to our requests by the cookie-session middleware
+            //     request.session.login = true
+            //     console.log("Successfully Signed In")
+            //         // since login was successful, send the user to the main content
+            //         // response.sendFile(__dirname + '/public/main.html/')
+            //     response.redirect('main.html/')
+            // } else {
+            //     request.session.login = false
+            //     console.log("Incorrect Password")
+            //         // password incorrect, redirect back to login page
+            //     response.json({ "correctUser": 0 })
+            // }
+        }
+    })
+})
+
+// add some middleware that always sends unauthenicated users to the login page
+app.use(function(request, response, next) {
+    if (request.session.login === true)
+        next()
+    else
+        response.sendFile(__dirname + '/public/index.html')
+})
 
 //calls bodyParser.json() in the middle of receiving the request and sending a response
 app.post("/add", bodyParser.json(), (request, response) => {
@@ -70,7 +147,6 @@ app.post('/update', bodyParser.json(), (request, response) => {
         });
 });
 
-// listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
     console.log("Your app is listening on port " + listener.address().port);
 });
