@@ -36,6 +36,7 @@ app.use( cookie({
 }) )
 
 app.post( '/login', ( request, response ) => {
+  console.log( "logging in/registering" )
   let json = request.body
   console.log( "received json: " + JSON.stringify( json ) )
   console.log( "with url: " + request.url )
@@ -45,8 +46,9 @@ app.post( '/login', ( request, response ) => {
   if( logInResult === "correct" ) {
     request.session.username = json.username
     request.session.password = json.password
+    console.log( "correct password" )
     console.log( "logged in as " + json.username )
-    console.log( "tasks.html" )
+    console.log( "redirecting to tasks" )
     response.redirect( "/tasks.html" )
   }
   else {
@@ -59,7 +61,7 @@ app.post( '/login', ( request, response ) => {
     }
     // if incorrect, or nonexistent but invalid username, redirect to login page
     else {
-      console.log( "not logged in" )
+      console.log( "incorrect password or invalid username, resetting login screen" )
       response.redirect( "/index.html" )
     }
   }
@@ -72,19 +74,19 @@ app.get( '/logout', ( request, response ) => {
 
 // send signed out users to the login page
 app.use( function( request, response, next ) {
-  console.log( request.session.username )
+  console.log( "checking for logged out user, cookie username: " + request.session.username )
   console.log( "url: " + request.url + "username: " + request.session.username)
   // if logged in, or logging in, or fetching the login page or a non html file, do nothing
   if( ( !request.url.endsWith( ".html" ) && request.method === "GET" ) ||
       checkCredentials( request.session.username, request.session.password ) === "correct" ||
       request.url.endsWith( "/index.html" ) || request.url.endsWith( "/login" ) ) {
     next()
-    console.log( "logged in as testuser" )
+    console.log( "logged in as " + request.session.username )
   }
   // if loading an html file other than the login page, or using a non login post request and not logged in, redirect to the login page
   else {
+    console.log( "not logged in, redirecting" )
     response.redirect( "/index.html" )
-    console.log( "not logged in" )
   }
 })
 
@@ -138,11 +140,14 @@ const checkCredentials = function( username, password ) {
   if ( account = users.findOne( { username: username } ) ) {
     // return whether the given password matches the account's password
     if ( account.password === password ) {
+      console.log( "correct credentials" )
       return "correct"
     }
+    console.log( "incorrect password" )
     return "incorrect"
   }
   // account is not in database
+  console.log( "account doesn't exist" )
   return "nonexistent"
 }
 
