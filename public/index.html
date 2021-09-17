@@ -17,26 +17,24 @@
       <p>Add tasks with a deadline and a time to complete in hours, and Procrast-inator will calculate the latest time you can start doing each task!</p>
       
       <div id="account">
-        <p id="account-message">Please log in to view and edit your tasks</p>
-        <form id="login">
+        <p id="account-message">Please log in to view and edit your tasks<i class="fas fa-question-circle fa-xs" title="Logging in with a username that doesn't exist will create a new account and log you in as that account."></i></p>
+        <form id="login" action="/login" method="POST">
           <table id="form-table">
             <tr class="input-container">
-              <td><label>Username:</label></td>
-              <td><input type="text" id="username"></td>
+              <td><label for="username">Username:</label></td>
+              <td><input type="text" name="username"></td>
             </tr>
             <tr class="input-container">
-              <td><label>Password:</label></td>
-              <td><input type="password" id="password"></td>
+              <td><label for="password">Password:</label></td>
+              <td><input type="password" name="password"></td>
             </tr>
             <tr class="input-container">
               <td></td>
-              <td><button id="login-button" class="text-button">Login/Register</button><i class="fas fa-question-circle fa-xs" title="Logging in with a username that doesn't exist will create a new account and log you in as that account."></i></td>
+              <td><input type="submit" value="Log in or Register"></td>
             </tr>
           </table>
         </form>
       </div>
     </div>
-
-    <script src="js/indexScript.js"></script>
   </body>
 </html>
