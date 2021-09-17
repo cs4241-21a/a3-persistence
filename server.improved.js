@@ -12,7 +12,7 @@ app.use( express.urlencoded( { extended: true } ) )
 
 app.use( cookie({
   name: "session",
-  keys: [ "key1", "key2" ]
+  keys: [ process.env.COOKIE_KEY_1, process.env.COOKIE_KEY_2 ]
 }) )
 
 app.post( '/login', ( request, response ) => {
