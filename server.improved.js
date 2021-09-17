@@ -40,15 +40,28 @@ app.post( '/login', ( request, response ) => {
   console.log( "received json: " + JSON.stringify( json ) )
   console.log( "with url: " + request.url )
 
-  if( request.body.username === "testuser") {
-    request.session.username = "testuser"
-    console.log( "logged in as testuser" )
+  let logInResult = checkCredentials( json.username, json.password )
+  // log in if credentials are correct
+  if( logInResult === "correct" ) {
+    request.session.username = json.username
+    request.session.password = json.password
+    console.log( "logged in as " + json.username )
     console.log( "tasks.html" )
     response.redirect( "/tasks.html" )
   }
   else {
-    console.log( "not logged in" )
-    response.redirect( "/index.html" )
+    // if not in database, and account name is valid, create new account
+    if ( logInResult === "nonexistent" || ( json.username !== "" && json.username !== "userinfo" ) ) {
+      users.insertOne( { username: json.username, password: json.password } )
+      request.session.username = json.username
+      request.session.password = json.password
+      console.log( "new account registered as " + json.username )
+    }
+    // if incorrect, or nonexistent but invalid username, redirect to login page
+    else {
+      console.log( "not logged in" )
+      response.redirect( "/index.html" )
+    }
   }
 })
 
@@ -63,7 +76,8 @@ app.use( function( request, response, next ) {
   console.log( "url: " + request.url + "username: " + request.session.username)
   // if logged in, or logging in, or fetching the login page or a non html file, do nothing
   if( ( !request.url.endsWith( ".html" ) && request.method === "GET" ) ||
-        request.session.username === "testuser" || request.url.endsWith( "/index.html" ) || request.url.endsWith( "/login" ) ) {
+      checkCredentials( request.session.username, request.session.password ) === "correct" ||
+      request.url.endsWith( "/index.html" ) || request.url.endsWith( "/login" ) ) {
     next()
     console.log( "logged in as testuser" )
   }
@@ -78,7 +92,7 @@ app.use( express.static( dir ) )
 
 app.post( '/add|/edit|/remove|/update', async ( request, response) => {
   // get user's tasks from database
-  userdata = await dbclient.db( 'userdata' ).collection( request.session.username )
+  userdata = dbclient.db( 'userdata' ).collection( request.session.username )
   console.log( "fetched collection" )
   console.log( await userdata.find( { } ).toArray() )
   
@@ -115,6 +129,22 @@ app.listen( process.env.PORT || 3000 )
 // -----------------------------------------------------------------
 // ---------- Database Actions and Startdate Calculations ----------
 // -----------------------------------------------------------------
+
+const checkCredentials = function( username, password ) {
+  console.log( "checking credentials with username: " + username + " and password: " + password )
+
+  // check existing accounts for account with the given username
+  let account
+  if ( account = users.findOne( { username: username } ) ) {
+    // return whether the given password matches the account's password
+    if ( account.password === true ) {
+      return "correct"
+    }
+    return "incorrect"
+  }
+  // account is not in database
+  return "nonexistent"
+}
 
 const addTask = async function( json ) {
   console.log( "in addTask: " )
