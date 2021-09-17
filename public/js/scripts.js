@@ -9,12 +9,14 @@ const submit = function (e) {
   const time = document.getElementById("time");
   const laps = document.getElementById("laps");
   const fastest = document.getElementById("fastest");
+  const comments = document.getElementById("comments");
   const json = {
     name: name.value,
     team: team.value,
     time: time.value,
     laps: laps.value,
     fastest: fastest.value,
+    comments: comments.value,
   };
 
   /* validate that all json values filled */
@@ -84,7 +86,10 @@ const remove = function (e) {
   /* send server the json to match name & team with server and remove old data */
   fetch("/remove", {
     method: "POST",
-    body,
+    body: body,
+    headers: {
+      "Content-Type": "application/json",
+    },
   })
     .then(function (response) {
       return response.json();
@@ -109,6 +114,7 @@ function redrawTable(values) {
     "Total Time",
     "Number of Laps",
     "Fastest Lap",
+    "Comments",
     "Average Lap Time",
     "Remove",
   ];

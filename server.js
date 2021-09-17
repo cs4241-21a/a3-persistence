@@ -76,7 +76,7 @@ client.connect()
 
 app.get( '/results', (req,res) => {
   if( collection !== null ) {
-    collection.find({ userID: req.session.id }).toArray().then( result => res.json( result ) )
+    collection.find({ userID: req.session.id }).sort({ avg: 1 }).toArray().then( result => res.json( result ) )
   }
 })
 
@@ -107,7 +107,7 @@ app.post( '/remove', (req,res) => {
 })
 
   
-app.listen( 3000 )
+app.listen( process.env.PORT || 3000 )
 
 // const http = require("http"),
 //   fs = require("fs"),

@@ -4,6 +4,7 @@
   "description": "",
   "author": "",
   "scripts": {
+    "style": "npx tailwindcss -o public/css/tailwind.css",
     "start": "node server.js"
   },
   "dependencies": {
