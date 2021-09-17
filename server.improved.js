@@ -35,7 +35,7 @@ app.post( '/login', ( request, response ) => {
 app.use( function( request, response, next ) {
   console.log( request.session.username )
   // if already at /index.html or logged in successfully, do nothing
-  if( request.url.endsWith() || request.session.username === "testuser" ) {
+  if( request.url.endsWith( "/index.html" ) || request.session.username === "testuser" ) {
     next()
     console.log( "logged in as testuser" )
   }
