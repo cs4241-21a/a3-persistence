@@ -24,11 +24,11 @@ app.post( '/login', ( request, response ) => {
     request.session.username = "testuser"
     console.log( "logged in as testuser" )
     console.log( "tasks.html" )
-    response.redirect( "tasks.html" )
+    response.redirect( "public/tasks.html" )
   }
   else {
     console.log( "not logged in" )
-    response.redirect( "index.html" )
+    response.redirect( "public/index.html" )
   }
 })
 
@@ -39,7 +39,7 @@ app.use( function( request, response, next ) {
     console.log( "logged in as testuser" )
   }
   else {
-    response.redirect( "index.html" )
+    response.redirect( "public/index.html" )
     console.log( "not logged in" )
   }
 })
