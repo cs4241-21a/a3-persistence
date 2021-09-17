@@ -133,24 +133,26 @@ app.listen( process.env.PORT || 3000 )
 // ---------- Database Actions and Startdate Calculations ----------
 // -----------------------------------------------------------------
 
-const checkCredentials = async function( username, password ) {
+const checkCredentials = function( username, password ) {
   console.log( "checking credentials with username: " + username + " and password: " + password )
 
   // check existing accounts for account with the given username
-  let account = await users.findOne( { username: username } )
-  console.log( account )
-  if ( account !== null ) {
-    // return whether the given password matches the account's password
-    if ( account.password === password ) {
-      console.log( "correct credentials" )
-      return "correct"
+  return users.findOne( { username: username } )
+  .then( account => {
+    console.log( account )
+    if ( account ) {
+      // return whether the given password matches the account's password
+      if ( account.password === password ) {
+        console.log( "correct credentials" )
+        return "correct"
+      }
+      console.log( "incorrect password" )
+      return "incorrect"
     }
-    console.log( "incorrect password" )
-    return "incorrect"
-  }
-  // account is not in database
-  console.log( "account doesn't exist" )
-  return "nonexistent"
+    // account is not in database
+    console.log( "account doesn't exist" )
+    return "nonexistent"
+  })
 }
 
 const addTask = async function( json ) {
