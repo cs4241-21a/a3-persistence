@@ -10,7 +10,6 @@ const express = require('express'),
     useNewUrlParser: true,
     useUnifiedTopology: true,
   }),
-  port = 3000,
   GitHubStrategy = require('passport-github').Strategy,
   passport = require('passport'),
   session = require('express-session');
@@ -186,4 +185,4 @@ app.post('/edit', express.json(), function (request, response) {
 // automatically deliver all files in the public folder with the correct headers
 app.use(express.static('public'));
 
-app.listen(process.env.PORT || port);
+app.listen(process.env.PORT);
