@@ -1,11 +1,52 @@
 const express = require( 'express' ),
       // bodyparser = require( 'body-parser' )
-      app = express(),
-      history = []
+      mongodb = require( 'mongodb' )
+      app = express()
+      // history = []
 
 app.use( express.static('public') )
 app.use( express.json() )
 
+require('dotenv').config()
+
+
+/**--------------------------------------------
+ *               MONGODB
+ *---------------------------------------------**/
+const db_name = 'test',
+      db_music_col = 'musictest',
+      db_user_col = 'usertest'
+
+const uri = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@'+process.env.DB_HOST
+
+const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
+let collection = null
+
+client.connect()
+.then( () => {
+  // will only create collection if it doesn't exist
+  return client.db( db_name ).collection( db_music_col)
+})
+.then( __collection => {
+  // store reference to collection
+  collection = __collection
+  // blank query returns all documents
+  return collection.find({ }).toArray()
+})
+// .then( console.log )
+
+// check connection
+app.use( (req,res,next) => {
+  if( collection !== null ) {
+    next()
+  }else{
+    res.status( 503 ).send()
+  }
+})
+
+/**--------------------------------------------
+ *               EXPRESS ROUTES
+ *---------------------------------------------**/
 app.use( function( req, res, next ) {
   console.log( 'url:', req.url )
   next()
@@ -20,10 +61,14 @@ app.get( '/getHistory', function (req, res) {
   // res.send( 'Hello World!' )
   // res.sendFile(__dirname + "/public/index.html");
   res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-  res.end(JSON.stringify(history))
+  if( collection !== null ) {
+    // get array and pass to res.json
+    collection.find({ }).toArray().then( result => res.json( result ) )
+  }
+  // res.end(JSON.stringify(history))
 })
 
-// for example only: routes for handling the post request
+// routes for handling the post request
 app.use( function( request, response, next ) {
   let dataString = ''
 
@@ -59,7 +104,9 @@ app.use( function( request, response, next ) {
     json.rain_volume = rain_volume.toFixed(1)
     console.log('response', json )
 
-    history.push( json )
+    // history.push( json )
+    // debugger
+    collection.insertOne( json )//.then( result => response.json( result ) )
     // add a 'json' field to our request object
     request.json = JSON.stringify( json )
     next()
