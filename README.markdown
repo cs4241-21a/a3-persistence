@@ -2,8 +2,6 @@
 
 Heroku Link: https://a3-timothy-goon.herokuapp.com/
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
 ### The goal of the application
 This is a TODO list web app that allows for the creation and management of a todo list. Users can create accounts directly on the app or use a Github account login.
 
