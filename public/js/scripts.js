@@ -56,7 +56,7 @@ const submit = function( e ) {
       console.log(json)
       playNewSound(json)
       setBG(json.environment)
-      updateHistory(json)
+      updateHistory()
         // howls[1].volume(0.5)
     })
     return false
@@ -65,6 +65,7 @@ const submit = function( e ) {
   window.onload = function() {
     const play_button = document.getElementById( 'play' )
     play_button.onclick = submit
+    updateHistory()
 
     // const play_history_button = document.getElementById('play_history')
     // play_history_button.onclick = playHistory
@@ -200,44 +201,101 @@ function playNewSound(json, isSnippet = false) {
 
 /**
  * Updates the history table using the data
- * from the given json
- * @param {Object} json The given json
+ * from the database
  */
-function updateHistory(json) {
+function updateHistory() {
   let history_table = document.getElementById("history_table")
 
-
-  debugger
+  // call the /getHistory route
+  // returns array of json objects for all the mixes
   fetch( '/getHistory', {
     method:'GET'
   })
   .then(function(response) {
-    console.log('get history response', response)
-    debugger
+    // console.log('get history response', response)
     if(response.ok)
       return response.json()
   })
   .then( function(jsonArr) {
+    console.log('mix history')
     console.log(jsonArr)
 
     // add each mix json to the table
-    for (object in jsonArr) {
-      let row = history_table.insertRow(history_table.rows.length)
+    jsonArr.forEach((object)  => {
+      // console.log('mix', object)
+      let row = history_table.insertRow(1)
       let json_keys = []
-      
+
       // get json keys
-      for (var key in json) {
+      for (var key in object) {
         json_keys.push(key)
       }
+      // console.log(json_keys)
       // update table with new data from json
-      for (let i = 0; i < 5; i++) {
-        let cell = row.insertCell(i)
-        if (i === 4) {i = 5}
-        cell.innerHTML = json[json_keys[i]].replace('_', ' ')
+      for (let i = 1; i < 7; i++) {
+        let cell = row.insertCell(i-1)
+        if (i === 5) {i = 6}
+        cell.innerHTML = object[json_keys[i]].replace('_', ' ')
       }
-        // howls[1].volume(0.5)
-    }
+
+      // add modify button
+      // let mod_cell = row.insertCell(5)
+      // let mod_btn = document.createElement("button")
+      // let mod_t = document.createTextNode('modify')
+      // mod_btn.appendChild(mod_t)
+      // mod_cell.appendChild(mod_btn)
+
+      // mod_btn.onclick = function(e) {
+      //   row_index = row.rowIndex
+      //   fetch( '/update', {
+      //     method:'PUT',
+      //     body: {_id: object[json_keys[0]] }
+      //   })
+      //   .then(function(response) {
+      //     // console.log('get history response', response)
+      //     if(response.ok)
+      //       return response.json()
+      //   })
+      //   .then(history_table.deleteRow(row_index))
+      // }
+
+      // add delete button
+      let del_cell = row.insertCell(5)
+      let del_btn = document.createElement("button")
+      let del_t = document.createTextNode('delete')
+      del_btn.appendChild(del_t)
+      del_cell.appendChild(del_btn)
+
+      del_btn.onclick = function(e) {
+        debugger
+        let row_index = row.rowIndex
+        // let _id = object[json_keys[0]]
+        console.log('id to delete', JSON.stringify({_id:object[json_keys[0]]}))
+        fetch( '/remove', {
+          method:'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({_id:object[json_keys[0]]})
+        })
+        .then(function(response) {
+          debugger
+          console.log('delete response', response)
+          // console.log('get history response', response)
+          if(response.ok)
+            return response.json()
+          return false
+        })
+        .then( jsonstr => JSON.parse(jsonstr))
+        .then(console.log)
+        // .then(function (json) {
+        // .then(history_table.deleteRow(row_index))
+      }
+    })
   })
+
+
+  const modifyMix = function(e) {
+
+  }
 
   // // get json keys
   // for (var key in json) {

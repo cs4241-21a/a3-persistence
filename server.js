@@ -2,7 +2,6 @@ const express = require( 'express' ),
       // bodyparser = require( 'body-parser' )
       mongodb = require( 'mongodb' )
       app = express()
-      // history = []
 
 app.use( express.static('public') )
 app.use( express.json() )
@@ -33,7 +32,7 @@ client.connect()
   // blank query returns all documents
   return collection.find({ }).toArray()
 })
-// .then( console.log )
+.then( console.log('connected to database') )
 
 // check connection
 app.use( (req,res,next) => {
@@ -58,23 +57,15 @@ app.get( '/', function (req, res) {
 })
 
 app.get( '/getHistory', function (req, res) {
-  // res.send( 'Hello World!' )
-  // res.sendFile(__dirname + "/public/index.html");
-  // debugger
   res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
   if( collection !== null ) {
-    // debugger
     // get array and pass to res.json
     collection.find({ }).toArray()
-    // .then( result => res.json( result ) )
     .then(result => res.end( JSON.stringify(result)))
     .then( json => {
-      // console.log(json)
       return json
     })
-    // .then( console.log )
   }
-  // res.end(JSON.stringify(history))
 })
 
 // routes for handling the post request
@@ -133,6 +124,30 @@ app.post( '/submit', function( request, response ) {
   response.writeHead( 200, { 'Content-Type': 'application/json'})
   // console.log('submit response', request.json )
   response.end( JSON.stringify(request.json ))
+})
+
+app.post( '/update', (req,res) => {
+  collection
+    .updateOne(
+      { _id:mongodb.ObjectId( req.body._id ) },
+      { $set:{ name:req.body.name } }
+    )
+    .then( result => res.json( result ) )
+})
+
+app.post( '/remove', (req,res) => {
+  console.log('remove function')
+  console.log('removing', mongodb.ObjectId( req.body._id ))
+  debugger
+  collection
+    // .remove({ _id:mongodb.ObjectId( req.body._id ) })
+    .deleteOne({ _id:mongodb.ObjectId( req.body._id ) })
+    // .then( result => res.json( result ) )
+    .then(result => res.end( JSON.stringify(result)))
+    .then( json => {
+      console.log('removing', json)
+      return json
+    })
 })
 
 const listener = app.listen( process.env.PORT || 3000, function() {
