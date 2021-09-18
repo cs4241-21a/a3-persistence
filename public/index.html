@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="This website will help organize your course assignments">
+    <link rel="preload" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" as="style">
+    <link rel="preload" href="./css/style.css">
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <link rel="stylesheet" href="./css/style.css" media="print" onload="this.media='all'">
+    <link rel="preload" href="./js/scripts.js" as="script">
+    <script async src="./js/scripts.js"> </script>
+  </head>
+  <body>
+      <div class="grid-table">
+        <div class = "assignmentData">
+          <a href="/logout">Logout</a>
+          <h1 display:inline id="pageHeader">Homework Agenda</h1>
+          <p>
+            Instructions: Use the homework agenda to manage and view a list of your ongoing assignments. Simply enter
+            the relevant fields and the agenda will determine the priority of each assignment based on 
+            how much it is worth.
+          </p> 
+          <table id="hwTable">
+            <tr>
+                <th><label for="new_assignment">Assignment:</label></th>
+                <th><label for="new_course">Course:</label></th>
+                <th><label for="new_percentage">Percentage:</label></th>
+                <th><label for="new_priority">Priority</label></th>
+                <th><label for="addRow">Options:</label></th>
+            </tr>
+            <tr>
+              <td><input type="text" id="new_assignment" placeholder="Your assignment here"></td>
+              <td><input type="text" id="new_course" placeholder="Your course here"></td>
+              <td><input type="number" id="new_percentage" min="0" max="100" ></td>   
+              <td><input id="new_priority" readonly placeholder="auto calculated" disabled></td>  
+              <td><input type="button" id="addRow" class="add" value="Add Assignment"></td>
+              </tr>
+          </table>
+        </div>
+      </div>
+  </body>
+</html>
