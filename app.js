@@ -7,7 +7,7 @@ const passport = require('passport');
 const favicon = require('serve-favicon');
 const session = require('express-session');
 const mongoose = require('mongoose');
-require('dotenv').config();
+// require('dotenv').config();
 require('./passport-setup');
 
 const MONGODB = process.env.MONGODB;

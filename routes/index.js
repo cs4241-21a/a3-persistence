@@ -4,7 +4,6 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 
 const User = require('../schemas/users');
-const Task = require('../schemas/tasks');
 const { createDeadline } = require('../util');
 const { checkLogin } = require('../middleware');
 
