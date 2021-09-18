@@ -185,4 +185,4 @@ app.post('/edit', express.json(), function (request, response) {
 // automatically deliver all files in the public folder with the correct headers
 app.use(express.static('public'));
 
-app.listen(process.env.PORT);
+app.listen(process.env.PORT || 3000);
