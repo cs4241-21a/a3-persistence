@@ -104,7 +104,7 @@ app.get(
   function (req, res) {
     // Successful authentication, redirect home.
     githubid = req.user.id;
-    res.redirect('/home');
+    res.redirect('/home.html');
   }
 );
 
