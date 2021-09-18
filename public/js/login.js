@@ -33,14 +33,8 @@ const login = function (e) {
     })
     return false
 }
-
-const logout = function(e) {
-    fetch( '/logout');
-}
  
 window.onload = function() {
-
-    logout();
 
     const loginButton = document.getElementById('loginBtn');
     loginButton.onclick = login;

@@ -3,33 +3,21 @@ const getAdvice = function (hours) {
   let advice = ""
   
     if (hours === "0-4 hours") {
-  
       advice = 'Go get some sleep'
-  
     } else if (hours === "5-7 hours") {
-  
       advice = 'Moderate amount of hours of sleep'
-  
     } else if (hours === "8 hours") {
-  
       advice = 'Perfect amount of hours of sleep'
-  
     } else {
-  
       advice = 'Cut back on some hours'
-  
     }
-
   return advice;
 }
 
+////////////////////////
 const addEntry = (json) => {
-
   let table = document.getElementById('sleeptable')
-  console.log("it gere")
-
-  console.log("json: ", JSON.stringify(json))
-
+  
   let newRow = table.insertRow(-1),
   newName = newRow.insertCell(0),
   newMajor = newRow.insertCell(1),
@@ -47,8 +35,6 @@ const addEntry = (json) => {
   newMajor.innerHTML = json.major;
   newHours.innerHTML = json.hours;
   newAdvice.innerHTML = json.advice;
-
-  console.log("yourname: ", JSON.stringify(json.yourname))
 
   //Appending edit button to td
   editButton.setAttribute('type','button')
@@ -77,7 +63,6 @@ const addEntry = (json) => {
 
     json = { yourname: nameInput.value, major: majorInput.value, hours: hoursInput.value, advice: adviceInput.value, id: id }
     body = JSON.stringify( json )
-    console.log("body: ", body)
 
     fetch( '/update', {
       method:'POST',
@@ -119,65 +104,161 @@ const addEntry = (json) => {
       newRow.remove();
     })
   }
-};
+}
 
-const submit = function( e ) {
-    // prevent default form action from being carried out
-    e.preventDefault()
-    console.log("it here")
-    const name = document.querySelector( '#yourname' ),
-    major = document.querySelector('#major'),
-    sleep = document.querySelector('#hours');
-    advice = getAdvice(sleep.value);
-
-    //Error checking to make sure the fields are not empty
-    if (name.value === "" || major.value === "" || sleep.value === "") {
-        console.log("All fields are empty")
-        alert("All fields needs to be filled.")
-        return false
-    } 
-
-    //Error checking to make sure the fields are not just a single character
-    if (name.value.length < 2 || major.value.length < 2) {
-      console.log("Not a valid input")
-      alert("Enter valid fields only.")
-      return false
-    }
-
-    //Error checking to make sure the fields are not the starting text
-    if (name.value === "Enter your name here" || major.value === "Enter your major here") {
-        console.log("Not valid data")
-        alert("Enter valid fields only.")
-        return false
-    }
+function loadDB(item) {
+  console.log("hello")
+  let table = document.getElementById('sleeptable')
   
-    json = { yourname: name.value, major: major.value, hours:sleep.value, advice: advice }
+  let newRow = table.insertRow(-1),
+  newName = newRow.insertCell(0),
+  newMajor = newRow.insertCell(1),
+  newHours = newRow.insertCell(2),
+  newAdvice = newRow.insertCell(3),
+  editElement = newRow.insertCell(4),
+  editButton = document.createElement('Input'),
+  removeElement = newRow.insertCell(5),
+  removeButton = document.createElement('Input');
+
+  let idElement = item._id;
+
+  //Adding text to fields
+  newName.innerHTML = item.yourname;
+  newMajor.innerHTML = item.major;
+  newHours.innerHTML = item.hours;
+  newAdvice.innerHTML = item.advice;
+
+  //Appending edit button to td
+  editButton.setAttribute('type','button')
+  editButton.setAttribute('value', 'Edit')
+  editButton.className = 'editButton';
+  editElement.appendChild(editButton);
+
+  let nameInput = document.createElement('Input'),
+    majorInput = document.createElement('Input'),
+    hoursInput = document.createElement('Input'),
+    adviceInput = document.createElement('Input'),
+    id = idElement;
+
+    nameInput.value = newName.innerHTML;
+    majorInput.value = newMajor.innerHTML;
+    hoursInput.value = newHours.innerHTML;
+    adviceInput.value = adviceInput.innerHTML;
+
+  editButton.onclick = function() {
+
+    document.querySelector('#yourname').value = item.yourname
+    document.querySelector('#major').value = item.major
+    document.querySelector('#hours').value = item.hours
+
+    newRow.remove();
+
+    json = { yourname: nameInput.value, major: majorInput.value, hours: hoursInput.value, advice: adviceInput.value, id: id }
     body = JSON.stringify( json )
 
-    fetch( '/submit', {
+    fetch( '/update', {
       method:'POST',
-      body: body,
+      body,
       headers: {
         "Content-Type": "application/json"
       } 
     })
     .then(response => response.json())
     .then(json => {
-      console.log("json: ", JSON.stringify(json))
-      addEntry(json)
+      
+      nameInput.value = newName.innerHTML
+      majorInput.value = newMajor.innerHTML
+      hoursInput.value = newHours.innerHTML
+      adviceInput.value = newAdvice.innerHTML
+
+      console.log("json:", json)
     })
+  }
+
+  //Appending remove button to td
+  removeButton.setAttribute('type','button')
+  removeButton.setAttribute('value', 'Remove')
+  removeButton.className = 'removeButton';
+  removeElement.appendChild(removeButton);
+
+  //Handles remove function
+  removeButton.onclick = function () {
+
+    fetch( '/remove', {
+      method:'POST',
+      body: JSON.stringify({idElement}),
+      headers: {
+        "Content-Type": "application/json"
+      } 
+    })
+    .then(response => response.json())
+    .then(json => {
+      newRow.remove();
+    })
+  }
+}
+
+fetch("/sleep")
+  .then(response => response.json())
+  .then(sleep => {
+    sleep.forEach(loadDB);
+  });
+///////////////////////////////
+const submit = function(e)  {
+  console.log("yey")
+  e.preventDefault();
+
+  const name = document.querySelector( '#yourname' ),
+    major = document.querySelector('#major'),
+    sleep = document.querySelector('#hours');
+    advice = getAdvice(sleep.value)
+
+    if (name.value === "" || major.value === "" || sleep.value === "") {
+      console.log("All fields are empty")
+      alert("All fields needs to be filled.")
+      return false
+  } 
+
+  //Error checking to make sure the fields are not just a single character
+  if (name.value.length < 2 || major.value.length < 2) {
+    console.log("Not a valid input")
+    alert("Enter valid fields only.")
     return false
   }
+
+  //Error checking to make sure the fields are not the starting text
+  if (name.value === "Enter your name here" || major.value === "Enter your major here") {
+      console.log("Not valid data")
+      alert("Enter valid fields only.")
+      return false
+  }
+
+  json = { yourname: name.value, major: major.value, hours:sleep.value, advice:advice}
+  body = JSON.stringify( json )
+
+  fetch("/submit", {
+    method: "POST",
+    body,
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(response => response.json())
+    .then(json => {
+      addEntry(json);
+    });
+};
 
   const logout = function (e) {
     e.preventDefault();
 
-    fetch('/logout')
-    .then(response => {
-      if (response.ok) {
-        window.location.href = "/"
-      }
+    fetch('/logout', {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      } 
     })
+    window.location.href = "login.html"  
   }
   
   window.onload = function() {
@@ -187,9 +268,4 @@ const submit = function( e ) {
     const logoutButton = document.getElementById('logoutBtn')
     logoutButton.onclick = logout
 
-    fetch('/api/getData')
-    .then(response => response.json())
-    .then((json)=> {
-      addEntry(json)
-    })
   }
