@@ -16,7 +16,10 @@ function appendNewDream(dream) {
 
 // fetch the initial list of dreams
 fetch("/history")
-  .then(response => response.json) // parse the JSON from the server
+  .then(response => 
+    // console.log('hi', JSON.stringify(response))
+    response.json
+  ) // parse the JSON from the server
   .then(dreams => {
     // remove the loading text
     console.log('dreams', dreams)

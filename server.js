@@ -54,6 +54,7 @@ client.connect()
     // store reference to collection
     collection = __collection
     // blank query returns all documents
+    // console.log('connect collection', collection.find({ }).toArray())
     return collection.find({ }).toArray()
   })
   // .then( console.log )
@@ -64,8 +65,11 @@ app.get( '/', (req,res) => {
 })
 
 app.get('/history', (req, res) => {
+  // console.log('history')
   if( collection !== null ) {
+    debugger
     // get array and pass to res.json
+    // console.log('collection', collection)
     collection.find({ }).toArray().then( result => res.json( result ) )
   }
 })
