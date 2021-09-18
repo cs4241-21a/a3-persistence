@@ -7,7 +7,6 @@ const { createDeadline } = require('../util');
 const { checkAuth } = require('../middleware');
 
 router.get('/get-login-cookie', checkAuth, (req, res, next) => {
-  console.log(req.cookies.loginCookie, req.user)
   if (req.cookies.loginCookie)
     res.json(req.cookies.loginCookie);
   else
@@ -26,7 +25,6 @@ router.get('/:id', checkAuth, async function (req, res, next) {
     tasks = await Task.find({ owner: id });
 
   } catch (err) {
-    console.log('/user redirect to login')
     res.redirect('/login');
     return;
   }
@@ -52,7 +50,6 @@ router.get('/:id', checkAuth, async function (req, res, next) {
 
 // Submit a task from a user
 router.post('/:id/submit', checkAuth, async (req, res, next) => {
-  console.log('User Task submission');
 
   const id = req.params.id;
 
