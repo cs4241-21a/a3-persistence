@@ -28,7 +28,7 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new GitHubStrategy({
     clientID: GITHUB_ID,
     clientSecret: GITHUB_SECRET,
-    callbackURL: "https://a3-todolist.herokuapp.com/login/oauth2/code/github"
+    callbackURL: "https://a3-timothy-goon.herokuapp.com/login/oauth2/code/github"
 },
     function (accessToken, refreshToken, profile, done) {
         // asynchronous verification, for effect...
