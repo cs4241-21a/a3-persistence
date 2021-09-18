@@ -28,7 +28,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       httpOnly: true,
-      secure: false,
+      secure: true,
       maxAge: 60 * 1000, // Will store cookies for one minute
     },
   })
@@ -51,7 +51,7 @@ passport.use(
     {
       clientID: process.env.GIT_ID,
       clientSecret: process.env.GIT_SECRET,
-      callbackURL: 'http://127.0.0.1:3000/auth/github/callback',
+      callbackURL: 'https://a3-stefano-jordhani.herokuapp.com/auth/github/callback',
     },
     function (accessToken, refreshToken, profile, callback) {
       callback(null, profile);
