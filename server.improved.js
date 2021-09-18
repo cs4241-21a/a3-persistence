@@ -76,6 +76,7 @@ app.post('/submit', express.json(), function(request, response) {
     creator: request.body.userid,
     hotel: request.body.hotel,
     location: request.body.location,
+    startdate: request.body.startdate,
     cleanliness: request.body.cleanliness,
     service: request.body.service,
     amenity: request.body.amenity,
@@ -104,6 +105,7 @@ app.post('/edit', express.json(), function(request,response) {
     {$set: {
       hotel: request.body.hotel,
       location: request.body.location,
+      startdate: request.body.startdate,
       cleanliness: request.body.cleanliness,
       service: request.body.service,
       amenity: request.body.amenity,

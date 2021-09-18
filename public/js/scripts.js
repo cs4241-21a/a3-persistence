@@ -26,6 +26,7 @@ function refreshTable(data) {
   let tableColumns = [
     'Hotel Name',
     'Hotel Location',
+    'Date',
     'Cleanliness',
     'Service',
     'Amenities',
@@ -54,12 +55,6 @@ function refreshTable(data) {
         let cell = row.insertCell();
         let text = document.createTextNode(element[key]);
         cell.appendChild(text);
-        if(key === 'hotel' || key === 'location'){
-          cell.classList.add('title-field');
-        }
-        else{
-          cell.classList.add('number-button-field')
-        }
       }
     }
 
@@ -67,12 +62,13 @@ function refreshTable(data) {
 
     let editButtonCell = row.insertCell();
     const editBtn = document.createElement('button');
-    editBtn.classList.add('edit-button')
+    editBtn.className = 'btn btn-warning'
     const editBtnText = 'Edit';
     editBtn.innerHTML = editBtnText;
     editBtn.onclick = () => {
       document.querySelector('#hotel-name').value = element.hotel;
       document.querySelector('#hotel-location').value = element.location;
+      document.querySelector('#start-date').value = element.startdate;
       document.querySelector('#cleanliness-score').value = element.cleanliness;
       document.querySelector('#service-score').value = element.service;
       document.querySelector('#amenity-score').value = element.amenity;
@@ -82,6 +78,7 @@ function refreshTable(data) {
         e.preventDefault();
         const hotelName = document.querySelector('#hotel-name'),
           hotelLocation = document.querySelector('#hotel-location'),
+          startdate = document.querySelector('#start-date'),
           cleanlinessScore = document.querySelector('#cleanliness-score'),
           serviceScore = document.querySelector('#service-score'),
           amenityScore = document.querySelector('#amenity-score'),
@@ -90,6 +87,7 @@ function refreshTable(data) {
             userid: id,
             hotel: hotelName.value,
             location: hotelLocation.value,
+            startdate: startdate.value,
             cleanliness: Number(cleanlinessScore.value),
             service: Number(serviceScore.value),
             amenity: Number(amenityScore.value),
@@ -119,7 +117,7 @@ function refreshTable(data) {
 
     let deleteButtonCell = row.insertCell();
     const deleteBtn = document.createElement('button');
-    deleteBtn.classList.add('delete-button')
+    deleteBtn.className = 'btn btn-danger'
     const deleteBtnText = 'Delete';
     deleteBtn.innerHTML = deleteBtnText;
     deleteBtn.onclick = () => {
@@ -144,6 +142,7 @@ function refreshTable(data) {
     deleteButtonCell.appendChild(deleteBtn);
   }
   document.body.appendChild(table);
+  table.classList.add('table', 'table-bordered', 'border-dark', 'align-middle', 'table-responsive', 'm-4')
 }
 
 const submit = function (e) {
@@ -152,6 +151,7 @@ const submit = function (e) {
 
   const hotelName = document.querySelector('#hotel-name'),
   hotelLocation = document.querySelector('#hotel-location'),
+  startdate = document.querySelector('#start-date'),
   cleanlinessScore = document.querySelector('#cleanliness-score'),
   serviceScore = document.querySelector('#service-score'),
   amenityScore = document.querySelector('#amenity-score'),
@@ -159,6 +159,7 @@ const submit = function (e) {
       userid: id,
       hotel: hotelName.value,
       location: hotelLocation.value,
+      startdate: startdate.value,
       cleanliness: Number(cleanlinessScore.value),
       service: Number(serviceScore.value),
       amenity: Number(amenityScore.value),
@@ -183,13 +184,35 @@ const submit = function (e) {
   return false;
 };
 
+function todaysDate() {
+  let d = new Date()
+  let year = d.getFullYear();
+  let month = d.getMonth() + 1; // 0 is January 
+  let day = d.getDate(); 
+
+  if(day < 10){
+    day = '0' + dd
+  }
+
+  if(month < 10){
+    month = '0' + month
+  }
+  return`${year}-${month}-${day}`
+}
+
+
 window.onload = function () {
   id = window.sessionStorage.getItem('userid')
   document.querySelector('#title').innerHTML = `Welcome, ${window.sessionStorage.getItem('username')}!`
+  document.querySelector('#start-date').setAttribute('max', todaysDate())
   generateTable();
   const button = document.querySelector('#Submit-Button');
   button.onclick = submit;
 };
+
+
+ 
+
 
 function resetForm() {
   document.querySelector('form').reset();
