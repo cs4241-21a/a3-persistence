@@ -1,11 +1,6 @@
-let id = null;
-
 function generateTable() {
-  
   fetch('/table', {
     method: 'POST',
-    body: JSON.stringify({userid: id}),
-    headers: {'Content-Type': 'application/json'}
   })
     .then(function (response) {
       return response.json();
@@ -34,15 +29,14 @@ function refreshTable(data) {
     'Edit',
     'Delete',
   ];
-  // Adding table headers 
+  // Adding table headers
   for (let title of tableColumns) {
     let th = document.createElement('th');
     let headerText = document.createTextNode(title);
-    if (title === 'Hotel Name' || title === 'Hotel Location'){
+    if (title === 'Hotel Name' || title === 'Hotel Location') {
       th.classList.add('title-field');
-    }
-    else {
-      th.classList.add('number-button-field')
+    } else {
+      th.classList.add('number-button-field');
     }
     th.appendChild(headerText);
     headerRow.appendChild(th);
@@ -51,7 +45,7 @@ function refreshTable(data) {
   for (let element of data) {
     let row = tBody.insertRow();
     for (let key of Object.keys(data[0])) {
-      if(key !== '_id' && key !== 'creator'){
+      if (key !== '_id' && key !== 'creator') {
         let cell = row.insertCell();
         let text = document.createTextNode(element[key]);
         cell.appendChild(text);
@@ -62,7 +56,7 @@ function refreshTable(data) {
 
     let editButtonCell = row.insertCell();
     const editBtn = document.createElement('button');
-    editBtn.className = 'btn btn-warning'
+    editBtn.className = 'btn btn-warning';
     const editBtnText = 'Edit';
     editBtn.innerHTML = editBtnText;
     editBtn.onclick = () => {
@@ -84,7 +78,6 @@ function refreshTable(data) {
           amenityScore = document.querySelector('#amenity-score'),
           json = {
             id: element._id,
-            userid: id,
             hotel: hotelName.value,
             location: hotelLocation.value,
             startdate: startdate.value,
@@ -95,7 +88,7 @@ function refreshTable(data) {
           body = JSON.stringify(json);
         fetch('/edit', {
           method: 'POST',
-          headers: {'Content-Type': 'application/json'},
+          headers: { 'Content-Type': 'application/json' },
           body,
         })
           .then(function (response) {
@@ -117,7 +110,7 @@ function refreshTable(data) {
 
     let deleteButtonCell = row.insertCell();
     const deleteBtn = document.createElement('button');
-    deleteBtn.className = 'btn btn-danger'
+    deleteBtn.className = 'btn btn-danger';
     const deleteBtnText = 'Delete';
     deleteBtn.innerHTML = deleteBtnText;
     deleteBtn.onclick = () => {
@@ -127,8 +120,8 @@ function refreshTable(data) {
       formBtn.innerHTML = 'Submit Review';
       fetch('/delete', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({id: element._id, userid:id}),
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ id: element._id }),
       })
         .then(function (response) {
           return response.json();
@@ -142,7 +135,14 @@ function refreshTable(data) {
     deleteButtonCell.appendChild(deleteBtn);
   }
   document.body.appendChild(table);
-  table.classList.add('table', 'table-bordered', 'border-dark', 'align-middle', 'table-responsive', 'm-4')
+  table.classList.add(
+    'table',
+    'table-bordered',
+    'border-dark',
+    'align-middle',
+    'table-responsive',
+    'm-4'
+  );
 }
 
 const submit = function (e) {
@@ -150,13 +150,12 @@ const submit = function (e) {
   e.preventDefault();
 
   const hotelName = document.querySelector('#hotel-name'),
-  hotelLocation = document.querySelector('#hotel-location'),
-  startdate = document.querySelector('#start-date'),
-  cleanlinessScore = document.querySelector('#cleanliness-score'),
-  serviceScore = document.querySelector('#service-score'),
-  amenityScore = document.querySelector('#amenity-score'),
+    hotelLocation = document.querySelector('#hotel-location'),
+    startdate = document.querySelector('#start-date'),
+    cleanlinessScore = document.querySelector('#cleanliness-score'),
+    serviceScore = document.querySelector('#service-score'),
+    amenityScore = document.querySelector('#amenity-score'),
     json = {
-      userid: id,
       hotel: hotelName.value,
       location: hotelLocation.value,
       startdate: startdate.value,
@@ -168,7 +167,7 @@ const submit = function (e) {
 
   fetch('/submit', {
     method: 'POST',
-    headers: {'Content-Type': 'application/json'},
+    headers: { 'Content-Type': 'application/json' },
     body,
   })
     .then(function (response) {
@@ -185,34 +184,27 @@ const submit = function (e) {
 };
 
 function todaysDate() {
-  let d = new Date()
+  let d = new Date();
   let year = d.getFullYear();
-  let month = d.getMonth() + 1; // 0 is January 
-  let day = d.getDate(); 
+  let month = d.getMonth() + 1; // 0 is January
+  let day = d.getDate();
 
-  if(day < 10){
-    day = '0' + dd
+  if (day < 10) {
+    day = '0' + dd;
   }
 
-  if(month < 10){
-    month = '0' + month
+  if (month < 10) {
+    month = '0' + month;
   }
-  return`${year}-${month}-${day}`
+  return `${year}-${month}-${day}`;
 }
 
-
 window.onload = function () {
-  id = window.sessionStorage.getItem('userid')
-  document.querySelector('#title').innerHTML = `Welcome, ${window.sessionStorage.getItem('username')}!`
-  document.querySelector('#start-date').setAttribute('max', todaysDate())
+  document.querySelector('#start-date').setAttribute('max', todaysDate());
   generateTable();
   const button = document.querySelector('#Submit-Button');
   button.onclick = submit;
 };
-
-
- 
-
 
 function resetForm() {
   document.querySelector('form').reset();
