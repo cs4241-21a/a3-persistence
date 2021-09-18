@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Procrast-inator</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Procrast-inator will take your tasks, assignments, chores, and to-do's and provide the most efficient schedule for delaying the inevitable!">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" defer>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" defer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
+    <script src="js/scripts.js" defer></script>
+
+    <!--template for row of data corresponding to a task-->
+    <template id="task-template">
+      <tr>
+        <td>Task name</td>
+        <td>11PM 9/30/2021</td>
+        <td>1</td>
+        <td>12AM 10/1/2021</td>
+        <td>
+          <a class="waves-effect waves-light indigo btn-small">Edit</a>
+          <a class="waves-effect waves-light red darken-2 btn-small">Remove</a>
+        </td>
+      </tr>
+    </template>
+  </head>
+
+  <body class="row deep-purple">
+    <div id="content" class="white container col s12 m10 push-m1">
+      <h1>Procrast-inator</h1>
+
+      <p>Add tasks with a deadline and a time to complete in hours, and Procrast-inator will calculate the latest time you can start doing each task!</p>
+      
+      <div class="divider"></div>
+
+      <h2>Welcome to your tasks!
+        <a class="waves-effect waves-light indigo btn" href="/logout">Log Out</a>
+      </h2>
+      
+      <div id="form" class="section row" hidden>
+        <div class="col s12 m8 push-m1">
+          <h3 id="form-title">Add new task:</h3>
+          <form class="row">
+            <div class="input-field col s12">
+              <input id="name" type="text" class="validate">
+              <label for="name" class=>Task Name</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="period" type="number" class="validate">
+              <label for="period" class="active">Time to Complete
+                <i class="tiny material-icons" title="The expected number of hours it will take to complete the task">help</i>
+              </label>
+            </div>
+            <div class="input-field col s6">
+              <input id="deadline-date" type="text" class="datepicker validate">
+              <label for="deadline-date" class="active">Deadline Date
+                <i class="tiny material-icons" title="The latest the task can afford to be completed. Rounds to the nearest hour">help</i>
+              </label>
+            </div>
+            <div class="input-field col s6">
+              <input id="deadline-hour" type="text" class="timepicker validate">
+              <label for="deadline-hour" class="active">Deadline Hour
+                <i class="tiny material-icons" title="The latest the task can afford to be completed. Rounds to the nearest hour">help</i>
+              </label>
+            </div>
+            <div class="col s12">
+              <button class="indigo btn waves-effect waves-light" id="submit-form-button">Submit</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <div class="section">
+        <h3>Tracked tasks:</h3>
+
+        <a class="waves-effect waves-light green darken-3 btn" id="add-button" href="#form"><i class="material-icons left">add</i>New Task</a>
+  
+        <table class="striped">
+          <thead>
+            <tr>
+              <th>Task</th>
+              <th>Start Date</th>
+              <th>Period (hr)</th>
+              <th>Deadline</th>
+              <th>Modify</th>
+            </tr>
+          </thead>
+          <tbody id="task-container">
+            <!-- Empty to start -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
