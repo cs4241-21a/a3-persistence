@@ -88,7 +88,7 @@ app.use( async function( request, response, next ) {
   // if loading an html file other than the login page, or using a non login post request and not logged in, redirect to the login page
   else {
     console.log( "not logged in, redirecting" )
-    response.redirect( "/index.html" )
+    response.redirect( "/login.html" )
   }
 })
 
