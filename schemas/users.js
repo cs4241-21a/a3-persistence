@@ -8,8 +8,7 @@ const UserSchema = new Schema(
             required: true
         },
         passwordHash: {
-            type: String,
-            required: true
+            type: String
         }
     }
 );

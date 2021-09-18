@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 const bcrypt = require('bcrypt');
+const passport = require('passport');
 
 const User = require('../schemas/users');
 const Task = require('../schemas/tasks');
@@ -52,8 +53,24 @@ router.post('/login', async (req, res, next) => {
   }
 });
 
+// Github authentication
+router.get('/auth/github',
+  passport.authenticate('github', { scope: ['user:email'] }),
+  function (req, res) {
+    // The request will be redirected to GitHub for authentication, so this
+    // function will not be called.
+  });
+
+// Github authentication callback
+router.get("/login/oauth2/code/github",
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function (req, res) {
+    res.redirect(`/user/${req.user._id}`);
+  });
+
 router.get('/logout', (req, res, next) => {
   res.clearCookie(loginCookieName);
+  req.logout();
   res.redirect('/login');
 });
 

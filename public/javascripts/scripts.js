@@ -152,7 +152,7 @@ const submit = async function (e) {
         dateCreated: dateString,
         priority: priority.valueAsNumber
     };
-    const body = JSON.stringify(json)
+    const body = JSON.stringify(json);
 
     // Send data
     const userId = await getUserId();

@@ -7,7 +7,11 @@ const { createDeadline } = require('../util');
 const { checkAuth } = require('../middleware');
 
 router.get('/get-login-cookie', checkAuth, (req, res, next) => {
-  res.json(req.cookies.loginCookie);
+  console.log(req.cookies.loginCookie, req.user)
+  if (req.cookies.loginCookie)
+    res.json(req.cookies.loginCookie);
+  else
+    res.json({ userId: req.user._id });
 });
 
 // Show the tasks list page to a user with id
@@ -22,6 +26,7 @@ router.get('/:id', checkAuth, async function (req, res, next) {
     tasks = await Task.find({ owner: id });
 
   } catch (err) {
+    console.log('/user redirect to login')
     res.redirect('/login');
     return;
   }
@@ -29,17 +34,17 @@ router.get('/:id', checkAuth, async function (req, res, next) {
   // sort based on priority
   tasks.sort((elem1, elem2) => {
     if (elem1.priority > elem2.priority) {
-        return -1;
+      return -1;
     } else if (elem1.priority === elem2.priority) {
-        return 0;
+      return 0;
     } else {
-        return 1;
+      return 1;
     }
-});
+  });
 
   res.render('index', {
     title: 'TODOList',
-    tasks, 
+    tasks,
     userId: id,
     user: { username: user.username }
   });
