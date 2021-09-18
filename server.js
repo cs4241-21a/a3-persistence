@@ -60,10 +60,19 @@ app.get( '/', function (req, res) {
 app.get( '/getHistory', function (req, res) {
   // res.send( 'Hello World!' )
   // res.sendFile(__dirname + "/public/index.html");
+  // debugger
   res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
   if( collection !== null ) {
+    // debugger
     // get array and pass to res.json
-    collection.find({ }).toArray().then( result => res.json( result ) )
+    collection.find({ }).toArray()
+    // .then( result => res.json( result ) )
+    .then(result => res.end( JSON.stringify(result)))
+    .then( json => {
+      // console.log(json)
+      return json
+    })
+    // .then( console.log )
   }
   // res.end(JSON.stringify(history))
 })

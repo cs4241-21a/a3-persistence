@@ -205,20 +205,51 @@ function playNewSound(json, isSnippet = false) {
  */
 function updateHistory(json) {
   let history_table = document.getElementById("history_table")
-  let row = history_table.insertRow(history_table.rows.length)
-  let json_keys = []
 
-  // get json keys
-  for (var key in json) {
-    json_keys.push(key)
-  }
 
-  // update table with new data from json
-  for (let i = 0; i < 5; i++) {
-    let cell = row.insertCell(i)
-    if (i === 4) {i = 5}
-    cell.innerHTML = json[json_keys[i]].replace('_', ' ')
-  }
+  debugger
+  fetch( '/getHistory', {
+    method:'GET'
+  })
+  .then(function(response) {
+    console.log('get history response', response)
+    debugger
+    if(response.ok)
+      return response.json()
+  })
+  .then( function(jsonArr) {
+    console.log(jsonArr)
+
+    // add each mix json to the table
+    for (object in jsonArr) {
+      let row = history_table.insertRow(history_table.rows.length)
+      let json_keys = []
+      
+      // get json keys
+      for (var key in json) {
+        json_keys.push(key)
+      }
+      // update table with new data from json
+      for (let i = 0; i < 5; i++) {
+        let cell = row.insertCell(i)
+        if (i === 4) {i = 5}
+        cell.innerHTML = json[json_keys[i]].replace('_', ' ')
+      }
+        // howls[1].volume(0.5)
+    }
+  })
+
+  // // get json keys
+  // for (var key in json) {
+  //   json_keys.push(key)
+  // }
+
+  // // update table with new data from json
+  // for (let i = 0; i < 5; i++) {
+  //   let cell = row.insertCell(i)
+  //   if (i === 4) {i = 5}
+  //   cell.innerHTML = json[json_keys[i]].replace('_', ' ')
+  // }
 }
 
 const playHistory = function(e) {
