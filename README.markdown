@@ -95,7 +95,7 @@ Write a paragraph of at least 125 words *for each of four principles* (four para
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## TODO List
 
 your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
 
@@ -111,6 +111,23 @@ add a little more detail about what it does.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 2**: I used hosted the web app on Heroku
+- **Tech Achievement 3**: I got 100% on all 3 of my pages with the Google Lighthouse audit.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative.
+
+#### Tips Followed
+
+1. Associate a label with every form control - All my input tags have a form tag with it with a for attribute. They are invisible in the tasks table but the table column headings takes care of that.
+2. Ensure that form elements include clearly associated labels - All my input fields have visable text labels that they can clearly be associated with.
+3. Identify page language and language changes - html tag of all pages has the lang attribute of en.
+4. Help users avoid and correct mistakes - Error messages show up on my login and register page when there is a problem with the user input.
+5. Provide sufficient contrast between foreground and background - Google Lighthouse helped me fix all these.
+6. Don’t use color alone to convey information - All interactive elements on the page have text associated with them.
+7. Ensure that interactive elements are easy to identify - All interactive elements on the app have been styled with Bootstrap to stand out.
+8. Provide easily identifiable feedback - Tasks appear and disappear when added and removed. There are also error messages on forms when the user provides bad input.
+9. Use headings to convey meaning and structure -  There are headings for the different parts of my app on each page.
+10. Make link text meaningful - Each link I use has text the conveys its action such as logging in from Github or redirecting to the login or register pages.
+11. Provide clear instructions - The error messages on my login page are clear and provide instructions.
+12. Ensure that all interactive elements are keyboard accessible - I'm able to navigate my page with only the keyboard.
