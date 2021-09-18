@@ -1,0 +1,156 @@
+/* @import url("https://fonts.google.com/specimen/Knewave?category=Display#standard-styles");
+@import url("https://fonts.google.com/specimen/ZCOOL+QingKe+HuangYou?category=Display&query=Zheng+Qingke");
+@import url("https://fonts.google.com/specimen/VT323?category=Monospace"); */
+
+html {
+    height: 100%;
+    /* margin: 0; */
+    overflow:hidden;
+    color: white;
+} 
+body {
+    background-image: url('../backgrounds/home.jpeg'); 
+    /* font-family: "ZCOOL QingKe HuangYou", sans-serif; */
+    font-family: "VT323", monospace;
+    /* font-size:medium; */
+    /* height: 100%; */
+    background-position: center;
+    background-repeat:no-repeat;
+    background-size:cover;
+    /* margin:0;
+    padding:0; */
+}
+
+button, input {
+  font-family: "VT323", monospace;
+}
+
+  /* #background {
+    position:absolute;
+  } */
+
+table, th, td {
+  border:1px solid gray;
+  border-collapse: collapse;
+}
+
+#history_table {
+  max-width: 50%;
+  overflow-y:auto;
+  max-height: 500px;
+  justify-content: space-around;
+  display:block;
+}
+
+#mother {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items:flex-start;
+}
+
+h1 {
+  display: flex;
+  align-items:flex-end;
+  justify-content: center;
+  font-family: "Knewave", monospace;
+}
+
+#mix_name, #play {
+  margin-top: 20px;
+}
+
+/* input[type="radio"] {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  -ms-appearance: none;
+  -o-appearance: none;
+  appearance: none;
+  position: relative;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 14px;
+  width: 14px;
+  -webkit-transition: all 0.15s ease-out 0s;
+  -moz-transition: all 0.15s ease-out 0s;
+  transition: all 0.15s ease-out 0s;
+  background: lightgrey;
+  border: #fff;
+  color: #fff;
+  cursor: pointer;
+  display: inline-block;
+  outline: none;
+  border-radius: 50%;
+  
+  input {
+
+    &:checked + .radio__control {
+      background: radial-gradient(currentcolor 50%, rgba(255, 0, 0, 0) 51%);
+    }
+  }
+}
+
+input[type='radio']:after {
+  background: hotpink;
+  border: 2px solid hotpink;
+  transform: scale(0);
+  -wekbit-transform: scale(0);
+  transition: all 0.3s ease;
+} */
+
+
+
+
+  
+  /* http://localhost:3000/ */
+/* The container */
+.container {
+  /* display: flex; */
+  /* flex-direction: row; */
+  position: relative;
+  padding-left: 20px;
+  /* margin-bottom: 12px; */
+  cursor: pointer;
+  /* font-size: 22px; */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+  
+
+  /* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 14px;
+  width: 14px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color:indianred;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}

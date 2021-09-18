@@ -1,0 +1,21 @@
+{
+  "name": "lofi_pitter_patters",
+  "version": "1.0",
+  "description": "Play rain sounds and lofi music to help you study",
+  "author": "Jyalu Wu",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "howler": "^2.2.3",
+    "mime": "^2.4.4",
+    "mongodb": "^4.1.2"
+  },
+  "devDependencies": {
+    "webpack": "^5.52.0",
+    "webpack-cli": "^4.8.0"
+  }
+}
