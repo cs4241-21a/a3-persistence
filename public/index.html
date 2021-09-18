@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link href="./css/style.css" rel="stylesheet">
+    <script src="./js/scripts.js" defer=""></script>
+    <link href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi:wght@500&display=swap" rel="stylesheet">
+
+    <script>
+
+      let fetchedData
+    
+      const submit = function( e ) {
+        // prevent default form action from being carried out
+        e.preventDefault()
+    
+        let nameVal = document.querySelector( '#yourname' ).value
+        let ageVal = document.querySelector( '#yourage' ).value
+        let scoreVal = document.querySelector( '#yourscore' ).value
+    
+        if(nameVal === ""){
+          alert("Name cannot be empty!")
+          return
+        }
+        if(ageVal < 0 || ageVal === ""){
+          alert("Age must be greater than or equal to zero!")
+          return
+        }
+        if(scoreVal === ""){
+          alert("Score cannot be empty! Negative numbers are valid, though.")
+          return
+        }
+    
+    
+        let fieldData = {
+          yourname: nameVal,
+          yourage: ageVal,
+          yourscore: scoreVal,
+        }
+    
+        body = JSON.stringify(fieldData)
+    
+        fetch( '/submit', {
+          method:'POST',
+          body 
+        })
+        .then( function( response ) {
+          // do something with the reponse 
+          return response.json()
+        }).then(function (json){
+          console.log(json)
+          //no point in saving it, actually, just update it to look right - client has no business with the data other than seeing it
+          fetchedData = json
+          
+          const gridContainer = document.getElementById("gridContainer")
+    
+          document.querySelectorAll(".grid-item").forEach((item) => item.parentNode.removeChild(item))
+    
+          for(let i = 0; i < (json.length); i++){
+    
+            console.log(json[i])
+    
+            let gridNameBox = document.createElement("div")
+            let gridAgeBox = document.createElement("div")
+            let gridScoreBox = document.createElement("div")
+            let gridProBox = document.createElement("div")
+    
+            gridNameBox.innerText = json[i].yourname
+            gridAgeBox.innerText = json[i].yourage
+            gridScoreBox.innerText = json[i].yourscore
+            gridProBox.innerText = json[i].isPro
+    
+            gridContainer.appendChild(gridNameBox).className = "grid-item"
+            gridContainer.appendChild(gridAgeBox).className = "grid-item"
+            gridContainer.appendChild(gridScoreBox).className = "grid-item"
+            gridContainer.appendChild(gridProBox).className = "grid-item"
+    
+          }
+        })
+    
+        return false
+      }
+    
+      window.onload = function() {
+        const button = document.querySelector( 'button' )
+        button.onclick = submit
+      }
+    
+      </script>
+
+
+  </head>
+  <body>
+    <form action="">
+      <input type='text' id='yourname' placeholder="Name">
+      <input type='number' id='yourage' placeholder="Age">
+      <input type='number' id='yourscore' placeholder="Score">
+      <button>submit</button>
+    </form>
+
+    <div class="grid-container" id="gridContainer">
+      <div class="grid-item-permanent">name</div>
+      <div class="grid-item-permanent">age</div>
+      <div class="grid-item-permanent">score</div>
+      <div class="grid-item-permanent">professional?</div>
+    </div>
+
+  </body>
+
+
+  
+</html>
