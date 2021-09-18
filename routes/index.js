@@ -34,6 +34,7 @@ router.post('/login', async (req, res, next) => {
         errors: { username: `User with username ${username} does not exist` },
         formData: { username }
       });
+      return;
     }
 
     const match = await bcrypt.compare(password, user.passwordHash);
@@ -86,6 +87,23 @@ router.post('/register', async (req, res, next) => {
 
   if (password === confirmPassword) {
     passwordHash = await bcrypt.hash(password, 12);
+  } else {
+    res.render('register', {
+      title: 'TODOList',
+      errors: { password: `Passwords to not match` },
+      formData: { username }
+    });
+    return;
+  }
+
+  const user = await User.findOne({ username });
+  if (user) {
+    res.render('register', {
+      title: 'TODOList',
+      errors: { username: `User with username ${username} already exists` },
+      formData: { username }
+    });
+    return;
   }
 
   try {
