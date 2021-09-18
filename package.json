@@ -1,8 +1,8 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "procrast-inator",
+  "version": "1.0",
+  "description": "To-do list and task scheduler that enables aggressive procrastination",
+  "author": "Ryan Stebe",
   "scripts": {
     "start": "node server.improved.js"
   },
