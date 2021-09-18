@@ -17,6 +17,7 @@ app.get("/", (request, response) => {
   } else {
     response.sendFile(__dirname + "/views/index.html");
   }
+  //response.sendFile(__dirname + "/views/login.html")
 });
 
 app.get("/index.html", (request, response) => {
@@ -26,7 +27,18 @@ app.get("/index.html", (request, response) => {
   } else {
     response.sendFile(__dirname + "/views/index.html");
   }
+  //response.sendFile(__dirname + "/views/index.html");
 });
+
+/*app.get("/login.html", (request, response) => {
+
+  if (userAccount.length === 0) {
+    response.sendFile(__dirname + "/views/login.html")
+  } else {
+    response.sendFile(__dirname + "/views/index.html");
+  }
+  response.sendFile(__dirname + "/views/login.html");
+});*/
 
 app.get('/logout', function(request, response) {
   //request.logout
@@ -50,24 +62,38 @@ client.connect()
   })
   .then( console.log )
 
-app.get('/getData', async(request, response) => {
+app.get('/api/getData', bodyparser.json(),async(request, response) => {
   const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true })
   await client.connect()
   const collection = client.db('SleepDataset').collection( 'SleepData' )
   const sleeps = await collection.find({username: userAccount}).toArray()
   await client.close()
   return response.json(sleeps)
-})
+  /*if (collection !== null) {
+    collection.find({username: userAccount}).toArray()
+    .then(result => response.json(result))
+  }*/
+}) 
 
-app.post("/submit", bodyparser.json(), function(req,res) {
-
+app.post("/submit", bodyparser.json(), async(req,res) =>{
+    console.log("body: ", req.body)
+    
     console.log("username: ", req.body.username)
-      //req.body['username'] = user
 
-      collection.insertOne( req.body )
+    const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true })
+    await client.connect()
+    const collection = client.db('SleepDataset').collection( 'SleepData' )
+    req.body.username = userAccount
+    console("req.body.username: ", req.body.username)
+    await collection.insertOne( req.body )
+    const dataInfo = await collection.find({username: userAccount}).toArray()
+    await client.close()
+    response.json(dataInfo)
+    return response.end()
+    /*collection.insertOne( req.body )
       .then( insertResponse => collection.findOne( insertResponse.insertedId ) ) 
-      .then( findResponse   => res.json( findResponse ) )
-    })
+      .then( findResponse   => res.json( findResponse ) )*/
+})
 
 //Add a route to remove a todo
 app.post( '/remove', bodyparser.json(), function (req,res) {
@@ -91,7 +117,13 @@ app.post( '/update', bodyparser.json(), function (req,res) {
 })
 
 //Login
-app.post('/login', async(req,response) => {
+
+/*client.connect().then(()=> {
+  collection = client.db("SleepDataset").collection("UserData");
+})
+let user = null;*/
+
+app.post('/login', bodyparser.json(), async(req,response) => {
 
 let userData = req.body
 console.log("userData: ", userData);
@@ -99,6 +131,8 @@ console.log("userData: ", userData);
 let username = userData.username;
 let password = userData.password;
 
+//collection.find({username: username, password: password}).toArray().then(result => response.json(result))
+//user = username
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 await client.connect()
 const collection = client.db("SleepDataset").collection("UserData");
@@ -106,11 +140,9 @@ const user = await collection.find({username: username}).toArray()
 
   if (user.length === 0) {
   
-    console.log("whoho")
     await collection.insertOne(userData)
     await client.close()
     userAccount = username
-
     response.ok = true
   
   } else {
@@ -120,16 +152,15 @@ const user = await collection.find({username: username}).toArray()
     console.log("user:",JSON.stringify(user))
     
     if (user[0].password == password) {
-      console.log("it got here")
+
       userAccount = username
       response.ok = false
-      client.close()
   
     } else {
   
       userAccount = ""
       response.ok = false
-  
+      
     }
     return response.end()
   };

@@ -1,5 +1,3 @@
-let dataArr = [];
-
 const getAdvice = function (hours) {
 
   let advice = ""
@@ -28,7 +26,10 @@ const getAdvice = function (hours) {
 const addEntry = (json) => {
 
   let table = document.getElementById('sleeptable')
-  
+  console.log("it gere")
+
+  console.log("json: ", JSON.stringify(json))
+
   let newRow = table.insertRow(-1),
   newName = newRow.insertCell(0),
   newMajor = newRow.insertCell(1),
@@ -46,6 +47,8 @@ const addEntry = (json) => {
   newMajor.innerHTML = json.major;
   newHours.innerHTML = json.hours;
   newAdvice.innerHTML = json.advice;
+
+  console.log("yourname: ", JSON.stringify(json.yourname))
 
   //Appending edit button to td
   editButton.setAttribute('type','button')
@@ -74,6 +77,7 @@ const addEntry = (json) => {
 
     json = { yourname: nameInput.value, major: majorInput.value, hours: hoursInput.value, advice: adviceInput.value, id: id }
     body = JSON.stringify( json )
+    console.log("body: ", body)
 
     fetch( '/update', {
       method:'POST',
@@ -120,7 +124,7 @@ const addEntry = (json) => {
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
-  
+    console.log("it here")
     const name = document.querySelector( '#yourname' ),
     major = document.querySelector('#major'),
     sleep = document.querySelector('#hours');
@@ -159,6 +163,7 @@ const submit = function( e ) {
     })
     .then(response => response.json())
     .then(json => {
+      console.log("json: ", JSON.stringify(json))
       addEntry(json)
     })
     return false
@@ -182,7 +187,7 @@ const submit = function( e ) {
     const logoutButton = document.getElementById('logoutBtn')
     logoutButton.onclick = logout
 
-    fetch('/getData')
+    fetch('/api/getData')
     .then(response => response.json())
     .then((json)=> {
       addEntry(json)
