@@ -79,7 +79,7 @@ app.use( async function( request, response, next ) {
   console.log( "checking for logged out user, cookie username: " + request.session.username )
   console.log( "url: " + request.url + "username: " + request.session.username)
   // if logged in, or logging in, or fetching the login page or a non html file, do nothing
-  if( ( !request.url.endsWith( ".html" ) && request.method === "GET" ) ||
+  if( ( !request.url.endsWith( ".html" ) && request.url !== "/" && request.method === "GET" ) ||
       request.url.endsWith( "/login.html" ) || request.url.endsWith( "/login" ) || 
       await checkCredentials( request.session.username, request.session.password ) === "correct" ) {
     next()
