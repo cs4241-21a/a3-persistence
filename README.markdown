@@ -27,6 +27,15 @@ The CSS framework that I chose was Bootstrap because I already had experience wi
 9. passport.session() - Allows passport.js to save data to a session from the express-session middleware.
 10. 2 middleware functions that I made checkLogin() and checkAuth() - These are made to only be used on certian endpoints. The first redirects the user to the todo list page if the user is already logged in. The second will redirect the user to the login page if the user is not logged in yet.
 
+## Screenshots
+
+![image](https://user-images.githubusercontent.com/32044950/133910752-2efff26e-05ba-4337-b4b8-cd9ffbb78530.png)
+
+![image](https://user-images.githubusercontent.com/32044950/133910761-a5c019d5-0291-4f64-9d70-4a9c18e252ff.png)
+
+![image](https://user-images.githubusercontent.com/32044950/133910782-9fd68490-7c90-41be-9c95-412f0b84c7db.png)
+
+
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
 - **Tech Achievement 2**: I used hosted the web app on Heroku
