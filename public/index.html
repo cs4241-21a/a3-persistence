@@ -75,6 +75,15 @@
           json = { playername: input.value, playerscore: playerScore },
           body = JSON.stringify( json )
 
+    fetch('/submit',{
+      method: 'POST',
+      body: body,
+      headers:{
+        "Content-Type":"application/json"
+      }
+    })
+
+    /*
     fetch( '/submit', {
       method:'POST',
       body //shortened version of "body": body 
@@ -92,6 +101,7 @@
       //let newResponse = JSON.parse(response)
       //console.log(newResponse[0].name);
     })
+    */
 
     return false
   }

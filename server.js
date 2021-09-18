@@ -1,120 +1,5 @@
-
-/*
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library used in the following line of code
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
-
-const appdata = [
-  {'name': 'm', 'score': 1999, 'rank': 1},
-]
-
-//get/post request that lets me get app data
-
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    if(request.url === "/submit-player-score"){
-
-    } else if(request.url === "/delete-player-score"){
-      
-    }
-    //if it's add, do add
-    //if it's delete, do delete
-    handlePost( request, response ) 
-  }
-})
-
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-
-
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
-}
-
-const handlePost = function( request, response ) {
-  let dataString = ''
-  console.log(request.url)
-
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
-
-  request.on( 'end', function() {
-    console.log("data parsed successfully")
-    console.log( JSON.parse( dataString ) )
-    
-
-    console.log("Before: ");
-    for(let i = 0; i < appdata.length; i++){
-      console.log(appdata[i]);
-    }
-
-    if(request.url === "/submit"){
-      let newPlayerData = JSON.parse( dataString);
-      addData(appdata, newPlayerData.playername, newPlayerData.playerscore);
-    } else if(request.url === "/deleteScore"){
-      console.log("poggies")
-      let deleteRequest = JSON.parse(dataString);
-      removeData(appdata, deleteRequest.playername);
-    }
-    
-
-    console.log("After: " + appdata)
-    for(let i = 0; i < appdata.length; i++){
-      console.log(appdata[i]);
-    }
-
-    // ... do something with the data here!!!
-
-
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    //if we submit a request that requires us to get the data
-      //response.end(appdata)
-   
-
-    console.log(JSON.stringify(appdata))
-    response.end(JSON.stringify(appdata))
-  })
-}
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
-
-server.listen( process.env.PORT || port )
-
-*/
-
 const express = require( 'express' ),
+      bodyParser = require('body-parser'),
       mongodb = require( 'mongodb' ),
       cookie = require("cookie-session"),
       app = express()
@@ -125,8 +10,15 @@ app.use( express.json() )
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
 app.use( express.urlencoded({ extended:true }) )
+// cookie middleware! The keys are used for encryption and should be
+// changed
+app.use( cookie({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
 
 const uri = "mongodb+srv://TestUser:Mario35@cluster0.oxb6m.mongodb.net/"
+
 
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
@@ -143,6 +35,7 @@ client.connect()
     return collection.find({ }).toArray()
   })
   .then( console.log )
+
   
 // route to get all docs
 app.get( '/', (req,res) => {
@@ -153,11 +46,19 @@ app.get( '/', (req,res) => {
   }
 })
 
-app.post( '/add', (req,res) => {
+app.post( '/submit', bodyParser.json(), (req,res) => {
   // assumes only one object to insert
+  console.log(req.body);
+  if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
+    let requestBodyVar = req.body;
+    addData(requestBodyVar, req.body.name, req.body.score);
+    collection.insertOne( requestBodyVar ).then( result => res.json( result ) )
+  } else {
+    console.log("Invalid parameters!");
+  }
   
   //Check to make sure this is typical user data
-  collection.insertOne( req.body ).then( result => res.json( result ) )
+  //collection.insertOne( req.body ).then( result => res.json( result ) )
 })
   
 app.listen( 3000 )
@@ -165,7 +66,6 @@ app.listen( 3000 )
 
 function addData(appdata, playerName, playerScore){
 
-  console.log("New player score: " + playerScore);
   let addedName = playerName;
   let addedScore = parseInt(playerScore);
 
@@ -199,12 +99,7 @@ function addData(appdata, playerName, playerScore){
     addedRank = appdata.length + 1;
   }
 
-
-  //Push the new data to appdata and then sort the appdata
-  appdata.push({name: addedName, score: addedScore, rank: addedRank});
-  appdata.sort((a, b) => {
-      return a.rank - b.rank;
-  });
+  appdata = {name: addedName, score: addedScore, rank: addedRank};
 }
 
 //Removes a piece of data from the table
