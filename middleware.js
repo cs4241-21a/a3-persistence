@@ -1,7 +1,10 @@
 
 module.exports.checkLogin = (req, res, next) => {
+
+    const gitauth = req.isAuthenticated();
+
     // Already logged in
-    if (req.cookies.loginCookie) {
+    if (gitauth || req.cookies.loginCookie) {
         res.redirect(`/user/${req.cookies.loginCookie.userId}`);
         return;
     }
@@ -22,12 +25,3 @@ module.exports.checkAuth = (req, res, next) => {
 
     return next();
 }
-
-// Simple route middleware to ensure user is authenticated.
-//   Use this route middleware on any resource that needs to be protected.  If
-//   the request is authenticated (typically via a persistent login session),
-//   the request will proceed.  Otherwise, the user will be redirected to the
-//   login page.
-function ensureAuthenticated(req, res, next) {
-    
-  }
