@@ -1,12 +1,10 @@
 // Add some Javascript code here, to run on the front end.
-
-const username = document.getElementById( "username" )
-
 const form = document.getElementById( "form" )
 const formTitle = document.getElementById( "form-title" )
 const task = document.getElementById( "name" )
 const period = document.getElementById( "period" )
-const deadline = document.getElementById( "deadline" )
+const deadlineDate = M.Datepicker.init( document.getElementById( "deadline-date" ) )
+const deadlineHour = M.Timepicker.init( document.getElementById( "deadline-hour" ) )
 const submitButton = document.getElementById( "submit-form-button" )
 
 const addButton = document.getElementById( "add-button" )
@@ -21,7 +19,6 @@ window.onload = function() {
     submitButton.onclick = submit
     addButton.onclick = add
 
-    //set username innertext to current username
     fetch( "/update", {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
@@ -38,13 +35,17 @@ const submit = function( e ) {
     e.preventDefault()
     form.hidden = true
 
+    let interval = 60 * 60 * 1000 // number of milliseconds in an hour
+    console.log(deadlineHour.time)
+    let deadline = Date.parse( deadlineDate.date ) + timeToNumber( deadlineHour.time )
+
     let json
     switch( requestType ) {
         case "/add":
-            json = { name: task.value, period: Number.parseInt( period.value ), deadline: Date.parse( deadline.value ) };
+            json = { name: task.value, period: Number.parseInt( period.value ), deadline };
             break;
         case "/edit": 
-            json = { _id, name: task.value, period: Number.parseInt( period.value ), deadline: Date.parse( deadline.value ) };
+            json = { _id, name: task.value, period: Number.parseInt( period.value ), deadline };
             break;
     }
 
@@ -69,9 +70,6 @@ const add = function ( e ) {
 
     form.hidden = false
     formTitle.innerText = "Add new task:"
-    task.value = "Task Name"
-    period.value = "1"
-    deadline.value = numberToDateValue( Date.parse( Date() ) )
     requestType = "/add"
 
     return false
@@ -98,7 +96,8 @@ const edit = function( e, utask ) {
     formTitle.innerText = "Edit task:"
     task.value = utask.name
     period.value = utask.period
-    deadline.value = numberToDateValue( utask.deadline )
+    deadlineDate.value = new Date( utask.deadline )
+    deadlineHour.value = new Date( utask.deadline ).getHours() + ":00"
     requestType = "/edit"
     _id = utask._id
 
@@ -171,25 +170,10 @@ const numberToDateText = function( number ) {
     return "" + hours + ":00 " + pm + " " + month + "/" + day + "/" + year
 }
 
-const numberToDateValue = function( number ) {
-    let date = new Date( number )
-    
-    let year = "" + date.getFullYear()
-    while ( year.length < 4 ) {
-        year = "0" + year
-    }
-    let month = "" + ( date.getMonth() + 1 )
-    if ( month.length < 2 ) {
-        month = "0" + month
-    }
-    let day = "" + date.getDate()
-    if ( day.length < 2 ) {
-        day = "0" + day
-    }
-    let hours = "" + date.getHours()
-    if ( hours.length < 2 ) {
-        hours = "0" + hours
-    }
+const timeToNumber = function( time ) {
+    const interval = 60 * 60 * 1000 // number of milliseconds in an hour
 
-    return year + "-" + month + "-" + day + "T" + hours + ":00"
+    let components = time.split(':')
+    let hours = parseInt(components[0]) + Math.round( parseInt( components[1] ) / 60 )
+    return hours * interval
 }
