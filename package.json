@@ -16,6 +16,8 @@
     "mongodb": "^4.1.1",
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.5.0",
     "tailwindcss": "^2.2.15"
   }
 }

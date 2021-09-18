@@ -161,6 +161,7 @@ function redrawTable(values) {
       }
     }
     let deleteElement = createDelete();
+    deleteElement.classList.add("cursor-pointer");
     deleteElement.onclick = remove;
     row.appendChild(deleteElement);
     table.appendChild(row);
@@ -172,7 +173,6 @@ function createDelete() {
   let deleteNode = document.createElement("td");
   let deleteText = document.createTextNode("delete");
   deleteNode.appendChild(deleteText);
-  // deleteNode.onclick = remove;
   return deleteNode;
 }
 

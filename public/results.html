@@ -26,7 +26,13 @@
         <label class="pt-1 w-full" for="name">Racer:</label>
         <input class="p-2 bg-gray-600 rounded-lg race w-full" type='text' id='name' value="" placeholder="Name (Ex: John Doe)">
         <label class="pt-1 w-full" for="team">Team:</label>
-        <input class="p-2 bg-gray-600 rounded-lg race w-full" type='text' id='team' value="" placeholder="Team (Ex: Blue)">
+        <select class="p-2 bg-gray-600 rounded-lg race w-full" type='text' id='team' value="" placeholder="Team (Ex: Blue)">
+          <option value=""></option>
+          <option value="Redbull">Redbull</option>
+          <option value="McLaren">McLaren</option>
+          <option value="Williams">Williams</option>
+          <option value="N/A">N/A</option>
+        </select>
         <label class="pt-1 w-full" for="time">Total Time:</label>
         <input class="p-2 bg-gray-600 rounded-lg race w-full" type='number' id='time' value="" placeholder="Time(minutes) (Ex: 125)">
         <label class="pt-1 w-full" for="laps">Number of Laps:</label>
@@ -51,7 +57,7 @@
           <th>Fastest Lap</th>
           <th class="max-w-xs">Comments</th>
           <th>Average Lap Time</th>
-          <th>Remove</th>
+          <th class="cursor-pointer">Remove</th>
         </tr>
       </table>
     </main>

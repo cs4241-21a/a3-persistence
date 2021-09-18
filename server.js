@@ -5,6 +5,8 @@ const express = require( 'express' );
 const mongodb = require( 'mongodb' );
 const cookie = require( 'cookie-session' );
 const helmet = require( 'helmet' );
+const favicon = require( 'serve-favicon' )
+const path = require( 'path' )
 const app = express();
 
 const clientID = '6293d146755b88e66857';
@@ -14,9 +16,10 @@ app.use(helmet())
 
 app.use( cookie({
   name: 'session',
-  keys: ['key1', 'key2']
+  keys: ['af42dsfs2kkhgbnsfdfggfghbckkpop6577534623432sdsfdsfd', 'ke43dffsfs23fdssafgfdgfdsg']
 }))
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 passport.serializeUser(function(user, done){
   done(null, user);
