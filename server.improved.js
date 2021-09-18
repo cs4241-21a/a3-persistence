@@ -7,7 +7,7 @@ app.use( express.json() )
 const path = require('path');
 
 app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '/public/login.html'));
+  res.sendFile(path.join(__dirname, '/views/login.html'));
 });
 
 // make sure to substitute your username / password for tester:tester123 below!!! 
