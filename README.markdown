@@ -13,7 +13,7 @@ The Cumulative Layout Shift problems were fixed by using the ejs html templating
 I have two authentication strategies for my app. The first is the traditional password approach that stored hashed passwords on the database with bcrypt. The second was the use of Oauth for Github. I did the first one becuase it was the easiest to do while still being considered a standard authentication system. The reason I did the second was for the extra points on this assignement.
 
 ### What CSS framework you used and why
-The CSS framework that I chose was Boostrap because I already had experience with it in the past and it creates a clean looking UI compatable with most web apps. I did not need to write any of my own css.
+The CSS framework that I chose was Bootstrap because I already had experience with it in the past and it creates a clean looking UI compatable with most web apps. I did not need to write any of my own css.
 
 ### The five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please add a little more detail about what it does.
 1. morgan - Automatically logs data about http requests to the terminal. Usefull for debugging.
@@ -25,6 +25,7 @@ The CSS framework that I chose was Boostrap because I already had experience wit
 7. express-session - In my app allows for user session management if the user uses the Github Oauth with passport.js.
 8. passport.initialize() - Initializes passport.js
 9. passport.session() - Allows passport.js to save data to a session from the express-session middleware.
+10. 2 middleware functions that I made checkLogin() and checkAuth() - These are made to only be used on certian endpoints. The first redirects the user to the todo list page if the user is already logged in. The second will redirect the user to the login page if the user is not logged in yet.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
