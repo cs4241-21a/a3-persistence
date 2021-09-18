@@ -1,116 +1,30 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+## Procrast-inator
 
-Due: September 20th, by 11:59 AM.
-
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
-a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
-
-Baseline Requirements
----
-
-Your application is required to implement the following functionalities:
-
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows all data associated with a logged in user (except passwords)
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! One of these five middleware 
-can be a custom function that you write yourself; if you choose to do this, make sure to describe what this function is in your README.  
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). 
-This should do the bulk of your styling/CSS for you and be appropriate to your application. 
-For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
-
-Your application is required to demonstrate the use of the following concepts:  
-
-HTML:  
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two pages for this assignment, one that handles login / authentication, and one that contains the rest of your application.
-For example, when visiting the home page for the assignment, users could be presented with a login form. After submitting the login form, if the login is 
-successful, they are taken to the main application. If they fail, they are sent back to the login to try again. For this assignment, it is acceptable to simply create 
-new user accounts upon login if none exist, however, you must alert your users to this fact.  
-
-CSS:  
-- CSS styling should primarily be provided by your chosen template/framework. 
-Oftentimes a great deal of care has been put into designing CSS templates; 
-don't override their stylesheets unless you are extremely confident in your graphic design capabilities. 
-The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:  
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. 
-See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:  
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-General:  
-- Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
-using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test).
-Test early and often so that fixing problems doesn't lead to suffering at the end of the assignment. 
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the 
-assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. 
-These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README, 
-why it was challenging, and how many points you think the achievement should be worth. 
-ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). 
-*You must either use Github authenticaion or provide a username/password to access a dummy account*. 
-Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. 
-Please contact the course staff if you have any questions about this. THIS IS THE HARDEST ACHEIVEMENT OFFERED IN WEBWARE. You have been warned!  
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-- (5 points) Get 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.  
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. 
-For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively 
-getting it "for free" without having to actively change anything about your site. 
-Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. 
-List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. 
-Which element received the most emphasis (contrast) on each page? 
-How did you use proximity to organize the visual information on your page? 
-What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? 
-How did you use alignment to organize information and/or increase contrast for particular elements. 
-Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+https://a3-ryan-stebe.herokuapp.com/
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
+Procrast-inator is an application that schedules a user's given tasks for as late as humanly possible, sometimes inhumanely possible.
+
+In realizing the application, I had a lot of trouble getting the login system to work, and I ended up needing both an intercepting express middleware, and a separate login post request handler (and a very simple logout handler). The redirection had a lot of issues with infinite redirection, which I was able to solve by only redirecting when loading POST requests other than /login and GET requests to html pages other than /login.html.
+
+I chose to simply use a password that is entered in the login/registration form and saved to a session cookie along with the username because I did not feel like spending the effort to learn OAuth authentication with my current workload.
+
+I used the materialize CSS framework, as I am decently familiar with it from using it for my IQP Project, although I did need to look up the documentation as a refresher, and to find components that were useful for this assignment that I hadn't touched before, such as the tables and forms. I did not modify the CSS framework.
+
+The express middlewares that I used were the following:
+I used express.json to automatically convert the body of post requests into JS objects.
+I used express.urlencoded with extended set to true to help with the login form.
+I used cookie-session to utilize a cookie for storing the username and password that a user last logged in as.
+I used a custom middleware that checks if the user is making a non /login post request or a get request for an html file other than login.html, and if so redirects them to the login page if they are not already logged in according to the session cookie.
+Lastly, I used express.static to serve the html, css, and js files that are visited or linked to.
+
+As a quick note, the application can give a performance rating on lighthouse of around 80-something if the heroku app is starting up when you run the report, however when it is already running, it is much more performant. This should be pretty similar to how Glitch works, but I wanted to make sure I don't lose points over it.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: (5 pts) Instead of Glitch, I hosted my site on Heroku. The process for integrating Heroku with a gitHub repository was very simple and useful, especially the automatic build deployment, and environment variables were easy to set up. Overall it felt like it was more complete than glitch in terms of functionality and utility, and its only downsides that I noticed was that the deployment process takes a little bit, and you need to make changes to version control to test the application on Heroku. Both of these downsides however were effectively present in Glitch as well, as Glitch was even more tedious to upload changes from a repository, and although it lets you make quick changes while heroku doesn't, it is harder to move those changes back into the repository and keep track of what changes were made in Glitch for when you have found a solution to a bug. The only unique flaw with Heroku with respect to Glitch is that it has some sort of CLI version that wasn't using that makes it difficult to search for answers to problems on the internet as most answers gave a command to run, which I don't believe is possible to do from the web application.
+
+- **Tech Achievement 2**: (5 pts) Arguably I did not finish this achievement, but I have gotten a score of 99% performance, 100% Accessability, 100% Best Practices, and 100% SEO on both pages of my application. With performance, I was very close, the only option left to improvement seemed to be cutting down on the unnecessary css, js, and icons that are being sent over from google fonts and my CSS framework, materialize. Not only would this involve combing over 10,000 lines of code to find which parts can be cut, but when I tried to move the materialize library onto the server it turns out it got slower to load because the source I was importing it from was automatically compressing the file, and my server was not. While the second problem could probably be solved with some express middleware, the first is impossible to do within the timeframe of the assignment and would only offer a very slight increase in performance, so it would not be a worthwhile optimization outside of an assignment either.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **No Design/Evaluation Achievements**
