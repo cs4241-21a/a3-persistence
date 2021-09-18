@@ -4,8 +4,11 @@ module.exports.checkLogin = (req, res, next) => {
     const gitauth = req.isAuthenticated();
 
     // Already logged in
-    if (gitauth || req.cookies.loginCookie) {
+    if (req.cookies.loginCookie) {
         res.redirect(`/user/${req.cookies.loginCookie.userId}`);
+        return;
+    } else if (gitauth) {
+        res.redirect(`/user/${req.user._id}`);
         return;
     }
 
