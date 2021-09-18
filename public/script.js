@@ -4,12 +4,11 @@ const submit = function( e ) {
 
   const todoInput = document.querySelector( '#todo' )
   const dayInput = document.querySelector( '#day' )
-  const priority = document.querySelector('#priority')
- // const difficulty = document.querySelector('#difficulty')
+  const difficultyInput = document.querySelector('#difficulty')
   
         json = { todo: todoInput.value, 
                   day: dayInput.value, 
-                  priority: priority.value, 
+                  difficulty: difficultyInput.value, 
                   }
         body = JSON.stringify( json )
 
@@ -17,15 +16,24 @@ const submit = function( e ) {
 
   fetch( '/submit', {
     method:'POST',
-    body 
+    body:JSON.stringify({todo:todoInput.value, day:dayInput.value, difficulty:difficultyInput.value}),
+    headers: {
+        'Content-Type': 'application/json'
+    }
   })
   .then( function( response ) {
       return response.json()
   })
   .then(function(json){
       console.log(json)
-      document.getElementById('dataTable').remove()
-      createTable(json)
+      let table = null
+      let day = json.day.value
+
+    table = document.getElementById('sunday')
+    let td = document.createElement('td')
+    let item = document.createTextNode(json.todo)
+    td.appendChild(item)
+    table.appendChild(td)
   });
 
   return false
@@ -35,7 +43,7 @@ window.onload = function() {
   const button = document.querySelector( 'button' )
   button.onclick = submit
 }
-
+/*
 function createTable(data) {
   let table = document.createElement('table')
   let tr = document.createElement('tr')
@@ -82,3 +90,4 @@ populateDay("Saturday")
 document.body.appendChild(table)
 
 }
+*/

@@ -27,8 +27,8 @@
         </select>
       </li>
       <li>
-        <label for="priority">Select Task Difficulty:</label>
-          <select id="priority" name="priority">
+        <label for="difficulty">Select Task Difficulty:</label>
+          <select id="difficulty" name="difficulty">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -48,6 +48,7 @@
     </form>
     <p>In the table, Raw Difficulty is your input, Adjusted Difficulty is calculated using a multiplier based on the day of the week</p>
     <h2>Your Todos:</h2>
+    <!---
     <table style="table-layout: auto;" id="dataTable">
     <tr>
       <th>Day of the Week</th>
@@ -61,8 +62,81 @@
     <tr><td>Friday</td></tr>
     <tr><td>Saturday</td></tr>
 
-    
     </table>
+-->
+<div class="table-container">
+  <div style="flex-grow: 8">
+    <table style="table-layout: auto;" id="sunday">
+      <tr>Sunday</tr>
+      <tr>
+        <th>Todo</th>
+        <th>Difficulty</th>
+      </tr>
+      <tr></tr>
+    </table>
+  </div>
+  <div style="flex-grow: 8">
+    <table style="table-layout: auto;" id="monday">
+      <tr>Monday</tr>
+      <tr>
+        <th>Todo</th>
+        <th>Difficulty</th>
+      </tr>
+      <tr></tr>
+    </table>
+  </div>
+  <div style="flex-grow: 8">
+    <table style="table-layout: auto;" id="tuesday">
+      <tr>Tuesday</tr>
+      <tr>
+        <th>Todo</th>
+        <th>Difficulty</th>
+      </tr>
+      <tr></tr>
+    </table>
+  </div>
+  <div style="flex-grow: 8">
+    <table style="table-layout: auto;" id="wednesday">
+      <tr>Wednesday</tr>
+      <tr>
+        <th>Todo</th>
+        <th>Difficulty</th>
+      </tr>
+      <tr></tr>
+    </table>
+  </div>
+  <div style="flex-grow: 8">
+    <table style="table-layout: auto;" id="thursday">
+      <tr>Thursday</tr>
+      <tr>
+        <th>Todo</th>
+        <th>Difficulty</th>
+      </tr>
+      <tr></tr>
+    </table>
+  </div>
+  <div style="flex-grow: 8">
+    <table style="table-layout: auto;" id="friday">
+      <tr>Friday</tr>
+      <tr>
+        <th>Todo</th>
+        <th>Difficulty</th>
+      </tr>
+      <tr></tr>
+    </table>
+  </div>
+  <div style="flex-grow: 8">
+    <table style="table-layout: auto;" id="saturday">
+      <tr>Saturday</tr>
+      <tr>
+        <th>Todo</th>
+        <th>Difficulty</th>
+      </tr>
+      <tr></tr>
+    </table>
+  </div>
+</div>
+
   </body>
 
   

@@ -36,3 +36,8 @@ table, th, td, tr{
     border:1px solid black;
     font-family: comfortaa;
 }
+
+.table-container{
+    display:flex;
+    flex-direction:row;
+}

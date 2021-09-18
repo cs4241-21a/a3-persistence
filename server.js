@@ -8,15 +8,26 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const express = require("express");
+const {user, pass} = require('./env.js')
+const express = require('express');
 const app = express();
 const mongodb = require('mongodb');
 const bodyparser = require('body-parser');
 
-let appdata = [ 
-]
+app.use(express.static("public"));
+app.use(express.json());
+
+app.get("/", (request, response) => {
+  response.sendFile(__dirname + "/views/index.html");
+})
+
+// listen for requests :)
+const listener = app.listen(process.env.PORT, () => {
+  console.log("Your app is listening on port " + listener.address().port);
+})
 
 const MongoClient = mongodb.MongoClient;
+const uri =`mongodb+srv://${user}:${pass}@cluster0.kt8ex.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true });
 let collection = null
 
@@ -28,17 +39,17 @@ client.connect()
   collection = _collection
   return collection.find({ }).toArray()
 })
-.then(console.log)
+//.then(console.log)
 
-app.post('/add', bodyparser.json(),function(req, res){
-  console.log('body:', req.body)
+app.post('/submit', bodyparser.json(),function(req, res){
+  //console.log('body:', req.body)
   collection.insertOne(req.body)
   .then(dbresponse => {
     return collection.find({'_id':dbresponse.insertedId}).toArray()
   })
   .then(dbresponse =>{
-  res.json(dbresponse[0])
-  console.log(dbresponse[0])
+  res.json(dbresponse)
+  console.log(dbresponse)
   })
 })
 
@@ -132,5 +143,5 @@ const sendFile = function( response, filename ) {
      }
    })
 }
-
-server.listen( process.env.PORT || port )
+app.listen(3000)
+//server.listen( process.env.PORT || port )
