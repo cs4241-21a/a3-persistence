@@ -1,9 +1,7 @@
 window.onload = function() {
     const button = document.getElementById( 'btn_register' )
     button.onclick = showCreationWindow
-    
 
-    console.log("crete")
   }
 
 const showCreationWindow = function(){

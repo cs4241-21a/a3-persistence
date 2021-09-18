@@ -5,6 +5,14 @@ label {
   }
 
   
+.noBorder {
+  text-align: center;
+  border: none;
+  background-color: #333;
+  color:white;
+  margin: auto;
+  width: 50%;
+}
   textarea{
     resize: none;
     margin-left: 10px;

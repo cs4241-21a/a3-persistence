@@ -296,7 +296,7 @@ const submit = function( e ) {
       headers:{
         "Content-Type":"application/json"
       }
-    })
+    }).then( window.location.replace('/index.html') )
   }
 
   
