@@ -33,7 +33,7 @@ The CSS framework that I chose was Bootstrap because I already had experience wi
 
 ![image](https://user-images.githubusercontent.com/32044950/133910761-a5c019d5-0291-4f64-9d70-4a9c18e252ff.png)
 
-![image](https://user-images.githubusercontent.com/32044950/133910782-9fd68490-7c90-41be-9c95-412f0b84c7db.png)
+![image](https://user-images.githubusercontent.com/32044950/133910809-b597e997-7546-49a1-ba0b-d453f9749251.png)
 
 
 ## Technical Achievements
