@@ -1,7 +1,7 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
-Due: September 20th, by 11:59 AM.
+Due: September 23rd, by 11:59 AM.
 
 This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
 a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
