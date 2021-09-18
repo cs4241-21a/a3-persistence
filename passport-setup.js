@@ -14,12 +14,10 @@ const GITHUB_SECRET = process.env.GITHUB_SECRET;
 //   have a database of user records, the complete GitHub profile is serialized
 //   and deserialized.
 passport.serializeUser(function (user, done) {
-    // console.log('serialize',user);
     done(null, user);
 });
 
 passport.deserializeUser(function (obj, done) {
-    console.log('deserialize',obj);
     done(null, obj);
 });
 

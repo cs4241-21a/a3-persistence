@@ -15,7 +15,6 @@ module.exports.checkAuth = (req, res, next) => {
     const myauth = !req.cookies.loginCookie
 
     // not logged in
-    console.log(!gitauth, myauth)
     if (myauth && !gitauth) {
         res.redirect(`/login`);
         return;
