@@ -19,6 +19,8 @@ app.use( cookie({
   keys: ['key1', 'key2']
 }))
 
+app.use(express.static('public'))
+
 let loginCollection = null
 const uri = `mongodb+srv://dbUser:Michael1@csweb.0knbq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -62,6 +64,29 @@ app.post( '/login', (req,res)=> {
   
 })
 
+
+app.post('/createAccount', bodyParser.json(), function(request, response) {
+  console.log("IN THE CREATE")
+  if( loginCollection !== null ) {
+    loginCollection.find({ username: request.body.username }).toArray()
+    .then(result => {
+      if(result.length == 0){
+        loginCollection.insertOne( request.body )
+        .then( result => { 
+          response.json({isValid: true})
+        })
+        .catch(err => console.log(err)) 
+      }
+      else {
+        console.log("account exists")
+        response.json({isValid: false})
+      }
+    }) 
+    
+  }
+  
+})
+
 app.use( function( req,res,next) {
   if( req.session.login === true )
     next()
@@ -70,7 +95,7 @@ app.use( function( req,res,next) {
 })
 
 
-app.use(serveStatic('public/', { 'index': ['index.html', 'index.htm']}))
+
 
 
 
@@ -81,7 +106,6 @@ let collection= null
 client.connect(err => {
   collection = client.db("contactApp").collection("userData");
 });
-
 
 
 app.post( '/signOut', bodyParser.json(), function( request, response ) {
@@ -111,6 +135,7 @@ app.post('/getItem',  bodyParser.json(), function(request, response) {
       .then( result => { response.json( result ) })
   }
 })
+
 
 app.post('/delete', bodyParser.json(), function(request, response) {
   collection

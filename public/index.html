@@ -5,10 +5,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     
-    <link rel="stylesheet" href="css/istyle.css">
+    <link rel="stylesheet" type="text/css" href="css/istyle.css"> 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+
+    <script src="js/login.js" defer></script>
+    
    
   </head>
 
@@ -25,5 +28,38 @@
       <input type='password' name='password'>
       <input type='submit'>
     </form>
+
+    <button id="btn_register"> Sign Up </button>
+
+    <div class="popup" id="popup_1"> 
+      <div class="overlay"> </div>
+      <div class="content"> 
+          <div class="close_btn" onclick="closeEdit()">&times;</div>
+          
+          <h2> Create Account </h2>
+          <form>
+            <label for="enterName" class="bold_text"> Name: </label>
+            <input type='text' id='enterName'> 
+          </form>
+    
+          <br> 
+          
+          <form>
+            <label for="enterEmail" class="bold_text"> Email: </label>
+            <input type='text' id='enterEmail'> 
+          </form>
+    
+          <br> 
+    
+    
+          <form>
+            <label for="enterPassword" class="bold_text"> Password: </label>
+            <input type='password' id='enterPassword'> 
+          </form>
+    
+   
+          <button id = "btn_create" class="update_btn">Create Account</button>
+      </div>
+    </div>
   </body>
 </html>
