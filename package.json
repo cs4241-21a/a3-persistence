@@ -1,8 +1,8 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "a3-stefano-jordhani",
+  "version": "0.1.0",
+  "description": "Assignment 3 for Webware",
+  "author": "Stefano Jordhani",
   "scripts": {
     "start": "node server.improved.js"
   },
