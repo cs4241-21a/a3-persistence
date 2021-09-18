@@ -12,14 +12,12 @@ let tasklist
 //open connection to database and save account data
 dbclient.connect()
   .then( () => {
-    console.log( "connected with client" )
     // will only create collection if it doesn't exist
     return dbclient.db( 'userdata' ).collection( 'userinfo' )
   })
   .then( collection => {
-    console.log( "fetched collection" )
     users = collection
-    return users.find( { } ).toArray().then( console.log )
+    return users.find( { } ).toArray()
   })
 
 // -------------------------------------------------------------
@@ -36,20 +34,13 @@ app.use( cookie({
 }) )
 
 app.post( '/login', async ( request, response ) => {
-  console.log( "logging in/registering" )
   let json = request.body
-  console.log( "received json: " + JSON.stringify( json ) )
-  console.log( "with url: " + request.url )
 
   let logInResult = await checkCredentials( json.username, json.password )
-  console.log( "logInResult: " + logInResult )
   // log in if credentials are correct
   if( logInResult === "correct" ) {
     request.session.username = json.username
     request.session.password = json.password
-    console.log( "correct password" )
-    console.log( "logged in as " + json.username )
-    console.log( "redirecting to tasks" )
     response.redirect( "/index.html" )
   }
   else {
@@ -58,12 +49,10 @@ app.post( '/login', async ( request, response ) => {
       users.insertOne( { username: json.username, password: json.password } )
       request.session.username = json.username
       request.session.password = json.password
-      console.log( "new account registered as " + json.username )
       response.redirect( "/index.html" )
     }
     // if incorrect, or nonexistent but invalid username, redirect to login page
     else {
-      console.log( "incorrect password or invalid username, resetting login screen" )
       response.redirect( "/login.html" )
     }
   }
@@ -76,18 +65,14 @@ app.get( '/logout', ( request, response ) => {
 
 // send signed out users to the login page
 app.use( async function( request, response, next ) {
-  console.log( "checking for logged out user, cookie username: " + request.session.username )
-  console.log( "url: " + request.url + "username: " + request.session.username)
   // if logged in, or logging in, or fetching the login page or a non html file, do nothing
   if( ( !request.url.endsWith( ".html" ) && request.url !== "/" && request.method === "GET" ) ||
       request.url.endsWith( "/login.html" ) || request.url.endsWith( "/login" ) || 
       await checkCredentials( request.session.username, request.session.password ) === "correct" ) {
     next()
-    console.log( "logged in as " + request.session.username )
   }
   // if loading an html file other than the login page, or using a non login post request and not logged in, redirect to the login page
   else {
-    console.log( "not logged in, redirecting" )
     response.redirect( "/login.html" )
   }
 })
@@ -97,8 +82,6 @@ app.use( express.static( dir ) )
 app.post( '/add|/edit|/remove|/update', async ( request, response) => {
   // get user's tasks from database
   userdata = dbclient.db( 'userdata' ).collection( request.session.username )
-  console.log( "fetched collection" )
-  console.log( await userdata.find( { } ).toArray() )
   
   // check for failed connection
   if( userdata === null ) {
@@ -107,8 +90,6 @@ app.post( '/add|/edit|/remove|/update', async ( request, response) => {
   }
 
   let json = request.body
-  console.log( "received json: " + json )
-  console.log( "with url: " + request.url )
 
   // round given deadline to nearest hour
   if ( 'deadline' in json ) {
@@ -135,31 +116,22 @@ app.listen( process.env.PORT || 3000 )
 // -----------------------------------------------------------------
 
 const checkCredentials = function( username, password ) {
-  console.log( "checking credentials with username: " + username + " and password: " + password )
-
   // check existing accounts for account with the given username
   return users.findOne( { username: username } )
   .then( account => {
-    console.log( account )
     if ( account ) {
       // return whether the given password matches the account's password
       if ( account.password === password ) {
-        console.log( "correct credentials" )
         return "correct"
       }
-      console.log( "incorrect password" )
       return "incorrect"
     }
     // account is not in database
-    console.log( "account doesn't exist" )
     return "nonexistent"
   })
 }
 
 const addTask = async function( json ) {
-  console.log( "in addTask: " )
-  console.log( "name: " + json.name + "start: " + Date.parse( Date() ) + "period: " + json.period + "deadline: " + json.deadline )
-
   json.start = Date.parse( Date() )
   await userdata.insertOne( json )
   
@@ -167,9 +139,6 @@ const addTask = async function( json ) {
 }
 
 const editTask = async function( json ) {
-  console.log( "in editTask: " )
-  console.log( "_id: " + json._id + "name: " + json.name + "period: " + json.period + "deadline: " + json.deadline )
-
   await userdata
     .updateOne(
       { _id: mongodb.ObjectId( json._id ) },
@@ -180,9 +149,6 @@ const editTask = async function( json ) {
 }
 
 const removeTask = async function( json ) {
-  console.log( "in removeTask: " )
-  console.log( "id: " + json._id )
-
   await userdata.deleteOne( { _id: mongodb.ObjectId( json._id ) } )
   
   await recalculateStarts()

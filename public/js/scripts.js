@@ -36,7 +36,6 @@ const submit = function( e ) {
     form.hidden = true
 
     let interval = 60 * 60 * 1000 // number of milliseconds in an hour
-    console.log(deadlineHour.time)
     let deadline = Date.parse( deadlineDate.date ) + timeToNumber( deadlineHour.time )
 
     let json
@@ -50,7 +49,6 @@ const submit = function( e ) {
     }
 
     const body = JSON.stringify( json )
-    console.log( body )
 
     fetch( requestType, {
         method: "POST",
