@@ -5,11 +5,11 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Procrast-inator will take your tasks, assignments, chores, and to-do's and provide the most efficient schedule for delaying the inevitable!">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" defer>
     <!--<link type="text/css" rel="stylesheet" href="css/reset.css">
     <link type="text/css" rel="stylesheet" href="css/style.css">-->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" defer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
 
     <!--template for row of data corresponding to a task-->
     <template id="task-template">
@@ -34,11 +34,13 @@
       
       <div class="divider"></div>
 
-      <h5>Welcome to your tasks! <a href="/logout">Log Out</a></h2>
+      <h2>Welcome to your tasks!
+        <a class="waves-effect waves-light indigo btn" href="/logout">Log Out</a>
+      </h2>
       
       <div id="form" class="section row" hidden>
         <div class="col s12 m8 push-m1">
-          <h5 id="form-title">Add new task:</h2>
+          <h3 id="form-title">Add new task:</h3>
           <form class="row">
             <div class="input-field col s12">
               <input id="name" type="text" class="validate">
@@ -70,9 +72,9 @@
       </div>
 
       <div class="section">
-        <h5>Tracked tasks:</h2>
+        <h3>Tracked tasks:</h3>
 
-        <a class="waves-effect waves-light green darken-1 btn" id="add-button"><i class="material-icons left">add</i>New Task</a>
+        <a class="waves-effect waves-light green darken-2 btn" id="add-button"><i class="material-icons left">add</i>New Task</a>
   
         <table class="striped">
           <thead>
