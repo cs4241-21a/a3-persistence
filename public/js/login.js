@@ -1,4 +1,9 @@
 window.onload = function() {
+
+  FB.getLoginStatus(function(response) {
+    statusChangeCallback(response);
+});
+
     const button = document.getElementById( 'btn_register' )
     button.onclick = showCreationWindow
 

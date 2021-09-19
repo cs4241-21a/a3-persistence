@@ -3,6 +3,8 @@ const express    = require('express'),
       cookie  = require( 'cookie-session' ),
       cookieParser = require('cookie-parser'),
       serveStatic = require('serve-static'),
+      FacebookStrategy = require('passport-facebook').Strategy,
+      passport = require('passport'),
       app        = express()
 
 require('dotenv').config();
@@ -71,6 +73,29 @@ app.post( '/login', bodyParser.json(), (req,res)=> {
   
   
 })
+
+passport.use(new FacebookStrategy({
+  clientID: 881085086126177,
+  clientSecret: "bed39c994d881954c6150901a06bffd9",
+  callbackURL: "https://contact-log.herokuapp.com/https://contact-log.herokuapp.com"
+},
+function(accessToken, refreshToken, profile, cb) {
+  User.findOrCreate({ facebookId: profile.id }, function (err, user) {
+    return cb(err, user);
+  });
+}
+));
+
+app.get('/auth/facebook',
+  passport.authenticate('facebook'));
+
+app.get('/auth/facebook/secrets',
+  passport.authenticate('facebook', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/main.html');
+  });
+
 
 
 app.post('/createAccount', bodyParser.json(), function(request, response) {
