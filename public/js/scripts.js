@@ -16,6 +16,7 @@ const getAdvice = function (hours) {
 }
 
 const addEntry = (json) => {
+    console.log("it got here")
 
   let table = document.getElementById('sleeptable')
   
@@ -110,7 +111,7 @@ const addEntry = (json) => {
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
-  
+    console.log("submit")
     const name = document.querySelector( '#yourname' ),
     major = document.querySelector('#major'),
     sleep = document.querySelector('#hours');
