@@ -93,7 +93,7 @@ app.get('/auth/facebook/secrets',
   passport.authenticate('facebook', { failureRedirect: '/login' }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/main.html');
+    res.redirect('https://contact-log.herokuapp.com/main.html');
   });
 
 
