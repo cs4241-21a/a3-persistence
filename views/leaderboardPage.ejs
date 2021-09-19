@@ -1,0 +1,26 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+<body>
+<%- include("./partials/nav.ejs") %>
+
+<div>
+    <table>
+        <% if (leaderboards.length > 0) { %>
+            <% leaderboards.forEach(leaderboard => { %>
+                <tr id=<%=leaderboard._id%>>
+                    <td><%= leaderboard.yourname%></td>
+                    <td><%= leaderboard.score%></td>
+                    <td><%= leaderboard.rank%></td>
+                    <td> Edit </td>
+                    <td> Delete</td>
+                </tr>
+            <% }) %>
+        <% } %>
+
+    </table>
+
+</div>
+
+<%- include("./partials/footer.ejs") %>
+</body>
+</html>

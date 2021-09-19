@@ -1,15 +1,19 @@
-const http = require( 'http' ),
-    fs   = require( 'fs' ),
-    mime = require( 'mime' ),
-    dir  = 'public/',
+const mime = require( 'mime' ),
     port = 3000,
     express = require('express'),
+    morgan = require('morgan'),
+    mongoose = require('mongoose'),
     app = express(),
-    bodyParser = require("body-parser");
+    bodyParser = require("body-parser"),
+    dbURI = "djia";
+
 const {response, request} = require("express");
 
+//
 
-app.use(function(req, res,next){
+
+
+/*app.use(function(req, res,next){
     console.log(req.url);
     next();
 })
@@ -43,7 +47,7 @@ const appdata = [
     {'yourname': 'Greg', 'score': 745, 'rank': 1},
     {'yourname': 'Mark', 'score': 687, 'rank': 2},
     {'yourname': 'Liam', 'score': 590, 'rank': 3}
-]
+]*/
 
 /*const server = http.createServer( function( request,response ) {
     if( request.method === 'GET' ) {
