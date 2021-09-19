@@ -1,10 +1,22 @@
 let currEdit = 1
 
 window.onload = function() {
-    const button = document.getElementById( 'submit_btn' )
-    button.onclick = submit
+    const add_btn = document.getElementById( 'add_btn' )
+    add_btn.onclick = showCreationWindow
     initData()
   }
+
+  const showCreationWindow = function(){
+    const inputText = document.getElementById('inptNotes')
+    inputText.addEventListener('input', updateValue)
+
+    document.getElementById("popup_1").classList.toggle("is-active")
+    const button = document.getElementById( 'btn_addContact' )
+    button.onclick = submit
+    
+  }
+
+  
 
   const initData = function(){
     fetch('/getData', {
@@ -36,20 +48,21 @@ window.onload = function() {
         
 
         for(let i=0; i < columnNum; i++){ 
-            let newCell = newRow.insertCell(i)
+         
+            let newCell =  document.createElement("td")
+            newCell.style.cssText += 'flex-wrap: wrap;'
             let value = Object.values(item)
             let newText 
            
             if(i == 0)
               newText = document.createTextNode(row)
             else 
-            newText = document.createTextNode(value[i])
+              newText = document.createTextNode(value[i])
 
             newCell.appendChild(newText)
+            newRow.appendChild(newCell)
         }
-        let edit_icon = document.createElement('td')
 
-        edit_icon.id = row - 1
 
       newRow.onclick= function(){
         showEditWindow(item['_id'])
@@ -93,13 +106,23 @@ window.onload = function() {
         updateItem(id)
       }
 
-      document.getElementById("popup_1").classList.toggle("active")
+      document.getElementById("popup_2").classList.toggle("is-active")
     })
     
   }
 
+  function closeAdd() {
+    document.getElementById("popup_1").classList.remove("is-active")
+    document.getElementById('inptName').value = ""
+    document.getElementById('inptEmail').value = ""
+    document.getElementById('inptNumber').value = ""
+    document.getElementById('inptNotes').value = ""
+    document.getElementById('inptAge').value = ""
+    document.getElementById('counter').innerHTML=""
+  }
+
   function closeEdit() {
-    document.getElementById("popup_1").classList.remove("active")
+    document.getElementById("popup_2").classList.remove("is-active")
   }
 
   function updateItem(id) {
@@ -198,12 +221,10 @@ function getEducationValue(age, occupation){
   }
 }
 
-const inputText = document.getElementById('inptNotes')
-const counter = document.getElementById('counter')
 
-inputText.addEventListener('input', updateValue)
 
 function updateValue(e){
+    const counter = document.getElementById('counter')
     const target = e.target
     const maxLength = target.getAttribute('maxlength')
     const currentLength = target.value.length
@@ -221,14 +242,17 @@ const submit = function( e ) {
     const number = document.getElementById('inptNumber')
     const notes = document.getElementById('inptNotes')
     const age = document.getElementById('inptAge')
-    const occupation = document.getElementById('inptOccupation')
+    var yourSelect = document.getElementById( "inptOccupation" );
+    const occupation = yourSelect.options[ yourSelect.selectedIndex ].value
+    console.log("age: " + age.value + " occupation: " + occupation)
 
+   
     const json = {
         name: name.value,
         email: email.value,
         number: number.value,
         age: age.value,
-        occupation: occupation.value,
+        occupation: occupation,
         age_group: getAge(age.value),
         education_level: getEducationValue(age.value, occupation.value),
         notes: notes.value
@@ -255,7 +279,7 @@ const submit = function( e ) {
             document.getElementById('inptNotes').value = ""
             document.getElementById('inptAge').value = ""
             document.getElementById('counter').innerHTML=""
-            document.getElementById('inptOccupation').value="Student"
+            closeAdd()
 
             addToTable(json, json._id)
           })
@@ -290,7 +314,7 @@ const submit = function( e ) {
   }
 
   function signOut() {
-    fetch( '/logOut', {
+    fetch( '/signOut', {
       method:'POST',
       body: JSON.stringify({test: 1}),
       headers:{

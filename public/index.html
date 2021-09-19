@@ -1,65 +1,134 @@
 <!doctype html>
-<html lang='en'>
-  <head>
-    <title>Log In</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <link rel="stylesheet" type="text/css" href="css/istyle.css"> 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+<html lang='en' style="background-color: hsl(171, 100%, 41%)">
 
-    <script src="js/login.js" defer></script>
-    
-   
-  </head>
+<head>
+  <title>Log In</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Put your description here.">
 
-  <body>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Sofia">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
 
-    <h1> Please Log In</h1>
-    <div class="alert">
-      <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-      <strong>Error!</strong> The username or password is incorrect. 
+  <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+
+  <script src="js/login.js" defer></script>
+
+
+</head>
+
+<body>
+
+
+
+
+<div style="display: flex; justify-content: center; align-items: center; text-align: center; min-height: 90vh;">              
+  <div class="container">
+    <div class='columns is-centered'>
+      
+        <div class="card">
+          <div class="card-content">
+
+            <section class="modal-card-body">
+
+              <div class="field">
+
+                <label class="label">Username</label>
+                <div class="control has-icons-left">
+                  <input id="loginName" class="input is-success" type="text" placeholder="Joe Smith">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-user"></i>
+                  </span>
+
+                  <p id="wrong_info" class="help is-danger is-hidden">The entered username or password is incorrect</p>
+                </div>
+
+              </div>
+
+
+              <div class="field">
+                <label class="label">Password</label>
+                <div class="control has-icons-left">
+                  <input id="loginPassword" class="input is-success" type="password" placeholder="********">
+                  <span class="icon is-small is-left">
+                    <i class="fas fa-lock"></i>
+                  </span>
+
+                </div>
+              </div>
+              <div class="field">
+                <p class="control">
+                  <button id="btn_login" class="button is-success has-text-centered">Login</button>
+                  <button id="btn_register" class="button is-info has-text-centered">Register</button>
+                </p>
+              </div>
+
+
+
+          </div>
+        </div>
+</div>
     </div>
-    
-    <form action='/login' method='POST'>
-      <input type='text' name='username'>
-      <input type='password' name='password'>
-      <input type='submit'>
-    </form>
-
-    <button id="btn_register"> Sign Up </button>
-
-    <div class="popup" id="popup_1"> 
-      <div class="overlay"> </div>
-      <div class="content"> 
-          <div class="close_btn" onclick="closeEdit()">&times;</div>
-          
-          <h2> Create Account </h2>
-          <form>
-            <label for="enterName" class="bold_text"> Name: </label>
-            <input type='text' id='enterName'> 
-          </form>
-    
-          <br> 
-          
-          <form>
-            <label for="enterEmail" class="bold_text"> Email: </label>
-            <input type='text' id='enterEmail'> 
-          </form>
-    
-          <br> 
-    
-    
-          <form>
-            <label for="enterPassword" class="bold_text"> Password: </label>
-            <input type='password' id='enterPassword'> 
-          </form>
-    
-   
-          <button id = "btn_create" class="update_btn">Create Account</button>
-      </div>
     </div>
-  </body>
+
+
+
+  <div id="popup_1" class="modal">
+    <div class="modal-background"></div>
+    <div class="modal-card">
+      <header class="modal-card-head">
+        <p class="modal-card-title">Account Registration</p>
+        <button onclick="closeEdit()" class="delete" aria-label="close"></button>
+      </header>
+      <section class="modal-card-body">
+        <!-- Content ... -->
+
+        <div class="field">
+          <label class="label">Username</label>
+          <div class="control has-icons-left">
+            <input id="enterName" class="input" type="text" placeholder="Joe Smith">
+            <span class="icon is-small is-left">
+              <i class="fas fa-user"></i>
+            </span>
+            <span class="icon is-small is-right is-hidden">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+          </div>
+          <p id="username_avail"class="help is-danger is-hidden">This username is already in use</p>
+        </div>
+
+        <div class="field">
+          <label class="label">Email</label>
+          <div class="control has-icons-left has-icons-right">
+            <input id="enterEmail" class="input" type="email" placeholder="hello@gmail.com">
+            <span class="icon is-small is-left">
+              <i class="fas fa-envelope"></i>
+            </span>
+            <span class="icon is-small is-right is-hidden">
+              <i class="fas fa-exclamation-triangle"></i>
+            </span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label class="label">Password</label>
+          <div class="control has-icons-left has-icons-right">
+            <input id="enterPassword" class="input" type="password" placeholder="********">
+            <span class="icon is-small is-left">
+              <i class="fas fa-lock"></i>
+            </span>
+          </div>
+        </div>
+
+        <!---COntnet End-->
+      </section>
+      <footer class="modal-card-foot">
+        <button id="btn_create" class="button is-primary ">Create Account</button>
+      </footer>
+    </div>
+  </div>
+</body>
+
 </html>

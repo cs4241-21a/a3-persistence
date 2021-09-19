@@ -29,7 +29,7 @@ client.connect(err => {
   loginCollection = client.db("contactApp").collection("loginInfo");
 });
 
-app.post( '/login', (req,res)=> {
+app.post( '/login', bodyParser.json(), (req,res)=> {
 
   if( loginCollection !== null ) {
     loginCollection.find({ username:req.body.username }).toArray().then( result => { 
@@ -46,16 +46,22 @@ app.post( '/login', (req,res)=> {
           console.log('Cookies: ', cookieParser.JSONCookies(req.cookies))
 
           console.log('Signed Cookies: ', req.signedCookies)
-          res.redirect( 'main.html' )
+          res.json({worked:true})
+          //res.redirect( 'main.html' )
+          
         }else{
           req.session.login = false
-          res.sendFile( __dirname + '/public/index.html' )
+          res.json({worked:false})
+          //res.sendFile( __dirname + '/public/index.html' )
+          
         }
       }
       else{
-        console.log("Wrong email")
+        console.log("Wrong username")
         req.session.login = false
-        res.sendFile( __dirname + '/public/index.html' )
+        res.json({worked:false})
+        //res.sendFile( __dirname + '/public/index.html' )
+       
       }
     })
   }
