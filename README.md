@@ -111,6 +111,7 @@ add a little more detail about what it does.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 2**: I used Heroku to host the website instead of Glitch.
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
