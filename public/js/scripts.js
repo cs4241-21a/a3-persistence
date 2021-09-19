@@ -132,7 +132,7 @@ function deleteValue(_id) {
 const editValue = (_id) => {
   console.log("Editing value " + _id)
   let values = {}
-  let row = document.selectElementById(_id)
+  let row = document.getElementById(_id)
   row.childNodes
   .forEach( e => {
     console.log(e)
