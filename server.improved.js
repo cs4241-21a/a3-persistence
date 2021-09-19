@@ -24,7 +24,7 @@ app.use( cookie({
 app.use(express.static('public'))
 
 let loginCollection = null
-const uri = `mongodb+srv://${process.env.name}:${process.env.password}@csweb.0knbq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://dbUser:Michael1@csweb.0knbq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 client.connect(err => {
