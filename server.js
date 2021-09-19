@@ -1,11 +1,27 @@
-const express = require( 'express' ),
-      mongodb = require( 'mongodb' ),
+const express = require('express'),
+      mongodb = require('mongodb'),
       bodyparser = require('body-parser'),
       dotenv = require('dotenv').config(),
+      morgan = require('morgan'),
+      responseTime = require('response-time'),
+      timeout = require('connect-timeout'),
+      cookieParser = require('cookie-parser')
       app = express();
 
-app.use( express.static('public') )
-app.use( express.json() )
+app.use(express.static('public'))
+app.use(express.json())
+app.use(timeout('5s'))
+app.use(morgan('tiny'))
+app.use(haltOnTimedout)
+app.use(responseTime((req, res, time) => {
+  console.log("Response Time: " + req.method, req.url, time + 'ms');
+}));
+app.use(haltOnTimedout)
+app.use(cookieParser())
+
+function haltOnTimedout (req, res, next) {
+  if (!req.timedout) next()
+}
 
 const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
@@ -24,6 +40,7 @@ client.connect()
   
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/login.html");
+  console.log("Cookies: ", request.cookies)
 });
 
 app.get("/login.html", (request, response) => {

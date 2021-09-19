@@ -1,6 +1,5 @@
 //Gets derivative field
 const getAdvice = function (hours) {
-
     let advice = ""
     
       if (hours === "0-4 hours") {

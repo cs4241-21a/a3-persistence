@@ -7,21 +7,31 @@
     <body>
         <script src="js/login.js"></script>
         <link href="css/style.css" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300&display=swap" rel="stylesheet">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Besley&display=swap" rel="stylesheet"> 
         <p>Login
-            <div id="loginForm">
+            <div>
                 <div>
-                    <form action="" id="login">
+                    <form action="" id="login" autocomplete="off">
                         <label id="usernameLabel">
                             Username
-                            <input type='text' onfocus="this.value=''" class="textbox" id="username" placeholder="Enter your username here">
                         </label>
+                        <div></div>
+                        <input type='text' onfocus="this.value=''" class="textBox" id="username" placeholder="Enter your username here">
+                        <div></div>
                         <label id="passwordLabel">
                             Password
-                            <input type='password' onfocus="this.value=''" class="textbox" id="password" placeholder="Enter your password here">
                         </label>
+                        <div></div>
+                        <input type='password' onfocus="this.value=''" class="textBox" id="password" placeholder="Enter your password here">
+                        <div></div>
                         <button id="loginBtn">login</button>
+                        <button id="signUp"> sign up</button>
                     </form>
-                    <button id="signInBtn"> sign in with GitHub</button>
                 </div>
             </div>
         </p>

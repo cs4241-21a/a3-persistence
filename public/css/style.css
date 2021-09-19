@@ -22,6 +22,43 @@ label {
     margin-left: 550px;
 }
 
+button {
+    font-family: 'Besley', sans-serif;
+    font-size: 20px;
+    outline: none;
+    border: none;
+    background-color: #8CDAFF;
+    border-radius: 50px;
+    margin-top: 50px;
+    margin-left: 685px;
+    width: 130px;
+    height: 45px;
+}
+
+button:hover {
+    background-color:#63B1FF;
+}
+
+table{
+    display: flexbox;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 50px;
+}
+
+th {
+    font-family: 'Besley', sans-serif;
+    background-color: #77DBDA;
+    padding: 10px 70px;
+    font-weight: unset;
+}
+
+td {
+    padding: 10px 75px;
+    font-family: 'Besley', sans-serif;
+    background-color: #89DACD;
+}
+
 .textBox {
     font-family: 'Rubik',sans-serif;
     font-size: 20px;
@@ -40,10 +77,6 @@ label {
     background-color: #B2B0EB;
 }
 
-#yourname {
-    margin-left: 475px;
-}
-
 .selectBox {
     font-family: 'Rubik',sans-serif;
     font-size: 20px;
@@ -59,23 +92,6 @@ label {
 
 .selectBox:hover {
     background-color: #F5B4DF;
-}
-
-button {
-    font-family: 'Besley', sans-serif;
-    font-size: 20px;
-    outline: none;
-    border: none;
-    background-color: #8CDAFF;
-    border-radius: 50px;
-    margin-top: 50px;
-    margin-left: 685px;
-    width: 130px;
-    height: 45px;
-}
-
-button:hover {
-    background-color:#63B1FF;
 }
 
 .editButton {
@@ -105,23 +121,26 @@ button:hover {
 .removeButton:hover {
     background-color: #E07B83;
 }
+::placeholder {
+    color: black;
+  }
 
-table{
-    display: flexbox;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 50px;
+#yourname {
+    margin-left: 475px;
 }
 
-th {
-    font-family: 'Besley', sans-serif;
-    background-color: #77DBDA;
-    padding: 10px 70px;
-    font-weight: unset;
+#usernameLabel {
+    margin-left: 632px;
 }
 
-td {
-    padding: 10px 75px;
-    font-family: 'Besley', sans-serif;
-    background-color: #89DACD;
+#username {
+    margin-left: 630px;
+}
+
+#passwordLabel {
+    margin-left: 632px;
+}
+
+#password {
+    margin-left: 630px;
 }
