@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <link href="/style.css">
+    <script type="text/javascript" src="/script.js" defer></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans">
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+        content="A lame server-side calculator with no other functionality, do not investigate further.">
+</head>
+
+<body>
+    <div class="flex-container">
+        <div id="titles">
+            <h1>The Lame Calculator</h1>
+            <h2>Somehow still a better deal than TI calculators™</h2>
+            <h3>Collaborative Computing, done wrong©</h3>
+        </div>
+        <p>Enter a valid number in the boxes along with an operator, then press compute to perform the designed
+            operation on those numbers. Results are sorted with most recent appearing at the top for convenience. </p>
+        <p id="warning">WARNING: DO NOT ATTEMPT TO COMMUNICATE WITH CALCULATOR IN BINARY VIA COMPUTATION. IGNORE ALL
+            SECRET RESPONSES.</p>
+        <div class="flex-container" id="computeform">
+            <form>
+                <input type="number" class="fvalue" id="value1" value="">
+                <input type="text" class="foperator" id="operator" value="">
+                <input type="number" class="fvalue" id="value2" value="">
+                <button id="compute">compute</button>
+            </form>
+        </div>
+        <div id="notesandconvert" class="flex-container">
+            <div>
+                <p>Notes:</p>
+                <ul>
+                    <li>Supported operations are +, -, *, /, and ^.</li>
+                    <li>Whitespace is supported within numbers, but NOT by the binary parser.</li>
+                    <li>01110100 01110010 01111001 00100000 01110100 01100101 01110011 01110100</li>
+                </ul>
+            </div>
+            <div>
+                <p>The "convert" button converts text to the decimal equivalent of the text's binary representation. Use
+                    this to avoid accidentally communicating with the calculator by having your computation result be
+                    the decimal equivalent of some binary phrase.</p>
+                <input type="text" id="bintext">
+                <input id="bintextconv" />
+                <button id="convert">convert</button>
+                <p id="convertedtext"></p>
+            </div>
+        </div>
+        <div class="flex-container" id="tablecontainer">
+            <table id="table">
+                <colgroup>
+                    <col span="1" style="width: 30%">
+                    <col span="1" style="width: 20%">
+                    <col span="1" style="width: 20%">
+                    <col span="1" style="width: 5%">
+                    <col span="1" style="width: 25%">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <th>Computation Number</th>
+                        <th>Var 1</th>
+                        <th>Var 2</th>
+                        <th>Op.</th>
+                        <th>Result</th>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+
+</html>

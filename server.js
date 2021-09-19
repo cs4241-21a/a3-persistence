@@ -1,9 +1,13 @@
 require('dotenv').config()
 const express = require('express'),
     mongodb = require('mongodb'),
-    app = express()
+    cookie = require('cookie-session'),
+    app = express(),
+    bodyParser = require('body-parser')
 
 app.use(express.static('public'))
+app.use(express.static('public/js'))
+app.use(express.static('public/css'))
 app.use(express.json())
 
 const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
@@ -27,10 +31,18 @@ client.connect()
 // route to get all docs
 app.get('/', (req, res) => {
     if (collection !== null) {
-        res.sendFile(__dirname + "/views/index.html");
+        res.sendFile(__dirname + "/views/index.html"); //does this just end everything??
+        console.log("got to GET/");
         // get array and pass to res.json
-        collection.find({}).toArray().then(result => res.json(result))
+        //collection.find({}).toArray().then(result => console.log(result));
+        //collection.find({}).toArray().then(result => res.json(result))
+        //res.sendFile(__dirname + "/views/index.html");
     }
+})
+
+app.get('/load', (req, res) => {
+    collection.find({}).toArray().then(result => res.json(result))
+    console.log("load called");
 })
 
 app.use((req, res, next) => {
@@ -41,8 +53,17 @@ app.use((req, res, next) => {
     }
 })
 
-app.post('/add', (req, res) => {
+app.post('/add', bodyParser.json(), (req, res) => {
     // assumes only one object to insert
+    console.log(JSON.stringify(req.body))
+    console.log(res)
+    debugger
+    console.log("ADD", req, req.body)
+    //NEED TO PERFORM THE PROCESSING ON THE BODY.
+    //im going to want two different things: a login database and a calculation database
+    //here, perform the processing on the input then insert it inc. username that made it and whether is secret
+    //make it so that it can only 'corrupt' public things
+    //THEN, it has to return EVERYTHING available to this user (public stuff + their secrets) with ID
     collection.insertOne(req.body)
         .then(insertResponse => collection.findOne(insertResponse.insertedId))
         .then(findResponse => res.json(findResponse))
