@@ -1,4 +1,4 @@
-Assignment 3 - Its Gettin Real
+Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
 ## [Database System](https://a3-taylor-cox.glitch.me)
