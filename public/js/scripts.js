@@ -1,3 +1,4 @@
+//Gets derivative field
 const getAdvice = function (hours) {
 
     let advice = ""
@@ -14,8 +15,8 @@ const getAdvice = function (hours) {
     return advice;
   }
   
+  //Adds an entry to the table when user presses submit
   const addEntry = (json) => {
-      console.log("it got here")
   
     let table = document.getElementById('sleeptable')
     
@@ -29,7 +30,7 @@ const getAdvice = function (hours) {
     removeElement = newRow.insertCell(5),
     removeButton = document.createElement('Input');
   
-    idElement = json._id;
+    let idElement = json._id;
   
     //Adding text to fields
     newName.innerHTML = json.yourname;
@@ -107,7 +108,7 @@ const getAdvice = function (hours) {
     }
   };
 
-  //New//
+  //Loads data from the database depending on the user
   function loadDatabase(item) {
     let table = document.getElementById('sleeptable')
     
@@ -121,7 +122,7 @@ const getAdvice = function (hours) {
     removeElement = newRow.insertCell(5),
     removeButton = document.createElement('Input');
   
-    idElement = item._id;
+    let idElement = item._id;
   
     //Adding text to fields
     newName.innerHTML = item.yourname;
@@ -199,7 +200,6 @@ const getAdvice = function (hours) {
     }
   }
 
-  //New//
   fetch("/sleep")
   .then(response => response.json())
   .then(sleep => {
@@ -207,9 +207,9 @@ const getAdvice = function (hours) {
   });
   
   const submit = function( e ) {
-      // prevent default form action from being carried out
-      e.preventDefault()
-      console.log("submit")
+
+    e.preventDefault()
+
       const name = document.querySelector( '#yourname' ),
       major = document.querySelector('#major'),
       sleep = document.querySelector('#hours');
@@ -253,6 +253,7 @@ const getAdvice = function (hours) {
       return false
     }
 
+    //Handles logout when the user wants to logout 
     const logout = function (e) {
 
         e.preventDefault()
