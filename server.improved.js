@@ -4,19 +4,145 @@ const mime = require( 'mime' ),
     morgan = require('morgan'),
     mongoose = require('mongoose'),
     app = express(),
-    bodyParser = require("body-parser"),
-    dbURI = "djia";
+    ScoreEntry = require('./models/leaderboardEntry.js'),
+    bodyParser = require("body-parser");
+require('dotenv').config();
 
 const {response, request} = require("express");
 
-//
+// connect to mongodb & listen for requests
+const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
 
+mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(result => app.listen(port))
+    .catch(err => console.log(err));
 
+//register view engine
+app.set('view engine', 'ejs');
 
-/*app.use(function(req, res,next){
-    console.log(req.url);
+// middleware & static files
+app.use(express.static('public'));
+app.use(morgan('dev'));
+app.use((req,res,next) => {
+    res.locals.path = req.path;
     next();
+});
+
+app.get('/submit', (req,res) =>{
+    const entry = new ScoreEntry({
+        yourname: 'Aidan',
+        score: 1000,
+        rank: 6
+    })
+    entry.save()
+        .then(result => {
+            res.send(result);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
+app.get('/all-scores', (req,res) => {
+    ScoreEntry.find()
+        .then(result => {
+            res.send(result);
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
+app.get('/', (req,res) => {
+    res.redirect('/index');
 })
+app.get('/leaderboard', (req,res) => {
+    ScoreEntry.find().sort({rank: 0})
+        .then(result => {
+            res.render('leaderboardPage', {leaderboards: result, title: 'Leaderboard'});
+        })
+        .catch(err => {
+            console.log(err);
+        })
+})
+
+app.get('/index', (req, res) => {
+    ScoreEntry.find({rank: {$lte: 5}}).sort({rank: 0})
+        .then(result => {
+            res.render('index', {leaderboards: result, title:"Game"});
+        })
+        .catch(err => {
+            console.log(err);
+        });
+});
+
+app.get('/chat', (req, res) =>{
+    res.render('chat',{title:"Chat Page"});
+});
+
+// 404 page
+app.use((req,res) => {
+    res.status(404).render('404',{title: '404'})
+})
+
+
+/*
+//const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
+//let collection = null
+
+client.connect()
+    .then( () => {
+        // will only create collection if it doesn't exist
+        return client.db( 'Trash' ).collection( 'leaderboard' )
+    })
+    .then( __collection => {
+        // store reference to collection
+        collection = __collection
+        // blank query returns all documents
+        return collection.find({ }).toArray()
+    })
+    .then( console.log )
+
+// route to get all docs
+app.get( '/updatePage', (req,res) => {
+    if( collection !== null ) {
+        // get array and pass to res.json
+        collection.find({ }).toArray().then( result => res.json( result ) )
+    }
+})
+
+
+app.use( (req,res,next) => {
+    if( collection !== null ) {
+        next()
+    }else{
+        res.status( 503 ).send()
+    }
+})
+
+app.post( '/submit', bodyParser.json(), (req,res) => {
+    // assumes only one object to insert
+    //check if name already has entry
+    //delete old score if new one is higher
+    //let idValue = "";
+    collection.insertOne( req.body )
+
+    //collection.deleteOne({ "_id" : mongodb.ObjectId("61441091c6a54aa91f2c3f85") })
+    collection.updateOne(
+        { _id:mongodb.ObjectId("6144084d3ca77b27e4a42889") },
+        {$set:{'rank':1 }}
+    ).then(dbresponse => {
+        //idValue = dbresponse.insertedId.id
+        //console.log(idValue)
+        res.json((dbresponse))
+    });
+*/
+
+    //calcRankMongo(); //recalculate the rank of all entries in db
+//})
+
+
+/*
 app.use(express.static('./public/'));
 app.listen( port);
 

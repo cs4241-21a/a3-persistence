@@ -4,8 +4,14 @@
 <%- include("./partials/nav.ejs") %>
 
 <div>
+    <h2>Leaderboard</h2>
     <table>
         <% if (leaderboards.length > 0) { %>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Rank</th>
+            <th>Edit</th>
+            <th>Report</th>
             <% leaderboards.forEach(leaderboard => { %>
                 <tr id=<%=leaderboard._id%>>
                     <td><%= leaderboard.yourname%></td>

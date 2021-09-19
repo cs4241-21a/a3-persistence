@@ -21,8 +21,26 @@
     <button class="hidden" id="accelBtn" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">FLAP</button>
 </div>
 <div class="general scoreArea" id="scoreAreaID">
-    <h2>Leaderboard</h2>
-    <table id="Leaderboard"></table>
+    <h2>Top 5 Scores</h2>
+    <table id="Leaderboard">
+        <% if (leaderboards.length > 0) { %>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Rank</th>
+            <th>Edit</th>
+            <th>Report</th>
+            <% leaderboards.forEach(leaderboard => { %>
+            <tr id=<%=leaderboard._id%>>
+                <td><%= leaderboard.yourname%></td>
+                <td><%= leaderboard.score%></td>
+                <td><%= leaderboard.rank%></td>
+                <td> Edit </td>
+                <td> Delete</td>
+            </tr>
+            <% }) %>
+        <% } %>
+
+    </table>
     <div>
         <form>
             <input class="hidden" type='text' id='editName'  placeholder="New Name">
