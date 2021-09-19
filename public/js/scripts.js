@@ -12,6 +12,7 @@ const submit = function (e) {
 
     fetch('/submit', {
         method: 'POST',
+        headers: {'Content-Type': 'application/json'},
         body
     })
         .then(function (response) {
