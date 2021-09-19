@@ -95,24 +95,26 @@ Write a paragraph of at least 125 words *for each of four principles* (four para
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## Race Results Tracker V2
 
 your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include: 
 
-cookie-session | passport | helmet | need 2 more
+- The goal of this application was to create a website that would allow users to keep track of a race and the results of that race.  I intned it to be used as part of a larger application for a more effective use, maybe one where you could automatically submit new user entires as the racer finished instead of it being manually entered.
+- I faced a lot of challenges with having the authentication work on the glitch server and making sure glitch server work properly with my application.
+- OAuth with the Github Strategy was the authenication method I chose to implement in my application.  I chose this method because creating a database full of usernames and passwords did not seem as secure as using a method already used in the industry.
+- I used tailwindcss since it was advertised as a scallable framework.  This appealed to me as I did not want to use a framework that would become more difficult to deal with the larger my application became.  I implemented my own font using the tailwind config and also purged unused css from their libraries to keep the file size smaller and maintian a higher lighthouse score.
+- helmet package was used to secure my HTTP headers.
+- passport package was used to authenticate using github.
+- serve-favicon package was used to serve up the favicon for my app.
+- cookie-session package was used to authetnicate and keep tracker of logged in users on for my application.
+- serve-static package was used to serve the static files for my webpage.
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
+
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy.
+- **Tech Achievement 2**: I was able to score a 100% on the lighthouse scores.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
