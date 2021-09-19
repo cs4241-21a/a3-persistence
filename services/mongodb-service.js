@@ -17,7 +17,8 @@ let main = async function () {
 main()
 
 exports.update = async function(data) {
-    const updateResult = await lostitems.updateOne({ _id: new ObjectID(data.uid) }, {
+    console.log('Updating document => ', data)
+    const updateResult = await lostitems.updateOne({ _id: new ObjectID(data._id) }, {
         $set: {
           item: data.item,
           when: data.when,
