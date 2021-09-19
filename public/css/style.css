@@ -19,7 +19,6 @@ p {
 label {
     font-family: 'Rubik', sans-serif;
     font-size: 20px;
-    margin-left: 550px;
 }
 
 button {
@@ -29,8 +28,7 @@ button {
     border: none;
     background-color: #8CDAFF;
     border-radius: 50px;
-    margin-top: 50px;
-    margin-left: 685px;
+    margin-top: 10px;
     width: 130px;
     height: 45px;
 }
@@ -63,9 +61,6 @@ td {
     font-family: 'Rubik',sans-serif;
     font-size: 20px;
     padding: 10px;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    margin-left: 20px;
     height: 25px;
     width: 250px;
     background-color: #CAD6F5;
@@ -123,24 +118,43 @@ td {
 }
 ::placeholder {
     color: black;
-  }
+}
+
+#submit {
+    margin-left: 685px;
+    margin-top: 25px;
+}
+
+#logoutBtn {
+    margin-left: 685px;
+    margin-top: 25px;
+}
+
+#login {
+    background-color: #7BB7FF;
+    display: grid;
+    grid-gap: 1em;
+    padding: 1em;
+    max-width: 40ch;
+}
+
+#loginBg {
+    display: flex;
+    justify-content: center;
+}
 
 #yourname {
-    margin-left: 475px;
+    margin-left: 495px;
+    margin-top: 20px;
+    margin-bottom: 20px;
 }
 
-#usernameLabel {
-    margin-left: 632px;
+#major {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
 }
 
-#username {
-    margin-left: 630px;
-}
-
-#passwordLabel {
-    margin-left: 632px;
-}
-
-#password {
-    margin-left: 630px;
+#day {
+    margin-left: 550px;
 }

@@ -20,7 +20,7 @@
       <input type='text' onfocus="this.value=''" class= "textBox" name='yourname' id="yourname" placeholder="Enter your name here">
       <input type='text' onfocus="this.value=''" class="textBox" name='major' id= "major" placeholder="Enter your major here">
       <div>
-        <label> How many hours of sleep do you get in a day?</label>
+        <label id="day"> How many hours of sleep do you get in a day?</label>
         <div>
           <select name='hours' onfocus="this.value=''" class= "selectBox" id="hours">
             <option value="0-4 hours">0-4 hours</option>
@@ -30,8 +30,8 @@
         </select>
         </div>
       </div>
-        <button>submit</button>
-        <button id = "logoutBtn">logout</button>
+        <button id= "submit">submit</button>
+        <button id= "logoutBtn">logout</button>
       <table id="sleeptable">
         <thead>
           <tr>
