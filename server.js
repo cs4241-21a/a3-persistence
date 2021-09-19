@@ -58,10 +58,20 @@ app.get("/index.html", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
-app.post("/submit", bodyparser.json(), function(req,res) {
-    /*console.log('body: ', req.body)
+//New//
+app.get("/sleep", (req, res) => {
+  if (collection !== null) {
+    collection
+      .find({username:user})
+      .toArray()
+      .then(result => res.json(result));
+  }
+});
 
-      collection.insertOne( req.body )
+app.post("/submit", bodyparser.json(), function(req,res) {
+    console.log('body: ', req.body)
+
+      /*collection.insertOne( req.body )
       .then( insertResponse => collection.findOne( insertResponse.insertedId ) ) 
       .then( findResponse   => res.json( findResponse ) )*/
 
@@ -84,11 +94,8 @@ app.post("/submit", bodyparser.json(), function(req,res) {
       collection.insertOne( req.body )
       .then( insertResponse => collection.findOne( insertResponse.insertedId ) ) 
       .then( findResponse   => res.json( findResponse ))
-
     })
   
-
-
 //Add a route to remove a todo
 app.post( '/remove', (req,res) => {
     collection
