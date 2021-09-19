@@ -1,3 +1,12 @@
+var express = require('express')
+var app = express()
+
+var bodyParser = require('body-parser')
+var compression = require('compression')
+const helmet = require("helmet");
+var favicon = require('serve-favicon')
+var serveStatic = require('serve-static')
+
 const http = require( 'http' ),
       fs   = require( 'fs' ),
       // IMPORTANT: you must run `npm install` in the directory for this assignment
@@ -33,8 +42,6 @@ const handleGet = function( request, response ) {
 const handlePost = function( request, response ) {
   let dataString = ''
 
-  
-
   request.on( 'data', function( data ) {
       dataString += data 
   })
@@ -56,11 +63,7 @@ const handlePost = function( request, response ) {
 
     console.log(appdata)
 
-
-
     let json = JSON.stringify(appdata)
-
-
 
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end(json)
