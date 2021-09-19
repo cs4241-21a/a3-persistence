@@ -47,6 +47,14 @@ app.post('/submit', bodyparser.json(),function(req, res){
   .then(dbresponse => {
     return collection.find({'_id':dbresponse.insertedId}).toArray()
   })
+    .then(dbresponse =>{
+    res.json(dbresponse)
+    console.log(dbresponse)
+  })
+})
+
+app.post('/loadTable', bodyparser.json(),function(req, res){
+  collection.find({}).toArray()
   .then(dbresponse =>{
   res.json(dbresponse)
   console.log(dbresponse)
