@@ -22,35 +22,20 @@ const postRequest = function(endpoint, data, callback) {
   return false
 }
 
-function login() {
-  document.querySelector('#error-box').innerText = ""
-  let username = document.querySelector("#username").value.trim()
-  let password = document.querySelector("#password").value
-  postRequest('/api/login', {
-    username,
-    password
-  }, (response) => {
+function getUserID() {
+  getRequest('/auth/getUserID', {}, (response) => {
     console.log("Login status: " + response.status)
     if (response.status === 200) {
-      loggedInUser = username
-      loginSuccess()
+      loggedInUser = response.username
+      document.querySelector('#username-box').innerText = `Logged in as ${loggedInUser}`
+      els = document.querySelectorAll( '.logged-in' )
+      els.forEach(el => el.style.display = 'block')
+      getLostItems()
+      getFoundItems()
     } else {
-      loginFailed()
+      document.querySelector('#error-box').innerText = "Error! Could not fetch user details!"
     }
   })
-}
-
-function loginSuccess() {
-  document.querySelector('#username-box').innerText = `Logged in as ${loggedInUser}`
-  document.querySelector( '#loginform' ).style.display = 'none'
-  els = document.querySelectorAll( '.logged-in' )
-  els.forEach(el => el.style.display = 'block')
-  getLostItems()
-  getFoundItems()
-}
-
-function loginFailed() {
-  document.querySelector('#error-box').innerText = "Error! Wrong username or password!"
 }
 
 function getItems(listname) {
@@ -199,10 +184,7 @@ function saveEdits(_id) {
 }
 
 window.onload = function() {
-  document.querySelector( '#login-button' ).onclick = (e) => {
-    e.preventDefault()
-    login()
-  }
+  getUserID()
 
   document.querySelector( '#createentry-button' ).onclick = (e) => {
     e.preventDefault()
