@@ -23,21 +23,25 @@ const login = function (e) {
         }
     })
     //Launches the homepage
-    .then(response => {
-        if(response.ok) {
-            console.log("response:", response)
-            window.location.href = "index.html"
-        } else {
-            alert("Network Error")
+    .then(reponse => {
+        if(reponse.ok) {
+            window.location.href = "index.html";
         }
     })
+
     return false
+}
+
+const logout = function(e) {
+    fetch( '/logout');
 }
  
 window.onload = function() {
 
-    const loginButton = document.getElementById('loginBtn');
-    loginButton.onclick = login;
+    logout();
+
+    const loginBtn = document.getElementById('loginBtn');
+    loginBtn.onclick = login;
 
     document.getElementById('username').value = "";
     document.getElementById('password').value = "";
