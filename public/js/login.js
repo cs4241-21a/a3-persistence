@@ -33,11 +33,32 @@ const login = function (e) {
     return false
 }
 
+const signup = function (e) {
+
+    e.preventDefault()
+
+    const username = document.getElementById('username'),
+    password = document.getElementById('password');
+
+    json = {username: username.value, password: password.value}
+    body = JSON.stringify(json)
+
+    fetch('/signin', {
+        method: 'POST',
+        body: body,
+        headers: {
+            "Content-Type" : "application/json"
+        }
+    })
+    .then(response => response.json())
+    window.location.href = "index.html"
+}
+
 window.onload = function() {
 
     const loginBtn = document.getElementById('loginBtn');
     loginBtn.onclick = login;
 
-    document.getElementById('username').value = "";
-    document.getElementById('password').value = "";
+    const signUpBtn = document.getElementById('signUp')
+    signUpBtn.onclick = signup;
 }

@@ -27,6 +27,7 @@ const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.e
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null;
 let user = null;
+let userInfo = null;
 
 client.connect()
   .then( () => {
@@ -89,7 +90,6 @@ app.post( '/update', (req,res) => {
       .then( result => res.json( result ) )
 })
 
-let userInfo = null;
 client.connect().then(() => {
   userInfo = client.db("SleepDataset").collection("UserData");
 });
@@ -103,6 +103,13 @@ app.post("/login", bodyparser.json(), function (req, res) {
 
 app.post('/logout', bodyparser.json(), function(req,res){
   user = null
+})
+
+app.post('/signin', bodyparser.json(), function(req, res) {
+  userInfo.insertOne(req.body)
+      .then( insertResponse => userInfo.findOne( insertResponse.insertedId)) 
+      .then( findResponse   => res.json(findResponse))
+      user = req.body.username
 })
 
 const listener = app.listen(process.env.PORT, () => {

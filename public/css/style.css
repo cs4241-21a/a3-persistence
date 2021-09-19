@@ -28,7 +28,6 @@ button {
     border: none;
     background-color: #8CDAFF;
     border-radius: 50px;
-    margin-top: 10px;
     width: 130px;
     height: 45px;
 }
@@ -122,12 +121,12 @@ td {
 
 #submit {
     margin-left: 685px;
-    margin-top: 25px;
+    margin-top: 40px;
 }
 
 #logoutBtn {
-    margin-left: 685px;
-    margin-top: 25px;
+     margin-left: 685px;
+     margin-top: 40px;
 }
 
 #login {
@@ -136,6 +135,14 @@ td {
     grid-gap: 1em;
     padding: 1em;
     max-width: 40ch;
+}
+
+#loginBtn {
+    margin-top: 30px;
+}
+
+#signUP {
+    margin-top: 30px;
 }
 
 #loginBg {
