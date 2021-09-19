@@ -158,4 +158,10 @@ const getAdvice = function (hours) {
     window.onload = function() {
       const button = document.querySelector( 'button' )
       button.onclick = submit
+
+      fetch("/api/getData")
+    .then(response => response.json())
+    .then((json) => {
+      addEntry(json)
+    });
     }

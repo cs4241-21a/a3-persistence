@@ -23,22 +23,31 @@ const login = function (e) {
         }
     })
     //Launches the homepage
-    .then(reponse => {
+    /*.then(reponse => {
         if(reponse.ok) {
             window.location.href = "index.html";
         }
-    })
+    })*/
+    //New//
+    .then(response => response.json())
+    .then(user => {
+      if (user.length == 0) {
+        window.alert("Username or password is incorrect");
+      } else {
+        window.location.href = "index.html";
+      }
+    });
 
     return false
 }
 
-const logout = function(e) {
+/*const logout = function(e) {
     fetch( '/logout');
-}
+}*/
  
 window.onload = function() {
 
-    logout();
+    //logout();
 
     const loginBtn = document.getElementById('loginBtn');
     loginBtn.onclick = login;
