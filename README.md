@@ -16,5 +16,6 @@ least 90%.
 ## Technical Achievements
 - **OAuth Authentication through Github/Passport.js**: Users are validated
   through passport.js and using their GitHub accounts.
-  -**100% in Lighthouse Tests**: Performance, Best Practices, Accessability and
+
+- **100% in Lighthouse Tests**: Performance, Best Practices, Accessability and
   SEO all recieve a 100% when the LightHouse test suite is run.
