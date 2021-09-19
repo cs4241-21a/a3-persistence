@@ -77,7 +77,7 @@ app.post( '/login', bodyParser.json(), (req,res)=> {
 passport.use(new FacebookStrategy({
   clientID: 881085086126177,
   clientSecret: "bed39c994d881954c6150901a06bffd9",
-  callbackURL: "https://contact-log.herokuapp.com/https://contact-log.herokuapp.com"
+  callbackURL: "https://contact-log.herokuapp.com/auth/facebook/secrets"
 },
 function(accessToken, refreshToken, profile, cb) {
   User.findOrCreate({ facebookId: profile.id }, function (err, user) {
