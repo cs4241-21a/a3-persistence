@@ -42,7 +42,8 @@ const submit = function( e ) {
       // rain_volume: rain_volume.toFixed(1)
     },
     body = JSON.stringify( json )
-
+    console.log(body)
+    debugger
     fetch( '/submit', {
       method:'POST',
       body 
@@ -266,28 +267,32 @@ function updateHistory() {
       del_btn.appendChild(del_t)
       del_cell.appendChild(del_btn)
 
-      del_btn.onclick = function(e) {
+      del_btn.onclick = async function(e) {
         debugger
         let row_index = row.rowIndex
         // let _id = object[json_keys[0]]
-        console.log('id to delete', JSON.stringify({_id:object[json_keys[0]]}))
+        body = JSON.stringify({"_id":object[json_keys[0]]})
+        // body = {"_id":object[json_keys[0]]}
+        console.log('id to delete', body)
         fetch( '/remove', {
           method:'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({_id:object[json_keys[0]]})
+          headers: { 'accept': 'application/json' },
+          body
         })
-        .then(function(response) {
+        .then(async function(response) {
           debugger
-          console.log('delete response', response)
+          console.log('delete response', response.json)
           // console.log('get history response', response)
           if(response.ok)
             return response.json()
-          return false
+          // return false
         })
-        .then( jsonstr => JSON.parse(jsonstr))
         .then(console.log)
+        // .then( jsonstr => JSON.parse(jsonstr))
+        // .then(console.log)
         // .then(function (json) {
-        // .then(history_table.deleteRow(row_index))
+        .then(history_table.deleteRow(row_index))
+        return false
       }
     })
   })
