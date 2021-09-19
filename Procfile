@@ -1,1 +1,1 @@
-web: node ./server.improved.js
+web: node server.improved.js
