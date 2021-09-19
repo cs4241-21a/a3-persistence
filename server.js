@@ -23,11 +23,10 @@ client.connect()
   
 // route to get all docs
 app.get( '/', (req,res) => {
-  if( collection !== null ) {
-    // get array and pass to res.json
-    collection.find({ }).toArray().then( result => res.json( result ) )
-  }
+  res.sendFile(__dirname + "/views/index.html");
 })
+
+//New//
 
 app.post("/submit", bodyparser.json(), function(req,res) {
     console.log('body: ', req.body)
@@ -52,9 +51,14 @@ app.post( '/update', (req,res) => {
     collection
       .updateOne(
         { _id:mongodb.ObjectId( req.body.id ) },
-        { $set:{ name:req.body.name } }
+        { $set:{ 
+          yourname:req.body.yourname,
+          major:req.body.major,
+          hours:req.body.hours,
+          advice:req.body.advice
+         } }
       )
       .then( result => res.json( result ) )
 })
-
+//logout button prevents adding to table for some reason
 app.listen( 3000 )
