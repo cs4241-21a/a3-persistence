@@ -1,1 +1,0 @@
-const DatabasePW = 'Michael1'
