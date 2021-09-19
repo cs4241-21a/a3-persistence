@@ -252,14 +252,24 @@ const getAdvice = function (hours) {
       })
       return false
     }
+
+    const logout = function (e) {
+
+        e.preventDefault()
+
+        fetch('logout', {
+            method: 'POST',
+            headers: {
+                "Content-Type":"application/json"
+            }
+        })
+        window.location.href = "login.html"
+    }
     
     window.onload = function() {
       const button = document.querySelector( 'button' )
       button.onclick = submit
 
-      /*fetch("/api/getData")
-    .then(response => response.json())
-    .then((json) => {
-      addEntry(json)
-    });*/
+      const logoutButton = document.getElementById('logoutBtn')
+      logoutButton.onclick = logout
     }

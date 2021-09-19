@@ -125,7 +125,7 @@ client.connect().then(() => {
   loginCollection = client.db("SleepDataset").collection("UserData");
 });
 let user = null;
-app.post("/login", async (req, res) => {
+app.post("/login", bodyparser.json(), function (req, res) {
 
   /*var userInfo = request.body
   console.log(userInfo)
@@ -162,13 +162,8 @@ app.post("/login", async (req, res) => {
 
 });
 
-app.get("/api/getData", async (request, response) => {
-  const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true});
-  await client.connect()
-  const collection = client.db("SleepDataset").collection("SleepData");
-  const sleeps = await collection.find({username: account}).toArray();
-  await client.close()
-  return response.json(sleeps)
+app.post('/logout', bodyparser.json(), function(req,res){
+  user = null
 })
 
 const listener = app.listen(process.env.PORT, () => {
