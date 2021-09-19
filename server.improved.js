@@ -2,9 +2,10 @@ const express    = require('express'),
       bodyParser = require( 'body-parser' ),
       cookie  = require( 'cookie-session' ),
       cookieParser = require('cookie-parser'),
-      serveStatic = require('serve-static')
+      serveStatic = require('serve-static'),
       app        = express()
 
+require('dotenv').config();
 
 const { request } = require('express')
 const mongodb = require('mongodb');
@@ -13,6 +14,7 @@ const MongoClient = mongodb.MongoClient;
 app.use( express.urlencoded({ extended:true }) )
 app.use(cookieParser())
 
+console.log('Now the value for FOO is:', process.env.FOO);
 
 app.use( cookie({
   name: 'session',
@@ -22,7 +24,7 @@ app.use( cookie({
 app.use(express.static('public'))
 
 let loginCollection = null
-const uri = `mongodb+srv://dbUser:Michael1@csweb.0knbq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = `mongodb+srv://${process.env.name}:${process.env.password}@csweb.0knbq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 client.connect(err => {
@@ -168,9 +170,7 @@ app.post('/update', bodyParser.json(), function(request, response) {
 
 
 
-
-const listener = 
-app.listen(process.env.PORT || 5000, () => {
+const listener = app.listen(process.env.PORT || 3000, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
 

@@ -33,7 +33,8 @@ const attemptLogin = function(){
   }) 
   .then(json => {
     if(json.worked){
-
+      document.getElementById( 'loginPassword' ).value = ""
+      document.getElementById( 'loginName' ).value = ""
       window.location.href = '/main.html'
     }
     else {
