@@ -103,9 +103,18 @@ function(req, res) {
 
 
 app.get('/res', (req, res) => {
-  req.session.login = true
-  req.session.username = req.query.id;
-  res.redirect("main.html")
+  
+  if(loginCollection!=null){
+    loginCollection.insertOne({username:req.query.id})
+    .catch(err => console.log(err)) 
+    .then(response => {
+      req.session.login = true
+      req.session.username = req.query.id;
+      res.redirect("main.html")
+    })
+
+  }
+ 
 })
 
 app.post('/createAccount', bodyParser.json(), function(request, response) {
