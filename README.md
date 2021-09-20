@@ -24,4 +24,5 @@ The five middlewares used are:
 - **Tech Achievement 2**: I used Heroku to host the website instead of Glitch.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings.
+      1. Contrast: For contrast I made sure that all colors contrasted eachother as much as possible. This allowed aspects of the webpage to be much more visible, and pop out            more for the viewer. For example, the white card color contrasts the green color of the main body on the login page. Furthermore, the table in the main page has black            text, on a white background, which is as much contrast as possible.
