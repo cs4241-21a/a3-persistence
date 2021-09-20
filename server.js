@@ -6,7 +6,7 @@ const express = require("express"),
     mongodb = require("mongodb"),
     favicon = require('serve-favicon'),
     serveStatic = require('serve-static'),
-    helmet = require("helmet");
+    morgan = require('morgan');
 
 app.use(favicon(__dirname + '/public/assets/open-book.png'));
 
@@ -14,7 +14,13 @@ var ObjectId = require('mongodb').ObjectId;
 
 app.use(serveStatic(path.join(__dirname, 'public')))
 
-app.use(helmet());
+morgan.token('body', function(req, res) {
+    return [
+        JSON.stringify(req.body)
+    ]
+})
+
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get("/", (request, response) => {
     response.sendFile(__dirname + "public/index.html");
@@ -41,7 +47,7 @@ client.connect()
             // blank query returns all documents
         return collection.find({}).toArray()
     })
-    .then(console.log)
+    // .then(console.log)
 
 app.post("/reviews", bodyParser.json(), (request, response) => {
     if (collection !== null) {
@@ -74,14 +80,14 @@ app.post("/addUser", bodyParser.json(), (request, response) => {
     }
 });
 
-// use express.urlencoded to get data sent by defaut form actions
+// use express.urlencoded to get data sent by default form actions
 // or GET requests
 app.use(express.urlencoded({ extended: true }))
 
 //  The keys are used for encryption and should be changed
 app.use(cookie({
     name: 'session',
-    keys: ['key1', 'key2']
+    keys: ['key123456', 'key234567']
 }))
 
 
@@ -89,7 +95,6 @@ app.post('/login', (request, response) => {
     // express.urlencoded will put your key value pairs 
     // into an object, where the key is the name of each
     // form field and the value is whatever the user entered
-
 
     collection.find({ "username": request.body.username }).toArray(function(err, results) {
         if (err) {

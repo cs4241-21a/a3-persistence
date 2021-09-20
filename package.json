@@ -13,7 +13,8 @@
         "bootstrap": "^5.1.1",
         "cookie-session": "^1.4.0",
         "helmet": "^4.6.0",
-        "mime": "^2.4.4"
+        "mime": "^2.4.4",
+        "morgan": "^1.10.0"
     },
     "devDependencies": {
         "body-parser": "^1.19.0",

@@ -13,7 +13,7 @@ For my various HTML input elements, I used text area, text field, password, and 
 
 I used the Bootstrap CSS framework because it is very easy to use Bootstraps predefined design templates. It really helped with keeping my designs consistent across different browsers. I made a few changes to the CSS. For example, Bootstrap only has 25%, 50%, 75%, and 100% for setting the width but I wanted a value of 30%. Also, the way that Bootstrap handled tables did not work with the way I had set up my code so I added my own CSS code for that.
 
-The 5 Express middleware packages I used were: `body-parser` which parses the incoming request bodies before the handlers and puts them inside request.body, `cookie-session` which stores the session data on the client within a cookie and was used for authentication, `serve-favicon` which allows us to serve favicons from the node js server with better performance, `serve-static` which is used to serve static files from within a given root directory, and `helmet` which sets HTTP headers in order to protect the app from different web vulnerabilities.
+The 5 Express middleware packages I used were: `body-parser` which parses the incoming request bodies before the handlers and puts them inside request.body, `cookie-session` which stores the session data on the client within a cookie and was used for authentication, `serve-favicon` which allows us to serve favicons from the node js server with better performance, `serve-static` which is used to serve static files from within a given root directory, and `morgan` which logs information for HTTP requests.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I hosted my site on
