@@ -7,7 +7,7 @@ your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.m
 - The goal of this application was to create a website that would allow users to keep track of a race and the results of that race.  I intended it to be used as part of a larger application for a more effective use, maybe one where you could automatically submit new user entires as the racer finished instead of it being manually entered.
 - I faced a lot of challenges with having the authentication work on the glitch server and making sure glitch server work properly with my application.
 
-![Login Image](Login.png)
+![Login Image](Login.PNG)
 - OAuth with the Github Strategy was the authenication method I chose to implement in my application.  I chose this method because creating a database full of usernames and passwords did not seem as secure as using a method already used in the industry.
 - I used tailwindcss since it was advertised as a scallable framework.  This appealed to me as I did not want to use a framework that would become more difficult to deal with the larger my application became.  I implemented my own font using the tailwind config and also purged unused css from their libraries to keep the file size smaller and maintian a higher lighthouse score.
 - helmet package was used to secure my HTTP headers.
