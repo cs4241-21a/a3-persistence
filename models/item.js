@@ -3,14 +3,14 @@ const mongoose = require('mongoose')
 
         name:{
             type: String,
-            require: true
+            require: [true, 'I need a Name']
         },
         length:{
           type: Intl
         },
         author:{
             type: String,
-            require: true
+            require: [true, 'An author would be nice']
         },
         checkoutDate:{
           type: Date,
@@ -18,7 +18,10 @@ const mongoose = require('mongoose')
         },
         by:{
             type: Object,
-            require: true
+            require: [true, 'Who\'s doing the checking out?']
+        },
+        ISBN:{
+            type:String
         }
 
     })
