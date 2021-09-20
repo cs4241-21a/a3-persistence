@@ -27,7 +27,7 @@ exports.update = async function(data) {
         }
     })
     console.log('Updated documents =>', updateResult)
-    return updateResult
+    return updateResult.modifiedCount === 1
 }
 
 exports.create = async function(collection, data) {

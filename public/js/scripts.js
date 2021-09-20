@@ -27,13 +27,14 @@ function getUserID() {
     console.log("Login status: " + response.status)
     if (response.status === 200) {
       loggedInUser = response.username
-      document.querySelector('#username-box').innerText = `Logged in as ${loggedInUser}`
+      document.querySelector('#username-box').innerText = `${loggedInUser}`
       els = document.querySelectorAll( '.logged-in' )
       els.forEach(el => el.style.display = 'block')
       getLostItems()
       getFoundItems()
     } else {
       document.querySelector('#error-box').innerText = "Error! Could not fetch user details!"
+      document.querySelector('#error-box').classList.add('flash', 'mt-3', 'flash-error')
     }
   })
 }
@@ -43,19 +44,19 @@ function getItems(listname) {
     let table = ""
     for (let info of data) {
       let row = ""
-      row += `<td class="item">${info.item}</td>`
-      row += `<td class="when">${info.when}</td>`
-      row += `<td class="where">${info.where}</td>`
-      row += `<td class="description">${info.description}</td>`
-      row += `<td class="photo">${info.photo}</td>`
-      row += `<td class="emailme">${info.emailme}</td>`
-      row += `<td class="timestamp">${info.created} days ago</td>`
+      row += `<td class="p-1 item">${info.item}</td>`
+      row += `<td class="p-1 when">${info.when}</td>`
+      row += `<td class="p-1 where">${info.where}</td>`
+      row += `<td class="p-1 description">${info.description}</td>`
+      row += `<td class="p-1 photo">${info.photo}</td>`
+      row += `<td class="p-1 emailme">${info.emailme}</td>`
+      row += `<td class="p-1 timestamp">${info.created} days ago</td>`
       if (info.emailme === loggedInUser) {
-        row += `<td><form><button class="deleteBtn">Delete</button><button class="editBtn">Edit</button></form></td>`
+        row += `<td><form><button class="deleteBtn btn btn-sm ml-1">Delete</button><button class="editBtn btn btn-sm ml-1">Edit</button></form></td>`
       }
       table += `<tr id="${info._id}">${row}</tr>`
     }
-    let header = '<tr><th>Item</th><th>When</th><th>Where</th><th>Description</th><th>Photo</th><th>Email me!</th><th>Created</th><th>Actions</th></tr>'
+    let header = '<tr><th class="p-1">Item</th><th class="p-1">When</th><th class="p-1">Where</th><th class="p-1">Description</th><th class="p-1">Photo</th><th class="p-1">Email me!</th><th class="p-1">Created</th><th class="p-1">Actions</th></tr>'
     document.querySelector('#' + listname).innerHTML = header + table
     document.querySelectorAll( '.deleteBtn' )
     .forEach( (element) => {
@@ -111,6 +112,7 @@ function createElement() {
       getLostItems()
     } else {
       document.querySelector('#error-box').innerText = "Error, could not complete request."
+      document.querySelector('#error-box').classList.add('flash', 'mt-3', 'flash-error')
     }
   })
 }
@@ -125,6 +127,7 @@ function deleteValue(_id) {
       getFoundItems()
     } else {
       document.querySelector('#error-box').innerText = "Error, could not delete item."
+      document.querySelector('#error-box').classList.add('flash', 'mt-3', 'flash-error')
     }
   })
 }
@@ -179,6 +182,7 @@ function saveEdits(_id) {
       getLostItems()
     } else {
       document.querySelector('#error-box').innerText = "Error, could not create new item."
+      document.querySelector('#error-box').classList.add('flash', 'mt-3', 'flash-error')
     }
   })
 }

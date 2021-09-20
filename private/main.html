@@ -6,94 +6,145 @@
     <link rel="preconnect" href="https://fonts.googleapis.com"> 
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
     <link rel="stylesheet" href="css/style.css">
   </head>
   <body>
-    <div class="container">
-      <div id="info-section">
-        <h1>Lost&Found</h1>
-        <p>Welcome to Lost&Found! This is a WPI platform to help you recover lost items or publish alerts on found items.</p>
-        <p id="error-box"></p>
+    <div class="Header">
+      <div class="Header-item">
+        <p class="h1 color-text-inverse">Lost&Found</p>
       </div>
-      <div id="username-section">
-        <p id="username-box"></p>
+      <div class="Header-item Header-item--full">
       </div>
-      <div class="logged-in">
-        <div id="lost-items-section">
-          <h2>Lost items</h2>
-          <table id="lostitems">
-            <tr>
-              <th>Item</th>
-              <th>When</th>
-              <th>Where</th>
-              <th>Description</th>
-              <th>Photo Link</th>
-              <th>Email me!</th>
-              <th>Actions</th>
-            </tr>
-          </table>
+      <div id="username-box"class="Header-item">
+      </div>
+      <div class="Header-item">
+        <img class="avatar" height="40" alt="@octocat" src="https://github.com/octocat.png" width="40">
+      </div>
+    </div>
+    <div class="container-xl clearfix">
+      <div class="col-9 float-left border p-4">
+        <div id="info-section">
+          <p>Welcome to Lost&Found! This is a WPI platform to help you recover lost items or publish alerts on found items.</p>
+          <p id="error-box"></p>
         </div>
-        <div id="found-items-section">
-          <h2>Found items</h2>
-          <table id="founditems">
-            <tr>
-              <th>Item</th>
-              <th>When</th>
-              <th>Where</th>
-              <th>Description</th>
-              <th>Photo Link</th>
-              <th>Email me!</th>
-              <th>Actions</th>
-            </tr>
-          </table>
+        <div class="logged-in">
+          <div id="lost-items-section">
+            <p class="h2">Lost items</p>
+            <table id="lostitems">
+              <tr>
+                <th>Item</th>
+                <th>When</th>
+                <th>Where</th>
+                <th>Description</th>
+                <th>Photo Link</th>
+                <th>Email me!</th>
+                <th>Actions</th>
+              </tr>
+            </table>
+          </div>
+          <div id="found-items-section" class="mt-5">
+            <p class="h2">Found items</p>
+            <table id="founditems">
+              <tr>
+                <th>Item</th>
+                <th>When</th>
+                <th>Where</th>
+                <th>Description</th>
+                <th>Photo Link</th>
+                <th>Email me!</th>
+                <th>Actions</th>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
-      <div class="logged-in">
-        <div id="forms-section">
-          <form id="editform">
-            <h2>Edit a Lost or Found item</h2>
-            <label for="item-edit">Item: </label>
-            <input type="text" id="item-edit" placeholder="Apple Pen">
-            
-            <label for="when-edit">When: </label>
-            <input type="date" id="when-edit">
+      <div class="col-3 float-left border p-4">
+        <div class="logged-in">
+          <div id="forms-section">
+            <form id="editform">
+              <p class="h2">Edit a Lost or Found item</p>
+              <div class="form-group-header">
+                <label for="item-edit">Item: </label>
+              </div>
+              <div class="form-group-body">
+                <input class="form-control" type="text" id="item-edit" placeholder="Apple Pen">
+              </div>
+              <div class="form-group-header">
+                <label for="when-edit">When: </label>
+              </div>
+              <div class="form-group-body">
+                <input class="form-control" type="date" id="when-edit">
+              </div>
 
-            <label for="where-edit">Where: </label>
-            <input type="text" id="where-edit" placeholder="FH 311">
-            
-            <label for="description-edit">Description: </label>
-            <input type="text" id="description-edit" placeholder="Color, brand...">
-            
-            <label for="photo-edit">Photo: </label>        
-            <input type="url" id="photo-edit" name="photo">
+              <div class="form-group-header">
+                <label for="where-edit">Where: </label>
+              </div>
+              <div class="form-group-body">
+                <input class="form-control" type="text" id="where-edit" placeholder="FH 311">
+              </div>
+              
+              <div class="form-group-header">
+                <label for="description-edit">Description: </label>
+              </div>
 
-            <button id="editentry-button">Submit</button>
-          </form>
+              <div class="form-group-body">
+                <input class="form-control" type="text" id="description-edit" placeholder="Color, brand...">
+              </div>
+              <div class="form-group-header">
+                <label for="photo-edit">Photo: </label>    
+              </div>
+              <div class="form-group-body">    
+                <input class="form-control" type="url" id="photo-edit" name="photo">
+              </div>
+              <div class="mt-1">
+                <button class="btn btn-primary" id="editentry-button">Submit</button>
+              </div>
+            </form>
 
-          <form id="createentry">
-            <h2>Post a new Lost or Found item</h2>
-            <label for="type1-create">Lost</label>
-            <input type="radio" name="type" value="lost" id="type1-create" checked>
-            <label for="type2-create">Found</label>
-            <input type="radio" name="type" value="found" id="type2-create">
-
-            <label for="item-create">Item: </label>
-            <input type="text" id="item-create" placeholder="Apple Pen">
-            
-            <label for="when-create">When: </label>
-            <input type="date" id="when-create">
-
-            <label for="where-create">Where: </label>
-            <input type="text" id="where-create" placeholder="FH 311">
-            
-            <label for="description-create">Description: </label>
-            <input type="text" id="description-create" placeholder="Color, brand...">
-            
-            <label for="photo-create">Photo: </label>        
-            <input type="url" id="photo-create" name="photo">
-            
-            <button id="createentry-button">Submit</button>
-          </form>
+            <form id="createentry" class="mt-5">
+              <p class="h2">Post a new Lost or Found item</p>
+              <div class="radio-group">
+                <input class="radio-input" type="radio" name="type" value="lost" id="type1-create" checked>
+                <label class="radio-label" for="type1-create">Lost</label>
+                <input class="radio-input" type="radio" name="type" value="found" id="type2-create">
+                <label class="radio-label" for="type2-create">Found</label>
+              </div>
+              <div class="form-group-header">
+                <label for="item-create">Item: </label>
+              </div>
+              <div class="form-group-body">
+                <input class="form-control" type="text" id="item-create" placeholder="Apple Pen">
+              </div>
+              <div class="form-group-header">
+                <label for="when-create">When: </label>
+              </div>
+              <div class="form-group-body">
+                <input class="form-control" type="date" id="when-create">
+              </div>
+              <div class="form-group-header">
+                <label for="where-create">Where: </label>
+              </div>
+              <div class="form-group-body">
+                <input class="form-control" type="text" id="where-create" placeholder="FH 311">
+              </div>              
+              <div class="form-group-header">
+                <label for="description-create">Description: </label>
+              </div>
+              <div class="form-group-body">
+                <input class="form-control" type="text" id="description-create" placeholder="Color, brand...">
+              </div>
+              <div class="form-group-header">
+                <label for="photo-create">Photo: </label>   
+              </div>     
+              <div class="form-group-body">
+                <input class="form-control" type="url" id="photo-create" name="photo" placeholder="google.com/photo.jpg">
+              </div>                   
+              <div class="mt-1">
+                <button class="btn btn-primary" id="createentry-button">Submit</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>

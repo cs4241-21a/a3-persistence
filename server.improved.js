@@ -65,7 +65,7 @@ app.get('/api/founditems', validateLoginMiddleware, (req, res) => {
 app.post('/api/update', validateLoginMiddleware, (req, res) => {
   mongodbclient.update(req.body)
   .then(e => {
-    if (e === undefined) {
+    if (e === false) {
       res.writeHead( 404, "Invalid UID", {'Content-Type': 'text/plain' })
       res.end()  
     } else {

@@ -1,15 +1,3 @@
-body {
-    font-family: 'Noto Sans JP', sans-serif;
-}
-
-.logged-in {
-    display: none;
-}
-
-div {
-    margin-bottom: 100px;
-}
-
 #editform {
     display: none;
 }
@@ -21,37 +9,4 @@ table {
 
 td, th {
     border: 1px solid darkgray;
-}
-
-.container {
-    display: grid;
-    grid-template-columns: 4fr 2fr;
-    grid-template-rows: 100px;
-    grid-column-gap: 3rem;
-    grid-row-gap: 50px;
-}
-
-#info-section {
-    grid-row-start: 1;
-    grid-column: 1;
-}
-
-#username-section {
-    grid-row-start: 1;
-    grid-column: 2;
-}
-
-#lost-items-section {
-    grid-row-start: 2;
-    grid-column: 1 / 2;
-}
-
-#found-items-section {
-    grid-row-start: 3;
-    grid-column: 1 / 2;
-}
-
-#forms-section {
-    grid-row-start: 2 / 3;
-    grid-column: 2;
 }
