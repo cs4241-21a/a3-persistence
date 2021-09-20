@@ -15,6 +15,7 @@ const client = new MongoClient(uri, {
 });
 
 client.connect((err) => {
+  console.log("Mongo client connected");
   //const collection = client.db("test").collection("devices");
 });
 
@@ -24,6 +25,7 @@ const app = express();
 
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(express.static("public"));
 
 /* Passport and Github OAuth setup */
 
@@ -51,9 +53,18 @@ passport.use(
 );
 
 /* Page Routes */
-
 app.get("/", (req, res) => {
-  if (req.user) res.redirect("/account");
+  console.log(req.user);
+  if (req.user) {
+    console.log("User logged in, redirecting to /account");
+    res.redirect("/account");
+  }
+  res.sendFile(__dirname + "/index.html");
+});
+
+app.get("/account", (req, res) => {
+  if (!req.user) res.redirect("/");
+  res.sendFile(__dirname + "/account.html");
 });
 
 /* OAuth Routes */
@@ -99,4 +110,8 @@ app.get(
 
 app.listen(port, () => {
   console.log(`Listening on port ${port}`);
+});
+
+app.get("/", (req, res) => {
+  res.sendFile(__dirname + "index.html");
 });
