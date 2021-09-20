@@ -59,6 +59,13 @@ app.get( '/', (req,res) => {
   }
 })
 
+// get request for username
+app.get( '/currentUser', (req, res) => {
+  collection.find({name: req.session.username }).toArray().then( result => res.json( result ) )
+})
+
+//
+
 
 /////////////////
 //POST REQUESTS//
@@ -87,10 +94,51 @@ app.post( '/login', (req,res)=> {
         //If so, perform cookie operations and redirect to main
         req.session.login = true
         req.session.username = loginUsername
-        req.session.password = loginPassword
+        
         
         res.redirect( 'main.html' )
       } else {
+
+        //reject user for bad password
+        res.sendFile( __dirname + '/public/index.html' )
+      }
+    } else {
+      //reject user for bad username
+      res.sendFile( __dirname + '/public/index.html' )
+    }
+  }  
+  )
+})
+
+//NOT REQUIRED
+app.post( '/logout', (req,res)=> {
+  // express.urlencoded will put your key value pairs 
+  // into an object, where the key is the name of each
+  // form field and the value is whatever the user entered
+
+  let loginUsername = req.body.username;
+  let loginPassword = req.body.password;
+
+
+
+  collection.find(({name: loginUsername})).toArray()
+  .then(foundUsername =>{
+
+    if(foundUsername.length > 0){
+      //find user's password in the similar object
+      let databasePassword = foundUsername[0].password;
+  
+      //check to see if the entered and database passwords line up
+      if(loginPassword === databasePassword){
+
+        //If so, perform cookie operations and redirect to main
+        req.session.login = true
+        req.session.username = loginUsername
+        
+        
+        res.redirect( 'main.html' )
+      } else {
+
         //reject user for bad password
         res.sendFile( __dirname + '/public/index.html' )
       }
@@ -119,7 +167,6 @@ app.post( '/register', (req,res)=> {
       //If so, perform cookie operations and redirect to main
       req.session.login = true;
       req.session.username = regUsername;
-      req.session.password = regPassword;
 
       //make a new user entry and insert it into the user collection
       let newUserObject = makeUserObject(regUsername, regPassword);
@@ -163,7 +210,7 @@ app.post( '/submit', (req,res) => {
   if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
 
     //Update the score object of the player
-    updatePlayerScore(req.body.playername, req.body.playerscore);
+    updatePlayerScore(req.session.username, req.body.playerscore);
     
     //Sort player data
     sortPlayerData();

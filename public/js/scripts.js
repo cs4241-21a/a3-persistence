@@ -3,12 +3,35 @@
 //request that just gives me data
 //have edit function return data as well
 
+//const { response } = require("express");
+
 
 const secretDoc = document.getElementById("deleteScoreForm")
 secretDoc.style.display = "none";
 
-let usernameVar = document.cookie;
-document.getElementById("playername").innerHTML = usernameVar;
+let usernameVar = "sample";
+
+
+fetch('/currentUser', {
+  method: 'GET',
+  headers:{
+    "Content-Type":"application/json"
+  }
+}).then(function(response) {
+  response.text().then(function(textdata) {
+    //console.log(JSON.parse(textdata)[0].name);
+    usernameVar = JSON.parse(textdata)[0].name;
+    document.getElementById("playername").innerHTML = usernameVar;
+
+    //makeTableFromData(newAppdata);
+  })
+
+
+})
+
+
+
+
 
 
 //Adds a row 
