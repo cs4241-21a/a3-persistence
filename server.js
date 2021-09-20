@@ -7,10 +7,13 @@ const express = require( 'express' ),
       bodyParser = require('body-parser'),
       mongodb = require( 'mongodb' ),
       cookie = require("cookie-session"),
+      util = require( 'util'),
       app = express()
 
 app.use( express.static('public') )
 app.use( express.json() )
+
+let encoder = new util.TextEncoder('utf-8');
 
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
@@ -21,8 +24,6 @@ app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
 }))
-
-passedAppdata = [];
 
 const uri = "mongodb+srv://TestUser:Mario35@cluster0.oxb6m.mongodb.net/"
 
@@ -161,9 +162,6 @@ app.use( express.static('public') )
 
 app.post( '/submit', bodyParser.json(), (req,res) => {
 
-  //Reset appdata
-  passedAppdata = [];
-
   // assumes only one object to insert
   if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
 
@@ -179,7 +177,25 @@ app.post( '/submit', bodyParser.json(), (req,res) => {
     console.log("Invalid parameters!");
   }
 })
-  
+
+app.post( '/delete', bodyParser.json(), (req,res) => {
+
+  // assumes only one object to insert
+  if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
+
+    //Delete the score object of the player
+    deletePlayerScore(req.body.playername);
+    
+    //Sort player data
+    sortPlayerData();
+
+    collection.find({ }).sort({rank: 1}).toArray().then( result => res.json( result ) )
+    
+  } else {
+    console.log("Invalid parameters!");
+  }
+})
+
 app.listen( 3000 )
 
 
@@ -201,6 +217,19 @@ function updatePlayerScore(playerName, playerScore){
       {_id: foundUsername._id},
       {$set: {score: playerScore}}
       
+    )
+  })
+}
+
+/**
+ * function that deletes the name of the player
+ * @param {*} playerName - name of the player whose data is to be deleted
+ */
+function deletePlayerScore(playerName){
+  collection.find({name: playerName}).toArray()
+  .then(foundUsername => {
+    collection.update(
+      {$pull: foundUsername}
     )
   })
 }
