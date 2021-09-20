@@ -43,11 +43,68 @@
 //
 // module.exports = app;
 //
+
 /**
- * Express Template
+ * This Works
  */
-var express = require( 'express' ),
-    mongodb = require('mongodb')
+
+// console.log("Starting Server")
+// const express = require( 'express' ),
+//     mongodb = require( 'mongodb' ),
+//     app = express()
+//
+// app.use( express.static('public') )
+// app.use( express.json() )
+//
+// const uri = process.env.PASS_PATH //'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
+//
+// console.log("Creating DB Client")
+// const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
+// let collection = null
+//
+// console.log("Connection to DB")
+// client.connect()
+//     .then( () => {
+//       // will only create collection if it doesn't exist
+//       return client.db( 'testForMe' ).collection( 'PleaseWork' )
+//     })
+//     .then( __collection => {
+//       // store reference to collection
+//       collection = __collection
+//       // blank query returns all documents
+//       return collection.find({ }).toArray()
+//     })
+//     .then( console.log )
+//
+// // route to get all docs
+// app.get( '/', (req,res) => {
+//     console.log("Homepage was requested")
+//   if( collection !== null ) {
+//     // get array and pass to res.json
+//     collection.find({ }).toArray().then( result => res.json( result ) )
+//   }else {
+//       res.send("Broken I guess")
+//   }
+// })
+//
+// app.listen(3000)
+
+
+/**
+ * Main Server Config
+ */
+//Set constants
+const { MongoClient } = require('mongodb');
+const credentials = process.env.CERT_PATH
+const client = new MongoClient(process.env.DB_PATH, {
+    sslKey: credentials,
+    sslCert: credentials
+});
+
+//Set variables
+var express = require( 'express' )
+require('dotenv').config()
+
 var app = express()
 
 app.use( express.static('public') )
@@ -57,64 +114,47 @@ app.use( function( req, res, next ) {
   next()
 })
 
-//////////
 
-const { MongoClient } = require('mongodb');
-const fs = require('fs');
 
-// const filePath = path.join(__dirname, 'mongoAccess.pem')
-// const credentials = fs.readFileSync(filePath, 'utf-8');
-const credentials = "./mongoAccess.pem"
-
-const client = new MongoClient('mongodb+srv://liadaviscs4241a3.pt3ux.mongodb.net/myFirstDatabase?authSource=%24external&authMechanism=MONGODB-X509&retryWrites=true&w=majority', {
-  sslKey: credentials,
-  sslCert: credentials
-});
-
-let collection = null
-
-async function run() {
+/**
+ * getAllData()
+ * Test to get all data
+ * @param req
+ * @param res
+ * @returns {Promise<void>}
+ */
+async function getAllData(req, res) {
   try {
+    console.log("Connecting from client")
     await client.connect();
-    const database = client.db("sample_airbnb");
-    collection = database.collection("listingsAndReviews");
-    const docCount = await collection.countDocuments({});
-    console.log(docCount);
-    // perform actions using client
+    console.log("Connected. Getting DB")
+    const database = client.db("testForMe");
+    console.log("Got DB. Getting collection")
+    let collection2 = database.collection("PleaseWork");
+    console.log("Got collection. Getting all docs")
+    const result = await collection2.find({}).toArray()
+    console.log("Got all docs. Logging results:")
+    console.log(result)
+    console.log("Returning results to web client")
+    res.json(result)
+  } catch (err){
+    res.send("Error Happened")
   } finally {
     // Ensures that the client will close when you finish/error
-    // await client.close();
+    await client.close();
   }
 }
 
-run().catch(console.dir);
-
-
-//////////
-
-// const uri = 'mongodb+srv://tester:tester123@cluster0.f9zkh.mongodb.net/'
-// const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
-//
-//
-// client.connect()
-//     .then( () => {
-//       // will only create collection if it doesn't exist
-//       return client.db( 'datatest' ).collection( 'test' )
-//     })
-//     .then( __collection => {
-//       // store reference to collection
-//       collection = __collection
-//       // blank query returns all documents
-//       return collection.find({ }).toArray()
-//     })
-//     .then( console.log )
+/**
+ * Application Routes
+ */
 
 // route to get all docs
-app.get( '/', (req,res) => {
-  if( collection !== null ) {
-    debugger
-    collection.find({ }).toArray().then( result => res.json( result ) )
-  }
+app.get( '/docs', (req,res) => {
+  getAllData(req, res).then(r => {
+      console.log(r)
+      res.send(r)
+  })
 })
 
 app.post( '/add', (req,res) => {
@@ -122,54 +162,16 @@ app.post( '/add', (req,res) => {
   collection.insertOne( req.body ).then( result => res.json( result ) )
 })
 
-// app.get( '/', function (req, res) {
-//   res.send( 'Hello World!' )
-// })
+app.get('/log', function (req, res){
+  console.log("Hello server")
+  res.send("Log posted")
+})
 
+app.get( '/', function (req, res) {
+  res.send( 'Hello World!' )
+})
+
+/**
+ * Set app to listen to port
+ */
 app.listen(3000)
-
-
-
-//
-// //Code from Class:
-//
-// // const express = require( 'express' ),
-// //     mongodb = require( 'mongodb' ),
-// //     app = express()
-// //
-// // app.use( express.static('public') )
-// // app.use( express.json() )
-// //
-// // // make sure to substitute your username / password for tester:tester123 below!!!
-// // const uri = 'mongodb+srv://tester:tester123@cluster0.f9zkh.mongodb.net/'
-// //
-// // const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
-// // let collection = null
-// //
-// // client.connect()
-// //     .then( () => {
-// //       // will only create collection if it doesn't exist
-// //       return client.db( 'datatest' ).collection( 'test' )
-// //     })
-// //     .then( __collection => {
-// //       // store reference to collection
-// //       collection = __collection
-// //       // blank query returns all documents
-// //       return collection.find({ }).toArray()
-// //     })
-// //     .then( console.log )
-// //
-// // // route to get all docs
-// // app.get( '/', (req,res) => {
-// //   if( collection !== null ) {
-// //     debugger
-// //     collection.find({ }).toArray().then( result => res.json( result ) )
-// //   }
-// // })
-// //
-// // app.post( '/add', (req,res) => {
-// //   // assumes only one object to insert
-// //   collection.insertOne( req.body ).then( result => res.json( result ) )
-// // })
-// //
-// // app.listen( 3000 )
