@@ -19,7 +19,7 @@ app.use(cookieParser())
 
 app.use( cookie({
   name: 'session',
-  keys: ['key1', 'key2']
+  keys: [process.env.KEY1, process.env.KEY2]
 }))
 
 
