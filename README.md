@@ -16,8 +16,9 @@ The five middlewares used are:
 1. body-parser -> Allows parsing JSON data into the request body.
 2. cookie-session -> Allows the use of cookies to store data.
 3. cookie-parser -> Allows the ability to parse, and print the cookie data
-4. express.static() -> Allows the express server to serve static files in the pubilc folder.
-5. A custom middlware that automatically logs in users that have already signed into the website. It redirects the user to the contact list page if the user is logged in.
+4. serve-static -> Allows the express server to serve static files in the pubilc folder.
+5. 
+6. A custom middlware that automatically logs in users that have already signed into the website. It redirects the user to the contact list page if the user is logged in.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
