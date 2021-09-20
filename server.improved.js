@@ -86,7 +86,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_ID,
   clientSecret: process.env.GITHUB_SECRET,
-  callbackURL: "https://contact-log.herokuapp.com/github/callback"
+  callbackURL: "https://contact-log.herokuapp.com/github/logs"
 },
 function(accessToken, refreshToken, profile, done) {
   return done(null, profile);
@@ -96,13 +96,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 app.get('/auth/error', (req, res) => res.send('Unknown Error'))
-app.get('/github/callback',passport.authenticate('github', { failureRedirect: '/auth/error' }),
+app.get('/github/logs',passport.authenticate('github', { failureRedirect: '/auth/error' }),
 function(req, res) {
-  res.redirect('/res?id=' + req.user.id);
+  res.redirect('/route?id=' + req.user.id);
 });
 
 
-app.get('/res', (req, res) => {
+app.get('/route', (req, res) => {
   
   if(loginCollection!=null){
     loginCollection.insertOne({username:req.query.id})
