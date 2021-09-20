@@ -63,6 +63,17 @@ async function checkUsername(user,){
     return true;
 }
 
+app.post('/login', async (req, res) => {
+    console.log(req.body)
+    let validated = await checkUsernamePassword(req.body.username, req.body.password);
+    if (validated) {
+        req.session.login = true
+        res.redirect('/index');
+    } else {
+        res.render('login');
+    }
+})
+
 async function checkUsernamePassword(user, pass){
     let array = [];
     await UserEntry.find({username: {$eq: user}, password: {$eq:pass}})
@@ -70,20 +81,12 @@ async function checkUsernamePassword(user, pass){
             array = result;
         })
     if (array.length >= 1 ){
-        return false;
+        return true;
     }
-    return true;
+    return false;
 }
 
-app.post('/login', (req,res)=> {
-    console.log(req.body)
-    if (checkUsernamePassword(req.body.username,req.body.password)){
-        req.session.login = true
-        res.redirect('/index');
-    } else {
-        res.render('login');
-    }
-})
+
 app.use( function( req,res,next) {
     if(req.url === '/signUpPage'){
         res.render('signUpPage');
