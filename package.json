@@ -15,8 +15,6 @@
         "mime": "^2.5.2",
         "mongodb": "^4.1.2",
         "morgan": "^1.10.0",
-        "passport": "^0.4.1",
-        "passport-github": "^1.1.0",
         "response-time": "^2.3.2"
     }
 }
