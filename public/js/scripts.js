@@ -135,20 +135,19 @@ function deleteValue(_id) {
 const editValue = (_id) => {
   console.log("Editing value " + _id)
   let values = {}
-  let row = document.getElementById(_id)
-  row.childNodes
-  .forEach( e => {
-    console.log(e)
+  document.getElementById(_id).childNodes.forEach( e => {
     if (e.firstChild !== null && e.firstChild.nodeName.toUpperCase() !== "FORM") {
-      values[e.className] = e.innerText
+      values[e.className.split(' ')[1]] = e.innerText
     }
   })
-
+  console.log(values)
   let editForm = document.querySelector(`#editform`)
   editForm.style.display = 'block'
-  editForm.childNodes.forEach( e => {
-    if (e.nodeName.toUpperCase() === 'INPUT') { e.value = values[e.id.split('-')[0]] }
-  })
+  document.getElementById('item-edit').value = values['item']
+  document.getElementById('where-edit').value = values['where']
+  document.getElementById('when-edit').value = values['when']
+  document.getElementById('photo-edit').value = values['photo']
+  document.getElementById('description-edit').value = values['description']
   editForm.querySelector('#editentry-button').onclick = (e) => {
     e.preventDefault()
     saveEdits(_id)

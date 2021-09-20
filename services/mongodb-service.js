@@ -17,7 +17,7 @@ let main = async function () {
 main()
 
 exports.update = async function(data) {
-    const updateResult = await lostitems.updateOne({ _id: new ObjectID(data._id) }, {
+    const updateResult1 = await lostitems.updateOne({ _id: new ObjectID(data._id) }, {
         $set: {
           item: data.item,
           when: data.when,
@@ -26,8 +26,17 @@ exports.update = async function(data) {
           photo: data.photo
         }
     })
-    console.log('Updated documents =>', updateResult)
-    return updateResult.modifiedCount === 1
+    const updateResult2 = await founditems.updateOne({ _id: new ObjectID(data._id) }, {
+        $set: {
+          item: data.item,
+          when: data.when,
+          where: data.where,
+          description: data.description,
+          photo: data.photo
+        }
+    })
+    console.log('Updated documents =>', updateResult1, updateResult2)
+    return (updateResult1.modifiedCount === 1) || (updateResult2.modifiedCount === 1)
 }
 
 exports.create = async function(collection, data) {
@@ -45,9 +54,10 @@ exports.create = async function(collection, data) {
 }
 
 exports.delete = async function(uid) {
-    const deleteResult = await lostitems.deleteMany({ _id: new ObjectID(uid) })
+    const deleteResult1 = await lostitems.deleteMany({ _id: new ObjectID(uid) })
+    const deleteResult2 = await founditems.deleteMany({ _id: new ObjectID(uid) })
     // console.log('Deleted documents =>', deleteResult)    
-    return deleteResult
+    return deleteResult1
 }
 
 exports.getLostItems = async function() {
