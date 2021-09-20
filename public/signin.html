@@ -33,7 +33,7 @@
   <script>
 
   //function submit(e) {
-  const login = function( e ) {
+  const login =  function( e ) {
     // prevent default form action from being carried out*/
     e.preventDefault()
 
@@ -45,13 +45,26 @@
       return false;
     }
 
+json = {
+  user: userIn.value, 
+  password: passwordIn.value
+}
 
-          body = {user: userIn.value, chore: passwordIn.value}
-          
-
+          body = JSON.stringify(json)
+        
           fetch( '/login', {
       method:'POST',
-      body 
+      body: JSON.stringify({
+  user: userIn.value, 
+  password: passwordIn.value
+}), 
+      headers: {"Content-Type": "application/json"}
+      
+    }).then(function(response){
+      return response.json()
+    }).then(function(){
+
+
     })
     
     

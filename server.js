@@ -20,6 +20,7 @@ client.connect(err => {
  // addUsers(collection)//used manually 
 });
 
+
 const addUsers = async () => {
 
   const collection = client.db("test").collection("devices");
@@ -41,28 +42,30 @@ const getappdata = async () => {
   return await collection.findOne({user:req.session.username}).appData
 }
 
-const getUsername = async ( username) => {
+const getUsername = ( username) => {
   const collection = client.db("test").collection("devices");
-  return await collection.findOne({user:username})
+  return collection.findOne({user:username})
 }
 
 
 //--------------------------------------
- app.post( '/login',  async (req,res)=> {
+ app.post( '/login',    async (req,res) =>{
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
 
     //{user: "name", password: "pass"}
-   
+    console.log(req.body)
       console.log("hit login")
       
-   
   let dataObj =  req.body
+  console.log(dataObj)
+
+
 
   let user = dataObj.user
   
-  let foundJSON = await getUsername(user)
+  let foundJSON =  await getUsername(user)
 
   console.log(foundJSON)
   if(foundJSON != null){
@@ -84,19 +87,19 @@ const getUsername = async ( username) => {
     
   else{
     // password incorrect, redirect back to login page
-    res.redirect(  '/public/signin.html' )
+    res.redirect(  '/signin.html' )
   }
 
  
 })
 
 // add some middleware that always sends unauthenicaetd users to the login page
-app.use( function( req,res,next) {
+/*app.use( function( req,res,next) {
   if( req.session.login === true )
     next()
   else
     res.sendFile( __dirname + '/public/index.html' )
-})
+})*/
 
 // serve up static files in the directory public
 app.use( express.static('public') )
