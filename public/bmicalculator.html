@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A simple BMI calculator.">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans">
+  </head>
+  <body>
+    <div class = "logo"><h1>BMI Calculator</h1></div>
+    <div class = "calculator">
+      <div id = "bmidisplay"></div>
+      <form>
+        <input type='text' id='yourname' placeholder="Name">
+        <input type='number' id='weight' placeholder= "Weight(lbs)">
+        <input type='number' id='feet' placeholder="Height (Feet)">
+        <input type='number' id='inches' placeholder= "Height (Inches)">
+        <img src = "images/bmichart.png" width = "356" height = "124" alt = "BMI chart">
+        <button id = "submit">submit</button>
+      </form>
+    </div>
+    <h1>Prior results</h1>
+    <table id="results"></table>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
