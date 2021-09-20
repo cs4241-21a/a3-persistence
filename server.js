@@ -27,7 +27,7 @@ app.use(session({
     cookie: {
         httpOnly: true,
         secure: false,
-        maxAge: 15 * 60 * 1000,
+        maxAge: 30 * 60 * 1000,
      }
 }));
 
@@ -35,7 +35,6 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 const jsonParser = bodyParser.json();
-// const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const githubClientID = process.env.GITHUB_ID;
 const githubClientSecret = process.env.GITHUB_SECRET;
@@ -99,6 +98,10 @@ app.get('/getData', (req, res) => {
     .then(function(value) {
         res.send(value);
     });
+});
+
+app.get('/getProfile', (req, res) => {
+    res.send(req.user);
 });
 
 app.post('/newEntry', isLoggedIn, jsonParser, (req, res) => {
