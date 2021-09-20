@@ -98,19 +98,6 @@ app.get('/auth/error', (req, res) => res.send('Unknown Error'))
 app.get('/github/logs',passport.authenticate('github', { failureRedirect: '/auth/error' }),
 function(req, res) {
   if(loginCollection!=null){
-    loginCollection.insertOne({username:req.user.id})
-    .catch(err => console.log(err)) 
-    .then(response => {
-      req.session.login = true
-      req.session.username = req.user.id;
-      res.redirect("main.html")
-    })
-});
-
-
-app.get('/route', (req, res) => {
-  
-  if(loginCollection!=null){
     loginCollection.insertOne({username:req.query.id})
     .catch(err => console.log(err)) 
     .then(response => {
@@ -120,8 +107,8 @@ app.get('/route', (req, res) => {
     })
 
   }
- 
-})
+});
+
 
 app.post('/createAccount', bodyParser.json(), function(request, response) {
 
