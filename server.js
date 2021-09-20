@@ -126,6 +126,8 @@ app.post('/add', (req,res) => {
       course: req.body.course, 
       percentage: req.body.percentage, 
       priority: calculatePriority(req.body.percentage),
+      deadline: req.body.deadline,
+      grade: req.body.grade,
       itemIndex: req.body.itemIndex})
 
     .then( result => res.json( result ) )
@@ -138,29 +140,32 @@ app.post('/edit', function (req, res) {
       { $set:{ assignment:req.body.assignment, 
                course:req.body.course,
                percentage: req.body.percentage, 
-               priority: calculatePriority(req.body.percentage)} }
+               priority: calculatePriority(req.body.percentage),
+               deadline: req.body.deadline,
+               grade: req.body.grade} }
     )
     .then( result => res.json( result ) )
 })
 
-
 fetchIndex = (_id, clb) => {
   collection.findOne({ _id:_id}, (err, user) => {
-    clb(user.itemIndex);
+  clb(user.itemIndex);
   });
 };
 
-
 app.post('/complete', function (req, res) {
-fetchIndex(mongodb.ObjectId( req.body._id ), indexRemoved => 
-  collection.updateMany(
-    { githubId: user_id, itemIndex: {$gte: indexRemoved}},
-    { $inc:{ itemIndex: -1} }
-  ));
 
-  collection
+  fetchIndex(mongodb.ObjectId( req.body._id ), indexRemoved => 
+  {
+    collection.updateMany(
+    { githubId: user_id, itemIndex: {$gt: indexRemoved}},
+    { $inc:{ itemIndex: -1} })
+
+    collection
     .deleteOne({ _id:mongodb.ObjectId( req.body._id ) })
     .then( result => res.json( result ) )
+  }
+  );
 })
 
 app.get( '/add', function (req, res) {
