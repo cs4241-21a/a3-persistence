@@ -51,9 +51,9 @@ th {
 }
 
 td {
-    padding: 10px 75px;
     font-family: 'Besley', sans-serif;
     background-color: #89DACD;
+    padding: 10px 75px;
 }
 
 .textBox {
@@ -115,6 +115,7 @@ td {
 .removeButton:hover {
     background-color: #E07B83;
 }
+
 ::placeholder {
     color: black;
 }

@@ -7,7 +7,6 @@ const login = function (e) {
 
     //Error checking that the user enters both fields
     if (username.value === "" || password.value === "") {
-        console.log("Incorrect username or password");
         alert("Enter a valid username and password");
         return false
     }
@@ -18,9 +17,7 @@ const login = function (e) {
     fetch( '/login', {
         method: 'POST',
         body: body, 
-        headers: {
-            "Content-Type": "application/json"
-        }
+        headers: {"Content-Type": "application/json"}
     })
     .then(response => response.json())
     .then(user => {
@@ -40,15 +37,19 @@ const signup = function (e) {
     const username = document.getElementById('username'),
     password = document.getElementById('password');
 
+    //Error checking that the user signs-up with valid fields
+    if (username.value === "" || password.value === "") {
+        alert("Enter a valid username and password");
+        return false
+    }
+
     json = {username: username.value, password: password.value}
     body = JSON.stringify(json)
 
     fetch('/signin', {
         method: 'POST',
         body: body,
-        headers: {
-            "Content-Type" : "application/json"
-        }
+        headers: {"Content-Type" : "application/json"}
     })
     .then(response => response.json())
     window.location.href = "index.html"

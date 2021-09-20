@@ -65,12 +65,10 @@ const getAdvice = function (hours) {
       json = { yourname: nameInput.value, major: majorInput.value, hours: hoursInput.value, advice: adviceInput.value, id: id }
       body = JSON.stringify( json )
   
-      fetch( '/update', {
+      fetch('/update', {
         method:'POST',
         body,
-        headers: {
-          "Content-Type": "application/json"
-        } 
+        headers: {"Content-Type": "application/json"} 
       })
       .then(response => response.json())
       .then(json => {
@@ -79,8 +77,6 @@ const getAdvice = function (hours) {
         majorInput.value = newMajor.innerHTML
         hoursInput.value = newHours.innerHTML
         adviceInput.value = newAdvice.innerHTML
-  
-        console.log("json:", json)
       })
     }
   
@@ -96,14 +92,11 @@ const getAdvice = function (hours) {
       fetch( '/remove', {
         method:'POST',
         body: JSON.stringify({idElement}),
-        headers: {
-          "Content-Type": "application/json"
-        } 
+        headers: {"Content-Type": "application/json"} 
       })
       .then(response => response.json())
-      .then(json => {
-        newRow.remove();
-      })
+      .then(json => {newRow.remove();
+     })
     }
   };
 
@@ -160,9 +153,7 @@ const getAdvice = function (hours) {
       fetch( '/update', {
         method:'POST',
         body,
-        headers: {
-          "Content-Type": "application/json"
-        } 
+        headers: {"Content-Type": "application/json"} 
       })
       .then(response => response.json())
       .then(json => {
@@ -171,8 +162,6 @@ const getAdvice = function (hours) {
         majorInput.value = newMajor.innerHTML
         hoursInput.value = newHours.innerHTML
         adviceInput.value = newAdvice.innerHTML
-  
-        console.log("json:", json)
       })
     }
   
@@ -188,22 +177,16 @@ const getAdvice = function (hours) {
       fetch( '/remove', {
         method:'POST',
         body: JSON.stringify({idElement}),
-        headers: {
-          "Content-Type": "application/json"
-        } 
+        headers: {"Content-Type": "application/json"} 
       })
       .then(response => response.json())
-      .then(json => {
-        newRow.remove();
-      })
+      .then(json => {newRow.remove()})
     }
   }
 
   fetch("/sleep")
   .then(response => response.json())
-  .then(sleep => {
-    sleep.forEach(loadDatabase);
-  });
+  .then(sleep => {sleep.forEach(loadDatabase);});
   
   const submit = function( e ) {
 
@@ -241,14 +224,10 @@ const getAdvice = function (hours) {
       fetch( '/submit', {
         method:'POST',
         body: body,
-        headers: {
-          "Content-Type": "application/json"
-        } 
+        headers: {"Content-Type": "application/json"} 
       })
       .then(response => response.json())
-      .then(json => {
-        addEntry(json)
-      })
+      .then(json => {addEntry(json)})
       return false
     }
 
@@ -259,9 +238,7 @@ const getAdvice = function (hours) {
 
         fetch('logout', {
             method: 'POST',
-            headers: {
-                "Content-Type":"application/json"
-            }
+            headers: {"Content-Type":"application/json"}
         })
         window.location.href = "login.html"
     }
