@@ -25,7 +25,7 @@
         <ul>
           <li>
             <label for="playername" class="gameLabel">Name:</label>
-            <input type='text' id='playername' name="your name here">
+            <label id='playername' class="gameLabel">TestName</label>
           </li>
           <li>
             <label for="playerscore" class="gameLabel">Score:</label>
@@ -70,9 +70,8 @@
     // prevent default form action from being carried out
     e.preventDefault()
 
-    const input = document.querySelector( '#playername' ),
-          scoreinput = document.querySelector('#playerscore'),
-          json = { playername: input.value, playerscore: playerScore },
+    const scoreinput = document.querySelector('#playerscore'),
+          json = { playername: usernameVar, playerscore: playerScore },
           body = JSON.stringify( json )
 
     fetch('/submit',{
@@ -90,29 +89,7 @@
 
         makeTableFromData(newAppdata);
       })
-      //let newResponse = JSON.parse(response)
-      //console.log(newResponse[0].name);
     })
-
-    /*
-    fetch( '/submit', {
-      method:'POST',
-      body //shortened version of "body": body 
-      //If there is only one word, it is taken in as the key and value
-    })
-    .then( function( response ) {
-      
-      //do something with the reponse 
-      response.text().then(function(textdata) {
-        console.log(JSON.parse(textdata));
-        let newAppdata = JSON.parse(textdata);
-
-        makeTableFromData(newAppdata);
-      })
-      //let newResponse = JSON.parse(response)
-      //console.log(newResponse[0].name);
-    })
-    */
 
     return false
   }
@@ -137,9 +114,6 @@
 
         makeTableFromData(newAppdata);
       })
-      //let newResponse = JSON.parse(response)
-      //console.log(newResponse[0].name);
-
     })
   }
 

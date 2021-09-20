@@ -163,6 +163,8 @@ app.post( '/submit', bodyParser.json(), (req,res) => {
     
     //Sort player data
     sortPlayerData();
+
+    collection.find({ }).sort({rank: 1}).toArray().then( result => res.json( result ) )
     
   } else {
     console.log("Invalid parameters!");
@@ -213,6 +215,8 @@ function sortPlayerData(){
         
       )
     }
+
+    collection = sorted_data;
   })
 }
 

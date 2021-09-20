@@ -7,6 +7,9 @@
 const secretDoc = document.getElementById("deleteScoreForm")
 secretDoc.style.display = "none";
 
+let usernameVar = "sample"
+document.getElementById("playername").innerHTML = usernameVar;
+
 
 //Adds a row 
 function addRow(){
@@ -45,12 +48,13 @@ function generateTableHead(table, data){
     let row = thead.insertRow();
 
     for (let key of data) {
-        let th = document.createElement("th");
-        let text = document.createTextNode(key);
-        th.appendChild(text);
-        row.appendChild(th);
+        if(key === "name" || key === "score" || key === "rank"){
+          let th = document.createElement("th");
+          let text = document.createTextNode(key);
+          th.appendChild(text);
+          row.appendChild(th);
+        }
       }
-
 }
 
 function generateTable(table, data){
@@ -61,9 +65,11 @@ function generateTable(table, data){
         i++;
         let row = table.insertRow();
         for(key in element){
+          if(key === "name" || key === "score" || key === "rank"){
             let cell = row.insertCell();
             let text = document.createTextNode(element[key]);
             cell.appendChild(text);
+          }
         }
     }
     
