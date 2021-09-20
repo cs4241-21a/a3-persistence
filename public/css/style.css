@@ -7,10 +7,6 @@ textarea {
     display: block;
 }
 
-.display-inline {
-    display: inline;
-}
-
 table {
     border-spacing: 0px;
     margin-left: auto;
@@ -28,4 +24,12 @@ td {
 
 .title {
     font-family: 'Bebas Neue', cursive;
+}
+
+.text-large {
+    font-size: 500%;
+}
+
+.display-inline {
+    display: inline;
 }

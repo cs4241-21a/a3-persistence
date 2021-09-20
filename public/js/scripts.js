@@ -10,6 +10,8 @@ let tableIDs = []
 
 let user = localStorage["username"];
 
+document.getElementById("welcomeMessage").innerHTML = `Welcome back, ${user}!`
+
 // fetch the initial list of reviews
 fetch("/reviews", {
         method: "POST", //tells it to use the post method

@@ -15,8 +15,6 @@ app.use(favicon(__dirname + '/public/assets/open-book.png'));
 //Serve static files using middleware
 app.use(serveStatic(path.join(__dirname, 'public')))
 
-app.enable("trust proxy");
-
 //create a token
 morgan.token('body', function(req, res) {
     return [
