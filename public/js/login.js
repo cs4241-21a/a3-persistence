@@ -53,8 +53,8 @@ const login = function (e) {
         .then(function (response) {
             console.log(response);
             //debugger
-            test = null
-            //test = response.json()
+            //test = null
+            test = response.json()
             return test;
         }).then(function (data) {
             if (data != null) {
@@ -62,6 +62,13 @@ const login = function (e) {
                 if (data.failed === "incorrect") {
                     alert("Username or password is incorrect. Please try again.")
                 }
+                else {
+                    console.log("AAAAAAAAA")
+                    //  window.location.href = "index.html"
+                }
+            }
+            else {
+                window.location.href = "main.html"
             }
         })
 }

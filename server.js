@@ -90,7 +90,7 @@ app.post('/delete', bodyParser.json(), (req, res) => {
 app.get('/logout', (req, res) => {
     req.session.login = false
     req.session.user = null
-    res.sendFile(__dirname + '/views/login.html')
+    res.sendFile(__dirname + '/views/index.html')
 })
 
 
@@ -121,7 +121,7 @@ app.post('/login', (req, res) => {
                 // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern
                 debugger
                 //WHY DOES THIS NOT WORK? sendFile ALSO DOESNT WORK
-                res.redirect('/views/index.html')
+                res.redirect('/views/main.html')
             } else {
                 // password incorrect, redirect back to login page
                 res.json({ failed: "incorrect" });
@@ -159,19 +159,19 @@ app.post('/register', bodyParser.json(), (req, res) => {
 app.use(function (req, res, next) {
     if (req.session.login === true) {
         console.log("logged in, proceeded")
-        //req.session.login = false //DELETE THIS AT SOME POINT
+        req.session.login = false //DELETE THIS AT SOME POINT
         next()
     }
     else {
         console.log("Unauthenticated, sent to login")
-        res.sendFile(__dirname + '/views/login.html')
+        res.sendFile(__dirname + '/views/index.html')
     }
 })
 
 // route to get all docs, needs to be after the unauth middleware?
 app.get('/', (req, res) => {
     if (collection !== null) {
-        res.sendFile(__dirname + "/views/index.html");
+        res.sendFile(__dirname + "/views/main.html");
         console.log("got to GET/");
         // get array and pass to res.json
         //collection.find({}).toArray().then(result => console.log(result));
