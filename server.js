@@ -76,18 +76,18 @@ const getUsername = ( username) => {
     req.session.login = true
     
     // since login was successful, send the user to the main content=
-    res.redirect( '/public/index.html' )
+    res.redirect( '/index' )
     }
     else{
       // password incorrect, redirect back to login page
-      res.redirect( '/public/signin.html' )
+      res.redirect( '/signin' )
       //res.sendFile( __dirname + '/public/signin.html' )
     }
   }
     
   else{
     // password incorrect, redirect back to login page
-    res.redirect(  '/signin.html' )
+    res.redirect(  '/signin' )
   }
 
  
@@ -102,7 +102,7 @@ const getUsername = ( username) => {
 })*/
 
 // serve up static files in the directory public
-app.use( express.static('public') )
+app.use( express.static('public', {extensions: ["html"]}) )
 //---------------------------------------
 
 /*app.post("/login", (req, res) => {  

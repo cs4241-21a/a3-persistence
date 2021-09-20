@@ -11,7 +11,14 @@
 
   <body>
 
-    <div id = 'logindiv' class='page' >
+    <form action ='/login' method = 'POST'>
+      
+      <input type='text' name='user' placeholder="username"> 
+      <input type='password' name='password' placeholder="password"> 
+      <input type='submit' >Log In</inp>
+    </form>
+<!--
+    <div-- id = 'logindiv' class='page' >
     <h1 class='center'>Chore Log sign in</h1>
     <div class='center'>
     
@@ -24,13 +31,13 @@
       <button id = 'login' >Log In</button>
       <input type='text' id='user' placeholder="username"> 
       <input type='text' id='password' placeholder="password"> 
-      <!--button id = 'signup'>Signup</!--button-->
+      
     </form>
 
       </div>
-    </div>
+    </div-->
   </body>
-  <script>
+  <!--script>
 
   //function submit(e) {
   const login =  function( e ) {
@@ -54,11 +61,9 @@ json = {
         
           fetch( '/login', {
       method:'POST',
-      body: JSON.stringify({
-  user: userIn.value, 
-  password: passwordIn.value
-}), 
+      body, 
       headers: {"Content-Type": "application/json"}
+      
       
     }).then(function(response){
       return response.json()
@@ -80,5 +85,5 @@ json = {
    
   }
 
-  </script>
+  </!--script> -->
 </html>
