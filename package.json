@@ -1,0 +1,14 @@
+{
+  "name": "",
+  "version": "",
+  "description": "",
+  "author": "Aditya Kumar",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cookie-session": "^1.4.0",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.2"
+  }
+}
