@@ -221,6 +221,8 @@ function updateHistory() {
     console.log('mix history')
     console.log(jsonArr)
 
+    // todo clear the table
+
     // add each mix json to the table
     jsonArr.forEach((object)  => {
       // console.log('mix', object)
@@ -284,14 +286,14 @@ function updateHistory() {
           console.log('delete response', response.json)
           // console.log('get history response', response)
           if(response.ok)
-            return response.json()
+            history_table.deleteRow(row_index)
           // return false
         })
-        .then(console.log)
+        // .then(console.log)
         // .then( jsonstr => JSON.parse(jsonstr))
         // .then(console.log)
         // .then(function (json) {
-        .then(history_table.deleteRow(row_index))
+        // .then(history_table.deleteRow(row_index))
         return false
       }
     })

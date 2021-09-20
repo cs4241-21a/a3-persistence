@@ -143,11 +143,12 @@ app.post( '/remove', express.json(), async function (req,res) {
   // res.writeHead( 200, "OK", {'Content-Type': 'application/json' })
   if( collection !== null ) {
     try {
-      collection.deleteOne( { _id : mongodb.ObjectId( req.body._id) } )
+      collection.deleteOne( { "_id" : mongodb.ObjectId( req.body._id) } )
       // collection.deleteOne({_id: req.body._id})
       .then( result => res.json( result ) )
       // .then(result => res.end( JSON.stringify(result)))
       .then( json => {
+        // console.log('after deleted from collection', json)
         // console.log('remove', json)
         return json
       })
