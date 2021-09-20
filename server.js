@@ -7,19 +7,24 @@ const express = require("express"),
     favicon = require('serve-favicon'),
     serveStatic = require('serve-static'),
     morgan = require('morgan');
-
-app.use(favicon(__dirname + '/public/assets/open-book.png'));
-
 var ObjectId = require('mongodb').ObjectId;
 
+//Serve favicon using middlewaare
+app.use(favicon(__dirname + '/public/assets/open-book.png'));
+
+//Serve static files using middleware
 app.use(serveStatic(path.join(__dirname, 'public')))
 
+app.enable("trust proxy");
+
+//create a token
 morgan.token('body', function(req, res) {
     return [
         JSON.stringify(req.body)
     ]
 })
 
+//create logger using morgan middleware
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
 app.get("/", (request, response) => {
