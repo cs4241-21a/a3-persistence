@@ -4,20 +4,17 @@
 ////////////////////////////
 
 const express = require( 'express' ),
-      bodyParser = require('body-parser'),
       mongodb = require( 'mongodb' ),
       cookie = require("cookie-session"),
-      util = require( 'util'),
       app = express()
 
 app.use( express.static('public') )
 app.use( express.json() )
 
-let encoder = new util.TextEncoder('utf-8');
-
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
 app.use( express.urlencoded({ extended:true }) )
+
 // cookie middleware! The keys are used for encryption and should be
 // changed
 app.use( cookie({
@@ -160,7 +157,7 @@ app.use( function( req,res,next) {
 // serve up static files in the directory public
 app.use( express.static('public') )
 
-app.post( '/submit', bodyParser.json(), (req,res) => {
+app.post( '/submit', (req,res) => {
 
   // assumes only one object to insert
   if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
@@ -178,7 +175,7 @@ app.post( '/submit', bodyParser.json(), (req,res) => {
   }
 })
 
-app.post( '/delete', bodyParser.json(), (req,res) => {
+app.post( '/delete', (req,res) => {
 
   // assumes only one object to insert
   if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
