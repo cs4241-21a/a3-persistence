@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
 </head>
 
-<body>
+<body class="off-white">
     <div class="jumbotron text-center bg-dark text-white pt-4 pb-3">
         <h1 class="title text-large">Book Reviews</h1>
         <h3 id="welcomeMessage" class="text-left"></h3>
@@ -24,25 +24,23 @@
     <form id="form">
         <div class="container mt-5">
             <div class="row justify-content-center">
-                <h5 class="text-center"><u>Add reviews for books you have read.</u></h5>
                 <div class="col-auto">
+                    <h5><b>Add reviews for books you have read.</b></h5>
                     <label for="title">Title</label>
-                    <input id="title" type="text" maxlength="100" required placeholder="Title">
+                    <input id="title" class="mb-2" type="text" maxlength="100" size="54" required placeholder="Title">
 
                     <label for="author">Author</label>
-                    <input id="author" type="text" maxlength="100" required placeholder="Author">
+                    <input id="author" class="mb-2" type="text" maxlength="100" size="54" required placeholder="Author">
 
                     <label for="rating">Rating (1-10)</label>
-                    <input id="rating" type="number" min="1" max="10" required placeholder="10">
+                    <input id="rating" type="number" min="1" max="10" size="54" required placeholder="10">
                     <br>
                 </div>
                 <div class="col-auto">
+                    <h5>&nbsp;</h5>
                     <label for="description">Description</label>
-                    <textarea id="description" class="mb-2" rows="4" cols="40"></textarea>
-                </div>
-
-                <div class="row justify-content-center">
-                    <div class="col-auto">
+                    <textarea id="description" class="mb-2" rows="6" cols="53" required placeholder="Description"></textarea>
+                    <div class="d-flex justify-content-end">
                         <button type="submit" id="submit" class="btn btn-success">Add Review</button>
                     </div>
                 </div>
@@ -64,10 +62,10 @@
             </colgroup>
             <thead>
                 <tr class="bg-dark text-white">
-                    <th colspan=1>Title</th>
-                    <th colspan=1>Author</th>
-                    <th colspan=1>Rating</th>
-                    <th colspan=2>Description</th>
+                    <th colspan=1><b>Title</b></th>
+                    <th colspan=1><b>Author</b></th>
+                    <th colspan=1><b>Rating</b></th>
+                    <th colspan=2><b>Description</b></th>
                     <th colspan=1></th>
                     <th colspan=1></th>
                 </tr>
