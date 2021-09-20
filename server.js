@@ -4,7 +4,7 @@ const cookie  = require( 'cookie-session' )
 const app = express() 
 
 app.use( express.urlencoded({ extended:true }) )
-
+app.use(express.json())
 app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
