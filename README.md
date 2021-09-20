@@ -7,6 +7,7 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 Heroku link: https://contact-log.herokuapp.com/
 
 The application is a simple contact logging system for users. This can be used for contact tracing, possibly for COVID, or for keeping an upto data list of personal or work related connections. The app implements a MongoDB server for user creation and data storage. HTML, and JS were used in unison to build a responsive database system. For CSS, a common framework, called Bulma, was implemented for all the basic needs. Bulma is a free framework with tons of common CSS features, such as Cards and Modal screens. Custom CSS was added to implement the proper Fonts and spacing required for the interface. Furthermore, custom CSS was used to implement a counter for textarea inputs. To run the server, Node, Express and common middlewares were used for development. Some challenges faced during development were launching the app on Heroku, and creating a user registration system. The authentication strategy chosen was a simple Username + Password system. This type of authentitication is common accross majority of applications. The website recieved over 90% for each Google Lighthouse test.
+![Capture](https://user-images.githubusercontent.com/62816869/133960144-0fd8b8c8-79bc-4c47-81ce-467c2bcb9362.JPG)
 
 The five middlewares used are:
 1. body-parser -> Allows parsing JSON data into the request body.
