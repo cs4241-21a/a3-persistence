@@ -16,7 +16,6 @@ const MongoClient = mongodb.MongoClient;
 app.use( express.urlencoded({ extended:true }) )
 app.use(cookieParser())
 
-console.log('Now the value for FOO is:',  process.env.GITHUB_ID);
 
 app.use( cookie({
   name: 'session',
