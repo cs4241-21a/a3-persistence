@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link href="index.css"  rel="stylesheet" type="text/css" />
+    <script src="index.js"></script>
+  </head>
+  <body>
+    <h1>
+      Homework Agenda
+    </h1>
+
+    <div class="homework-list-group">
+      <button id="addHWBtn">New Homework</button>
+      <table id="assignments">
+      </table>
+    </div>
+
+    <div id="overlay">
+      <div class="newHomeworkPrompt">
+        <label>Homework Name:</label>
+        <input type='text' id='homeworkName' value="">
+
+        <label>Course Name:</label>
+        <input type='text' id='homeworkCourse' value="">
+
+        <label>Due Date: (YYYY-MM-DD)</label>
+        <input type='text' id='homeworkDue' value="">
+
+        <button id="newHWCancel">Cancel</button>
+        <button id="newHWSubmit">Submit</button>
+      </div>
+    </div>
+  </body>
+</html>
