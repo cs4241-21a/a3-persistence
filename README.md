@@ -24,5 +24,6 @@ The five middlewares used are:
 - **Tech Achievement 2**: I used Heroku to host the website instead of Glitch.
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings.  
-      1. Contrast: For contrast I made sure that all colors contrasted eachother as much as possible. This allowed aspects of the webpage to be much more visible, and pop out              more for the viewer. For example, the white card color contrasts the green color of the main body on the login page. Furthermore, the table in the main page has black            text, on a white background, which is as much contrast as possible.
+- **Design Achievement 1**: Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings:  
+      1.   Contrast: For contrast I made sure that all colors contrasted eachother as much as possible. This allowed aspects of the webpage to be much more visible, and pop out             more for the viewer. For example, the white card color contrasts the green color of the main body on the login page. Furthermore, the table in the main page has                 black text, on a white background, which is as much contrast as possible. On the login page the login section of the page recieved the most contrast since it was the             main focus. For the main page, the table and action bar recieved the most contrast to attract the users attention.
+      2.   
