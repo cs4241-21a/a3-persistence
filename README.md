@@ -4,7 +4,7 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 
 ## Your Web Application Title
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+Horoku link: https://contact-log.herokuapp.com/
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
