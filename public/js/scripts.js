@@ -7,7 +7,7 @@
 const secretDoc = document.getElementById("deleteScoreForm")
 secretDoc.style.display = "none";
 
-let usernameVar = "sample"
+let usernameVar = document.cookie;
 document.getElementById("playername").innerHTML = usernameVar;
 
 

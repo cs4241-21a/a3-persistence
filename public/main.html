@@ -6,9 +6,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-    <link rel="stylesheet"
-    href="https://fonts.googleapis.com/css?family=Source+Code+Pro">
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link type="text/css" href="./node_modules/nes.css/css/nes.min.css">
     <link rel="stylesheet" type="text/css" href="../css/style.css">
+    <style>
+      html, body, pre, code, kbd, samp {
+          font-family: "Regular 400";
+      }
+    </style>
     
   </head>
   <body>
@@ -16,7 +21,7 @@
       <div id="directions" class="gameLabel"><h3>Press the key before time runs out!</h3></div>
       <div id="message" class="gameLabel">Start the game to get prompts!</div>
       <div id="score" class="gameLabel">Score: 0</div>
-      <button id="start-button" type="button" onclick="gameLoopSetup()">Start Game</button>
+      <button id="start-button" class="nes-btn is-primary" type="button" onclick="gameLoopSetup()">Start Game</button>
     </main>
 
     <section>
@@ -33,18 +38,18 @@
           </li>
         </ul>
         
-        <button id = "submit">Enter Score</button>
+        <button id = "submit" class="nes-btn is-success">Enter Score</button>
       </form>
   
       <form action="/access-player-delete" class="gameForm" method="post">
         <h3 class="gameLabel">Admin Password</h3>
         <ul>
           <li>
-            <input type='password' id='adminpassword'>
+            <input type='password' id='adminpassword' class="nes-input">
           </li>
         </ul>
         
-        <button id = "adminAccessButton" class="gameLabel">Enter Admin Password</button>
+        <button id = "adminAccessButton" class="nes-btn is-warning">Enter Admin Password</button>
       </form>
   
       <form action="/delete-player-score" id ="deleteScoreForm" class="gameForm" method="post">

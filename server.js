@@ -85,9 +85,12 @@ app.post( '/login', (req,res)=> {
   
       //check to see if the entered and database passwords line up
       if(loginPassword === databasePassword){
-        //If so, indicate that login session is true and redirect
+
+        //If so, perform cookie operations and redirect to main
         req.session.login = true
-  
+        req.session.username = loginUsername
+        req.session.password = loginPassword
+        
         res.redirect( 'main.html' )
       } else {
         //reject user for bad password
@@ -114,12 +117,18 @@ app.post( '/register', (req,res)=> {
   collection.find({name: regUsername}).toArray()
   .then(foundUsername => {
     if(foundUsername.length === 0) {
+
+      //If so, perform cookie operations and redirect to main
+      req.session.login = true;
+      req.session.username = regUsername;
+      req.session.password = regPassword;
+
       //make a new user entry and insert it into the user collection
       let newUserObject = makeUserObject(regUsername, regPassword);
-      req.session.login = true
-      
       collection.insertOne( newUserObject ).then( result => res.json( result ) )
-  
+
+      //Redirect to main and return the new user object as a response
+      res.json(newUserObject);
       res.redirect( 'main.html' )
   
       // define a variable that we can check in other middleware
