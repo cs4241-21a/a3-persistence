@@ -17,7 +17,6 @@ let main = async function () {
 main()
 
 exports.update = async function(data) {
-    console.log('Updating document => ', data)
     const updateResult = await lostitems.updateOne({ _id: new ObjectID(data._id) }, {
         $set: {
           item: data.item,
@@ -47,18 +46,18 @@ exports.create = async function(collection, data) {
 
 exports.delete = async function(uid) {
     const deleteResult = await lostitems.deleteMany({ _id: new ObjectID(uid) })
-    console.log('Deleted documents =>', deleteResult)    
+    // console.log('Deleted documents =>', deleteResult)    
     return deleteResult
 }
 
 exports.getLostItems = async function() {
     const findResult = await lostitems.find({}).toArray()
-    console.log('Found lostitems document =>', findResult)
+    // console.log('Found lostitems document =>', findResult)
     return findResult
 }
 
 exports.getFoundItems = async function() {
     const findResult = await founditems.find({}).toArray()
-    console.log('Found founditems document =>', findResult)
+    // console.log('Found founditems document =>', findResult)
     return findResult
 }

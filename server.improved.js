@@ -1,15 +1,21 @@
 require('dotenv').config()
 const path = require('path')
+const fs = require('fs')
 const express = require('express')
 const app = express()
 const { Db } = require('mongodb')
 const cookieSession = require('cookie-session')
 const passport = require('passport');
 const mongodbclient = require( './services/mongodb-service.js' )
+var favicon = require('serve-favicon')
+var compression = require('compression')
+var morgan = require('morgan')
 require('./services/passport-service.js')
 const validateLoginMiddleware = require('./services/passport-auth.js')
 const port = 3000
 
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+app.use(morgan('combined', { stream: accessLogStream }))
 app.use(express.json())
 app.use(cookieSession({
   name: 'github-auth-session',
@@ -19,6 +25,8 @@ app.use(cookieSession({
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.static('public'))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
+app.use(compression())
 
 app.get('/auth/github', passport.authenticate('github', {
   scope: [ 'user:email' ]
