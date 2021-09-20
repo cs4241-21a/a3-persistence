@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <title>A3 Persistance</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#password, #confirm-password').on('keyup', function () {
+                if ($('#password').val() === $('#confirm-password').val()) {
+                    $('#password-message').html('Passwords are matching').css('color', 'green');
+                    $('#signUpBTN').prop('disabled', false);
+                } else {
+                    $('#password-message').html('Passwords are not matching').css('color', 'red');
+                    $('#signUpBTN').prop('disabled', true);
+                }
+            });
+        });
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row justify-content-center align-items-center">
+            <div class="col-sm-4">
+                <div class="logreg-form">
+                    <form action='/registerUser' method='POST'>
+                        <div id="register-error"></div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Enter your password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <input type="password" class="form-control" id="confirm-password" name="confirm-password"
+                                aria-describedby="password-message" placeholder="Confirm your password" required>
+                            <div id="password-message" class="form-text"></div>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="signUpBTN">Sign Up</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
