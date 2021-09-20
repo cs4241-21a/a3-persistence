@@ -12,8 +12,8 @@ Password: Mike
 
 The application is a simple contact logging system for users. This can be used for contact tracing, possibly for COVID, or for keeping an up-to-date list of personal or work-related connections. The app implements a MongoDB server for user creation and data storage. HTML and JS were used in unison to build a responsive database system. For CSS, a common framework, called Bulma, was implemented for all the basic needs. Bulma is a free framework with tons of common CSS features, such as Cards and Modal screens. Custom CSS was added to implement the proper Fonts and spacing required for the interface. Furthermore, custom CSS was used to implement a counter for textarea inputs. To run the server, Node, Express, and common middlewares were used for development. Some challenges faced during development were launching the app on Heroku and creating a user registration system. The authentication strategy chosen was a simple Username + Password system. This type of authentication is common across the majority of applications. The website received over 90% for each Google Lighthouse test.  
 
-![Login Page](https://user-images.githubusercontent.com/62816869/133960311-bd836925-5e21-4af7-969c-cd6d944f8381.JPG)
-![Main Page](https://user-images.githubusercontent.com/62816869/133960248-62f4ea72-c505-48d7-8157-afe96c22caac.JPG)
+![Login Page](https://user-images.githubusercontent.com/62816869/134070795-d0ca2775-6e8c-4167-a47b-faa20940e691.JPG)
+![Main Page](https://user-images.githubusercontent.com/62816869/134070913-346f22be-1e1f-4476-aa3b-7e41e2d4148f.JPG)
 
 
 The five middlewares used are:
@@ -22,6 +22,7 @@ The five middlewares used are:
 3. cookie-parser -> Allows the ability to parse, and print the cookie data
 4. serve-static -> Allows the express server to serve static files in the pubilc folder.
 6. A custom middlware that automatically logs in users that have already signed into the website. It redirects the user to the contact list page if the user is logged in.
+
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
