@@ -4,10 +4,31 @@
   "description": "A website that allows user to track their spending and income with budget",
   "author": "GP2P",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "devStart": "nodemon server.js",
+    "tailwind:css": "npx tailwindcss -i ./tailwind.css -o ./public/css/styles.css"
   },
   "dependencies": {
     "express": "^4.17.1",
-    "mongodb": "^4.1.2"
-  }
+    "mongodb": "^4.1.2",
+    "cookie-session": "^1.4.0",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.12",
+    "postcss-cli": "^8.3.1",
+    "postcss": "^8.3.6",
+    "@fullhuman/postcss-purgecss": "^4.0.3",
+    "autoprefixer": "^10.3.4",
+    "tailwindcss": "^2.2.15"
+  },
+  "main": "server.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GP2P/a3-persistence.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GP2P/a3-persistence/issues"
+  },
+  "homepage": "https://github.com/GP2P/a3-persistence#readme"
 }
