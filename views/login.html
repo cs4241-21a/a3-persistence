@@ -59,7 +59,45 @@
           />
         </div>
         </div>
-        <div style="margin-top: 10%; margin-left: 42%; padding-top: 20px;"><input type="submit" /></div>
+        <div style="margin-top: 10%; margin-left: 42%; padding-top: 20px;"><input type="submit" id ="submit"/></div>
+      </form>
+    </div>
+
+    <h2>Sign Up</h2>
+    <div style="width: 14%; margin-left: 42.5%; margin-right: 42.5%" role = "table" aria-label="Login Table">
+      <form action="/signup" method="POST" id="form2">
+        <div class="flex-container2" role="row" aria-label="Username row">
+        <div class = "flex-child" role="columnheader">
+          <label for="user" class="theLabels2">Username: </label
+          >
+        </div>
+          <div class="flex-child" style="margin-left: -20%;" role="columnheader">
+          <input
+            type="text"
+            name="username"
+            placeholder="username"
+            class="theInputs2"
+            id="uname2"
+          />
+        
+        </div>
+      </div>
+      <div class="flex-container2" role="row">
+        <div class = "flex-child" role = "columnheader">
+          <label for="password" class="theLabels2">Password: </label
+          >
+        </div>
+          <div class="flex-child" style="margin-left: -20%;" role="columnheader">
+          <input
+            type="password"
+            name="password"
+            placeholder="password"
+            class="theInputs2"
+            id="pword2"
+          />
+        </div>
+        </div>
+        <div style="margin-top: 10%; margin-left: 42%; padding-top: 20px;"><input type="submit" id="signup" /></div>
       </form>
     </div>
   </body>

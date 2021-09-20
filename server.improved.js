@@ -23,6 +23,10 @@ app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '/views/login.html'));
 });
 
+app.get('/index.html', function(req, res) {
+  res.sendFile(path.join(__dirname, '/views/index.html'));
+});
+
 // make sure to substitute your username / password for tester:tester123 below!!! 
 const uri = "mongodb+srv://testUser:testing123@cluster0.gieka.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
@@ -52,6 +56,7 @@ client.connect()
 
 app.post( '/add', (req,res) => {
   // assumes only one object to insert
+  req.body['username'] = user
   collection.insertOne( req.body )
   .then( insertResponse => collection.findOne(insertResponse.insertedId) )
   .then( findResponse => res.json( findResponse))
@@ -66,16 +71,8 @@ app.get('/data', (req, res) => {
 let loginCollection = null;
 client.connect()
   .then( () => {
-    // will only create collection if it doesn't exist
-    return client.db( 'datatest' ).collection( 'users' )
-  })
-  .then( __collection => {
-    // store reference to collection
-    loginCollection = __collection
-    // blank query returns all documents
-    return collection.find({ }).toArray()
-  })
-  .then( console.log )
+    loginCollection = client.db("testdata").collection("users");
+  });
 
 let user = null;
 app.post("/login", bodyParser.json(), function(req, res) {
@@ -85,6 +82,14 @@ app.post("/login", bodyParser.json(), function(req, res) {
     .then(result => res.json(result));
   user = req.body.username;
 });
+
+app.post("/create", bodyParser.json(), function(req, res) {
+  user = req.body.username;
+  loginCollection.insertOne( req.body )
+  .then( insertResponse => collection.findOne(insertResponse.insertedId) )
+  .then( findResponse => res.json( findResponse))
+});
+
 
 
 
