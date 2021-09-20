@@ -3,8 +3,6 @@
 
 Shannen Lin: 
 
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. 
-
 The goal of the application was to create a two-tier web application with a database, an express server, and a CSS framework. A user should be able to login to a page or create an account if they don't have one. Once logged in, a user can create, remove, and edit book reviews which will show up in a table.
 
 I faced a lot of challenges to realize the application. The challenge that gave me the hardest time was to figure out how to have a user view only their own data and how I would communicate that between the different pages. I also had a hard time figuring out how to design my website to look nice as I don't really have much designing experience. Even with Bootstrap, I still struggled to figure out a good design.
@@ -13,12 +11,9 @@ I used server-side authentication with cookies simply because it seemed the easi
 
 For my various HTML input elements, I used text area, text field, password, and number inputs in my forms.
 
-I used the Bootstrap CSS framework because it is very easy to use Bootstraps predefined design templates. It really helped with keeping my designs consistent across different browsers. I made a few changes to the CSS. For example, Bootstrap only has 25%, 50%, 75%, and 100% for setting the width but I wanted a value of 30%. Also, the way that Bootstrap handled tables was not really to my liking so I added my own CSS code for that.
+I used the Bootstrap CSS framework because it is very easy to use Bootstraps predefined design templates. It really helped with keeping my designs consistent across different browsers. I made a few changes to the CSS. For example, Bootstrap only has 25%, 50%, 75%, and 100% for setting the width but I wanted a value of 30%. Also, the way that Bootstrap handled tables did not work with the way I had set up my code so I added my own CSS code for that.
 
-The 5 Express middleware packages I used were: `body-parser` which parses the incoming request bodies before the handlers and puts them inside request.body, `cookie-session` which stores the session data on the client within a cookie and was useful for authentication, 
-`serve-static`
-`serve-favicon`
-`helmet`
+The 5 Express middleware packages I used were: `body-parser` which parses the incoming request bodies before the handlers and puts them inside request.body, `cookie-session` which stores the session data on the client within a cookie and was used for authentication, `serve-favicon` which allows us to serve favicons from the node js server with better performance, `serve-static` which is used to serve static files from within a given root directory, and `helmet` which sets HTTP headers in order to protect the app from different web vulnerabilities.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I hosted my site on

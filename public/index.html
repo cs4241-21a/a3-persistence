@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+Pro&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
 </head>
 
 <body class="bg-dark">
@@ -34,18 +34,6 @@
             <button id="create" class="w-100 btn btn-primary">Create an Account</button>
         </div>
     </div>
-
-    <!-- <div>
-        <form id="loginForm">
-            <input type='text' name='username' id="username" required placeholder="Username">
-            <input type='password' name='password' id="password" required placeholder="Password">
-            <span id="wrongUserMessage" class="error text-danger"></span>
-            <br>
-            <input class="btn btn-success" type='submit'> 
-            <button id="submit" class="btn btn-success">Submit</button>
-            <button id="create" class="btn btn-primary">Create an Account</button>
-        </form>
-    </div> -->
 
     <script src="js/login-scripts.js" defer></script>
 </body>

@@ -1,12 +1,20 @@
 const express = require("express"),
     bodyParser = require("body-parser"),
     cookie = require('cookie-session'),
+    path = require('path'),
     app = express(),
-    mongodb = require("mongodb");
+    mongodb = require("mongodb"),
+    favicon = require('serve-favicon'),
+    serveStatic = require('serve-static'),
+    helmet = require("helmet");
+
+app.use(favicon(__dirname + '/public/assets/open-book.png'));
 
 var ObjectId = require('mongodb').ObjectId;
 
-app.use(express.static("public"));
+app.use(serveStatic(path.join(__dirname, 'public')))
+
+app.use(helmet());
 
 app.get("/", (request, response) => {
     response.sendFile(__dirname + "public/index.html");
@@ -98,32 +106,13 @@ app.post('/login', (request, response) => {
                 request.session.login = true
 
                 // since login was successful, send the user to the main content
-                response.sendFile(__dirname + '/public/main.html')
+                response.redirect('main.html')
             } else {
                 request.session.login = false
                     // password incorrect, redirect back to login page
                 response.sendFile(__dirname + '/public/index.html')
             }
 
-            // if (results[0] === undefined) {
-            //     request.session.login = false
-            //     console.log("Incorrect Username")
-            //         // username incorrect, redirect back to login page
-            //     response.json({ "correctUser": 0 })
-            // } else if (results[0].password === request.body.password) {
-            //     // define a variable that we can check in other middleware
-            //     // the session object is added to our requests by the cookie-session middleware
-            //     request.session.login = true
-            //     console.log("Successfully Signed In")
-            //         // since login was successful, send the user to the main content
-            //         // response.sendFile(__dirname + '/public/main.html/')
-            //     response.redirect('main.html/')
-            // } else {
-            //     request.session.login = false
-            //     console.log("Incorrect Password")
-            //         // password incorrect, redirect back to login page
-            //     response.json({ "correctUser": 0 })
-            // }
         }
     })
 })
