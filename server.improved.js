@@ -1,10 +1,23 @@
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
+      cookie  = require( 'cookie-session' ),
+      bodyParser = require("body-parser");
       app = express()
 
 app.use( express.static('public') )
 app.use( express.json() )
 const path = require('path');
+
+// use express.urlencoded to get data sent by defaut form actions
+// or GET requests
+app.use( express.urlencoded({ extended:true }) )
+
+// cookie middleware! The keys are used for encryption and should be
+// changed
+app.use( cookie({
+  name: 'session',
+  keys: ['secretkey', 'cookiekey']
+}))
 
 app.get('/', function(req, res) {
   res.sendFile(path.join(__dirname, '/views/login.html'));
@@ -49,6 +62,31 @@ app.get('/data', (req, res) => {
     collection.find({ }).toArray().then(result => res.json(result));
   }
 });
+
+let loginCollection = null;
+client.connect()
+  .then( () => {
+    // will only create collection if it doesn't exist
+    return client.db( 'datatest' ).collection( 'users' )
+  })
+  .then( __collection => {
+    // store reference to collection
+    loginCollection = __collection
+    // blank query returns all documents
+    return collection.find({ }).toArray()
+  })
+  .then( console.log )
+
+let user = null;
+app.post("/login", bodyParser.json(), function(req, res) {
+  loginCollection
+    .find({ username: req.body.username, password: req.body.password })
+    .toArray()
+    .then(result => res.json(result));
+  user = req.body.username;
+});
+
+
 
   
 app.listen( 3000 )

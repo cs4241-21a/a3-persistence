@@ -8,9 +8,14 @@
     rel="stylesheet"
   />
   <head>
+    <meta charset="utf-8" />
+    <meta name="description" content="Plant Parenthood Login Page">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="author" content="Maddison Caten">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>CS4241 Assignment 3</title>
     <h1>Plant Parenthood</h1>
-    <meta charset="utf-8" />
   </head>
   <body>
     <img
@@ -21,35 +26,42 @@
       class="center"
     />
     <h2>Login</h2>
-    <div style="width: 15%; margin-left: 42.5%; margin-right: 42.5%">
-      <form action="/login" method="POST">
-        <div style="width: 10%; float:left">
+    <div style="width: 14%; margin-left: 42.5%; margin-right: 42.5%" role = "table" aria-label="Login Table">
+      <form action="/login" method="POST" id="form">
+        <div class="flex-container2" role="row" aria-label="Username row">
+        <div class = "flex-child" role="columnheader">
           <label for="user" class="theLabels2">Username: </label
           >
         </div>
-          <div style="width: 90%; float: left;">
+          <div class="flex-child" style="margin-left: -20%;" role="columnheader">
           <input
             type="text"
             name="username"
             placeholder="username"
             class="theInputs2"
+            id="uname"
           />
         
         </div>
-        <div style="width: 10%; float: left;">
+      </div>
+      <div class="flex-container2" role="row">
+        <div class = "flex-child" role = "columnheader">
           <label for="password" class="theLabels2">Password: </label
           >
         </div>
-          <div style="width: 90%; float: right;">
+          <div class="flex-child" style="margin-left: -20%;" role="columnheader">
           <input
             type="password"
             name="password"
             placeholder="password"
             class="theInputs2"
+            id="pword"
           />
         </div>
-        <div style="margin-top: 10%; margin-left: 42%; padding-top: 65px;"><input type="submit" /></div>
+        </div>
+        <div style="margin-top: 10%; margin-left: 42%; padding-top: 20px;"><input type="submit" /></div>
       </form>
     </div>
   </body>
+  <script src="./js/login.js"></script>
 </html>

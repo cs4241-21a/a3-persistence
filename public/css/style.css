@@ -82,3 +82,12 @@ label {
   padding-top: -20px;
   float: right;
 } 
+
+.flex-container2 {
+  display: flex;
+}
+
+.flex-child {
+  flex: 1;
+  
+}  
