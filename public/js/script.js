@@ -3,7 +3,6 @@
 const submit = function (e) {
     // prevent default form action from being carried out
     e.preventDefault()
-    console.log("SUBMIT");
     let val1 = document.getElementById("value1").value;
     let val2 = document.getElementById("value2").value;
     const op = document.getElementById("operator").value;
