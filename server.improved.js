@@ -5,6 +5,8 @@ const mime = require( 'mime' ),
     mongoose = require('mongoose'),
     app = express(),
     ScoreEntry = require('./models/leaderboardEntry.js'),
+    UserEntry = require('./models/login.js'),
+    cookie = require( 'cookie-session'),
     bodyParser = require("body-parser");
 require('dotenv').config();
 
@@ -21,13 +23,87 @@ mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
 app.set('view engine', 'ejs');
 
 // middleware & static files
-app.use(express.static('public'));
-//app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
+
+app.use( cookie({
+    name: 'session',
+    keys: ['key1','key2']
+}))
+
+app.post('/signUp', async (req, res) => {
+    const entry = new UserEntry({
+        username: req.body.username,
+        password: req.body.password
+    })
+    // check if username exists
+    if (await checkUsername(req.body.username)) {
+        entry.save()
+            .then(result => {
+                res.send(result);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+        res.render('login')
+    }
+    res.render('signUpPage')
+    //return error warning that username is already taken
+})
+
+async function checkUsername(user,){
+    let array = [];
+    await UserEntry.find({username: {$eq: user}})
+        .then(result =>{
+            array = result;
+        })
+    if (array.length >= 1 ){
+        return false;
+    }
+    return true;
+}
+
+async function checkUsernamePassword(user, pass){
+    let array = [];
+    await UserEntry.find({username: {$eq: user}, password: {$eq:pass}})
+        .then(result =>{
+            array = result;
+        })
+    if (array.length >= 1 ){
+        return false;
+    }
+    return true;
+}
+
+app.post('/login', (req,res)=> {
+    console.log(req.body)
+    if (checkUsernamePassword(req.body.username,req.body.password)){
+        req.session.login = true
+        res.redirect('/index');
+    } else {
+        res.render('login');
+    }
+})
+app.use( function( req,res,next) {
+    if(req.url === '/signUpPage'){
+        res.render('signUpPage');
+        return;
+    }
+    if( req.session.login === true ) {
+        next()
+    } else {
+        res.render('login')
+    }
+})
+
+// serve up static files in the directory public
+app.use(express.static('public'));
 app.use((req,res,next) => {
     res.locals.path = req.path;
     next();
 });
+
+
 
 app.post('/submit', bodyParser.json(), async (req, res) => {
     let rankAdd = await findRank(req.body.score);
@@ -117,6 +193,11 @@ async function findRank(newScore) {
 app.get('/', (req,res) => {
     res.redirect('/index');
 })
+
+app.get('/signUpPage', (req,res) =>{
+    res.render('signUpPage');
+})
+
 app.get('/leaderboard', (req,res) => {
     ScoreEntry.find().sort({rank: 0})
         .then(result => {
@@ -141,7 +222,12 @@ app.get('/chat', (req, res) =>{
     res.render('chat',{title:"Chat Page"});
 });
 
+app.get('/login', (req,res) => {
+    res.render('login', {title:"Chat Page"})
+})
+
 // 404 page
 app.use((req,res) => {
     res.status(404).render('404',{title: '404'})
 })
+
