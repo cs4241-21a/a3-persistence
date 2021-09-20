@@ -3,7 +3,7 @@ const express    = require('express'),
       cookie  = require( 'cookie-session' ),
       cookieParser = require('cookie-parser'),
       serveStatic = require('serve-static'),
-      FacebookStrategy = require('passport-facebook').Strategy,
+      GitHubStrategy = require('passport-github2').Strategy,
       passport = require('passport'),
       app        = express()
 
@@ -23,10 +23,11 @@ app.use( cookie({
   keys: ['key1', 'key2']
 }))
 
-app.use(express.static('public'))
+
+app.use(serveStatic('public', {'index' : ['index.html']}))
 
 let loginCollection = null
-const uri = `mongodb+srv://dbUser:Michael1@csweb.0knbq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
+const uri = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PW+'@csweb.0knbq.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 client.connect(err => {
@@ -74,33 +75,41 @@ app.post( '/login', bodyParser.json(), (req,res)=> {
   
 })
 
-passport.use(new FacebookStrategy({
-  clientID: 469718267338234,
-  clientSecret: "763d4159354cb3a36ca0eac97cd4990f",
-  callbackURL: "http://localhost:3000/auth/facebook/secrets"
+passport.serializeUser(function(user, done){
+  done(null, user);
+})
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+})
+
+passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_ID,
+  clientSecret: process.env.GITHUB_SECRET,
+  callbackURL: "https://contact-log.herokuapp.com/"
 },
-function(accessToken, refreshToken, profile, cb) {
-  loginCollection.find({ facebookId: profile.id }).toArray()
-  .then(
-    function (err, user) {
-    return cb(err, user);
-  })
-}
-));
+function(accessToken, refreshToken, profile, done) {
+  return done(null, profile);
+}))
 
-app.get('/auth/facebook',
-  passport.authenticate('facebook'));
+app.use(passport.initialize());
+app.use(passport.session());
 
-app.get('/auth/facebook/secrets',
-  passport.authenticate('facebook', { failureRedirect: '/login' }),
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/main.html');
-  });
+app.get('/auth/error', (req, res) => res.send('Unknown Error'))
+app.get('/github/callback',passport.authenticate('github', { failureRedirect: '/auth/error' }),
+function(req, res) {
+  res.redirect('/res?id=' + req.user.id);
+});
 
+
+app.get('/res', (req, res) => {
+  req.session.login = true
+  req.session.username = req.query.id;
+  res.redirect("main.html")
+})
 
 app.post('/createAccount', bodyParser.json(), function(request, response) {
-  console.log("IN THE CREATE")
+
   if( loginCollection !== null ) {
     loginCollection.find({ username: request.body.username }).toArray()
     .then(result => {
@@ -150,6 +159,7 @@ app.post( '/signOut', bodyParser.json(), function( request, response ) {
 })
 
 app.post( '/submit', bodyParser.json(), function( request, response ) {
+  console.log("In submit")
   request.body.username = request.session.username
   collection.insertOne( request.body )
     .then( insertResponse => collection.findOne( insertResponse.insertedId ) ) 

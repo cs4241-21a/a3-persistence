@@ -244,7 +244,7 @@ const submit = function( e ) {
     const age = document.getElementById('inptAge')
     var yourSelect = document.getElementById( "inptOccupation" );
     const occupation = yourSelect.options[ yourSelect.selectedIndex ].value
-    console.log("age: " + age.value + " occupation: " + occupation)
+    
 
    
     const json = {
@@ -257,6 +257,8 @@ const submit = function( e ) {
         education_level: getEducationValue(age.value, occupation.value),
         notes: notes.value
     }
+
+ 
 
     let body = JSON.stringify(json)
     
