@@ -86,7 +86,7 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GitHubStrategy({
   clientID: process.env.GITHUB_ID,
   clientSecret: process.env.GITHUB_SECRET,
-  callbackURL: "https://contact-log.herokuapp.com/"
+  callbackURL: "https://contact-log.herokuapp.com/github/callback"
 },
 function(accessToken, refreshToken, profile, done) {
   return done(null, profile);
