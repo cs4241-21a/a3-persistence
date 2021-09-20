@@ -9,9 +9,10 @@
     "tailwind:css": "npx tailwindcss -i ./tailwind.css -o ./public/css/styles.css"
   },
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
     "express": "^4.17.1",
     "mongodb": "^4.1.2",
-    "cookie-session": "^1.4.0",
     "serve-favicon": "^2.5.0"
   },
   "devDependencies": {
