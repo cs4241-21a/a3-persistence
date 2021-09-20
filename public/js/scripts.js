@@ -6,8 +6,7 @@ let rowNumEdit;
 let killEdit = false;
 
 window.onload = function() {
-    makeTableHead();
-    updatePage();
+    //updatePage();
     submitBtn.onclick = submit;
     editSubBtn.onclick = callEdit;
 }
@@ -49,34 +48,32 @@ const submit = function( e ) {
         })
         .then( function( json ) {
             console.log(json);
-            updatePage();
         })
+    //updateLeaderboards();
     return false;
 }
+
+function updateLeaderboards(){
+    fetch('/updateRanks', {
+        method:'GET',
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+        .then( function( response ) {
+            // do something with the response
+            console.log("Post made to server");
+        })
+        .then( function( json ) {
+            console.log(json);
+        })
+}
+
 
 let count = 3;
 
 let appdata;
 
-const makeTableHead = function () {
-    let thName = document.createElement('th');
-    let thScore = document.createElement('th');
-    let thRank = document.createElement('th');
-    let thEdit = document.createElement('th');
-    let thReport = document.createElement('th');
-    thName.innerHTML = 'Name';
-    thScore.innerHTML = 'Score';
-    thRank.innerHTML = 'Rank';
-    thEdit.innerHTML = "Edit";
-    thReport.innerHTML = "Report";
-    let tableRow = document.createElement('tr');
-    tableRow.appendChild(thName);
-    tableRow.appendChild(thScore);
-    tableRow.appendChild(thRank);
-    tableRow.appendChild(thEdit);
-    tableRow.appendChild(thReport);
-    dataTable.appendChild(tableRow);
-};
 
 function checkExisting(){
     const input = document.querySelector( '#editName' );
@@ -154,90 +151,6 @@ const callEdit = async function () {
     return false;
 }
 
-
-//Updates page.
-const updatePage = function () {
-    fetch('/updatePage', {
-        method: 'GET'
-    }).then(function (response) {
-        return response.json();
-    }).then(function (json) {
-        appdata = json;
-        dataTable.innerHTML = "";
-        makeTableHead();
-        let rowNum = 1;
-        appdata.map(function (row) {
-            let tableRow = document.createElement('tr');
-            let td1 = document.createElement('td');
-            let td2 = document.createElement('td');
-            let td3 = document.createElement('td');
-            let td4 = document.createElement('td');
-            let td5 = document.createElement('td');
-
-            let pencil = document.createElement('i');
-            pencil.id = `pencil${rowNum}`;
-            pencil.innerHTML = "&#10000";
-            pencil.onclick = function (elt) {
-                elt.preventDefault();
-                document.getElementById("editName").style.display = "block";
-                document.getElementById("submitNewNameBtn").style.display = "block";
-                rowNumEdit = row.yourname;
-                return false;
-            };
-            let trash = document.createElement('i');
-            trash.id = `${rowNum}`;
-            trash.innerHTML = "&#128465";
-            trash.onclick = function (elt) {
-                let json = {id: trash.id};
-                let body = JSON.stringify(json);
-                if(!window.confirm("Are you sure you want to delete someones score")){
-                    return false;
-                }
-                fetch('/delete', {
-                    method: 'POST',
-                    body,
-                    headers:{
-                        "Content-Type":"application/json"
-                    }
-                }).then(function (response) {
-                    console.log("Delete post sent to server: " + response);
-                    updatePage();
-                });
-                elt.preventDefault();
-                return false;
-            };
-
-            td1.innerHTML = row.yourname;
-            td2.innerHTML = row.score;
-            td3.innerHTML = row.rank;
-            td4.appendChild(pencil);
-            td5.appendChild(trash);
-
-            tableRow.appendChild(td1);
-            tableRow.appendChild(td2);
-            tableRow.appendChild(td3);
-            tableRow.appendChild(td4);
-            tableRow.appendChild(td5);
-            dataTable.appendChild(tableRow);
-            tableRow.className = rowNum;
-            rowNum++;
-        });
-        sortTable();
-    });
-    console.log("Count = "+count);
-    fetch('/updatePage', {
-        method: 'GET'
-    }).then(function (response) {
-        return response.json();
-    }).then(function (json) {
-        appdata = json;
-        console.log("APPDATA ON UPDATE = " + appdata.length);
-        console.log("APPDATA VALUE\n" + JSON.stringify(appdata));
-        count = appdata.length;
-        console.log("COUNT ON UPDATE = " + count);
-    });
-};
-updatePage();
 
 //////////////////////////////////////////
 let myGameArea;
@@ -387,42 +300,4 @@ function everyinterval(n) {
 
 function accelerate(n) {
     myGamePiece.gravity = n;
-}
-
-
-//////////////////////////////////////////////
-
-function sortTable() {
-    var table, rows, switching, i, x, y, shouldSwitch;
-    table = document.getElementById("Leaderboard");
-    switching = true;
-    /*Make a loop that will continue until
-    no switching has been done:*/
-    while (switching) {
-        //start by saying: no switching is done:
-        switching = false;
-        rows = table.rows;
-        /*Loop through all table rows (except the
-        first, which contains table headers):*/
-        for (i = 1; i < (rows.length - 1); i++) {
-            //start by saying there should be no switching:
-            shouldSwitch = false;
-            /*Get the two elements you want to compare,
-            one from current row and one from the next:*/
-            x = rows[i].getElementsByTagName("TD")[2];
-            y = rows[i + 1].getElementsByTagName("TD")[2];
-            //check if the two rows should switch place:
-            if (Number(x.innerHTML) > Number(y.innerHTML)) {
-                //if so, mark as a switch and break the loop:
-                shouldSwitch = true;
-                break;
-            }
-        }
-        if (shouldSwitch) {
-            /*If a switch has been marked, make the switch
-            and mark that a switch has been done:*/
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-        }
-    }
 }

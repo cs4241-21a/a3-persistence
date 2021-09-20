@@ -7,6 +7,36 @@ p {
     font-family: "Glory";
 }
 
+nav{
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 60px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid #ddd;
+    text-transform: uppercase;
+}
+nav ul{
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+nav li{
+    list-style-type: none;
+    margin-left: 20px;
+}
+nav h1{
+    font-size: 3em;
+}
+nav p, nav a{
+    color: #777;
+    font-weight: 300;
+}
+footer{
+    color: #777;
+    text-align: center;
+    margin: 80px auto 20px;
+}
+
 .general {
     alignment: center;
     top: 0;
