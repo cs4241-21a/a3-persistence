@@ -74,19 +74,23 @@ const getUsername = ( username) => {
     // the session object is added to our requests by the cookie-session middleware
     req.session.username = user
     req.session.login = true
-    
+
+    console.log("login sucess")
     // since login was successful, send the user to the main content=
     res.redirect( '/index' )
     }
     else{
       // password incorrect, redirect back to login page
       res.redirect( '/signin' )
+
+      console.log("incorrect")
       //res.sendFile( __dirname + '/public/signin.html' )
     }
   }
     
   else{
-    // password incorrect, redirect back to login page
+    // user incorrect, redirect back to login page
+    console.log("userincorrect")
     res.redirect(  '/signin' )
   }
 
