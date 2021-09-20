@@ -23,6 +23,10 @@ main {
 
 }
 
+.loginForm{
+    flex-direction: column;
+}
+
 .gameForm{
     padding-right: 20px;
 }
