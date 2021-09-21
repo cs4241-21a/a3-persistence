@@ -7,18 +7,19 @@ heroku link: http://a3-charlie-roberts.glitch.me
 glitch link: http://a3-renee-sawka.glitch.me
 
 **Brief Project Summary**
-• The goal of this application is to provide users with a method of managing their classwork, allowing them to track the course, percentage, deadline, and their current grade in the class related to a particular homework assignment.
+---
+- The goal of this application is to provide users with a method of managing their classwork, allowing them to track the course, percentage, deadline, and their current grade in the class related to a particular homework assignment.
 
-• The main challenge I faced in realizing the application was in handling all of elements in each row, and updating them according to the data present in the database/passed from the server.
+- The main challenge I faced in realizing the application was in handling all of elements in each row, and updating them according to the data present in the database/passed from the server.
 
-• For my authentication strategy, I chose OAuth with GitHub. It was proclaimed to be the hardest technical achievement offered in webware and I wanted to see if I could successfully implement it.
+- For my authentication strategy, I chose OAuth with GitHub. It was proclaimed to be the hardest technical achievement offered in webware and I wanted to see if I could successfully implement it.
 
-• I used the Pico CSS framework (https://picocss.com/docs/). I really liked the aesthetic of it, it is very minimalistic, elegant, and clean looking. It falls under the general purpose category and therefore I did not have to worry about the framework being highly stylized in a way that detracts from using the application. Finally, the Pico framework is very lightweight, leading to a higher lighthouse score.
+- I used the Pico CSS framework (https://picocss.com/docs/). I really liked the aesthetic of it, it is very minimalistic, elegant, and clean looking. It falls under the general purpose category and therefore I did not have to worry about the framework being highly stylized in a way that detracts from using the application. Finally, the Pico framework is very lightweight, leading to a higher lighthouse score.
 The modifications I made via custom CSS I authored include:
   - Changing the primary color to indigo and the data theme to light-mode in order to have a starker contrast, keeping in mind the Lighthouse contrast scores.
   - Changing the padding of some of the text and radio buttons, so they don't go right up to the edge of the window/seem right on top of one another.
 
-• Express middleware packages
+- Express middleware packages
   - Session: Used to create and manage sessions, set the attributes of maxAge, secure, and HTML only of cookies.
   - Passport: Used to authenticate using github.
   - Timeout: Used to set time until timeout for hanging HTTP request to the login page.
