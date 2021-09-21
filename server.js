@@ -76,13 +76,14 @@ passport.deserializeUser((id, next) => {
     next(null, getUserbyId(id));
 });
 
-app.post('/login', checkNotAuthenticated, passport.authenticate('local',
-    {
-        successRedirect: '/main',
-        failureRedirect: '/',
-        failureFlash: true
-    }
-));
+app.post('/login', checkNotAuthenticated, (req, res, next) => {
+    passport.authenticate('local',
+        {
+            successRedirect: '/main?user=' + req.body.username,
+            failureRedirect: '/',
+            failureFlash: true
+        })(req, res, next);
+});
 
 app.delete('/logout', (req, res) => {
     req.logOut();
@@ -119,5 +120,7 @@ function checkNotAuthenticated(req, res, next) {
     }
     next()
 }
+
+app.use(express.static('./views'));
 
 app.listen(3000);
