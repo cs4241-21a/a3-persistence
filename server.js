@@ -23,7 +23,7 @@ app.use( express.urlencoded({ extended:true }) )
 
 
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/login.html");
+  response.sendFile(__dirname + "/views/index.html");
 })
 
 // listen for requests :)
@@ -68,9 +68,6 @@ app.post( '/login', function(req,res) {
     // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
     // make redirect
     res.sendFile( __dirname + '/views/index.html' )
-      .then(dbresponse => {
-        return collection.find({'_id':dbresponse.insertedId}).toArray()
-      })
   }else{
     // password incorrect, redirect back to login page
     res.sendFile( __dirname + '/views/login.html' )

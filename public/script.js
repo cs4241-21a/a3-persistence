@@ -2,6 +2,11 @@ const todoInput = document.querySelector( '#todo' )
 const dayInput = document.querySelector( '#day' )
 const difficultyInput = document.querySelector('#difficulty')
 
+const deleteButton = function(el){
+    window.alert(el)
+}
+
+
 const submit = function( e ) {
   // prevent default form action from being carried out
   e.preventDefault()
@@ -11,8 +16,6 @@ const submit = function( e ) {
                   difficulty: difficultyInput.value, 
                   }
         body = JSON.stringify( json )
-
-
 
   fetch( '/submit', {
     method:'POST',
@@ -40,6 +43,20 @@ const submit = function( e ) {
     item = document.createTextNode(json[0].difficulty)
     td.appendChild(item)
     tr.appendChild(td)
+
+    td = document.createElement('td')
+    item = document.createElement('button')
+    item.appendChild(document.createTextNode('UPDATE'))
+    td.appendChild(item)
+    tr.appendChild(td)
+
+    td = document.createElement('td')
+    item = document.createElement('button')
+    item.appendChild(document.createTextNode('DELETE'))
+    td.appendChild(item)
+    tr.appendChild(td)
+
+
 
     table.appendChild(tr)
   });
@@ -80,6 +97,20 @@ window.onload = function() {
                     item = document.createTextNode(json[count].difficulty)
                     td.appendChild(item)
                     tr.appendChild(td)
+
+                    td = document.createElement('td')
+                    item = document.createElement('button')
+                    item.appendChild(document.createTextNode('UPDATE'))
+                    td.appendChild(item)
+                    tr.appendChild(td)
+
+                    td = document.createElement('td')
+                    item = document.createElement('button')
+                    item.appendChild(document.createTextNode('DELETE'))
+                    td.appendChild(item)
+                    tr.appendChild(td)
+
+                    item.onclick = function() {deleteButton(this)}
 
                     table.appendChild(tr)
                 }
