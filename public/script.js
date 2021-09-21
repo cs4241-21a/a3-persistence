@@ -1,8 +1,11 @@
-const submit = function () {
+const createUser = function () {
     const username = document.getElementsByName("username"),
-    password = document.getElementsByName("password")
+        password = document.getElementsByName("password"),
+        json = {username:username,
+                password:password},
+        body = JSON.stringify( json )
 
-    fetch("/submit", {
+    fetch("/createUser", {
         method:"POST",
         body
     })
@@ -12,6 +15,6 @@ const submit = function () {
 }
 
 window.onload = function() {
-    const submit_button = document.querySelector("#submit")
-    submit_button.onclick = submit
+    //const createUser_button = document.querySelector("#createUser")
+    //createUser_button.onclick = createUser
 }
