@@ -28,6 +28,7 @@ const register = function (e) {
             else {
                 debugger
                 //WHY DOESNT THIS WORK?
+                //WAIT WHY IS IT SUDDENLY WORKING
                 login(e);
             }
             console.log(data);
@@ -52,23 +53,16 @@ const login = function (e) {
     })
         .then(function (response) {
             console.log(response);
-            //debugger
-            //test = null
+            debugger
+            //FIX THIS
             test = response.json()
             return test;
         }).then(function (data) {
-            if (data != null) {
-                console.log("hi");
-                if (data.failed === "incorrect") {
-                    alert("Username or password is incorrect. Please try again.")
-                }
-                else {
-                    console.log("AAAAAAAAA")
-                    //  window.location.href = "index.html"
-                }
+            if (data.failed === "incorrect") {
+                alert("Username or password is incorrect. Please try again.");
             }
-            else {
-                window.location.href = "main.html"
+            else if (data.failed === "false") {
+                window.location.href = "main.html";
             }
         })
 }

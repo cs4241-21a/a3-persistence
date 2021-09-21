@@ -100,6 +100,7 @@ window.onload = function () {
         .then(function (response) {
             return response.json();
         }).then(function (data) {
+            debugger
             loggedInAs = data.shift().un;
             addRows(data);
         })

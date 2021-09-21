@@ -6,7 +6,8 @@ const express = require('express'),
     bodyParser = require('body-parser')
 
 app.use(express.static('public'))
-app.use(express.static('public/js'))
+app.use(express.static('views'))
+app.use(express.static('public/js')) //it breaks if I don't add these additional ones, idk why though
 app.use(express.static('public/css'))
 app.use(express.static('public/html'))
 app.use(express.json())
@@ -33,26 +34,6 @@ client.connect()
         return collection.find({}).toArray()
     })
     .then(console.log)
-
-app.get('/load', (req, res) => {
-    collection.find({ pw: { $exists: false } }).toArray()
-        .then(data => {
-            let visible = [];
-            for (i = 0; i < data.length; i++) {
-                if (data[i].un === req.session.user || data[i].secret === "false") {
-                    visible.push(data[i]);
-                }
-            }
-            return visible;
-        })
-        .then(visible => res.json(visible))
-})
-// collection.find({}).toArray().then(function (result) {
-//     result.unshift(req.session.user)
-//     res.json(result)
-// })
-// console.log("load called");
-// })
 
 app.use((req, res, next) => {
     if (collection !== null) {
@@ -147,8 +128,6 @@ app.post('/login', (req, res) => {
                     failed = false;
                 }
             }
-            // below is *just a simple authentication example* 
-            // for A3, you should check username / password combos in your database
             if (!failed) {
                 // define a variable that we can check in other middleware
                 // the session object is added to our requests by the cookie-session middleware
@@ -159,9 +138,10 @@ app.post('/login', (req, res) => {
                 // use redirect to avoid authentication problems when refreshing
                 // the page or using the back button, for details see:
                 // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern
-                //debugger
                 //WHY DOES THIS NOT WORK? sendFile ALSO DOESNT WORK
-                res.redirect('/views/main.html')
+                //debugger
+                debugger
+                res.json({ failed: "false" });
             } else {
                 // password incorrect, redirect back to login page
                 res.json({ failed: "incorrect" });
@@ -170,8 +150,22 @@ app.post('/login', (req, res) => {
         })
 })
 
+//add some middleware that always sends unauthenticated users to the login page
+app.use(function (req, res, next) {
+    if (req.session.login === true) {
+        console.log("logged in, proceeded")
+        req.session.login = false //DELETE THIS AT SOME POINT
+        next()
+    }
+    else {
+        debugger
+        console.log("Unauthenticated, sent to login")
+        res.sendFile(__dirname + '/views/index.html')
+    }
+})
+
 app.post('/register', bodyParser.json(), (req, res) => {
-    msg = { failed: false };
+    msg = { failed: "false" };
     failed = false;
     if (req.body.u === "" || req.body.p === "") {
         msg = { failed: "empty" };
@@ -190,24 +184,38 @@ app.post('/register', bodyParser.json(), (req, res) => {
             }
             if (!failed) {
                 collection.insertOne({ un: req.body.u, pw: req.body.p })
-                //POSSIBLY SET COOKIES AND REDIRECT HERE
+                //SET COOKIES AND REDIRECT HERE
+                req.session.login = true;
+                req.session.user = req.body.u;
             }
             res.json(msg);
         })
 })
 
-// add some middleware that always sends unauthenticated users to the login page
-app.use(function (req, res, next) {
-    if (req.session.login === true) {
-        console.log("logged in, proceeded")
-        //req.session.login = false //DELETE THIS AT SOME POINT
-        next()
-    }
-    else {
-        console.log("Unauthenticated, sent to login")
-        res.sendFile(__dirname + '/views/index.html')
-    }
+
+
+app.get('/load', (req, res) => {
+    collection.find({ pw: { $exists: false } }).toArray()
+        .then(data => {
+            let visible = [];
+            for (i = 0; i < data.length; i++) {
+                if (data[i].un === req.session.user || data[i].secret === "false") {
+                    visible.push(data[i]);
+                }
+            }
+            visible.unshift({ un: req.session.user });
+            debugger;
+            console.log("/load called");
+            return visible;
+        })
+        .then(visible => res.json(visible))
 })
+// collection.find({}).toArray().then(function (result) {
+//     result.unshift(req.session.user)
+//     res.json(result)
+// })
+// console.log("load called");
+// })
 
 // route to get all docs, needs to be after the unauth middleware?
 app.get('/', (req, res) => {
