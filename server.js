@@ -37,13 +37,6 @@ app.get( '/data', (req,res) => {
     collection.find({ }).toArray().then( result => res.json( result ) )
   }
 })
-
-app.post( '/add', (req,res) => {
-  // assumes only one object to insert
-  collection.insertOne( req.body )
-    .then( insertResponse => collection.findOne( insertResponse.insertedId ) ) 
-    .then( findResponse   => res.json( findResponse ) )
-})
 */
 
 // ------------------------------- Requests for index.html ----------------------------------
@@ -118,11 +111,35 @@ app.post('/remember', (req,res) => {
 })
 
 // -------------------- Request on main.html -----------------------------------
-app.get('logout', (req,res) => {
-  req.session.login = false;
-  res.redirect('/login')    
+let data_collection = null;
+
+// add POST request
+app.post( '/add', (req,res) => {
+  // assumes only one object to insert
+  data_collection.insertOne(req.body)
+    .then( insertResponse => data_collection.findOne(insertResponse.insertedId)) 
+    .then( findResponse   => res.json(findResponse))
 })
 
+// update GET request --> get latest info from database
+app.get('/update', (req, res) => {
+  client.connect()
+  .then( () => {
+    return client.db('userdata').collection(req.session.user)
+  })
+  .then( __collection => {
+    data_collection = __collection;
+    return  __collection.find({ }).toArray()
+  })
+  .then(result => res.json(result))
+})
+
+// logout POST request
+app.post('/logout', (req,res) => {
+  console.log(`${req.session.user} has logged out`);
+  req.session.login = false;
+  res.redirect('/login');
+})
 
 // run on given port
 app.listen( 3000 )

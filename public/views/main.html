@@ -1,10 +1,28 @@
 <!doctype html>
 <html lang="en">
     <head>
-        <link rel="stylesheet" href="./css/styles.css">
+        <link rel="stylesheet" href="./css/normalize.css">
+        <script src="./js/script.js"></script>
     </head>
 
     <body>
         <h1>Made it</h1>
+        <form action="/logout" method="post">
+            <button name="foo" value="logout">Logout</button>
+        </form>
+
+        <form id="data_form">
+            <label for="pokemon">Pokemon</label><br>
+            <input type="text" id="pokemon" name="pokemon" required><br>
+
+            <label for="nickname">Nickname</label><br>
+            <input type="text" id="nickname" name="nickname" required><br>
+
+            <div class="centeredContent"><input id="submitBtn" type="submit"></div>
+        </form>
+
+        <div id="result_container" class="table_container">
+            <table id="results"></table>
+        </div>
     </body>
 </html>
