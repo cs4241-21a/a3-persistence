@@ -15,3 +15,7 @@ h1, a, p {
 .save {
   display: none;
 }
+
+input[type=radio] {
+  margin:8px;
+}

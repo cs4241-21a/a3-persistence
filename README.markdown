@@ -1,68 +1,32 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
-
-Due: September 23rd, by 11:59 AM.
-
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
-a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
-
-Baseline Requirements
+Homework Agenda Application
 ---
 
-Your application is required to implement the following functionalities:
+heroku link: http://a3-charlie-roberts.glitch.me
+glitch link: http://a3-renee-sawka.glitch.me
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! One of these five middleware 
-can be a custom function that you write yourself; if you choose to do this, make sure to describe what this function is in your README.  
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). 
-This should do the bulk of your styling/CSS for you and be appropriate to your application. 
-For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+**Brief Project Summary**
+• The goal of this application is to provide users with a method of managing their classwork, allowing them to track the course, percentage, deadline, and their current grade in the class related to a particular homework assignment.
 
-Your application is required to demonstrate the use of the following concepts:  
+• The main challenge I faced in realizing the application was in handling all of elements in each row, and updating them according to the data present in the database/passed from the server.
 
-HTML:  
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+• For my authentication strategy, I chose OAuth with GitHub. It was proclaimed to be the hardest technical achievement offered in webware and I wanted to see if I could successfully implement it.
 
-Note that it might make sense to have two pages for this assignment, one that handles login / authentication, and one that contains the rest of your application.
-For example, when visiting the home page for the assignment, users could be presented with a login form. After submitting the login form, if the login is 
-successful, they are taken to the main application. If they fail, they are sent back to the login to try again. For this assignment, it is acceptable to simply create 
-new user accounts upon login if none exist, however, you must alert your users to this fact.  
+• I used the Pico CSS framework (https://picocss.com/docs/). I really liked the aesthetic of it, it is very minimalistic, elegant, and clean looking. It falls under the general purpose category and therefore I did not have to worry about the framework being highly stylized in a way that detracts from using the application. Finally, the Pico framework is very lightweight, leading to a higher lighthouse score.
+The modifications I made via custom CSS I authored include:
+  - Changing the primary color to indigo and the data theme to light-mode in order to have a starker contrast, keeping in mind the Lighthouse contrast scores.
+  - Changing the padding of some of the text and radio buttons, so they don't go right up to the edge of the window/seem right on top of one another.
 
-CSS:  
-- CSS styling should primarily be provided by your chosen template/framework. 
-Oftentimes a great deal of care has been put into designing CSS templates; 
-don't override their stylesheets unless you are extremely confident in your graphic design capabilities. 
-The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
+• Express middleware packages
+  - Session: Used to create and manage sessions, set the attributes of maxAge, secure, and HTML only of cookies.
+  - Passport: Used to authenticate using github.
+  - Timeout: Used to set time until timeout for hanging HTTP request to the login page.
+  - Json: Used to parse incoming requests with JSON payloads and then use that parsed data (if Content-Type matches) to populate a body object on the request.
+  - Static: Used to serve the static files for the website.
 
-JavaScript:  
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. 
-See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
 
-Node.js:  
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-General:  
-- Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
-using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test).
-Test early and often so that fixing problems doesn't lead to suffering at the end of the assignment. 
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
+Achievements
 ---
 
 Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the 
@@ -92,22 +56,8 @@ What design elements (colors, fonts, layouts, etc.) did you use repeatedly throu
 How did you use alignment to organize information and/or increase contrast for particular elements. 
 Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
 
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
 
-## Your Web Application Title
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy

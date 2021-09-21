@@ -9,7 +9,57 @@ let databaseIds = [];
 window.onload = function() {
   const btnAdd = document.getElementById("addRow")   
   btnAdd.onclick = add_row;
+  getDatabaseData();
 }
+
+// restore last session
+function buildTable(appdata) {
+ 
+  console.log("\nRestored Data" + JSON.stringify(appdata))
+
+  // no data from last session
+  if (appdata.length === 0) {
+    return;
+  }
+
+  let no = 0;
+  for (let i = 0; i < appdata.length; i++) {
+    no = i+1;
+
+    let row = hwTable.insertRow(no).outerHTML=
+    "<tr id='row"+no+"'><td id='assignment_row"+no+"'>"+appdata[i].assignment
+    +"</td><td id='course_row"+no+"'>"+appdata[i].course+"</td><td id='percentage_row"+no+"'>"+appdata[i].percentage+"</td><td id='priority_row"+no
+    +"'>"+appdata[i].priority+"</td><td id='deadline_row"+no+"'>"+appdata[i].deadline+"</td><td><input type='radio' id='new_grade_A"+no+"' name='new_grade"+no+"' value='A'>"+
+    "<label for='grade_A"+no+"' >A</label>"+"<input type='radio' id='new_grade_B"+no+"' name='new_grade"+no+"' value='B'>"+
+    "<label for='grade_B"+no+"' >B</label>"+"<input type='radio' id='new_grade_C"+no+"' name='new_grade"+no+"' value='C'>"+
+    "<label for='grade_C"+no+"' >C</label>"+"</td><td><input type='button' id='edit_button" +no+"' value='Edit' class='edit' onclick='edit_row("+no+")'> <input type='button' id='save_button"+no
+    +"' value='Save' class='save' disabled=false onclick='save_row("+no+")'> <input type='button' value='Mark Completed' class='complete' onclick='mark_completed("+no+")'></td></tr>";
+
+    document.getElementById('new_grade_'+appdata[i].grade+""+no+"").checked = true;
+    document.getElementById("new_grade_A"+no).disabled=true;
+    document.getElementById("new_grade_B"+no).disabled=true;
+    document.getElementById("new_grade_C"+no).disabled=true;
+  }
+
+  for (let i = 0; i < appdata.length; i++) {
+    databaseIds[i] = appdata[i]._id;
+    itemIndex = appdata[i].itemIndex
+  }
+  itemIndex++;
+}
+
+function getDatabaseData() {
+  fetch("/data", {
+    method: "GET",
+  })
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (data) {
+      buildTable(data);
+    });
+}
+
 
 function mark_completed( no ) {
   let assignment_data = document.getElementById("assignment_row"+no).innerHTML;
@@ -194,7 +244,7 @@ const add_row = function( elt ) {
   document.getElementById("new_percentage").value="";
   document.getElementById("new_priority").value="calculated automatically";
   document.getElementById("new_deadline").value="";
-  document.getElementById("new_grade_A").checked=false; // see what happens
+  document.getElementById("new_grade_A").checked=false;
   document.getElementById("new_grade_B").checked=false;
   document.getElementById("new_grade_C").checked=false;
   document.getElementById("new_grade_A"+table_len+"").disabled=true;

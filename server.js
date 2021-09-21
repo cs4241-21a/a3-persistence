@@ -6,6 +6,7 @@ const express = require( 'express' ),
 const GitHubStrategy = require('passport-github').Strategy;
 const passport = require('passport');
 const session = require('express-session');
+const timeout = require('connect-timeout')
 
 app.use( express.json() )
 
@@ -36,13 +37,14 @@ const isAuth = (req,res, next) => {
   }
 }
 
+app.use('/login', (req, res, next) => {
+  req.setTimeout((4 * 60 * 1000) + 1);
+  next();
+}, timeout('4m'));
+
 app.get("/", (request, response) => {
   console.log(request.user);
   response.sendFile(__dirname + '/public/index.html');
-  
-  //collection.find().toArray(function(err, data) {
- //   response.send(data);
- // })
 });
 
 app.get("/login", (request, response) => {
@@ -185,6 +187,15 @@ app.get( '/complete', function (req, res) {
     res.send(data);
   })
 })
+
+app.get( '/data', (req,res) => {
+  if( collection !== null ) {
+    collection.find({ githubId: user_id}).toArray(function(err, data) {
+      res.send(data);
+    })
+  }
+})
+
 
 function calculatePriority(percentage) {
   if(percentage >= 20)
