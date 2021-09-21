@@ -2,7 +2,8 @@
 Jack Ayvazian jpayvazian https://a3-jack-ayvazian.herokuapp.com/
 
 ### About
-This Calorie Tracking application is a upgraded version of my A2, where it tracks calories intake by entering foods you eat, so you can make more healthy decisions.
+This Calorie Tracking application is a upgraded version of my A2, where it tracks calories intake by entering foods you eat, so you can make more healthy decisions. You can login with existing credentials or create new account, and you will be redirected to main page. Once an item is submitted using the add food form, it will refresh the table where the item can be deleted or edited. Upon clicking the edit button beside an item, the update form will be filled in with the current field values, and the number of calories/servings can be changed and the table will update by clicking the "update" button. The food name is read-only (box is red) when updating, since if you want a different food item it should be added instead. You can logout via the button at the top of the main page.
+
 ### Challenges
 I faced challenges mostly in debugging middleware. I could not get cookie-session working properly, so I resorted to creating new cookies for the client, and accessing them with cookie-parser on the server. I also ran into issues with helmet middleware raising Content Security Policy errors with my code, so I used different middleware instead.
 ### Authentication
