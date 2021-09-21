@@ -1,9 +1,9 @@
 const express = require("express");
+const session = require("express-session");
 const { MongoClient } = require("mongodb");
 const passport = require("passport");
 const GithubStrategy = require("passport-github2").Strategy;
 const dotenv = require("dotenv").config();
-
 const port = 3000;
 
 /* MongoDB Setup */
@@ -23,18 +23,35 @@ client.connect((err) => {
 
 const app = express();
 
+app.use(
+  session({ secret: "a3-jhsul", resave: false, saveUninitialized: true })
+);
+
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static("public"));
+
+app.use((req, res, next) => {
+  if (req.url === "/" && req.user) {
+    res.redirect("/account");
+    return;
+  }
+  next();
+});
+
+app.use(express.static(__dirname + "/public", { extensions: ["html"] }));
 
 /* Passport and Github OAuth setup */
 
 passport.serializeUser((user, done) => {
+  console.log("Serializing");
+  //console.log(user);
   done(null, user);
 });
 
-passport.deserializeUser((obj, done) => {
-  done(null, obj);
+passport.deserializeUser((user, done) => {
+  console.log("Deserializing");
+  //console.log(user);
+  done(null, user);
 });
 
 passport.use(
@@ -51,23 +68,6 @@ passport.use(
     }
   )
 );
-
-/* Page Routes */
-app.get("/", (req, res) => {
-  console.log(req.user);
-  if (req.user) {
-    console.log("User logged in, redirecting to /account");
-    res.redirect("/account");
-  }
-  res.sendFile(__dirname + "/index.html");
-});
-
-app.get("/account", (req, res) => {
-  if (!req.user) res.redirect("/");
-  res.sendFile(__dirname + "/account.html");
-});
-
-/* OAuth Routes */
 
 app.get(
   "/auth/github",
@@ -108,10 +108,12 @@ app.get(
   }
 );
 
-app.listen(port, () => {
-  console.log(`Listening on port ${port}`);
+app.get("/me", (req, res) => {
+  if (!req.user) res.status(404);
+  console.log(req.user);
+  res.json(req.user);
 });
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "index.html");
+app.listen(port, () => {
+  console.log(`Listening on port ${port}`);
 });
