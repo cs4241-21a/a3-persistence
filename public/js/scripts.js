@@ -5,13 +5,14 @@ console.log("Welcome to assignment 3!")
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
-
     const name = document.getElementById( 'yourname' ),
         gradYear = document.getElementById('grad-year'),
         major = document.querySelector('input[name="major"]:checked'),
         highlight = document.getElementById('highlight').checked,
+        id = document.getElementById("id"),
         json =
             {
+                _id: id.value,
                 name: name.value,
                 gradYear :gradYear.value,
                 major: major.value,
@@ -31,6 +32,7 @@ const submit = function( e ) {
         name.value = ""
         gradYear.value = ""
         major.checked = false
+        document.getElementById('highlight').checked = false
         updateTable(data)
     })
     return false
@@ -45,6 +47,7 @@ window.onload = function() {
 function updateTable(data) {
     console.log(data)
     let tr = document.createElement("tr")
+    tr.id = data._id
     let name = document.createElement("td")
     name.textContent = data.name
     tr.appendChild(name)
@@ -57,13 +60,61 @@ function updateTable(data) {
     let major = document.createElement("td")
     major.textContent = data.major
     tr.appendChild(major)
+    let deleteTD = document.createElement("td")
+    let deleteButton = document.createElement("button")
+    deleteButton.classList.add("btn", "btn-danger")
+    deleteButton.innerText = "Delete"
+    deleteTD.appendChild(deleteButton)
+    deleteButton.value = data._id
+    deleteButton.onclick = (ev => {
+        deleteEntry(ev, data._id)
+    })
+    tr.appendChild(deleteTD)
+    let editTD = document.createElement("td")
+    let editButton = document.createElement("button")
+    editButton.classList.add("btn", "btn-warning")
+    editButton.innerText = "Edit"
+    editButton.value = data._id
+    editButton.onclick = (ev => {
+        editEntry(ev, data)
+    })
+    editTD.appendChild(editButton)
+    tr.appendChild(editTD)
     if (data.highlight) {
         name.style.backgroundColor = "yellow"
         gradYear.style.backgroundColor = "yellow"
         className.style.backgroundColor = "yellow"
         major.style.backgroundColor = "yellow"
+        deleteTD.style.backgroundColor = "yellow"
+        editTD.style.backgroundColor = "yellow"
     }
     document.getElementById("data-table").appendChild(tr)
+}
+
+function deleteEntry(event, id) {
+    event.preventDefault()
+    console.log(`Deleting ${id}`)
+    document.getElementById(id).remove()
+    let data = {
+        id: id
+    }
+    let body = JSON.stringify(data)
+    fetch( '/delete', {
+        method:'POST',
+        headers: new Headers({'content-type': 'application/json'}),
+        body
+    }).then(() => location.reload())
+}
+
+function editEntry(event, data) {
+    event.preventDefault()
+    console.log(`Edit ${data._id}`)
+    document.getElementById('highlight').checked = data.highlight
+    document.getElementById( 'yourname' ).value = data.name
+    document.getElementById('grad-year').value = data.gradYear
+    document.querySelector(`input[value=${data.major}]`).checked = true
+    document.getElementById("id").value = data._id
+    document.getElementById(data._id).remove()
 }
 
 function preloadDatabase() {
@@ -77,3 +128,4 @@ function preloadDatabase() {
         })
     })
 }
+

@@ -1,7 +1,10 @@
 {
-  "name": "a2-markjforte2000",
+  "name": "a3-markjforte2000",
   "version": "1.0.0",
-  "description": "CS 4241 HW2",
+  "description": "CS 4241 HW3",
+  "engines": {
+    "node": "14.x"
+  },
   "author": "Mark Forte",
   "scripts": {
     "start": "node server.js"
