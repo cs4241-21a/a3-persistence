@@ -1,5 +1,5 @@
 // Add some Javascript code here, to run on the front end.
-
+let loggedInAs = null;
 const submit = function (e) {
     // prevent default form action from being carried out
     e.preventDefault()
@@ -36,6 +36,38 @@ const submit = function (e) {
     return false
 }
 
+const deleteRow = function (id) {
+    json = { _id: id },
+        body = JSON.stringify(json)
+    fetch('/delete', {
+        method: 'POST',
+        body: body,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(function (response) {
+            console.log(response);
+            return response.json();
+        }).then(function (data) {
+            if (data.failed === "false") {
+                table = document.getElementById("table");
+                for (i = 1; i < table.rows.length; i++) {
+                    if (table.rows[i]._id === id) {
+                        try {
+                            table.deleteRow(i);
+                        }
+                        catch (e) {
+                            alert(e);
+                            console.log("failed to delete row");
+                        }
+                        break;
+                    }
+                }
+            }
+        })
+}
+
 const convert = function () {
     let input = document.getElementById("bintext").value.toLowerCase();
     //SET INPUT TO LOWERCASE
@@ -51,6 +83,7 @@ const convert = function () {
 }
 
 window.onload = function () {
+    loggedInAs = null;
     const button = document.getElementById("compute");
     button.onclick = submit
 
@@ -65,19 +98,15 @@ window.onload = function () {
 
     })
         .then(function (response) {
-            console.log("GOT TO FIRST .then")
             return response.json();
         }).then(function (data) {
-            console.log("GOT TO SECOND .then", data)
+            loggedInAs = data.shift().un;
             addRows(data);
         })
-    //I can do a POST with a different url /load
-    //NEED TO LOAD THE WHOLE TABLE HERE
 }
 
 function addRows(response) {
     r = response;
-    //r = JSON.parse(response);
     table = document.getElementById("table");
 
     rlen = table.rows.length
@@ -93,6 +122,7 @@ function addRows(response) {
 
     for (i = 0; i < r.length; i++) {
         let row = table.insertRow(1);
+        row._id = r[i]._id;
 
         let cell1 = row.insertCell();
         let el = document.createElement("td");
@@ -123,5 +153,20 @@ function addRows(response) {
         el5.style = "border: none";
         el5.innerText = r[i].result;
         cell5.appendChild(el5);
+
+        if (r[i].un === loggedInAs && r[i].un !== null) {
+            console.log("WDOJIA");
+            let cell6 = row.insertCell();
+            let el6 = document.createElement("td");
+            el6.innerText = "test";
+            let delbut = document.createElement("button");
+            delbut.innerText = "D";
+            delbut.addEventListener('click', function () {
+                let thisrowid = row._id;
+                deleteRow(thisrowid);
+            });
+            el6.appendChild(delbut);
+            cell6.appendChild(el6);
+        }
     }
 }
