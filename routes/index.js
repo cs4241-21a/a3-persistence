@@ -1,22 +1,20 @@
+require("mongoose");
+require("body-parser");
+require("passport-local-mongoose");
+require("passport-local");
 const express = require("express"),
-    mongoose = require("mongoose"),
     passport = require("passport"),
-    bodyParser = require("body-parser"),
-    LocalStrategy = require("passport-local"),
-    passportLocalMongoose =
-        require("passport-local-mongoose"),
     User = require("../models/User");
-proteccRouter = express.Router();
     router = express.Router();
 
     function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated())  // <-- typo here
+    if (req.isAuthenticated())
         return next();
     res.redirect('/');
     }
 
-    proteccRouter.get('/', (req, res) => res.render('welcome'));
-    proteccRouter.get('/dash', (req, res) => res.render('dashboard'));
+    router.get('/welcome', (req, res) => res.render('welcome'));
+    router.get('/dash', (req, res) => res.render('dashboard'));
 
 
 
@@ -56,7 +54,4 @@ router.post("/", passport.authenticate("local", {
 }), function (req, res) {
 });
 
-module.exports = {
-    protected: proteccRouter,
-    unprotected: router
-};
+module.exports= router;

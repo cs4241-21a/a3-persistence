@@ -8,8 +8,16 @@
     "dev": "nodemon server.improved.js"
   },
   "dependencies": {
-    "D": "^1.0.0",
+    "D": "^1.0.0"
+  },
+  "devDependencies": {
     "bcrypt": "^5.0.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "connect-mongo": "^4.6.0",
+    "connect-mongodb-session": "^3.1.0",
+    "cookie-parser": "^1.4.5",
+    "cookieparser": "^0.1.0",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
@@ -20,12 +28,9 @@
     "mongoose": "^6.0.6",
     "nodemon": "^2.0.12",
     "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.1.0",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^22.0.0"
-  },
-  "devDependencies": {
-    "body-parser": "^1.19.0",
-    "passport-local": "^1.0.0"
   }
 }
