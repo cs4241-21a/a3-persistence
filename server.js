@@ -104,6 +104,22 @@ app.post('/delete', bodyparser.json(),function(req, res){
    })
  })
 
+ app.post('/update', bodyparser.json(),function(req, res){
+  //console.log('aaaaaaa', req.body._id)
+collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
+{$set:{ todo:req.body.todo } })
+
+collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
+{$set:{ day:req.body.day } })
+
+collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
+{$set:{ difficulty:req.body.difficulty } })
+    .then(dbresponse =>{
+    res.json(dbresponse)
+    //console.log(dbresponse)
+  })
+})
+
 app.post('/loadTable', bodyparser.json(),function(req, res){
   collection.find({}).toArray()
   .then(dbresponse =>{

@@ -2,34 +2,6 @@ const todoInput = document.querySelector( '#todo' )
 const dayInput = document.querySelector( '#day' )
 const difficultyInput = document.querySelector('#difficulty')
 
-const deleteButton = function(row){
-   // window.alert(row._id)
-
-   json = { todo: todoInput.value, 
-            day: dayInput.value, 
-            difficulty: difficultyInput.value,
-            _id: row._id 
-    }
-    body = JSON.stringify( json )
-
-    fetch( '/delete', {
-        method:'POST',
-        body:JSON.stringify({todo:row.todo, day:row.day, difficulty: row.difficulty, _id:row._id}),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-      })
-      .then( function( response ) {
-          return response.json()
-      })
-      .then(function(json){
-          //console.log(json)
-          populateTable(json)
-      });
-
-}
-
-
 const submit = function( ) {
   // prevent default form action from being carried out
   //e.preventDefault()
@@ -56,6 +28,56 @@ const submit = function( ) {
   });
 
   return false
+}
+
+const deleteButton = function(row){
+    // window.alert(row._id)
+ 
+    json = { todo: todoInput.value, 
+             day: dayInput.value, 
+             difficulty: difficultyInput.value,
+             _id: row._id 
+     }
+     body = JSON.stringify( json )
+ 
+     fetch( '/delete', {
+         method:'POST',
+         body:JSON.stringify({todo:row.todo, day:row.day, difficulty: row.difficulty, _id:row._id}),
+         headers: {
+             'Content-Type': 'application/json'
+         }
+       })
+       .then( function( response ) {
+           return response.json()
+       })
+       .then(function(json){
+           //console.log(json)
+           populateTable(json)
+       });
+ }
+
+const updateButton = function(row){
+    json = { todo: todoInput.value, 
+        day: dayInput.value, 
+        difficulty: difficultyInput.value,
+        _id: row._id 
+}
+body = JSON.stringify( json )
+
+fetch( '/update', {
+    method:'POST',
+    body:JSON.stringify({todo:todoInput.value, day:dayInput.value, difficulty:difficultyInput.value, _id:row._id}),
+    headers: {
+        'Content-Type': 'application/json'
+    }
+  })
+  .then( function( response ) {
+      return response.json()
+  })
+  .then(function(json){
+      //console.log(json)
+      populateTable(json)
+  });
 }
 
 const populateTable = function(json){
@@ -112,6 +134,8 @@ const populateTable = function(json){
                     item.appendChild(document.createTextNode('UPDATE'))
                     td.appendChild(item)
                     tr.appendChild(td)
+
+                    item.onclick = function() {updateButton(json[count])}
 
                     td = document.createElement('td')
                     item = document.createElement('button')
