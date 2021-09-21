@@ -26,14 +26,14 @@ loginForm.addEventListener('submit', event => {
         if (user.length == 0) {
           window.alert("Incorrect username or password");
         } else {
-          window.location.href = "./views/index.html";
+          window.location.href = "index.html";
         }
       });
   })
 
 signform.addEventListener('submit', event => {
   event.preventDefault();
-    
+    let success = true;
     const username = document.getElementById("uname2"),
       password = document.getElementById("pword2"),
       json = { username: username.value, password: password.value },
@@ -45,8 +45,21 @@ signform.addEventListener('submit', event => {
         "Content-Type": "application/json"
       }
     })
-      .then(response => response.json())
-      window.location.href = "/index.html"
+      .then(response => {
+        if(response.status != 200) {
+          window.alert("Username Taken!")
+          
+        }
+
+        else{
+          response.json() 
+          window.location.href("/index.html")
+        }
+
+      })
+      
+     // window.location.href = "/index.html"
+      
   })
 
 

@@ -1,7 +1,7 @@
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
       cookie  = require( 'cookie-session' ),
-      bodyParser = require("body-parser");
+      bodyParser = require("body-parser"),
       app = express()
 
 app.use( express.static('public') )
@@ -27,11 +27,16 @@ app.get('/index.html', function(req, res) {
   res.sendFile(path.join(__dirname, '/views/index.html'));
 });
 
+app.get('/login.html', function(req, res) {
+  res.sendFile(path.join(__dirname, '/views/login.html'));
+});
+
 // make sure to substitute your username / password for tester:tester123 below!!! 
 const uri = "mongodb+srv://testUser:testing123@cluster0.gieka.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
+let schema = mongodb.s
 
 client.connect()
   .then( () => {
@@ -41,6 +46,7 @@ client.connect()
   .then( __collection => {
     // store reference to collection
     collection = __collection
+    console.log(collection)
     // blank query returns all documents
     return collection.find({ }).toArray()
   })
@@ -68,13 +74,25 @@ app.get('/data', (req, res) => {
   }
 });
 
+const client2 = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let loginCollection = null;
-client.connect()
+client2.connect()
   .then( () => {
-    loginCollection = client.db("testdata").collection("users");
-  });
+    // will only create collection if it doesn't exist
+    return client2.db( 'testdata' ).collection( 'users' )
+  })
+  .then( __collection => {
+    // store reference to collection
+    loginCollection = __collection
+    loginCollection.createIndex({"username": 1}, {unique: true})
+    
+  })
+  //.then( console.log )
+
 
 let user = null;
+
+//loginCollection.createIndex({"username": 1}, {unique: true})
 app.post("/login", bodyParser.json(), function(req, res) {
   loginCollection
     .find({ username: req.body.username, password: req.body.password })
@@ -88,9 +106,11 @@ app.post("/create", bodyParser.json(), function(req, res) {
   loginCollection.insertOne( req.body )
   .then( insertResponse => collection.findOne(insertResponse.insertedId) )
   .then( findResponse => res.json( findResponse))
+  .catch(err => {
+    res.status(500).json()
+  }) 
+  
 });
-
-
 
 
   
