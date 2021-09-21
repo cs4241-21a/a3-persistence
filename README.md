@@ -2,6 +2,8 @@ CS 4241 Assignment 3: Persistence
 
 Winnie Ly
 
+https://a3-theaniartist.glitch.me/
+
 This project focuses on using a database (MongoDB) to persist data from an authenicated user that logs in with a specific username and password. 
 
 The part I struggled the most was thinking and planning about the linking between the authenicated user to the associated data that should show up in the table. 
@@ -9,6 +11,8 @@ The part I struggled the most was thinking and planning about the linking betwee
 I used the Sakura CSS framework on the login.html because it draws the user's eye to the login form with the dark contrast of the background. I made modifications to the buttons, textarea, labels, and h1 with the border-radius, text colors, alignment, and sizes. 
 
 The authenicated strategy that I used was that I created another collection in MongoDB that stores usernames and passwords and in the main collection would have an element that contains the authenicated username with each document. From this, each query pertains to a specific user from their username.
+
+**To sign up/create a new user: First type in the required fields and then press 'Sign Up'**
 
 The five middleware that I used:
 - body-parser, responsible for parsing the incoming request body before it is handled
