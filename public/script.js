@@ -2,14 +2,30 @@ const todoInput = document.querySelector( '#todo' )
 const dayInput = document.querySelector( '#day' )
 const difficultyInput = document.querySelector('#difficulty')
 
-const deleteButton = function(el){
-    window.alert(el)
+const deleteButton = function(row){
+    window.alert(row.todo)
+
+    fetch( '/delete', {
+        method:'POST',
+        body:JSON.stringify({todo:row.todo, day:row.day, difficulty: row.difficulty, _id:row.insertedID}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+      })
+      .then( function( response ) {
+          return response.json()
+      })
+      .then(function(json){
+          //console.log(json)
+          populateTable(json)
+      });
+
 }
 
 
-const submit = function( e ) {
+const submit = function( ) {
   // prevent default form action from being carried out
-  e.preventDefault()
+  //e.preventDefault()
   
         json = { todo: todoInput.value, 
                   day: dayInput.value, 
@@ -29,43 +45,14 @@ const submit = function( e ) {
   })
   .then(function(json){
       console.log(json)
-      let table = null
-      let day = json[0].day
-      let tr = document.createElement('tr')
-
-    table = document.getElementById(day.toString())
-    let td = document.createElement('td')
-    let item = document.createTextNode(json[0].todo)
-    td.appendChild(item)
-    tr.appendChild(td)
-
-    td = document.createElement('td')
-    item = document.createTextNode(json[0].difficulty)
-    td.appendChild(item)
-    tr.appendChild(td)
-
-    td = document.createElement('td')
-    item = document.createElement('button')
-    item.appendChild(document.createTextNode('UPDATE'))
-    td.appendChild(item)
-    tr.appendChild(td)
-
-    td = document.createElement('td')
-    item = document.createElement('button')
-    item.appendChild(document.createTextNode('DELETE'))
-    td.appendChild(item)
-    tr.appendChild(td)
-
-
-
-    table.appendChild(tr)
+      populateTable(json)
   });
 
   return false
 }
 
-window.onload = function() {
-
+const populateTable = function(json){
+    
     json = { todo: todoInput.value, 
         day: dayInput.value, 
         difficulty: difficultyInput.value, 
@@ -83,7 +70,11 @@ window.onload = function() {
             return response.json()
         })
             .then(function(json){
-
+                let table = document.getElementById('Sunday');
+                let rowCount = table.rows.length;
+                for (let count = 1; count < rowCount; count++) {
+                    table.deleteRow(1);
+                }
                 for(let count = 0; count < json.length; count++){
                     let tr = document.createElement('tr')
                     let day = json[count].day.toString()
@@ -92,7 +83,7 @@ window.onload = function() {
                     let item = document.createTextNode(json[count].todo)
                     td.appendChild(item)
                     tr.appendChild(td)
-    
+
                     td = document.createElement('td')
                     item = document.createTextNode(json[count].difficulty)
                     td.appendChild(item)
@@ -110,64 +101,15 @@ window.onload = function() {
                     td.appendChild(item)
                     tr.appendChild(td)
 
-                    item.onclick = function() {deleteButton(this)}
+                    item.onclick = function() {deleteButton(json[count])}
 
                     table.appendChild(tr)
                 }
-                
-
-    
-      })
-
-
-  const button = document.querySelector( 'button' )
-  button.onclick = submit
+            })
 }
-/*
-function createTable(data) {
-  let table = document.createElement('table')
-  let tr = document.createElement('tr')
-  let tableHeaders = ['Day of the Week', 'Items/Difficulties...']
 
-  for (let count = 0; count < tableHeaders.length; count++) {
-    let header = document.createTextNode(tableHeaders[count])
-    let th = document.createElement('th')
-    th.appendChild(header)
-    tr.appendChild(th)
-  }
-  table.appendChild(tr)
-  tr = document.createElement('tr');
-
-  function populateDay(day){
-    let dayOfWeek = document.createTextNode(day)
-    let td = document.createElement('td')
-
-    td.appendChild(dayOfWeek)
-    tr.appendChild(td)
-
-    for (let count = 0; count < data.length; count++){
-      if(data[count].day === day){
-        let item = document.createTextNode('Todo: '+data[count].todo +', Raw Difficulty: '+ data[count].priority + ', Adjusted Difficulty: '+data[count].difficulty)
-        let td = document.createElement('td')
-        td.appendChild(item)
-        tr.appendChild(td)
-      }
-  }
-  table.appendChild(tr);
-  tr = document.createElement('tr');
-
+window.onload = function() {
+    populateTable()
+    const button = document.querySelector( '#submitButton' )
+    button.onclick = submit
 }
-  table.id = 'dataTable'
-
-populateDay("Sunday")
-populateDay("Monday")
-populateDay("Tuesday")
-populateDay("Wednesday")
-populateDay("Thursday")
-populateDay("Friday")
-populateDay("Saturday")
-
-document.body.appendChild(table)
-
-}
-*/
