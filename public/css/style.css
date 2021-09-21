@@ -1,7 +1,5 @@
 p {
-    text-align: center;
-    font-size: 50px;
-    color: blue;
+    font-size: 15px;
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: "Glory";
@@ -9,8 +7,7 @@ p {
 
 nav{
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 60px;
+    justify-content: left;
     padding-bottom: 10px;
     border-bottom: 1px solid #ddd;
     text-transform: uppercase;
@@ -27,43 +24,53 @@ nav li{
 nav h1{
     font-size: 3em;
 }
-nav p, nav a{
-    color: #777;
+nav a {
     font-weight: 300;
+    color: #777;
+}
+
+nav p{
+    color: #777;
+    font-size: 2em;
+    font-weight: 300;
+    text-align: left;
 }
 footer{
     color: #777;
     text-align: center;
-    margin: 80px auto 20px;
+    margin-top: 10px;
 }
-
 .general {
-    alignment: center;
+    /*alignment: center;
     top: 0;
     z-index: 0;
     height: 100%;
     overflow-x: hidden;
-    position: fixed;
+    position: fixed;*/
     font-family: "ZCOOL KuaiLe", monospace;
 }
 
 .gameArea {
-    display: flex;
+    /*display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     left: 0;
-    width: 70%;
+    width: 70%;*/
+    align-items: center;
+    padding-top: 30px;
     background-color: beige;
 }
 
 .scoreArea {
-    display: flex;
+    /*display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     right: 0;
-    width: 30%;
+    width: 30%;*/
+    align-items: center;
+    padding-top: 30px;
     background-color: mediumpurple;
 }
 
@@ -190,4 +197,10 @@ h2 {
     background-color: lightblue;
     box-shadow: 0 5px #666;
     transform: translateY(3px);
+}
+
+#scorePrint{
+    font-size: 50px;
+    color: blue;
+    text-align: center;
 }

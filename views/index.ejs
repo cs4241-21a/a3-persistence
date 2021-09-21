@@ -2,52 +2,65 @@
 <%- include("./partials/head.ejs")%>
 <body>
 <script src="./js/scripts.js" defer></script>
-<div class="general gameArea">
-    <h1>Flappy Block</h1>
-    <button id="startBtn" onclick="startGame()">Start Game</button>
-    <p>Score: <span id="printScore">0</span></p>
-    <br>
-    <div>
-        <div class="hidden fixPush" id="myfilter"></div>
-        <div class="hidden" id="myrestartbutton"><button onclick="restartGame()">Restart</button></div>
-        <div id="canvascontainer"></div>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <%- include("./partials/nav.ejs") %>
+        </div>
     </div>
-    <form>
-        <input class="hidden" type='text' id='yourname'  placeholder="Your name here">
-        <button class="hidden" id="submitBtn">Submit</button>
-    </form>
-    <br>
-    <button class="hidden" id="accelBtn" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">FLAP</button>
-    <div class="chatArea">
-    </div>
-</div>
-<div class="general scoreArea" id="scoreAreaID">
-    <h2>Top 5 Scores</h2>
-    <table id="Leaderboard">
-        <% if (leaderboards.length > 0) { %>
-            <th>Name</th>
-            <th>Score</th>
-            <th>Rank</th>
-            <th>Edit</th>
-            <th>Report</th>
-            <% leaderboards.forEach(leaderboard => { %>
-            <tr id=<%=leaderboard._id%>>
-                <td><%= leaderboard.yourname%></td>
-                <td><%= leaderboard.score%></td>
-                <td><%= leaderboard.rank%></td>
-                <td> Edit </td>
-                <td> Delete</td>
-            </tr>
-            <% }) %>
-        <% } %>
-
-    </table>
-    <div>
-        <form>
-            <input class="hidden" type='text' id='editName'  placeholder="New Name">
-            <button class="hidden" id="submitNewNameBtn">Submit</button>
-        </form>
+    <div class="row g-0">
+        <div class="col-lg-8 general gameArea">
+            <h1>Flappy Block</h1>
+            <button id="startBtn" onclick="startGame()">Start Game</button>
+            <p id="scorePrint">Score: <span id="printScore">0</span></p>
+            <br>
+            <div>
+                <div class="hidden fixPush" id="myfilter"></div>
+                <div class="hidden" id="myrestartbutton"><button onclick="restartGame()">Restart</button></div>
+                <div id="canvascontainer"></div>
+            </div>
+            <form>
+                <input class="hidden" type='text' id='yourname'  placeholder="Your name here">
+                <button class="hidden" id="submitBtn">Submit</button>
+            </form>
+            <br>
+            <button class="hidden" id="accelBtn" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">FLAP</button>
+            <div class="chatArea">
+            </div>
+        </div>
+        <div class="col-lg-4 general scoreArea" id="scoreAreaID">
+            <h2>Top 5 Scores</h2>
+            <table id="Leaderboard">
+                <% if (leaderboards.length > 0) { %>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th>Rank</th>
+                    <th>Edit</th>
+                    <th>Report</th>
+                    <% leaderboards.forEach(leaderboard => { %>
+                    <tr id=<%=leaderboard._id%>>
+                        <td><%= leaderboard.yourname%></td>
+                        <td><%= leaderboard.score%></td>
+                        <td><%= leaderboard.rank%></td>
+                        <td> Edit </td>
+                        <td> Delete</td>
+                    </tr>
+                    <% }) %>
+                <% } %>
+            </table>
+            <div>
+                <form>
+                    <input class="hidden" type='text' id='editName'  placeholder="New Name">
+                    <button class="hidden" id="submitNewNameBtn">Submit</button>
+                </form>
+            </div>
+            <h2>Instructions</h2>
+            <p>Press "Flap" button or "spacebar" to increase the y-value of the bock and avoid obstacles</p>
+        </div>
     </div>
 </div>
 <%- include("./partials/footer.ejs") %>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 </body>

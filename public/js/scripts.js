@@ -44,6 +44,7 @@ const submit = function( e ) {
     })
         .then( function( response ) {
             // do something with the response
+
             console.log("Post made to server");
         })
         .then( function( json ) {
@@ -54,8 +55,15 @@ const submit = function( e ) {
 }
 
 function updateLeaderboards(){
+    const input = document.querySelector( '#yourname' ),
+        input2 = document.getElementById('printScore'),
+        json = { yourname: input.value,
+            score: input2.innerText,
+            rank: "" },
+        body = JSON.stringify( json )
     fetch('/updateRanks', {
-        method:'GET',
+        method:'POST',
+        body,
         headers:{
             "Content-Type":"application/json"
         }

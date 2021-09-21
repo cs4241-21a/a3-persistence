@@ -1,11 +1,39 @@
-<nav>
+<nav class="navbar navbar-expand-lg navbar-expand-md navbar-light bg-light">
+    <div class="row">
+    <div class="col-7 offset-1">
     <div class="site-title">
-        <a href="/"><h1>Flappy Block</h1></a>
-        <p>Another Flappy Bird Knockoff</p>
+        <a class="navbar-brand" href="/"><h1>Flappy Block</h1></a>
+        <p id="navSubtitle">Another Flappy Bird Knockoff</p>
     </div>
+    </div>
+    <div class="col-4 justify-content-end align-self-center" >
     <ul>
-        <li><a href="/index">Game</a></li>
-        <li><a href="/chat">Chat</a></li>
-        <li><a href="/leaderboard">Leaderboard</a></li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/index">Game <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/chat">Chat <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item active">
+            <a class="nav-link" href="/leaderboard">Leaderboard <span class="sr-only">(current)</span></a>
+        </li>
+        <!--<li>
+            <form action="/index">
+                <input type="submit" value="Game" />
+            </form>
+        </li>
+        <li>
+            <form action="/chat">
+                <input type="submit" value="Chat" />
+            </form>
+        </li>
+        <li>
+            <form action="/leaderboard">
+                <input type="submit" value="Leaderboard" />
+            </form>
+        </li>-->
+
     </ul>
+    </div>
+</div>
 </nav>

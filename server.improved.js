@@ -119,7 +119,7 @@ app.post('/submit', bodyParser.json(), async (req, res) => {
     if(evalScore === -1){
         await updateRankMongo(rankAdd);
         entry.save()
-            .then(result => {
+            .then(async result => {
                 res.send(result);
             })
             .catch(err => {
@@ -133,8 +133,8 @@ app.post('/submit', bodyParser.json(), async (req, res) => {
         await deleteRankMongo(evalScore);
         ScoreEntry.findOneAndUpdate({yourname: {$eq: req.body.yourname}}, {score: parseInt(req.body.score), rank: rankAdd})
             .then( result =>{
+            });
 
-            })
     }
 });
 
@@ -155,16 +155,22 @@ async function alreadyInSystem(name){
 async function deleteRankMongo(rankDel){
     await ScoreEntry.updateMany({rank: {$gt: rankDel}}, {$inc: {rank: -1}})
         .then(response => {
-            console.log("updated")
+
         })
 }
 
 async function updateRankMongo(rankAdd){
     await ScoreEntry.updateMany({rank: {$gte: rankAdd}}, {$inc: {rank: 1}})
         .then(response => {
-            console.log("updated")
+
         })
 }
+
+app.get('/updateRanks', (req,res) =>{
+    res.redirect('/index');
+})
+
+
 
 app.get('/all-scores', (req,res) => {
     ScoreEntry.find()
