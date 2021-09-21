@@ -1,6 +1,6 @@
 const express = require('express'),
       mongodb = require('mongodb'),
-      bodyparser = require('body-parser'),
+      bodyParser = require('body-parser'),
       dotenv = require('dotenv').config(),
       morgan = require('morgan'),
       responseTime = require('response-time'),
@@ -9,7 +9,8 @@ const express = require('express'),
       app = express();
 
 app.use(express.static('public'))
-app.use(express.json())
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }))
 app.use(timeout('5s'))
 app.use(morgan('tiny'))
 app.use(haltOnTimedout)
@@ -59,7 +60,7 @@ app.get("/sleep", (req, res) => {
   }
 });
 
-app.post("/submit", bodyparser.json(), function(req,res) {
+app.post("/submit", bodyParser.json(), function(req,res) {
     console.log('body: ', req.body)
      
       req.body.username = user
@@ -94,18 +95,18 @@ client.connect().then(() => {
   userInfo = client.db("SleepDataset").collection("UserData");
 });
 
-app.post("/login", bodyparser.json(), function (req, res) {
+app.post("/login", bodyParser.json(), function (req, res) {
 
   userInfo.find({ username: req.body.username, password: req.body.password }).toArray()
     .then(result => res.json(result));
   user = req.body.username;
 });
 
-app.post('/logout', bodyparser.json(), function(req,res){
+app.post('/logout', bodyParser.json(), function(req,res){
   user = null
 })
 
-app.post('/signin', bodyparser.json(), function(req, res) {
+app.post('/signin', bodyParser.json(), function(req, res) {
   userInfo.insertOne(req.body)
       .then( insertResponse => userInfo.findOne( insertResponse.insertedId)) 
       .then( findResponse   => res.json(findResponse))
@@ -115,3 +116,5 @@ app.post('/signin', bodyparser.json(), function(req, res) {
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
+
+app.listen(process.env.PORT || 3000)
