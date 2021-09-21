@@ -78,7 +78,7 @@ app.post('/login', (req,res)=>{
         }
         const options = {"upsert": false}
          collection.updateOne(query, update, options)
-
+        currentid = newid
         req.session.login = true
         res.redirect( 'bmicalculator.html' )
 
@@ -86,7 +86,7 @@ app.post('/login', (req,res)=>{
       else{
         if(req.body.password === result[0].password){
           req.session.login = true
-          currentid = result[0].userid[0]
+          currentid = req.body.userid
           res.redirect( 'bmicalculator.html' )
         }
         else{
@@ -133,7 +133,7 @@ app.use( (req,res,next) => {
 app.post( '/entries', bodyParser.json(), (req,res) => {
   if( collection !== null ) {
     // get array and pass to res.json
-    collection.find({ }).toArray().then( result => res.json( result ) )
+    collection.find({"docid": currentid }).toArray().then( result => res.json( result ) )
   }
 })
 
@@ -143,7 +143,7 @@ app.post( '/add', (req,res) => {
   const query = {'yourname': req.body.yourname}
   const update = {
     "$push": {
-      "userid": currentid
+      "docid": currentid
     }
   }
   const options = {"upsert": false}
