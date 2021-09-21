@@ -5,6 +5,25 @@
 // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
 const express = require("express");
 const app = express();
+const mongoose = require('mongoose');
+const dotenv =  require('dotenv');
+// importing routes
+const authRoute = require('./routes/authO')
+
+dotenv.config();
+
+//Connecting to db
+mongoose.connect(
+  process.env.DB_CON,
+  () => console.log('succefully connected to db!')
+);
+
+//Middleware
+app.use(express.json());
+
+
+//Route Middleware
+app.use('/api/user', authRoute);
 
 // our default array of dreams
 const dreams = [
