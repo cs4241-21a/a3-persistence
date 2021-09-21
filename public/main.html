@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Home ~ Calorie Tracker ~ CS4241 A3</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Main page of Calorie Tracker for signed-in user">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" 
+  rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <script src="/js/scripts.js"></script>
+</head>
+
+<body class="bg-light">
+  <div class="bg-dark text-white">
+  <h1>Home ~ Calorie Tracker</h1>
+  </div>
+  <p id="signedin"></p>
+  <button id="logout" type="submit">Logout</button>
+  <br> <br>
+  <div class="row">
+    <div class="border border-dark col">
+      <form id="foodform">
+        <h2><span class="bg-dark text-white">Add food</span></h2>
+        <label for="fname">Food item:</label>
+        <input type="text" id="fname" required><br>
+        <label for="cal">Calories per serving:</label>
+        <input type="text" id="cal" required><br>
+        <label for="numserv">Number of servings:</label>
+        <input type="text" id="numserv" required><br>
+        <button id="add" type="submit">Submit</button>
+      </form>
+    </div>
+    <br>
+    <div class="border border-dark col">
+      <form id="updateform">
+        <h2><span class="bg-dark text-white">Update food</span></h2>
+        <h3 id="entryid" class="d-none"></h3>
+        <label for="fname2">Food item:</label>
+        <input type="text" id="fname2" class="bg-danger" readonly><br>
+        <label for="cal2">Calories per serving:</label>
+        <input type="text" id="cal2" required><br>
+        <label for="numserv2">Number of servings:</label>
+        <input type="text" id="numserv2" required><br>
+        <button id="update" type="submit">Update</button>
+      </form>
+    </div>
+  </div>
+<br>
+  <h2><span class="bg-dark text-white">List of foods</span></h2>
+  <h3 id="caltable"> </h3>
+  <table id="foodtable" class="table table-dark table-striped border border-dark">
+    <thead>
+      <tr>
+        <th scope="col">Food</th>
+        <th scope="col">Calories</th>
+        <th scope="col">Servings</th>
+        <th scope="col">Total calories</th>
+        <th scope="col"></th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+</body>
+</html>

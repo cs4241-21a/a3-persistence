@@ -1,0 +1,17 @@
+{
+  "name": "a3-jpayvazian",
+  "version": "1.0.1",
+  "description": "CS4241 A3: Calorie Tracker",
+  "author": "Jack Ayvazian",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.1",
+    "morgan": "^1.10.0"
+  }
+}
