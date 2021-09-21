@@ -1,10 +1,12 @@
 const express = require('express'),
+      mongodb = require('mongodb'),
       serveStatic = require('serve-static'),
       bodyParser = require('body-parser')
       app = express(),
       dir  = 'public/',
       port = 3000
 
+require('dotenv').config();
 
 const appdata = [{"name":"admin","message":"this is dummy appdata","nameowo":owoify("admin"),"messageowo":owoify("this is dummy appdata")}];
 const faces = ["(・`ω´・)",";;w;;","owo","UwU",">w<","^w^","(･.◤)","^̮^","(>人<)","( ﾟヮﾟ)","(▰˘◡˘▰)"]
