@@ -2,13 +2,13 @@
 Jack Ayvazian jpayvazian https://a3-jack-ayvazian.herokuapp.com/
 
 ### About
-This Calorie Tracking application is a upgraded version of my A2, where it tracks your calories intake by entering foods you eat, so you can make more healthy decisions.
+This Calorie Tracking application is a upgraded version of my A2, where it tracks calories intake by entering foods you eat, so you can make more healthy decisions.
 ### Challenges
-I faced many challenges throughout, mostly in debugging middleware. I could not get cookie-session working properly, so I resorted to creating new cookies for the client, and accessing them with cookie-parser on the server. I also ran into issues with helmet middleware blocking bootstrap import links and my inline event handlers for edit/delete buttons within my table because of a Content Security Policy, so I used different middleware instead.
+I faced challenges mostly in debugging middleware. I could not get cookie-session working properly, so I resorted to creating new cookies for the client, and accessing them with cookie-parser on the server. I also ran into issues with helmet middleware raising Content Security Policy errors with my code, so I used different middleware instead.
 ### Authentication
-I used a simple authentication strategy of POSTing the users input directly to the server, and checking MongoDB for matching credentials. I would have tried the OAuth strategy if I did not run into so many issues with the middleware, but using cookies with the cookie-parser was intuitive as I could see easily track their values within chrome developer tools.
+I used a simple authentication strategy of POSTing user input directly to the server, and checking MongoDB for matching credentials. I would have tried OAuth strategy if I did not run into so many middleware issues, but using cookies with cookie-parser was intuitive as I could see easily track their values within chrome developer tools.
 ### CSS Framework
-I used Bootstrap for my CSS framework, as I have heard it was very popular, although I never got the chance to use it myself. There was a little bit of a learning curve and it was hard to find resources demonstrating what I was trying to accomplish as it is such a big framework, but I did not end up needing any extra CSS modifications.
+I used Bootstrap for my CSS framework, as I've heard it is popular. There was a little bit of a learning curve and it was hard to find resources demonstrating what I was trying to accomplish as it is such a big framework, but I did not end up needing any extra CSS modifications.
 ### Express middleware
 1. body-parser: allows access to request body easily in the server (although it showed as depricated)
 2. cookie-parser: similar to body-parser but for cookies; allows you to access client cookies in the server by request.cookies
@@ -18,7 +18,7 @@ I used Bootstrap for my CSS framework, as I have heard it was very popular, alth
 6. json: allowed parsing for JSON objects in the request body
 
 ## Technical Achievements
-- **Tech Achievement 1**: I hosted my site on Heroku. I found it to be pretty intuitive deploying directly through Github, the one thing I liked more with glitch was how it was easier to change files after importing. However, deploying with Heroku was nice as it tracked changed commited to my github repository.
+- **Tech Achievement 1**: I hosted my site on Heroku. I found it to be pretty simple for deploying directly through Github, the one thing I liked more with glitch was how you could directly change files after importing. However, deploying with Heroku was nice as it tracked changed commited to my github repository.
 - **Tech Achievement 2**: I got 100% in all four lighthouse tests on both login/home pages  
   
 [Here is login page screenshot](https://github.com/jpayvazian/a3-persistence/blob/main/loginpage.JPG)  
