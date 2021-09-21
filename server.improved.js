@@ -36,7 +36,6 @@ const uri = "mongodb+srv://testUser:testing123@cluster0.gieka.mongodb.net/myFirs
 
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
-let schema = mongodb.s
 
 client.connect()
   .then( () => {
@@ -92,12 +91,16 @@ client2.connect()
 
 let user = null;
 
-//loginCollection.createIndex({"username": 1}, {unique: true})
 app.post("/login", bodyParser.json(), function(req, res) {
   loginCollection
     .find({ username: req.body.username, password: req.body.password })
     .toArray()
-    .then(result => res.json(result));
+    .then(result => {
+      if(result.length == 1) {
+        req.session.login = true
+      }
+      res.json(result)
+    });
   user = req.body.username;
 });
 
