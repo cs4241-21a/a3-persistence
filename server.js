@@ -5,7 +5,7 @@ const express = require('express'),
       morgan = require('morgan'),
       responseTime = require('response-time'),
       timeout = require('connect-timeout'),
-      cookieParser = require('cookie-parser')
+      cookieParser = require('cookie-parser'),
       app = express();
 
 app.use(express.static('public'))
@@ -115,5 +115,3 @@ app.post('/signin', bodyparser.json(), function(req, res) {
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
 });
-
-app.listen( 3000 )
