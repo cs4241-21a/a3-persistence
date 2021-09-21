@@ -25,6 +25,7 @@ loginForm.addEventListener('submit', event => {
       .then(user => {
         if (user.length == 0) {
           window.alert("Incorrect username or password");
+          loginForm.reset();
         } else {
           window.location.href = "index.html";
         }
