@@ -223,13 +223,14 @@ function updateHistory() {
     console.log('mix history')
     console.log(jsonArr)
 
-    // todo clear the table
-    for (let i = 1; i < history_table.rows.length; i++) {
+    let num_rows = history_table.rows.length
+
+    // clear the table
+    for (let i = 1; i < num_rows; i++) {
       console.log(i)
       console.log(history_table)
-      history_table.deleteRow(i)
+      history_table.deleteRow(1)
     }
-    debugger
 
     // add each mix json to the table
     jsonArr.forEach((object)  => {
