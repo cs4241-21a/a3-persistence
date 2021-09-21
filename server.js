@@ -95,8 +95,9 @@ app.post('/submit', bodyparser.json(),function(req, res){
 })
 
 app.post('/delete', bodyparser.json(),function(req, res){
-  // console.log('aaaaaaa', req.body)
-   collection.deleteOne({_id:data.ObjectId(req.body._id)})    
+   console.log('aaaaaaa', req.body._id)
+ collection.deleteOne({'_id':mongodb.ObjectId(req.body._id)}) 
+ //collection.deleteOne({'_id':req.body._id})
      .then(dbresponse =>{
      res.json(dbresponse)
      //console.log(dbresponse)
@@ -107,7 +108,7 @@ app.post('/loadTable', bodyparser.json(),function(req, res){
   collection.find({}).toArray()
   .then(dbresponse =>{
   res.json(dbresponse)
-  console.log(dbresponse)
+  //console.log(dbresponse)
   })
 })
 

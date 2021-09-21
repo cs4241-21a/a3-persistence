@@ -3,11 +3,18 @@ const dayInput = document.querySelector( '#day' )
 const difficultyInput = document.querySelector('#difficulty')
 
 const deleteButton = function(row){
-    window.alert(row.todo)
+   // window.alert(row._id)
+
+   json = { todo: todoInput.value, 
+            day: dayInput.value, 
+            difficulty: difficultyInput.value,
+            _id: row._id 
+    }
+    body = JSON.stringify( json )
 
     fetch( '/delete', {
         method:'POST',
-        body:JSON.stringify({todo:row.todo, day:row.day, difficulty: row.difficulty, _id:row.insertedID}),
+        body:JSON.stringify({todo:row.todo, day:row.day, difficulty: row.difficulty, _id:row._id}),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -52,7 +59,15 @@ const submit = function( ) {
 }
 
 const populateTable = function(json){
-    
+
+    const tableDeleter = function(day){
+        let table = document.getElementById(day);
+        let rowCount = table.rows.length;
+        for (let count = 1; count < rowCount; count++) {
+            table.deleteRow(1);
+        }
+    }
+
     json = { todo: todoInput.value, 
         day: dayInput.value, 
         difficulty: difficultyInput.value, 
@@ -70,11 +85,14 @@ const populateTable = function(json){
             return response.json()
         })
             .then(function(json){
-                let table = document.getElementById('Sunday');
-                let rowCount = table.rows.length;
-                for (let count = 1; count < rowCount; count++) {
-                    table.deleteRow(1);
-                }
+                tableDeleter('Sunday')
+                tableDeleter('Monday')
+                tableDeleter('Tuesday')
+                tableDeleter('Wednesday')
+                tableDeleter('Thursday')
+                tableDeleter('Friday')
+                tableDeleter('Saturday')
+                
                 for(let count = 0; count < json.length; count++){
                     let tr = document.createElement('tr')
                     let day = json[count].day.toString()
