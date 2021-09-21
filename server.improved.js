@@ -5,10 +5,14 @@ const express = require( 'express' ),
       app = express(),
       bodyParser = require('body-parser')
 
+  require('dotenv').config()
+
 app.use( express.static('public') )
 app.use( express.json() )
 app.use(express.urlencoded({extended:true}))
 
+var newid = 0
+var currentid = 0
 const uri = 'mongodb+srv://test:test123@cluster0.0qmyh.mongodb.net/'
 
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
@@ -32,18 +36,67 @@ client.connect()
   
 app.use(cookie({
   name: 'session',
-  keys: ['username', 'password']
+  keys: ['a', 'b']
 }))
+
+// app.post('/createUser', (req, res) => {
+//   collection.insertOne(req.body).then(result => res.json(result))
+// })
+
 
 app.post('/login', (req,res)=>{
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
   console.log( req.body )
+
+  // else{
+  //   fetch('/createUser', {
+  //     method:'POST',
+  //     body: JSON.stringify(req.body),
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //   .then(response => response.json())
+  // }
+  
   
   // below is *just a simple authentication example* 
   // for A3, you should check username / password combos in your database
-  if( req.body.password === 'test' ) {
+  if(collection !== null){
+    collection.find({username: req.body.username}).toArray()
+    .then(result => {
+      if(result.length === 0){
+        collection.insertOne(req.body).then(result => res.json(result))
+
+        const query = {'username': req.body.username}
+        const update = {
+        "$push": {
+        "userid": newid
+         }
+        }
+        const options = {"upsert": false}
+         collection.updateOne(query, update, options)
+
+        req.session.login = true
+        res.redirect( 'bmicalculator.html' )
+
+      }
+      else{
+        if(req.body.password === result[0].password){
+          req.session.login = true
+          currentid = result[0].userid[0]
+          res.redirect( 'bmicalculator.html' )
+        }
+        else{
+          res.redirect('index.html' )
+        }
+      }
+    })
+    .catch(err => console.log(err))
+  }
+  /* if( req.body.password ===  'test') {
     // define a variable that we can check in other middleware
     // the session object is added to our requests by the cookie-session middleware
     req.session.login = true
@@ -56,7 +109,8 @@ app.post('/login', (req,res)=>{
   }else{
     // password incorrect, redirect back to login page
     res.sendFile( __dirname + '/public/index.html' )
-  }
+  } */
+  newid++
 })
 
 // add some middleware that always sends unauthenicaetd users to the login page
@@ -86,7 +140,14 @@ app.post( '/entries', bodyParser.json(), (req,res) => {
 app.post( '/add', (req,res) => {
   // assumes only one object to insert
   collection.insertOne( req.body ).then( result => res.json( result ) )
-  //console.log(req.body._id)
+  const query = {'yourname': req.body.yourname}
+  const update = {
+    "$push": {
+      "userid": currentid
+    }
+  }
+  const options = {"upsert": false}
+  collection.updateOne(query, update, options)
 })
 
 // assumes req.body takes form { _id:5d91fb30f3f81b282d7be0dd } etc.
