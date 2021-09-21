@@ -68,6 +68,7 @@ app.get( '/getHistory', function (req, res) {
   }
 })
 
+
 // routes for handling the post request
 app.use('/submit',  function( request, response, next ) {
   console.log('in use function')
@@ -136,54 +137,15 @@ app.post( '/update', (req,res) => {
     .then( result => res.json( result ) )
 })
 
-app.post( '/remove', express.json(), async function (req,res) {
-  req.setTimeout(0)
-  // console.log('remove function', req.body._id )
-  console.log('removing', mongodb.ObjectId( req.body._id ))
-  // res.writeHead( 200, "OK", {'Content-Type': 'application/json' })
+app.post( '/remove', express.json(), function (req,res) {
   if( collection !== null ) {
     try {
-      collection.deleteOne( { "_id" : mongodb.ObjectId( req.body._id) } )
-      // collection.deleteOne({_id: req.body._id})
+      collection.deleteOne( { "_id" : mongodb.ObjectId(req.body._id )})
       .then( result => res.json( result ) )
-      // .then(result => res.end( JSON.stringify(result)))
-      .then( json => {
-        // console.log('after deleted from collection', json)
-        // console.log('remove', json)
-        return json
-      })
    } catch (e) {
       console.log(e);
    }
-    // await collection
-    // .deleteOne({ _id:mongodb.ObjectId( req.body._id ) }, function(err, obj) {
-    //   if (err) throw err
-    //   console.log("1 document deleted")
-    // })
-    
   }
-
-  
-  // debugger
-  // console.log('remove function', req)
-  // console.log('removing', mongodb.ObjectId( req.body._id ))
-  // console.log('collection', collection)
-
-  // await collection
-  //   .deleteOne({ _id:mongodb.ObjectId( req.body._id ) }, function(err, obj) {
-  //     if (err) throw err
-  //     console.log("1 document deleted")
-  //   })
-  //   .then( result => res.json( result ) )
-  //   // .then(result => res.end( JSON.stringify(result)))
-  //   .then( json => {
-  //     return json
-  //   })
-    // .then(result => res.end( JSON.stringify(result)))
-    // .then( json => {
-    //   console.log('removing', json)
-    //   return json
-    // })
 })
 
 const listener = app.listen( process.env.PORT || 3000, function() {

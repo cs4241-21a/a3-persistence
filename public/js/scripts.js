@@ -43,7 +43,7 @@ const submit = function( e ) {
     },
     body = JSON.stringify( json )
     console.log(body)
-    debugger
+    // debugger
     fetch( '/submit', {
       method:'POST',
       body 
@@ -199,6 +199,8 @@ function playNewSound(json, isSnippet = false) {
   // text.innerHTML = json.rain_mix_name
 }
 
+// todo separate function for remove
+
 
 /**
  * Updates the history table using the data
@@ -222,6 +224,12 @@ function updateHistory() {
     console.log(jsonArr)
 
     // todo clear the table
+    for (let i = 1; i < history_table.rows.length; i++) {
+      console.log(i)
+      console.log(history_table)
+      history_table.deleteRow(i)
+    }
+    debugger
 
     // add each mix json to the table
     jsonArr.forEach((object)  => {
@@ -269,39 +277,47 @@ function updateHistory() {
       del_btn.appendChild(del_t)
       del_cell.appendChild(del_btn)
 
-      del_btn.onclick = async function(e) {
-        debugger
-        let row_index = row.rowIndex
-        // let _id = object[json_keys[0]]
-        body = JSON.stringify({"_id":object[json_keys[0]]})
-        // body = {"_id":object[json_keys[0]]}
-        console.log('id to delete', body)
-        fetch( '/remove', {
-          method:'POST',
-          headers: { 'accept': 'application/json' },
-          body
-        })
-        .then(async function(response) {
-          debugger
-          console.log('delete response', response.json)
-          // console.log('get history response', response)
-          if(response.ok)
-            history_table.deleteRow(row_index)
-          // return false
-        })
-        // .then(console.log)
-        // .then( jsonstr => JSON.parse(jsonstr))
-        // .then(console.log)
-        // .then(function (json) {
-        // .then(history_table.deleteRow(row_index))
-        return false
-      }
+      del_btn.onclick = remove
     })
   })
 
+  const remove = function(e) {
+    // prevent default form action from being carried out
+    e.preventDefault()
 
-  const modifyMix = function(e) {
+    let row_index = e.path[2].rowIndex
 
+    fetch( '/getHistory', {
+      method:'GET'
+    })
+    .then(function(response) {
+      // console.log('get history response', response)
+      if(response.ok)
+        return response.json()
+    })
+    .then(function(jsonArr) {
+      // console.log('get history response', response)
+      console.log('jsonArr', jsonArr)
+      let json = jsonArr[jsonArr.length - row_index]
+      console.log('this json', json)
+      let json_keys = []
+      for (var key in json) {
+        json_keys.push(key)
+      }
+      // console.log('body to remove', json[json_keys[0]])
+      body = JSON.stringify({_id: json[json_keys[0]]})
+      fetch( '/remove', {
+        method:'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body
+      })
+      .then(async function(response) {
+        console.log('delete response', response.json)
+        if(response.ok)
+          history_table.deleteRow(row_index)
+      })
+      return false
+    })
   }
 
   // // get json keys
