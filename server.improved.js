@@ -40,10 +40,6 @@ client.connect()
     return collection.find({ }).toArray()
   })
   .then( console.log )
-  .then( () => {
-    // will only create collection if it doesn't exist
-    return client.db( 'Webware4241' ).collection( 'userdata' )
-  })
 
 app.use( cookie ({
   name: 'session',
@@ -154,27 +150,25 @@ app.post( '/register', (req,res)=> {
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
-  console.log( req.body )
   let regUsername = req.body.username;
   let regPassword = req.body.password;
 
-  console.log( collection.find({name: regUsername}));
 
   collection.find({name: regUsername}).toArray()
   .then(foundUsername => {
     if(foundUsername.length === 0) {
 
       //If so, perform cookie operations and redirect to main
-      req.session.login = true;
-      req.session.username = regUsername;
+      //req.session.login = true;
+      //req.session.username = regUsername;
 
       //make a new user entry and insert it into the user collection
       let newUserObject = makeUserObject(regUsername, regPassword);
       collection.insertOne( newUserObject ).then( result => res.json( result ) )
+      //reject user for bad username
+      res.sendFile( __dirname + '/public/index.html' )
+      return;
 
-      //Redirect to main and return the new user object as a response
-      res.json(newUserObject);
-      res.redirect( 'main.html' )
   
       // define a variable that we can check in other middleware
       // the session object is added to our requests by the cookie-session middleware
@@ -187,7 +181,6 @@ app.post( '/register', (req,res)=> {
       
     }else{
       // We already created the user, don't bother
-      res.sendFile( __dirname + '/public/index.html' )
     }
   })
   
@@ -258,8 +251,10 @@ function updatePlayerScore(playerName, playerScore){
   collection.find(({name: playerName})).toArray()
   .then(foundUsername => {
     collection.updateOne(
-      {_id: foundUsername._id},
+      {_id: foundUsername[0]._id},
       {$set: {score: playerScore}}
+
+      
       
     )
   })
@@ -288,7 +283,7 @@ function sortPlayerData(){
       {$sort: {score: -1}}
     ]
   ).toArray().then(sorted_data => {
-    console.log(sorted_data)
+    console.log("Sorted data: " + sorted_data)
     //update the document in order using ids you got back
     for(let i = 0; i < sorted_data.length; i++){
       collection.updateOne(
@@ -314,7 +309,6 @@ function makeUserObject(username, userPassword){
 
 //Removes a piece of data from the table
 function removeData(appdata, row){
-  console.log("CURRENT ROW: " + row)
 
   //remove data
   let isItemRemoved = false;
