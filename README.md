@@ -1,5 +1,5 @@
 ## Calorie Tracker 2.0
-Jack Ayvazian jpayvazian [insert link here]()
+Jack Ayvazian jpayvazian https://a3-jack-ayvazian.herokuapp.com/
 
 ### About
 This Calorie Tracking application is a upgraded version of my A2, where it tracks your calories intake by entering foods you eat, so you can make more healthy decisions.
@@ -18,7 +18,7 @@ I used Bootstrap for my CSS framework, as I have heard it was very popular, alth
 6. json: allowed parsing for JSON objects in the request body
 
 ## Technical Achievements
-- **Tech Achievement 1**: I hosted my site on ...
+- **Tech Achievement 1**: I hosted my site on Heroku. I found it to be pretty intuitive deploying directly through Github, the one thing I liked more with glitch was how it was easier to change files after importing. However, deploying with Heroku was nice as it tracked changed commited to my github repository.
 - **Tech Achievement 2**: I got 100% in all four lighthouse tests on both login/home pages  
   
 [Here is login page screenshot](https://github.com/jpayvazian/a3-persistence/blob/main/loginpage.JPG)  
