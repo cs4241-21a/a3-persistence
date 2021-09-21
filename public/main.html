@@ -17,31 +17,32 @@
     
   </head>
   <body>
-    <main>
+    <main id="mainGame">
       <div id="directions" class="gameLabel"><h3>Press the key before time runs out!</h3></div>
       <div id="message" class="gameLabel">Start the game to get prompts!</div>
       <div id="score" class="gameLabel">Score: 0</div>
       <button id="start-button" class="nes-btn is-primary" type="button" onclick="gameLoopSetup()">Start Game</button>
     </main>
 
-    <section>
+    <section id="gameForms">
       <form action="/submit-player-score" class="gameForm" method="post">
         <h3 class="gameLabel">Input Player Score</h3>
-        <ul>
-          <li>
-            <label for="playername" class="gameLabel">Name:</label>
-            <label id='playername' class="gameLabel">TestName</label>
-          </li>
-          <li>
-            <label for="playerscore" class="gameLabel">Score:</label>
-            <label id="savedScore" class="gameLabel">0</label>
-          </li>
-        </ul>
-        
+        <table class="gameTable">
+          <tr>
+            <th><label for="playername" class="gameLabel">Name:</label></th>
+            <th><label id='playername' class="gameLabel">TestName</label>
+            </th>
+          </tr>
+          <tr>
+            <th><label for="playerscore" class="gameLabel">Score:</label></th>
+            <th><label id="savedScore" class="gameLabel">0</label></th>
+          </tr>
+        </table>
         <button id = "submit" class="nes-btn is-success">Enter Score</button>
       </form>
   
-      <form action="/access-player-delete" class="gameForm" method="post">
+      
+      <form action="/access-player-delete" id="adminForm" class="gameForm" method="post">
         <h3 class="gameLabel">Admin Password</h3>
         <ul>
           <li>
@@ -51,7 +52,9 @@
         
         <button id = "adminAccessButton" class="nes-btn is-warning">Enter Admin Password</button>
       </form>
+      
   
+      
       <form action="/delete-player-score" id ="deleteScoreForm" class="gameForm" method="post">
         <h3 class="gameLabel">Delete Player Score</h3>
         <ul>
@@ -63,6 +66,7 @@
         
         <button id = "deleteButton">Delete</button>
       </form>
+    
     </section>
     <table id="game-leaderboard">
 

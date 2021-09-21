@@ -7,7 +7,9 @@
 
 
 const secretDoc = document.getElementById("deleteScoreForm")
+const secondSecretDoc = document.getElementById("adminForm")
 secretDoc.style.display = "none";
+secondSecretDoc.style.display = "none";
 
 let usernameVar = "sample";
 

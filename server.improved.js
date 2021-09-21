@@ -164,9 +164,9 @@ app.post( '/register', (req,res)=> {
 
       //make a new user entry and insert it into the user collection
       let newUserObject = makeUserObject(regUsername, regPassword);
-      collection.insertOne( newUserObject ).then( result => res.json( result ) )
+      collection.insertOne( newUserObject ).then( res.sendFile( __dirname + '/public/index.html' ) )
       //reject user for bad username
-      res.sendFile( __dirname + '/public/index.html' )
+      
       return;
 
   
