@@ -1,46 +1,18 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 3</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans">
-  </head>
-  <body>
-    <div class = "logo"><h1>BMI Calculator</h1></div>
-    <div class = "calculator">
-      <div id = "bmidisplay"></div>
-      <form action="/add" method = "POST">
-        <input type='text' id='yourname' placeholder="Name">
-        <input type='number' id='weight' placeholder= "Weight(lbs)">
-        <input type='number' id='feet' placeholder="Height (Feet)">
-        <input type='number' id='inches' placeholder= "Height (Inches)">
-        <img src = "images/bmichart.png" width = "356" height = "124" alt = "BMI chart">
-        <button id = "submit">submit</button>
-      </form>
-    </div>
-    <h1>Prior results</h1>
-    <table id="results"></table>
-    <script src="js/scripts.js"></script>
-  </body>
-</html>
-<!-- <!doctype html>
-<html lang="en">
-  <head>
+  <!-- <head>
     <title>Login - CS4241 Assignment 3</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans">
-  </head>
+  </head> -->
   <body>
-      <form>
+      <form action='/login' method='POST'>
         <label for='username'>Username:</label><br>
-        <input type='text' id='username'><br>
+        <input type='text' name='username'><br>
         <label for = 'pass'>Password</label><br>
-        <input type='password' id='pass'><br>
-        <input type= 'submit' value = 'Submit'>
+        <input type='password' name='password'><br>
+        <input type= 'submit'>
       </form>
-    <script src="js/scripts.js"></script>
+    <!-- <script src="js/scripts.js"></script> -->
   </body>
-</html> -->
+</html>

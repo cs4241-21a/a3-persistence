@@ -1,18 +1,21 @@
 //require('dotenv').config()
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
-      app = express()
+      cookie = require('cookie-session'),
+      app = express(),
       bodyParser = require('body-parser')
 
 app.use( express.static('public') )
 app.use( express.json() )
+app.use(express.urlencoded({extended:true}))
 
 const uri = 'mongodb+srv://test:test123@cluster0.0qmyh.mongodb.net/'
 
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
 
-const jsonParser = bodyParser.json()
+// serve up static files in the directory public
+app.use( express.static('public') )
 
 client.connect()
   .then( () => {
@@ -27,12 +30,56 @@ client.connect()
   })
   .then( console.log )
   
+app.use(cookie({
+  name: 'session',
+  keys: ['username', 'password']
+}))
+
+app.post('/login', (req,res)=>{
+  // express.urlencoded will put your key value pairs 
+  // into an object, where the key is the name of each
+  // form field and the value is whatever the user entered
+  console.log( req.body )
+  
+  // below is *just a simple authentication example* 
+  // for A3, you should check username / password combos in your database
+  if( req.body.password === 'test' ) {
+    // define a variable that we can check in other middleware
+    // the session object is added to our requests by the cookie-session middleware
+    req.session.login = true
+    
+    // since login was successful, send the user to the main content
+    // use redirect to avoid authentication problems when refreshing
+    // the page or using the back button, for details see:
+    // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
+    res.redirect( 'bmicalculator.html' )
+  }else{
+    // password incorrect, redirect back to login page
+    res.sendFile( __dirname + '/public/index.html' )
+  }
+})
+
+// add some middleware that always sends unauthenicaetd users to the login page
+app.use( function( req,res,next) {
+  if( req.session.login === true )
+    next()
+  else
+    res.sendFile( __dirname + '/public/index.html' )
+})
+
+app.use( (req,res,next) => {
+  if( collection !== null ) {
+    next()
+  }else{
+    res.status( 503 ).send()
+  }
+})
+
 // route to get all docs
-app.post( '/', (req,res) => {
+app.post( '/entries', bodyParser.json(), (req,res) => {
   if( collection !== null ) {
     // get array and pass to res.json
     collection.find({ }).toArray().then( result => res.json( result ) )
-    //console.log(res.json(result))
   }
 })
 
@@ -53,11 +100,9 @@ app.post( '/update', (req,res) => {
   collection
     .updateOne(
       { _id:mongodb.ObjectId( req.body._id ) },
-      { $set:{ name:req.body.name} }
+      { $set:{ yourname:req.body.yourname, feet: req.body.feet, inches: req.body.inches, bmi: req.body.bmi, status: req.body.status} }
     )
     .then( result => res.json( result ) )
 })
   
 app.listen( 3000 )
-
-//curl.exe --user test --data-binary '{"jsonrpc": "1.0", "id":"curltest", "method": "move", "params": ["acc-1", "acc-2", 6, 5, "happy birthday!"] }' -H 'content-type: application/json;' http://localhost:3000/add

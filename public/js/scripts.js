@@ -1,10 +1,7 @@
 // Add some Javascript code here, to run on the front end.
 
-//const { response } = require("express")
-
-console.log("Welcome to assignment 2!")
+console.log("Welcome to assignment 3!")
 var appdata = [0]
-
 
 //Converts user given height in feet and inches to only inches
 const FeetToInches = function(){
@@ -72,8 +69,23 @@ const createTable = function(){
   tbl.appendChild(row)
 }
 
-createTable()
+//Fetches intial entries and posts them to webpage
+fetch('/entries', {
+  method:'POST',
+  body: JSON.stringify({"yourname": yourname}),
+  headers: {
+    'Content-Type': 'application/json'
+  }
+})
+.then(response => response.json())
+.then(entries => {
+console.log(entries)
+ for(let entry of entries){
+   fillTable(entry)
+ }
+})
 
+//Adding an entry to server
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
@@ -154,21 +166,11 @@ const submit = function( e ) {
     return false
   }
 
-  constgetData = function(){
-    fetch('/', {
-      method:'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-    .then(json => console.log(json))
-    //use body parser?
-  }
 
   window.onload = function() {
     const button = document.querySelector( 'button' )
     button.onclick = submit
-    constgetData()
+    createTable()
   }
 
   //Function to delete a row
@@ -198,7 +200,7 @@ const submit = function( e ) {
     //  console.log(appdata)
   }
 
-  
+  //Function to edit a row (TODO)
   function editRow(row){
     
     const button = document.getElementById('edit')
@@ -212,37 +214,73 @@ const submit = function( e ) {
     ft.value = row.childNodes[1].innerText
     inc.value = row.childNodes[2].innerText
     weight.value = row.childNodes[3].innerText
+    saveRow(row)
+  button.innerHTML = 'Edit'
+  }
 
-    button.innerHTML = 'Save'
+  function saveRow(row){
+    const button = document.getElementById('edit')
+    var name = document.querySelector('#yourname')
+    var ft = document.querySelector('#feet')
+    var inc = document.querySelector('#inches')
+    var weight = document.querySelector('#weight')
 
-    button.onclick =
-    fetch('/update', {
-      method:'POST',
-      body:JSON.stringify(appdata[row.rowIndex]),
-      headers: {
-        'Content-Type': 'application/json'
+    button.onclick = function(){
+     const newEntry = {
+       yourname: name.value, feet: ft.value, inches: inc.value, weight: weight.value, bmi:calculateBMI(), status: weightStatus()
       }
-    })
-    .then(response => response.json())
-      .then(json => {
-        console.log(json)
-      row.childNodes[0].innerText = name.value
-      row.childNodes[1].innerText = ft.value 
-      row.childNodes[2].innerText = inc.value
-      row.childNodes[3].innerText = weight.value
-      row.childNodes[4].innerText = calculateBMI()
-      row.childNodes[5].innerText = weightStatus()
+        row.childNodes[0].innerText = name.value
+        row.childNodes[1].innerText = ft.value 
+        row.childNodes[2].innerText = inc.value
+        row.childNodes[3].innerText = weight.value
+        row.childNodes[4].innerText = calculateBMI()
+        row.childNodes[5].innerText = weightStatus()
+      fetch('/update', {
+        method:'POST',
+        body:JSON.stringify(newEntry),
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
-
-      // appdata[(aButton.parentNode.parentNode.rowIndex)-1].yourname = name.value
-      // appdata[(aButton.parentNode.parentNode.rowIndex)-1].feet = ft.value
-      // appdata[(aButton.parentNode.parentNode.rowIndex)-1].inches = inc.value
-      // appdata[(aButton.parentNode.parentNode.rowIndex)-1].weight = weight.value
-      // appdata[(aButton.parentNode.parentNode.rowIndex)-1].bmi = calculateBMI()
-      // appdata[(aButton.parentNode.parentNode.rowIndex)-1].weightStatus = weightStatus() 
-      button.innerHTML = 'Edit'
-      console.log("Row was edited. Updated data: ")
-      console.log(appdata)
+      .then(response => response.json())
     
+  }
+}
+
+//Function to fill table with intial entries when user enters a page
+  function fillTable(data){
+    const table = document.querySelector('#results')
+
+  //  const rowID = document.createElement('td')
+  //  rowID.appendChild(data._id)
+    appdata.push({_id: data._id})
+
+    const rowName = document.createElement('td')
+    rowName.innerText = data.yourname
+
+    const rowFt = document.createElement('td')
+    rowFt.innerText = data.feet
+
+    const rowIn = document.createElement('td')
+    rowIn.innerText = data.inches
+
+    const rowWeight = document.createElement('td')
+    rowWeight.innerText = data.weight
+
+    const rowBmi = document.createElement('td')
+    rowBmi.innerText = data.bmi
+
+    const rowStatus = document.createElement('td')
+    rowStatus.innerText = data.status
+
+    const rowEdit = document.createElement('td')
+    rowEdit.innerHTML = '<button id= "edit" onclick = "editRow(this.parentNode.parentNode)">Edit</button>'
+
+    const rowDelete = document.createElement('td')
+    rowDelete.innerHTML = '<button id= "delete" onclick = "removeRow(this.parentNode.parentNode)">Delete</button>'
+
+    const newRow = document.createElement('tr')
+    newRow.append(rowName, rowFt, rowIn, rowWeight, rowBmi, rowStatus, rowEdit, rowDelete)
+    table.appendChild(newRow)
   }
 

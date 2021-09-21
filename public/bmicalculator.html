@@ -4,6 +4,36 @@
     <title>CS4241 Assignment 3</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans&display=swap">
+  </head>
+  <body>
+    <div class = "logo"><h1>BMI Calculator</h1></div>
+    <div class = "calculator">
+      <div id = "bmidisplay"></div>
+      <div class = "row row-cols-1">
+      <form action="/" method = "GET">
+       <div class = "col-md"> <input type='text' class = 'form-control' id='yourname' placeholder="Name"></div>
+      <div class = "col-md"><input type='number' class = 'form-control' id='weight' placeholder= "Weight(lbs)"></div>
+        <input type='number' class = 'form-control' id='feet' placeholder="Height (Feet)">
+        <input type='number' class = 'form-control' id='inches' placeholder= "Height (Inches)">
+        <img src = "images/bmichart.png" width = "356" height = "124" alt = "BMI chart">
+        <button id = "submit">submit</button>
+      </form>
+    </div>
+    </div>
+    <h1>Prior results</h1>
+    <table id="results"></table>
+    <script src="js/scripts.js"></script>
+  </body>
+</html>
+<!-- <!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="A simple BMI calculator.">
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans">
@@ -25,4 +55,4 @@
     <table id="results"></table>
     <script src="js/scripts.js"></script>
   </body>
-</html>
+</html> -->
