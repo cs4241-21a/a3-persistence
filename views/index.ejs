@@ -19,14 +19,9 @@
                 <div class="hidden" id="myrestartbutton"><button onclick="restartGame()">Restart</button></div>
                 <div id="canvascontainer"></div>
             </div>
-            <form>
-                <input class="hidden" type='text' id='yourname'  placeholder="Your name here">
-                <button class="hidden" id="submitBtn">Submit</button>
-            </form>
+            <button class="hidden" id="submitBtn">Submit</button>
             <br>
             <button class="hidden" id="accelBtn" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">FLAP</button>
-            <div class="chatArea">
-            </div>
         </div>
         <div class="col-lg-4 general scoreArea" id="scoreAreaID">
             <h2>Top 5 Scores</h2>
@@ -35,14 +30,12 @@
                     <th>Name</th>
                     <th>Score</th>
                     <th>Rank</th>
-                    <th>Edit</th>
-                    <th>Report</th>
+                    <th>Delete</th>
                     <% leaderboards.forEach(leaderboard => { %>
                     <tr id=<%=leaderboard._id%>>
                         <td><%= leaderboard.yourname%></td>
                         <td><%= leaderboard.score%></td>
                         <td><%= leaderboard.rank%></td>
-                        <td><button class="bi bi-pencil" onclick="myEdit(parentNode.parentNode.id)"></button></td>
                         <td><button class="bi bi-trash" onclick="myDelete(parentNode.parentNode.id)"></button></td>
                     </tr>
                     <% }) %>

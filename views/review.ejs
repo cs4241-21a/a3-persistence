@@ -32,11 +32,13 @@
             <ul>
                 <% if (reviews.length > 0) { %>
                     <% reviews.forEach(review => { %>
-                    <ul id=<%=review._id%>>
-                        <li><%= review.username%></li>
-                        <li><%= review.review%></li>
-                        <li><%= review.rating%></li>
-                    </ul>
+                    <div id=<%=review._id%>>
+                        <p><%= review.username%> writes:</p>
+                        <p class="displayedComment"><%= review.review%></p>
+                        <%for (let i = 0; i < review.rating; i++ ){ %>
+                            <i class="bi bi-star-fill"></i>
+                         <%   }%>
+                    </div>
                     <% }) %>
                 <% } %>
 

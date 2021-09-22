@@ -211,3 +211,10 @@ h2 {
 .icons:visited, .icons:link {
     color: black;
 }
+
+.displayedComment {
+    border: black 1px solid;
+    padding: 3px;
+    margin-top: -12px;
+    margin-bottom: -2px;
+}

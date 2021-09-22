@@ -29,7 +29,8 @@ app.use(morgan('dev'));
 
 app.use( cookie({
     name: 'session',
-    keys: ['key1','key2']
+    keys: ['key1','key2'],
+    username: 'username'
 }))
 
 app.post('/signUp', async (req, res) => {
@@ -68,7 +69,8 @@ app.post('/login', async (req, res) => {
     console.log(req.body)
     let validated = await checkUsernamePassword(req.body.username, req.body.password);
     if (validated) {
-        req.session.login = true
+        req.session.login = true;
+        req.session.username = req.body.username;
         res.redirect('/index');
     } else {
         res.render('login');
@@ -112,11 +114,11 @@ app.use((req,res,next) => {
 app.post('/submit', bodyParser.json(), async (req, res) => {
     let rankAdd = await findRank(req.body.score);
     const entry = new ScoreEntry({
-        yourname: req.body.yourname,
+        yourname: req.session.username,
         score: parseInt(req.body.score),
         rank: rankAdd
     })
-    let evalScore = await(alreadyInSystem(req.body.yourname))
+    let evalScore = await(alreadyInSystem(req.session.username))
     if(evalScore === -1){
         await updateRankMongo(rankAdd);
         entry.save()
@@ -132,7 +134,7 @@ app.post('/submit', bodyParser.json(), async (req, res) => {
         console.log("here")
         await updateRankMongo(rankAdd);
         await deleteRankMongo(evalScore);
-        ScoreEntry.findOneAndUpdate({yourname: {$eq: req.body.yourname}}, {score: parseInt(req.body.score), rank: rankAdd})
+        ScoreEntry.findOneAndUpdate({yourname: {$eq: req.session.username}}, {score: parseInt(req.body.score), rank: rankAdd})
             .then( result =>{
             });
 
@@ -202,7 +204,7 @@ async function findRank(newScore) {
 
 app.post('/postReview', bodyParser.json(), (req,res) =>{
     const entry = new ReviewEntry({
-        username: "Aidan",
+        username: req.session.username,
         review: req.body.review,
         rating: req.body.rating
     })
@@ -257,15 +259,19 @@ app.get('/review',(req, res) =>{
 
 app.post('/delete', bodyParser.json(), async (req, res) => {
     let rankDel = 0;
+    let username = '';
     await ScoreEntry.findById(req.body.id)
         .then(result => {
+            username = result.yourname;
             rankDel = result.rank;
         })
-
-    await ScoreEntry.findByIdAndDelete(req.body.id)
-        .then(result => {
-        });
-    await deleteRankMongo(rankDel);
+    if (username === req.session.username){
+        await ScoreEntry.findByIdAndDelete(req.body.id)
+            .then(result => {
+            });
+        await deleteRankMongo(rankDel);
+    }
+    res.redirect('/index')
 })
 
 app.get('/login', (req,res) => {

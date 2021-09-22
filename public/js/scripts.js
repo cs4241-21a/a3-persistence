@@ -6,7 +6,6 @@ let rowNumEdit;
 let killEdit = false;
 
 window.onload = function() {
-    //updatePage();
     submitBtn.onclick = submit;
     editSubBtn.onclick = callEdit;
 }
@@ -24,18 +23,13 @@ document.addEventListener('keydown', event => {
 
 const submit = function( e ) {
     e.preventDefault();
-    const input = document.querySelector('#yourname'),
-        input2 = document.getElementById('printScore'),
+    const input2 = document.getElementById('printScore'),
         json = {
-            yourname: input.value,
+            yourname: '',
             score: input2.innerText,
             rank: ""
         },
         body = JSON.stringify(json)
-    if (input.value === "") {
-        window.alert("Please enter a username");
-        return false;
-    }
 
     fetch('/submit', {
         method: 'POST',
@@ -57,30 +51,8 @@ const submit = function( e ) {
 }
 
 function updateLeaderboards(){
-    const input = document.querySelector( '#yourname' ),
-        input2 = document.getElementById('printScore'),
-        json = { yourname: input.value,
-            score: input2.innerText,
-            rank: "" },
-        body = JSON.stringify( json )
-    fetch('/updateRanks', {
-        method:'POST',
-        body,
-        headers:{
-            "Content-Type":"application/json"
-        }
-    })
-        .then( function( response ) {
-            // do something with the response
-            console.log("Post made to server");
-        })
-        .then( function( json ) {
-            console.log(json);
-        })
+
 }
-
-
-let count = 3;
 
 let appdata;
 
@@ -141,26 +113,8 @@ const callEdit = async function () {
         document.getElementById("editName").style.display = "none";
         document.getElementById("submitNewNameBtn").style.display = "none";
     })
-    /*if (fetch('/modify', {
-        method: 'POST',
-        body,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).then(function (response) {
-        // do something with the response
-        console.log("Post made to server");
-    }).then(function (json) {
-        console.log(json);
-        updatePage();
-        document.getElementById("editName").style.display = "none";
-        document.getElementById("submitNewNameBtn").style.display = "none";
-    })){
-        window.alert("Please enter a unique username");
-    }*/
     return false;
 }
-
 
 //////////////////////////////////////////
 let myGameArea;
@@ -172,7 +126,6 @@ function restartGame() {
     document.getElementById("myfilter").style.display = "none";
     document.getElementById("myrestartbutton").style.display = "none";
     document.getElementById("submitBtn").style.display = "none";
-    document.getElementById("yourname").style.display = "none";
     myGameArea.stop();
     myGameArea.clear();
     myGameArea = {};
@@ -273,7 +226,6 @@ function updateGameArea() {
             myGameArea.stop();
             document.getElementById("myfilter").style.display = "block";
             document.getElementById("myrestartbutton").style.display = "block";
-            document.getElementById("yourname").style.display = "block";
             document.getElementById("submitBtn").style.display = "block";
             document.getElementById("accelBtn").style.display = "none";
             return;
