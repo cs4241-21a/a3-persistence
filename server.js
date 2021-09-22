@@ -15,9 +15,9 @@ require('dotenv').config()
 /**--------------------------------------------
  *               MONGODB
  *---------------------------------------------**/
-const db_name = 'test',
-      db_music_col = 'musictest',
-      db_user_col = 'usertest'
+const db_name = 'lofi',
+      db_music_col = 'mixes',
+      db_user_col = 'users'
 
 const uri = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@'+process.env.DB_HOST
 
