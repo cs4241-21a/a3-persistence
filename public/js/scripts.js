@@ -6,36 +6,7 @@ const addItemFunc = function (e) {
   // prevent default form action from being carried out
   e.preventDefault();
 
-  // let radio_elements = document.getElementsByName("year_radio"),
-  //   radio_result = "";
-
-  // for (i = 0; i < radio_elements.length; i++) {
-  //   if (radio_elements[i].checked)
-  //     radio_result = radio_elements[i].value;
-  // }
-
-  // console.log(radio_result)
-
-  // console.log(ele[i].checked)
-  // console.log(ele[i].value)
-
-  // if(ele[i].checked)
-  // document.getElementById("result").innerHTML
-  //         = "Gender: "+ele[i].value;
-
-  // Create the variables necessary for our POST request by reading the input fields
-  // const name_input = document.querySelector("#StudentName"),
-    // class_input = document.querySelector("#StudentClass"),
-    // role_input = document.querySelector("#StudentRole"),
-    // json = {
-    //   StudentName: name_input.value,
-    //   StudentClass: class_input.value,
-    //   StudentRole: role_input.value,
-    //   StudentYear: radio_result,
-    // },
-
-    const json = getNewStudentFromFields()
-
+  const json = getNewStudentFromFields(),
     body = JSON.stringify(json);
 
   // Submit the POST request
@@ -128,29 +99,16 @@ function getNewStudentFromFields() {
       StudentYear: radio_result,
       StudentGradDate: date_result.value,
     };
-    return json
+  return json;
 }
 
 // Function that is responsible for updating an existing item in our forum
 function updateItemFunc(button) {
   // Generate variables necessary for POST request
-  // const name_input = document.querySelector("#StudentName"),
-  //   class_input = document.querySelector("#StudentClass"),
-  //   role_input = document.querySelector("#StudentRole"),
-  //   id_value = button.composedPath()[0].id.substring(1),
-  //   json = {
-  //     StudentName: name_input.value,
-  //     StudentClass: class_input.value,
-  //     StudentRole: role_input.value,
-  //     _id: id_value,
-  //   },
-  //   body = JSON.stringify(json);
-
-  const json = getNewStudentFromFields()
-    id_value = button.composedPath()[0].id.substring(1),
-    json._id = id_value,
-    body = JSON.stringify(json);
-
+  const json = getNewStudentFromFields();
+  (id_value = button.composedPath()[0].id.substring(1)),
+    (json._id = id_value),
+    (body = JSON.stringify(json));
 
   // Send POST request
   fetch("/updateEntry", {

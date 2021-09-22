@@ -1,21 +1,21 @@
 /* Default styling for the entire webpage */
 * {
-  /* font-family: "Roboto Slab", serif; */
   box-sizing: border-box;
   list-style-type: none;
 }
 
 /* Setting the page's background color */
 body {
-  /* background-color: rgb(240, 234, 231); */
   font-family: "Raleway", sans-serif;
   background-color: rgb(169, 176, 183);
 }
 
+/* Setting headings font */
 h1, h2 {
   font-family: 'Source Sans Pro', sans-serif;
 }
 
+/* Setting heading 2 extra details for WPI theme */
 h2 {
   background-color: rgb(172, 43, 55);
   color: rgb(255, 255, 255);
@@ -24,6 +24,7 @@ h2 {
   border: 1px solid black;
 }
 
+/* Setting Input field background */
 #StudentName,
 #StudentClass,
 #StudentRole,
@@ -47,12 +48,11 @@ h2 {
   padding: 10px;
 }
 
+/* Setting the default style of buttons */
 #add_entry_button,
 .forum_cell_button {
   background-color: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
-  /* background-color: rgb(172, 43, 55); */
-  /* color: rgb(255, 255, 255); */
 }
 
 /* Setting the formatting for the remove and update entry buttons */
@@ -60,7 +60,6 @@ h2 {
   border: 2px solid black;
   padding: 10px;
   width: 100%;
-  /* background-color: rgb(235, 121, 87); */
 }
 
 /* Setting the formatting for the table header */
@@ -71,18 +70,20 @@ h2 {
   padding: 10px;
 }
 
+/* Setting the style to use for links */
 a {
-  /* background-color: rgb(172, 43, 55); */
   background-color: rgb(244, 212, 147);
   color: rgb(20, 22, 163);
   font-size: 20px;
   font-weight: bold;
 }
 
+/* Setting padding up for the image in the login screen */
 img {
   padding: 30px;
 }
 
+/* Setting the font size of non heading elements */
 p,
 th,
 td,
@@ -92,14 +93,15 @@ li,
   font-size: 18px;
 }
 
+/* Setting the style for radio field items */
 .radio_input_fields_item{
   background-color: rgb(255, 255, 255);
   border: 1px solid black;
 }
 
+/* Changing the button look on hover */
 button:hover,
 #add_entry_button:hover {
-  /* background-color: rgb(169, 176, 183); */
   background-color: rgb(0, 0, 0);
   color: rgb(255, 255, 255);
 }
@@ -111,6 +113,7 @@ button:hover,
   border: 1px solid black;
 }
 
+/* Changing the size of items in the list of radio items for formatting purposes */
 .radio_input_fields_list {
   font-size: 18px;
   width: 90%;
@@ -125,7 +128,6 @@ button:hover,
   text-align: center;
   margin: 0px;
   padding: 20px;
-  /* position: sticky; */
 }
 
 /* Setting up the table area */
@@ -142,21 +144,25 @@ button:hover,
   grid-area: tutorial;
 }
 
+/* The area we store links */
 .link_area {
   grid-area: link;
   text-align: center;
 }
 
+/* The welcome area on the login page */
 .welcome_area {
   grid-area: welcome;
   text-align: center;
 }
 
+/* The logout area in the forum page */
 .logout_area {
   grid-area: logout;
   text-align: center;
 }
 
+/* The logo area in the login page */
 .logo_area {
   grid-area: logo;
   display: block;
@@ -165,7 +171,7 @@ button:hover,
   width: 40%;
 }
 
-/* Setting the grid layout of the entire web page */
+/* Setting the grid layout of the entire forum web page */
 .grid_layout {
   display: grid;
   grid-template-columns: 10% 50% 30% 10%;
@@ -178,6 +184,7 @@ button:hover,
     ". table table .";
 }
 
+/* Setting the grid layout of the entire login web page */
 .login_grid_layout {
   display: grid;
   grid-template-columns: 10% 80% 10%;
@@ -188,8 +195,3 @@ button:hover,
     ". welcome . "
     ". logo .";
 }
-
-/* ". header header ."
-". table table ."
-". input tutorial . "
-". input tutorial ."; */
