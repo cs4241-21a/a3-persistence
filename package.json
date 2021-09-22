@@ -1,0 +1,16 @@
+{
+  "name": "a3-persistence-trbouwens",
+  "version": "1.0.0",
+  "description": "",
+  "author": "Tyler Bouwens (trbouwens)",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cookie-session": "^1.4.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "mime": "^2.5.2",
+    "mongodb": "^4.1.2"
+  }
+}
