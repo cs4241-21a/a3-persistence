@@ -1,6 +1,6 @@
 ## Race Results Tracker V2
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+https://a3-andrew-whitney.glitch.me/
 
 ![Results](Results.png)
 
