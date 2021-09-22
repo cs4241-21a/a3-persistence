@@ -9,6 +9,7 @@ and he can create, edit, and delete the assignments which show up in the table.
 The primary challenge I faced is on how to seperate different user's data, how different user communicate with each other, OAuth authentication,
 and designing the website. I chose Bootstrap as my CSS framework, it is documented well and really easy to use. I made no modifications to the framework.
 The OAuth authentication strategy I chose is passport because it seemed the easiest.
+The dummy account: username: Ke. Password: 123
 ![alt text](https://github.com/KorbinZ3/a3-persistence/blob/glitch/a6348221027f3504fc37529c76d2976.jpg)
 
  5 Express middleware packages:
