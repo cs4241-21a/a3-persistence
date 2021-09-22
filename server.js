@@ -25,10 +25,6 @@ morgan.token('body', function(req, res) {
 //create logger using morgan middleware
 app.use(morgan(':method :url :status :res[content-length] - :response-time ms :body'))
 
-app.get("/", (request, response) => {
-    response.sendFile(__dirname + "public/index.html");
-});
-
 const uri =
     "mongodb+srv://tester:tester123@cluster0.gfgtp.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 
@@ -107,7 +103,7 @@ app.post('/login', (request, response) => {
                 request.session.login = false
 
                 // username incorrect, redirect back to login page
-                response.sendFile(__dirname + '/public/index.html')
+                response.sendFile(__dirname + '/public/login-failed.html')
             } else if (results[0].password === request.body.password) {
                 // define a variable that we can check in other middleware
                 // the session object is added to our requests by the cookie-session middleware
@@ -118,7 +114,7 @@ app.post('/login', (request, response) => {
             } else {
                 request.session.login = false
                     // password incorrect, redirect back to login page
-                response.sendFile(__dirname + '/public/index.html')
+                response.sendFile(__dirname + '/public/login-failed.html')
             }
 
         }
@@ -130,7 +126,7 @@ app.use(function(request, response, next) {
     if (request.session.login === true)
         next()
     else
-        response.sendFile(__dirname + '/public/index.html')
+        response.sendFile(__dirname + '/public/login-failed.html')
 })
 
 app.post("/add", bodyParser.json(), (request, response) => {

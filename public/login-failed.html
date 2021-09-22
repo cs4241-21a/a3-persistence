@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <meta name="author" content="Shannen Lin">
+    <meta name="keywords" content="HTML, CSS, JavaScript, Web Development, MongoDB">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This webpage allows users to login or create an account.">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+Pro&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css" media="print" onload="this.media='all'">
+</head>
+
+<body class="bg-dark">
+
+    <div class="d-flex justify-content-center text-center align-items-center vh-100">
+        <div class="login off-white rounded p-4">
+            <h1 class="title">Book Reviews</h1>
+            <div id="userAlert" class="alert alert-danger text-wrap" role="alert">
+                Incorrect username or password. Try again.
+            </div>
+            <form id="loginForm" action='/login' method='POST'>
+                <input type='text' name='username' class="w-100 mb-2" required placeholder="Username">
+                <input type='password' name='password' class="w-100" required placeholder="Password">
+
+                <br>
+                <input class="w-100 btn btn-success" type='submit' value="Submit">
+            </form>
+
+            <p class="mt-2">OR</p>
+            <button id="create" class="w-100 btn btn-primary">Create an Account</button>
+        </div>
+    </div>
+
+    <script src="js/login-scripts.js" defer></script>
+</body>
+
+</html>
