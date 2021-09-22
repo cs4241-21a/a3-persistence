@@ -12,8 +12,8 @@
 <%- include nav.ejs %>
 <br/>
 
-<div id="editorcard" class="card" style="width: 40%; left: 20px;">
-    <div class="card-body" style=" padding-left: 20px;">
+<div id="editorcard" class="card" style="width: 40%; left: 20px; font-size: 20px;">
+    <div class="card-body" style=" padding-left: 20px; font-size: 20px;">
         <h5 id="EditorTitle" class="card-title">Add content</h5>
         <form action="/submit" method="post">
             <div class="form-check form-check-inline">
@@ -28,7 +28,7 @@
                        onchange="updateContentLabel()">
                 <label class="form-check-label" for="inlineRadio2">Project</label>
             </div>
-            <textarea class="form-control" rows="3" id="contentInput" name="contentInput" style="width: 90%"></textarea>
+            <textarea class="form-control" rows="3" id="contentInput" name="contentInput" style="width: 90%; font-size: 20px;"></textarea>
             <br/>
             <input type="hidden" id="contentID" name="contentID">
             <div class="row">
