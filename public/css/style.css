@@ -1,3 +1,7 @@
+body {
+    background-color: burlywood;
+}
+
 #grid {
     display: grid;
     grid-template-columns: 25em 1fr;
@@ -12,7 +16,7 @@ h3 {
     font-size: 1.5em;
 }
 
-#carform {
+#carform, #editform  {
     font-weight: bold;
 }
 
@@ -23,14 +27,14 @@ caption {
     padding-top: 1.25em;
 }
 
-.rowfixes {
-    height: 2em;
-}
-
 #cartable {
     height: min-content;
 }
 
 #cartable tr td:nth-child(9), #cartable th:nth-child(9) {
+    display: none;
+}
+
+#hide {
     display: none;
 }

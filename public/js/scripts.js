@@ -1,3 +1,5 @@
+let rowNum = 0
+
 const submit = function (e) {
     // prevent default form action from being carried out
     e.preventDefault()
@@ -8,6 +10,139 @@ const submit = function (e) {
         year = document.querySelector("#year"),
         plateNum = document.querySelector("#platenumber")
 
+    body = checkInput(name, make, model, year, plateNum)
+    
+    if(body === false) {
+        return false
+    }
+
+    fetch('/submit', {
+        method: 'POST',
+        body,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => response.text())
+        .then(function (text) {
+            const data = JSON.parse(text)
+            let table = document.getElementById("cartable")
+            let row = table.insertRow(-1)
+            let c0 = row.insertCell(0)
+            let c1 = row.insertCell(1)
+            let c2 = row.insertCell(2)
+            let c3 = row.insertCell(3)
+            let c4 = row.insertCell(4)
+            let c5 = row.insertCell(5)
+            let c6 = row.insertCell(6)
+            let c7 = row.insertCell(7)
+            let c8 = row.insertCell(8)
+            c0.innerHTML = data.yourname
+            c1.innerHTML = data.make
+            c2.innerHTML = data.model
+            c3.innerHTML = data.year
+            c4.innerHTML = data.plateNum
+            c5.innerHTML = data.age
+            c6.innerHTML = '<button onclick="update(this)">Edit</button>'
+            c7.innerHTML = '<button onclick="remove(this)">Delete</button>'
+            c8.innerHTML = data._id
+            document.getElementById("carform").reset();
+        })
+
+    return
+}
+
+const remove = function (obj) {
+    rowNum = obj.parentNode.parentNode.rowIndex
+    let id = document.getElementById("cartable").rows[rowNum].cells[8].innerHTML
+    document.getElementById("cartable").deleteRow(rowNum)
+
+    json = {
+        _id: id
+    },
+        body = JSON.stringify(json)
+
+    fetch('/remove', {
+        method: 'POST',
+        body,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => response.text())
+        .then(function (text) {
+            console.log("Deleted row from database.")
+        })
+}
+
+const update = function (obj) {
+    rowNum = obj.parentNode.parentNode.rowIndex
+    document.getElementById("edityourname").value = document.getElementById("cartable").rows[rowNum].cells[0].innerHTML
+    document.getElementById("editmake").value = document.getElementById("cartable").rows[rowNum].cells[1].innerHTML
+    document.getElementById("editmodel").value = document.getElementById("cartable").rows[rowNum].cells[2].innerHTML
+    document.getElementById("edityear").value = document.getElementById("cartable").rows[rowNum].cells[3].innerHTML
+    document.getElementById("editplatenumber").value = document.getElementById("cartable").rows[rowNum].cells[4].innerHTML
+    localStorage.setItem("_id", document.getElementById("cartable").rows[rowNum].cells[8].innerHTML)
+
+    
+    document.getElementById("hide").style.display = "block"
+    console.log("Here")
+    document.getElementById("edityourname").focus()
+}
+
+const editSubmission = function (e) {
+    e.preventDefault()
+
+    const name = document.getElementById("edityourname"),
+        make = document.getElementById("editmake"),
+        model = document.getElementById("editmodel"),
+        year = document.getElementById("edityear"),
+        plateNum = document.getElementById("editplatenumber")
+
+    test = checkInput(name, make, model, year, plateNum)
+
+    if(test === false) {
+        return false
+    }
+
+    let d = new Date()
+    let age = d.getFullYear() - year.value
+
+    json = {
+        yourname: name.value,
+        make: make.value,
+        model: model.value,
+        year: year.value,
+        plateNum: plateNum.value,
+        age: String(age),
+        _id: localStorage.getItem("_id")
+    },
+        body = JSON.stringify(json)
+    
+    fetch('/edit', {
+        method: 'POST',
+        body,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => response.text())
+        .then(function (text) {
+            console.log("Edited row in database.")
+
+            document.getElementById("cartable").rows[rowNum].cells[0].innerHTML = name.value
+            document.getElementById("cartable").rows[rowNum].cells[1].innerHTML = make.value
+            document.getElementById("cartable").rows[rowNum].cells[2].innerHTML = model.value 
+            document.getElementById("cartable").rows[rowNum].cells[3].innerHTML = year.value 
+            document.getElementById("cartable").rows[rowNum].cells[4].innerHTML = plateNum.value
+            document.getElementById("cartable").rows[rowNum].cells[5].innerHTML = age
+            
+            document.getElementById("editform").reset()
+            document.getElementById("hide").style.display = "none"
+        })
+}
+
+const checkInput = function (name, make, model, year, plateNum) {
     if (name.value === "" || make.value === "" || model.value === "" || year.value === "" || plateNum.value === "") {
         alert("Need to fill all fields!")
         return false
@@ -41,13 +176,6 @@ const submit = function (e) {
     }
 
     plateNum.value = plateNum.value.toUpperCase()
-    let table = document.getElementById("cartable")
-    for(let row of table.rows) {
-        if(row.cells[4].innerHTML === plateNum.value) {
-            alert("Cannot have multiple cars with the same plate number.")
-            return false
-        }
-    }
 
     json = {
         yourname: name.value,
@@ -58,106 +186,25 @@ const submit = function (e) {
     },
         body = JSON.stringify(json)
 
-    fetch('/submit', {
-        method: 'POST',
-        body,
-        headers: {
-            "Content-Type": "application/json"
-          }
-    })
-        .then(response => response.text())
-        .then(function (text) {
-            const data = JSON.parse(text)
-            let table = document.getElementById("cartable")
-            let row = table.insertRow(-1)
-            row.className = "rowfixes"
-            let c0 = row.insertCell(0)
-            let c1 = row.insertCell(1)
-            let c2 = row.insertCell(2)
-            let c3 = row.insertCell(3)
-            let c4 = row.insertCell(4)
-            let c5 = row.insertCell(5)
-            let c6 = row.insertCell(6)
-            let c7 = row.insertCell(7)
-            let c8 = row.insertCell(8)
-            c0.innerHTML = data.yourname
-            c1.innerHTML = data.make
-            c2.innerHTML = data.model
-            c3.innerHTML = data.year
-            c4.innerHTML = data.plateNum
-            c5.innerHTML = data.age
-            c6.innerHTML = '<button onclick="update(this)">Edit</button>'
-            c7.innerHTML = '<button onclick="remove(this)">Delete</button>'
-            c8.innerHTML = data._id
-            let form = document.getElementById("carform");
-            form.reset();
-        })
-
-    return
+    return body
 }
 
-const remove = function (obj) {
-    let rowNum = obj.parentNode.parentNode.rowIndex
-    let id = document.getElementById("cartable").rows[rowNum].cells[8].innerHTML
-    document.getElementById("cartable").deleteRow(rowNum)
-    
-    json = {
-        _id: id
-    },
-        body = JSON.stringify(json)
-
-    fetch('/remove', {
-        method: 'POST',
-        body,
-        headers: {
-            "Content-Type": "application/json"
-          }
-    })
-        .then(response => response.text())
-        .then(function (text) {
-            console.log("Deleted row from database.")
-        })
-}
-
-const edit = function (obj) {
-    let rowNum = obj.parentNode.parentNode.rowIndex
-    let name = document.getElementById("cartable").rows[rowNum].cells[0].innerHTML
-    let make = document.getElementById("cartable").rows[rowNum].cells[1].innerHTML
-    let model = document.getElementById("cartable").rows[rowNum].cells[2].innerHTML
-    let year = document.getElementById("cartable").rows[rowNum].cells[3].innerHTML
-    let plateNum = document.getElementById("cartable").rows[rowNum].cells[4].innerHTML
-    let age = document.getElementById("cartable").rows[rowNum].cells[5].innerHTML
-    let id = document.getElementById("cartable").rows[rowNum].cells[8].innerHTML
-    
-    json = {
-        yourname: name,
-        make: make,
-        model: model,
-        year: year,
-        plateNum: plateNum,
-        age: age,
-        _id: id
-    },
-        body = JSON.stringify(json)
-
-    fetch('/edit', {
-        method: 'POST',
-        body,
-        headers: {
-            "Content-Type": "application/json"
-          }
-    })
-        .then(response => response.text())
-        .then(function (text) {
-            console.log("Edited row in database.")
-        })
-}
-
-const resetTable = function () {
-    
+const resetTable = function (username) {
+    //Delete everything and then read database to recreate table?
+    //Username makes this easier or harder?
+    let table = document.getElementById("cartable")
+    for(let i = 1; i < table.rows.length; i++) {
+        table.deleteRow(i);
+    }
 }
 
 window.onload = function () {
     const button = document.querySelector('button')
     button.onclick = submit
+
+    const submitChanges = document.getElementById('submitChanges')
+    submitChanges.onclick = editSubmission
+
+    //resetTable will be called here
+    //Need to know username
 }
