@@ -24,30 +24,32 @@ document.addEventListener('keydown', event => {
 
 const submit = function( e ) {
     e.preventDefault();
-    const input = document.querySelector( '#yourname' ),
+    const input = document.querySelector('#yourname'),
         input2 = document.getElementById('printScore'),
-        json = { yourname: input.value,
+        json = {
+            yourname: input.value,
             score: input2.innerText,
-            rank: "" },
-        body = JSON.stringify( json )
+            rank: ""
+        },
+        body = JSON.stringify(json)
     if (input.value === "") {
         window.alert("Please enter a username");
         return false;
     }
 
-    fetch( '/submit', {
-        method:'POST',
+    fetch('/submit', {
+        method: 'POST',
         body,
-        headers:{
-            "Content-Type":"application/json"
+        headers: {
+            "Content-Type": "application/json"
         }
     })
-        .then( function( response ) {
+        .then(function (response) {
             // do something with the response
 
             console.log("Post made to server");
         })
-        .then( function( json ) {
+        .then(function (json) {
             console.log(json);
         })
     //updateLeaderboards();
@@ -308,4 +310,28 @@ function everyinterval(n) {
 
 function accelerate(n) {
     myGamePiece.gravity = n;
+}
+
+function myEdit(idValue){
+    console.log(idValue)
+}
+
+function myDelete(idValue){
+
+     const json = { id: idValue},
+        body = JSON.stringify( json )
+    fetch('/delete', {
+        method:'POST',
+        body,
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+        .then( function( response ) {
+            // do something with the response
+            console.log("Post made to server");
+        })
+        .then( function( json ) {
+            console.log(json);
+        })
 }

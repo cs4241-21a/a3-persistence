@@ -204,3 +204,10 @@ h2 {
     color: blue;
     text-align: center;
 }
+
+.icons {
+    text-decoration: none;
+}
+.icons:visited, .icons:link {
+    color: black;
+}

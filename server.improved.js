@@ -6,6 +6,7 @@ const mime = require( 'mime' ),
     app = express(),
     ScoreEntry = require('./models/leaderboardEntry.js'),
     UserEntry = require('./models/login.js'),
+    ReviewEntry = require('./models/reviewEntry.js'),
     cookie = require( 'cookie-session'),
     bodyParser = require("body-parser");
 require('dotenv').config();
@@ -199,6 +200,22 @@ async function findRank(newScore) {
     return tempRank;
 }
 
+app.post('/postReview', bodyParser.json(), (req,res) =>{
+    const entry = new ReviewEntry({
+        username: "Aidan",
+        review: req.body.review,
+        rating: req.body.rating
+    })
+    entry.save()
+        .then(async result => {
+        })
+        .catch(err => {
+            console.log(err);
+        });
+    return;
+})
+
+
 app.get('/', (req,res) => {
     res.redirect('/index');
 })
@@ -227,9 +244,29 @@ app.get('/index', (req, res) => {
         });
 });
 
-app.get('/chat', (req, res) =>{
-    res.render('chat',{title:"Chat Page"});
+app.get('/chat',(req, res) =>{
+    res.redirect('/review')
+})
+
+app.get('/review',(req, res) =>{
+    ReviewEntry.find().sort({rating: -1})
+        .then(result => {
+            res.render('review', {reviews: result, title:"Reviews"})
+        })
 });
+
+app.post('/delete', bodyParser.json(), async (req, res) => {
+    let rankDel = 0;
+    await ScoreEntry.findById(req.body.id)
+        .then(result => {
+            rankDel = result.rank;
+        })
+
+    await ScoreEntry.findByIdAndDelete(req.body.id)
+        .then(result => {
+        });
+    await deleteRankMongo(rankDel);
+})
 
 app.get('/login', (req,res) => {
     res.render('login', {title:"Chat Page"})

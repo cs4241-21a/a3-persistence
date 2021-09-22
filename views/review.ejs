@@ -1,0 +1,51 @@
+<html lang="en">
+<%- include("./partials/head.ejs") %>
+<body>
+<script src="./js/review.js" defer></script>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <%- include("./partials/nav.ejs") %>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-6">
+            <h2>Write a Review</h2>
+            <form action='/postReview' method='POST' id="reviewForm">
+                <input type="radio" id="oneStar" name="rating" value=1>
+                <label for="oneStar"><i class="bi bi-star-fill"></i></label><br>
+                <input type="radio" id="twoStar" name="rating" value=2>
+                <label for="twoStar"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></label><br>
+                <input type="radio" id="threeStar" name="rating" value=3>
+                <label for="threeStar"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></label><br>
+                <input type="radio" id="fourStar" name="rating" value=4>
+                <label for="fourStar"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></label><br>
+                <input type="radio" id="fiveStar" name="rating" value=5>
+                <label for="fiveStar"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></label><br>
+                <!--<input onclick="clearForm()" type='submit'>-->
+                <input type="submit">
+            </form>
+            <textarea id="reviewArea" form="reviewForm" name="review"></textarea>
+        </div>
+        <div class="col-6">
+            <h2>Reviews</h2>
+            <ul>
+                <% if (reviews.length > 0) { %>
+                    <% reviews.forEach(review => { %>
+                    <ul id=<%=review._id%>>
+                        <li><%= review.username%></li>
+                        <li><%= review.review%></li>
+                        <li><%= review.rating%></li>
+                    </ul>
+                    <% }) %>
+                <% } %>
+
+            </ul>
+        </div>
+    </div>
+
+
+</div>
+    <%- include("./partials/footer.ejs") %>
+</body>
+</html>
