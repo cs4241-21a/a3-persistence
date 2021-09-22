@@ -1,7 +1,6 @@
 ## Team Assignment Scheduler
 
 - Ke Zhao : https://a3-ke-zhao.glitch.me/
-- For Heroku: 
 
 This website allows user to submit their Assignments for teammates to view and schedule for the remaining time! When user first enter the website,
 they can easily see all assignments no matter their teammates or themself. Once user click login and log into his account, he can see his own assignments,
@@ -24,7 +23,6 @@ The OAuth authentication strategy I chose is passport because it seemed the easi
 
 ## Technical Achievements
 - **Tech Achievement 1**: I implement OAuth authentication: passport.
-- **Tech Achievement 2**: I also host my site on Heroku: 
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: 
