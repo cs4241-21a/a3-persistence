@@ -17,6 +17,7 @@ const register = function (e) {
     })
         .then(function (response) {
             console.log(response);
+            debugger;
             return response.json();
         }).then(function (data) {
             if (data.failed === "exists") {
@@ -29,7 +30,9 @@ const register = function (e) {
                 debugger
                 //WHY DOESNT THIS WORK?
                 //WAIT WHY IS IT SUDDENLY WORKING
-                login(e);
+                //nvm it broke again
+                //login(e);
+                window.location.href = "main.html";
             }
             console.log(data);
             //addRows(data);

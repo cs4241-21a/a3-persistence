@@ -8,8 +8,8 @@ const express = require('express'),
 app.use(express.static('public'))
 app.use(express.static('views'))
 app.use(express.static('public/js')) //it breaks if I don't add these additional ones, idk why though
-app.use(express.static('public/css'))
-app.use(express.static('public/html'))
+app.use(express.static('public/css')) //and at this point im scared to ask
+app.use(express.static('public/html')) //my code is held together by a fragile mesh of spaghetti and black magic that could break at any moment and im afraid to mess with it
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookie({
@@ -104,14 +104,34 @@ app.post('/delete', bodyParser.json(), (req, res) => {
 
     })
     //if succeeded at deleting, send a response back saying success.
-    //if success, have client remove row locally
+    //if success, have client remove row locally (dont reload entire table)
+})
+
+app.post('/edit', bodyParser.json(), (req, res) => {
+    collection.findOne({ _id: mongodb.ObjectId(req.body._id) }).then(function (data) {
+        //Could add something where if try to edit a secret it does an alert
+        if (data.un === req.session.user) {
+            debugger;
+            collection.updateOne(
+                { _id: mongodb.ObjectId(req.body._id) },
+                { $set: { name2: req.body.name2 } }
+            ).then(result => res.json({ failed: "false", num: data.name }))
+        }
+        else {
+            res.json({ failed: "true" })
+        }
+
+    })
+    //if succeeded at editing, send a response back saying success
+    //if success, have client edit row locally (dont reload entire table)
 })
 
 //implement button with this
 app.get('/logout', (req, res) => {
-    req.session.login = false
-    req.session.user = null
+    req.session.login = false;
+    req.session.user = null;
     res.sendFile(__dirname + '/views/index.html')
+    debugger;
 })
 
 
@@ -140,7 +160,6 @@ app.post('/login', (req, res) => {
                 // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern
                 //WHY DOES THIS NOT WORK? sendFile ALSO DOESNT WORK
                 //debugger
-                debugger
                 res.json({ failed: "false" });
             } else {
                 // password incorrect, redirect back to login page
@@ -148,20 +167,6 @@ app.post('/login', (req, res) => {
                 //there used to be a send file here, is that better to use?
             }
         })
-})
-
-//add some middleware that always sends unauthenticated users to the login page
-app.use(function (req, res, next) {
-    if (req.session.login === true) {
-        console.log("logged in, proceeded")
-        req.session.login = false //DELETE THIS AT SOME POINT
-        next()
-    }
-    else {
-        debugger
-        console.log("Unauthenticated, sent to login")
-        res.sendFile(__dirname + '/views/index.html')
-    }
 })
 
 app.post('/register', bodyParser.json(), (req, res) => {
@@ -173,7 +178,6 @@ app.post('/register', bodyParser.json(), (req, res) => {
     }
     collection.find({ pw: { $exists: true } }).toArray() //find each entry with a password
         .then(function (result) {
-            console.log(result)
             if (!failed) {
                 for (i = 0; i < result.length; i++) {
                     if (req.body.u === result[i].un) {
@@ -184,13 +188,39 @@ app.post('/register', bodyParser.json(), (req, res) => {
             }
             if (!failed) {
                 collection.insertOne({ un: req.body.u, pw: req.body.p })
-                //SET COOKIES AND REDIRECT HERE
+                //SET COOKIES
                 req.session.login = true;
                 req.session.user = req.body.u;
             }
             res.json(msg);
         })
 })
+
+
+//add some middleware that always sends unauthenticated users to the login page
+app.use(function (req, res, next) {
+    if (req.session.login === true) {
+        console.log("logged in, proceeded")
+        //req.session.login = false //for testing the login
+        next()
+    }
+    else {
+        console.log("Unauthenticated, sent to login")
+        res.sendFile(__dirname + '/views/index.html')
+    }
+})
+
+// app.use("/", function (req, res, next) {
+//     if (req.session.login === true) {
+//         console.log("logged in, proceeded B")
+//         req.session.login = false //for testing the login
+//         next()
+//     }
+//     else {
+//         console.log("Unauthenticated, sent to login B")
+//         res.sendFile(__dirname + '/views/index.html')
+//     }
+// })
 
 
 
@@ -204,7 +234,7 @@ app.get('/load', (req, res) => {
                 }
             }
             visible.unshift({ un: req.session.user });
-            debugger;
+            //debugger;
             console.log("/load called");
             return visible;
         })
@@ -217,17 +247,15 @@ app.get('/load', (req, res) => {
 // console.log("load called");
 // })
 
-// route to get all docs, needs to be after the unauth middleware?
+
+// route to get all docs, needs to be after the unauth middleware? useless atm?
 app.get('/', (req, res) => {
     if (collection !== null) {
-        res.sendFile(__dirname + "/views/main.html");
         console.log("got to GET/");
-        // get array and pass to res.json
-        //collection.find({}).toArray().then(result => console.log(result));
-        //collection.find({}).toArray().then(result => res.json(result))
-        //res.sendFile(__dirname + "/views/index.html");
+        res.sendFile(__dirname + "/views/index.html");
     }
 })
+
 
 app.listen(3000)
 

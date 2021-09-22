@@ -26,6 +26,7 @@ const submit = function (e) {
         })
             .then(function (response) {
                 console.log(response);
+                //debugger
                 return response.json();
             }).then(function (data) {
                 console.log(data);
@@ -48,6 +49,7 @@ const deleteRow = function (id) {
     })
         .then(function (response) {
             console.log(response);
+            //debugger;
             return response.json();
         }).then(function (data) {
             if (data.failed === "false") {
@@ -68,6 +70,39 @@ const deleteRow = function (id) {
         })
 }
 
+const editRow = function (id, newname, el) {
+    json = { _id: id, name2: newname },
+        body = JSON.stringify(json)
+    fetch('/edit', {
+        method: 'POST',
+        body: body,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(function (response) {
+            console.log(response);
+            debugger;
+            return response.json();
+        }).then(function (res) {
+            debugger;
+            if (res.failed === "false") {
+                el.textContent = res.num + ": " + newname;
+            }
+            else {
+                alert("Could not edit name");
+            }
+        })
+}
+
+const logout = function () {
+    fetch('/logout', {
+        method: 'GET'
+    }).then(res => {
+        window.location.href = "index.html";
+    })
+}
+
 const convert = function () {
     let input = document.getElementById("bintext").value.toLowerCase();
     //SET INPUT TO LOWERCASE
@@ -86,23 +121,27 @@ window.onload = function () {
     loggedInAs = null;
     const button = document.getElementById("compute");
     button.onclick = submit
+    document.getElementById("logout").onclick = logout;
 
     document.getElementById("convert").onclick = convert;
 
     body = ""
     fetch('/load', {
         method: 'GET'
-        // headers: {
-        //     "Content-Type": "application-json"
-        // }
-
     })
         .then(function (response) {
-            return response.json();
-        }).then(function (data) {
-            debugger
-            loggedInAs = data.shift().un;
-            addRows(data);
+            let contentType = response.headers.get("content-type");
+            console.log(contentType);
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+                return response.json().then(data => {
+                    loggedInAs = data.shift().un;
+                    addRows(data);
+                })
+            }
+            else {
+                window.location.href = "index.html";
+            }
+
         })
 }
 
@@ -128,7 +167,13 @@ function addRows(response) {
         let cell1 = row.insertCell();
         let el = document.createElement("td");
         el.style = "border: none";
-        el.innerText = r[i].name;
+
+        //if second name specified, show name as name: name2
+        let rowname = r[i].name;
+        if (r[i].name2 !== null && r[i].name2 !== undefined & r[i].name2 !== "") {
+            rowname = rowname + ": " + r[i].name2;
+        }
+        el.innerText = rowname;
         cell1.appendChild(el);
 
         let cell2 = row.insertCell();
@@ -156,18 +201,47 @@ function addRows(response) {
         cell5.appendChild(el5);
 
         if (r[i].un === loggedInAs && r[i].un !== null) {
-            console.log("WDOJIA");
             let cell6 = row.insertCell();
-            let el6 = document.createElement("td");
-            el6.innerText = "test";
+            let cell7 = row.insertCell();
+
             let delbut = document.createElement("button");
             delbut.innerText = "D";
             delbut.addEventListener('click', function () {
                 let thisrowid = row._id;
                 deleteRow(thisrowid);
             });
-            el6.appendChild(delbut);
-            cell6.appendChild(el6);
+
+            let editbut = document.createElement("button");
+            editbut.innerText = "E";
+            editbut.selected = false;
+            editbut.parentrow = row;
+            //editbut.rowel = el;
+            editbut.nameinput = document.createElement("input");
+            editbut.nameinput.setAttribute('type', 'text');
+            editbut.nameinput.style = "width: 90%";
+            editbut.addEventListener('click', function () {
+                let ethisrowid = row._id;
+                if (!editbut.selected) {
+                    editbut.innerText = "C";
+                    el.parentNode.removeChild(el);
+                    cell1.appendChild(editbut.nameinput);
+                    editbut.selected = true;
+                }
+                else {
+                    editbut.innerText = "E";
+                    cell1.removeChild(editbut.nameinput);
+                    cell1.appendChild(el);
+                    editbut.selected = false;
+                    debugger;
+                    // console.log(editbut.nameinput.value);
+                    editRow(ethisrowid, editbut.nameinput.value, el);
+                }
+
+
+                //nameedit.setAttribute('type')
+            });
+            cell6.appendChild(editbut);
+            cell7.appendChild(delbut);
         }
     }
 }
