@@ -1,8 +1,8 @@
 {
-  "name": "Ido Katz",
+  "name": "Ido-Katz",
   "version": "2.0",
   "description": "",
-  "author": "Ido Katz",
+  "author": "Ido-Katz",
   "scripts": {
     "start": "node server.js"
   },
