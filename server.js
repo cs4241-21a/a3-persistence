@@ -3,6 +3,7 @@ const express = require( 'express' ),
       mongodb = require( 'mongodb' )
       app = express()
       cookie = require('cookie-session')
+      cookieParser = require('cookie-parser')
 
 app.use( express.json() )
 // use express.urlencoded to get data sent by defaut form actions
@@ -24,6 +25,7 @@ const uri = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@'+pro
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
 let users_collection = null
+let current_user = ""
 
 client.connect()
 .then( () => {
@@ -67,130 +69,39 @@ app.use( cookie({
  *               EXPRESS ROUTES
  *---------------------------------------------**/
  app.post( '/login', async (req,res, next)=> {
-  let loginFailed = false
-  let users = []
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
   console.log( req.body )
-  req.session.login = false
-  
-  // get the list of users from the database
-  if( users_collection !== null ) {
-    await users_collection.find({ }).toArray()
-    // .then(result => JSON.parse(result))
-    .then( jsonArr => {
-      users = jsonArr
-    })
-  }
-
-  console.log('users')
-  console.log(users)
-  console.log(typeof(users))
 
   // check if the username is in the database
-  users.forEach(function(user) { 
-    console.log(user.username)
-    // check if username is in the database
-    if (req.body.username === user.username) {
-      // username found, check if passwords match
-      if (req.body.password === user.password) {
-        // define a variable that we can check in other middleware
-        // the session object is added to our requests by the cookie-session middleware
+  users_collection.findOne({"username": req.body.username})
+  .then(function(response) {
+    // username is in the database, check password
+    if(response !== null) {
+      // password correct
+      if (req.body.password === response.password) {
         req.session.login = true
-        
-        // since login was successful, send the user to the main content
-        // use redirect to avoid authentication problems when refreshing
-        // the page or using the back button, for details see:
-        // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-        // next()
+        current_user = req.body.username
         res.redirect( '/' )
+      // password incorrect
       } else {
-        // password incorrect, redirect back to login page
         // todo show message: incorrect password
         console.log('incorrect password!')
         req.session.login = false
         res.sendFile( __dirname + '/public/views/login.html' )
-        loginFailed = true
-        // res.redirect( '/' )
       }
-    } 
-    // else {
-    //   // username not found, make new user
-    //   debugger
-    //   next()
-    //   // todo message: signed up successfully
-    //   console.log('signed up successfully!')
-    // }
-  })
-
-  console.log('exited for loop...')
-  console.log(req.session.login)
-
-  // create new user if login status is false
-  // and the us
-  if (req.session.login === false && !loginFailed) {
-    console.log('creating new user...')
-    next()
-    // todo message: signed up successfully
-    console.log('signed up successfully!')
-    req.session.login = true
-    res.redirect( '/' )
-  }
-
-  // console.log('users')
-  // console.log(users)
-  // console.log(users.find())
-
-  // if( req.body.password === 'test' ) {
-  
-  //   // define a variable that we can check in other middleware
-  //   // the session object is added to our requests by the cookie-session middleware
-  //   req.session.login = true
-    
-  //   // since login was successful, send the user to the main content
-  //   // use redirect to avoid authentication problems when refreshing
-  //   // the page or using the back button, for details see:
-  //   // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-  //   // next()
-  //   res.redirect( '/' )
-  // }else{
-  //   // password incorrect, redirect back to login page
-  //   res.sendFile( __dirname + '/public/views/login.html' )
-  // }
-})
-
-app.post('/signup', async function(req, res, next) {
-  console.log('in use function')
-  let dataString = ''
-
-  req.on( 'data', function( data ) {
-    dataString += data 
-  })
-
-  req.on( 'end', function() {
-    const json = JSON.parse( dataString )
-    console.log('response', json )
-
-    collection.insertOne( json )//.then( result => response.json( result ) )
-    // add a 'json' field to our request object
-    req.json = JSON.stringify( json )
-    next()
+    // username isn't in the database, create new user
+    } else {
+      users_collection.insertOne({"username": req.body.username,
+        "password": req.body.password})
+      req.session.login = true
+      current_user = req.body.username
+      req.session.username = req.body.username
+      res.redirect( '/' )
+    }
   })
 })
-
-app.post( '/signup', function( request, response ) {
-  // our request object now has a 'json' field in it from our
-  // previous middleware
-  // history.push( request.body.newmix)
-  // console.log('response', response)
-  // debugger
-  console.log('sign up', request.json)
-  response.writeHead( 200, { 'Content-Type': 'application/json'})
-  // console.log('submit response', request.json )
-  response.end( JSON.stringify(request.json ))
-})
-
 
 app.use( function( req, res, next ) {
   console.log( 'url:', req.url )
@@ -203,6 +114,12 @@ app.use( function( req, res, next ) {
 app.use( express.static('public') )
 
 app.get('/', function(req, res) {
+  // Cookies that have not been signed
+  console.log('Cookies: ', req.cookies)
+
+  // Cookies that have been signed
+  console.log('Signed Cookies: ', req.signedCookies)
+
   res.sendFile( __dirname + '/public/views/index.html' )
 })
 
@@ -265,7 +182,12 @@ app.use('/submit',  function( request, response, next ) {
     if (json.lofi === "lofi_on") {
       rain_volume -= 0.2
     }
+
+    // add rain volume to json
     json.rain_volume = rain_volume.toFixed(1)
+
+    // add username to json
+    console.log('request', request.session)
     console.log('response', json )
 
     // history.push( json )
