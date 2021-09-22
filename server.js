@@ -35,12 +35,18 @@ client.connect()
         return collection.find({ "username": "test" }).toArray()
     }).then(console.log)
 
-app.get('/', checkNotAuthenticated, (req, res) => {
+
+app.get('/', checkAuthenticated, (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
 });
 
-app.get('/main', checkAuthenticated, (req, res) => {
-    res.sendFile(__dirname + '/views/main.html');
+app.get('/login', checkNotAuthenticated, (req, res) => {
+    res.sendFile(__dirname + '/views/login.html');
+});
+
+
+app.get('/dashboard', checkAuthenticated, (req, res) => {
+    res.sendFile(__dirname + '/views/index.html');
 });
 
 app.get('/register', checkNotAuthenticated, (req, res) => {
@@ -70,17 +76,27 @@ let getUserbyId = async id => {
     }
 }
 
+let getIdByUsername = async username => {
+    if (collection !== null) {
+        let user = await collection.find({ "username": username }).toArray();
+        return user[0]._id;
+    } else {
+        null
+    }
+}
+
 passport.use(new LocalStrategy({}, authUser));
 passport.serializeUser((user, next) => next(null, user._id))
 passport.deserializeUser((id, next) => {
     next(null, getUserbyId(id));
 });
 
-app.post('/login', checkNotAuthenticated, (req, res, next) => {
+app.post('/login', checkNotAuthenticated, async (req, res, next) => {
+    let userID = await getIdByUsername(req.body.username);
     passport.authenticate('local',
         {
-            successRedirect: '/main?user=' + req.body.username,
-            failureRedirect: '/',
+            successRedirect: '/dashboard?userID=' + userID,
+            failureRedirect: '/login',
             failureFlash: true
         })(req, res, next);
 });
@@ -90,11 +106,12 @@ app.delete('/logout', (req, res) => {
     res.redirect('/');
 });
 
-app.post('/registerUser', (req, res) => {
+app.post('/signUp', async (req, res) => {
     if (collection === null) {
         alert('Failed to connect to the databse!');
         return res.redirect('/register');
     }
+
     try {
         collection.insertOne({
             "username": req.body.username,
@@ -107,16 +124,31 @@ app.post('/registerUser', (req, res) => {
     }
 });
 
-function checkAuthenticated(req, res, next) {
+app.get('/getUsers', async (req, res) => {
+    if (collection === null) {
+        alert('Failed to connect to database!');
+        return res.redirect('/register');
+    }
+    let users = await collection.find({}).toArray()
+    let usernameList = []
+    users.forEach(element => {
+        usernameList.push(element.username);
+    });
+    res.json(usernameList);
+    res.end()
+});
+
+async function checkAuthenticated(req, res, next) {
+
     if (req.isAuthenticated()) {
         return next();
     }
-    res.redirect('/');
+    res.redirect('/login');
 }
 
 function checkNotAuthenticated(req, res, next) {
     if (req.isAuthenticated()) {
-        return res.redirect('/main');
+        return res.redirect('/');
     }
     next()
 }

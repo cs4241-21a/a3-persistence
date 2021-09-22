@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="./public/style.css">
+    <title>A3 Persistance</title>
+</head>
+
+<body>
+    <div class="container whole-page">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-sm-4">
+                <div class="logreg-form">
+                    <form action='/login' method='POST'>
+                        <div id="login-error"></div>
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Enter your username" required>
+                        </div>
+                        <div class="form-group mt-2">
+                            <label for="password">Password</label>
+                            <input type="password" class="form-control" id="password" name="password"
+                                placeholder="Enter your password" required>
+                        </div>
+                        <div class="row justify-content-even align-items-center mt-3">
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary">Log In</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <a href=" /register">Sign Up</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

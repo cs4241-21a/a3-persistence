@@ -12,7 +12,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
         integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./public/style.css">
-    <script type="text/javascript" src="./public/scripts.js"></script>
+    <script type="text/javascript" src="./public/registerCheck.js"></script>
 </head>
 
 <body>
@@ -20,25 +20,33 @@
         <div class="row justify-content-center align-items-center h-100">
             <div class="col-sm-4">
                 <div class="logreg-form">
-                    <form action='/registerUser' method='POST'>
+                    <form autocomplete="off" action='/signUp' method='POST'>
                         <div id="register-error"></div>
                         <div class="form-group">
                             <label for="username">Username</label>
                             <input type="text" class="form-control" id="username" name="username"
-                                placeholder="Enter your username" required>
+                                aria-describedby="username-message" placeholder="Enter your username" required>
+                            <div id="username-message" class="form-text"></div>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <label for="password">Password</label>
                             <input type="password" class="form-control" id="password" name="password"
                                 placeholder="Enter your password" required>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group mt-2">
                             <label for="confirm-password">Confirm Password</label>
                             <input type="password" class="form-control" id="confirm-password" name="confirm-password"
                                 aria-describedby="password-message" placeholder="Confirm your password" required>
                             <div id="password-message" class="form-text"></div>
                         </div>
-                        <button type="submit" class="btn btn-primary" id="signUpBTN">Sign Up</button>
+                        <div class="row justify-content-even align-items-center mt-3">
+                            <div class="col-sm-3">
+                                <button type="submit" class="btn btn-primary" id="signUpBTN">Sign Up</button>
+                            </div>
+                            <div class="col-sm-3">
+                                <a href="/login">Log In</a>
+                            </div>
+                        </div>
                     </form>
                 </div>
             </div>
