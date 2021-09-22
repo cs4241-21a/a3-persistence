@@ -28,10 +28,11 @@
     <form>
       <p id = "Error message">Log In:</p>
       
-      <button id = 'login' >Log In</button>
+      
       <input type='text' id='user' placeholder="username"> 
       <input type='password' id='password' placeholder="password"> 
-      
+      <button id = 'login' >Log In</button>
+      <button id = 'signup' >Sign Up</button>
     </form>
 
       </div>
@@ -76,23 +77,54 @@ json = {
     })
     
     
-    /*.then(function(response){
-      return response.json()
-    }).then(function(){
+    return false
+  };
+
+  const signup =  function( e ) {
+    // prevent default form action from being carried out*/
+    e.preventDefault()
+
+    const userIn = document.querySelector( '#user' )
+    const passwordIn = document.querySelector( '#password' )
 
 
-    })*/
+    if(userIn.value === "" || passwordIn.value === "" ){
+      return false;
+    }
+
+json = {
+  user: userIn.value, 
+  password: passwordIn.value
+}
+
+          body = JSON.stringify(json)
+        
+          fetch( '/signup', {
+      method:'POST',
+      body: body, 
+      headers: {"Content-Type": "application/json"}
+      
+      
+    }).then(res => {
+      console.log("signed up");
+      if(res.status === 201){
+        window.location.href = "/index"
+      }
+      else if(res.status === 202){
+        window.location.href = "/signup"
+      }
+    })
     
     
     return false
   };
-
   
   window.onload = function() {
 
-    
     const subbutton = document.querySelector( '#login' )
     subbutton.onclick = login
+    const signbutton = document.querySelector( '#signup' )
+    signbutton.onclick = signup
    
   }
 

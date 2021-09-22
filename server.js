@@ -1,19 +1,19 @@
 
 const express = require("express")
-//const cookie  = require( 'cookie-session' )
+const cookie  = require( 'cookie-session' )
 const app = express() 
-let userSignIn;
 
 
-app.use( express.urlencoded({ extended:true }) )
+
+app.use( express.urlencoded({ extended:true }) )//meddleware 
 app.use(express.json())
 
-/*app.use( cookie({
+app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
-}))*/
+}))
 
-const { ObjectID } = require('bson');
+//const { ObjectID } = require('bson');
 const { MongoClient, ObjectId } = require('mongodb');
 const uri = "mongodb+srv://a3u1:a3u1@a3-jpoulos000.aibxf.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -24,25 +24,31 @@ client.connect(err => {
 });
 
 
-const addUsers = async () => {
+/*const addUsers = async () => { // stock
 
   const collection = client.db("test").collection("devices");
   await collection.insertOne({user: "Jared", password: "1234", appdata: [] })
   
   await collection.insertOne({user: "admin", password: "admin", appdata: [] })
+}*/
 
+const addUser =  (userIn, passwordIn) => { // stock
 
+  const collection = client.db("test").collection("devices");
+   collection.insertOne({user: userIn, password: passwordIn, appdata: [] })
+  
 }
 
-
-
 app.get("/", (req, res) => {
+  if(req.session.login){
+    res.sendFile(__dirname + "/public/index.html")
+  }
   res.sendFile(__dirname + "/public/signin.html")
 })
 
 const getappdata =  () => {
   const collection = client.db("test").collection("devices");
-  return  collection.findOne({user:userSignIn}).appdata
+  return  collection.findOne({user:req.session.user}).appdata
 }
 
 const getUsername = ( username) => {
@@ -53,10 +59,6 @@ const getUsername = ( username) => {
 
 //--------------------------------------
  app.post( '/login',    async (req,res) =>{
-  // express.urlencoded will put your key value pairs 
-  // into an object, where the key is the name of each
-  // form field and the value is whatever the user entered
-
     //{user: "name", password: "pass"}
     console.log(req.body)
       console.log("hit login")
@@ -75,8 +77,10 @@ const getUsername = ( username) => {
     if(foundJSON.password===dataObj.password){
 // define a variable that we can check in other middleware
     // the session object is added to our requests by the cookie-session middleware
-    userSignIn = user
     
+    
+      req.session.login = true
+      req.session.user = user
 
     console.log("login sucess")
     // since login was successful, send the user to the main content=
@@ -98,13 +102,67 @@ const getUsername = ( username) => {
 
 })
 
+app.post( '/logout',  (req,res) =>{
+  
+    console.log("hit")
+    req.session.login = false
+    req.session.user = ""
+
+    res.status(202).end();
+})
+
+app.post( '/signup',    async (req,res) =>{
+  // express.urlencoded will put your key value pairs 
+  // into an object, where the key is the name of each
+  // form field and the value is whatever the user entered
+
+    //{user: "name", password: "pass"}
+  console.log(req.body)
+      
+  let dataObj =  req.body
+  console.log(dataObj)
+
+  console.log("hit signup")
+
+
+  let user = dataObj.user
+
+  let password = dataObj.password
+  
+  let foundJSON =  await getUsername(user)
+
+  console.log(foundJSON)
+
+  if(foundJSON != null){
+
+    //console.log("already exists")
+    
+    res.status(202).end();
+    
+  }
+  else{
+    // user incorrect, redirect back to login page
+    
+    console.log("Create new")
+
+    await addUser(user, password)
+
+    req.session.login = true
+    req.session.user = user
+
+    res.status(201).end();
+  }
+
+})
+
 // add some middleware that always sends unauthenicaetd users to the login page
-/*app.use( function( req,res,next) {
+app.use( function( req,res,next) {
   if( req.session.login === true )
     next()
   else
-    res.sendFile( __dirname + '/public/index.html' )
-})*/
+    //res.sendFile( __dirname + '/public/index.html' )
+    res.redirect("/signin")
+})
 
 // serve up static files in the directory public
 app.use( express.static('public', {extensions: ["html"]}) )
@@ -120,7 +178,7 @@ app.post("/submit", async (req, res) => {
 
   let dataObj =  req.body
 
-  console.log(userSignIn)
+  
 
   if(dataObj.id >= appdata.length){
     console.log("400")

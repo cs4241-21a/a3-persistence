@@ -25,7 +25,7 @@
   </table>
 </div>
 <br>
-<div class='center'>
+<div >
     <form>
       <p>Add new row:</p>
       <input type='text' id='name' placeholder="name here">
@@ -39,7 +39,15 @@
     </form>
 
       </div>
+
+  <form>
+  
+    <button id = 'logout' >Log Out</button>
+  </form>
+
     </div>
+
+
   </body>
   <script>
 
@@ -215,6 +223,38 @@
     return false
   };
 
+
+  const logout =  function( e ) {
+    // prevent default form action from being carried out*/
+    e.preventDefault()
+
+  
+
+json = {
+  user: "out", 
+  password: "out"
+}
+
+          body = JSON.stringify(json)
+        
+          fetch( '/logout', {
+      method:'POST',
+      body: body, 
+      headers: {"Content-Type": "application/json"}
+      
+      
+    }).then(res => {
+      console.log("signed up");
+      
+      
+        window.location.href = "/signup"
+      
+    })
+    
+    
+    return false
+  };
+
   window.onload = function() {
 
     
@@ -224,6 +264,9 @@
     modbutton.onclick = modify
     const delbutton = document.querySelector( '#delete' )//delete not allowed
     delbutton.onclick = deleting
+
+    const logbutton = document.querySelector( '#logout' )//delete not allowed
+    logbutton.onclick = logout
   }
 
   </script>
