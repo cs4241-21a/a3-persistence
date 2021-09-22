@@ -66,21 +66,17 @@ app.use( cookie({
 /**--------------------------------------------
  *               EXPRESS ROUTES
  *---------------------------------------------**/
- app.post( '/login', (req,res)=> {
+ app.post( '/login', async (req,res, next)=> {
   let users = []
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
   console.log( req.body )
-  // below is *just a simple authentication example* 
-  // for A3, you should check username / password combos in your database
+  
+  // get the list of users from the database
   if( users_collection !== null ) {
-    // get array and pass to res.json
-    users_collection.find({ }).toArray()
-    // debugger
-    // users = users_collection.find({ }).toArray()
-
-    .then(result => JSON.stringify(result))
+    await users_collection.find({ }).toArray()
+    // .then(result => JSON.parse(result))
     .then( jsonArr => {
       users = jsonArr
     })
@@ -88,27 +84,101 @@ app.use( cookie({
 
   console.log('users')
   console.log(users)
+  console.log(typeof(users))
 
-  if( req.body.password === 'test' ) {
-  
-    // define a variable that we can check in other middleware
-    // the session object is added to our requests by the cookie-session middleware
+  // check if the username is in the database
+  users.forEach(function(user) { 
+    console.log(user.username)
+    // check if username is in the database
+    if (req.body.username === user.username) {
+      // username found, check if passwords match
+      if (req.body.password === user.password) {
+        // define a variable that we can check in other middleware
+        // the session object is added to our requests by the cookie-session middleware
+        req.session.login = true
+        
+        // since login was successful, send the user to the main content
+        // use redirect to avoid authentication problems when refreshing
+        // the page or using the back button, for details see:
+        // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
+        // next()
+        res.redirect( '/' )
+      } else {
+        // password incorrect, redirect back to login page
+        res.sendFile( __dirname + '/public/views/login.html' )
+        // todo show message: incorrect password
+        console.log('incorrect password!')
+        req.session.login = false
+      }
+    } 
+    // else {
+    //   // username not found, make new user
+    //   debugger
+    //   next()
+    //   // todo message: signed up successfully
+    //   console.log('signed up successfully!')
+    // }
+  })
+
+  if (req.session.login === false) {
+    debugger
+    next()
+    // todo message: signed up successfully
+    console.log('signed up successfully!')
     req.session.login = true
-    
-    // since login was successful, send the user to the main content
-    // use redirect to avoid authentication problems when refreshing
-    // the page or using the back button, for details see:
-    // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-    // next()
-    res.redirect( '/' )
-  }else{
-    // password incorrect, redirect back to login page
-    res.sendFile( __dirname + '/public/views/login.html' )
   }
+
+  // console.log('users')
+  // console.log(users)
+  // console.log(users.find())
+
+  // if( req.body.password === 'test' ) {
+  
+  //   // define a variable that we can check in other middleware
+  //   // the session object is added to our requests by the cookie-session middleware
+  //   req.session.login = true
+    
+  //   // since login was successful, send the user to the main content
+  //   // use redirect to avoid authentication problems when refreshing
+  //   // the page or using the back button, for details see:
+  //   // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
+  //   // next()
+  //   res.redirect( '/' )
+  // }else{
+  //   // password incorrect, redirect back to login page
+  //   res.sendFile( __dirname + '/public/views/login.html' )
+  // }
 })
 
-app.post('/checklogin', function(res,req) {
+app.post('/signup', async function(req, res, next) {
+  console.log('in use function')
+  let dataString = ''
 
+  req.on( 'data', function( data ) {
+    dataString += data 
+  })
+
+  req.on( 'end', function() {
+    const json = JSON.parse( dataString )
+    console.log('response', json )
+
+    collection.insertOne( json )//.then( result => response.json( result ) )
+    // add a 'json' field to our request object
+    req.json = JSON.stringify( json )
+    next()
+  })
+})
+
+app.post( '/signup', function( request, response ) {
+  // our request object now has a 'json' field in it from our
+  // previous middleware
+  // history.push( request.body.newmix)
+  // console.log('response', response)
+  // debugger
+  console.log('sign up', request.json)
+  response.writeHead( 200, { 'Content-Type': 'application/json'})
+  // console.log('submit response', request.json )
+  response.end( JSON.stringify(request.json ))
 })
 
 
@@ -123,6 +193,7 @@ app.use( function( req, res, next ) {
 app.use( express.static('public') )
 
 app.get('/', function(req, res) {
+  debugger
   res.sendFile( __dirname + '/public/views/index.html' )
 })
 
@@ -149,6 +220,7 @@ app.get( '/getUsers', function (req, res) {
     })
   }
 })
+
 
 // routes for handling the post request
 app.use('/submit',  function( request, response, next ) {
