@@ -3,7 +3,6 @@ const express = require( 'express' ),
       mongodb = require( 'mongodb' )
       app = express()
       cookie = require('cookie-session')
-      cookieParser = require('cookie-parser')
 
 app.use( express.json() )
 // use express.urlencoded to get data sent by defaut form actions
@@ -114,12 +113,6 @@ app.use( function( req, res, next ) {
 app.use( express.static('public') )
 
 app.get('/', function(req, res) {
-  // Cookies that have not been signed
-  console.log('Cookies: ', req.cookies)
-
-  // Cookies that have been signed
-  console.log('Signed Cookies: ', req.signedCookies)
-
   res.sendFile( __dirname + '/public/views/index.html' )
 })
 
@@ -127,7 +120,7 @@ app.get( '/getHistory', function (req, res) {
   res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
   if( collection !== null ) {
     // get array and pass to res.json
-    collection.find({ }).toArray()
+    collection.find({'username':current_user }).toArray()
     .then(result => res.end( JSON.stringify(result)))
     .then( json => {
       return json
@@ -150,7 +143,7 @@ app.get( '/getUsers', function (req, res) {
 
 // routes for handling the post request
 app.use('/submit',  function( request, response, next ) {
-  console.log('in use function')
+  console.log('submitting...')
   let dataString = ''
 
   request.on( 'data', function( data ) {
@@ -187,8 +180,8 @@ app.use('/submit',  function( request, response, next ) {
     json.rain_volume = rain_volume.toFixed(1)
 
     // add username to json
-    console.log('request', request.session)
-    console.log('response', json )
+    json.username = current_user
+    console.log(json)
 
     // history.push( json )
     // debugger
@@ -206,7 +199,7 @@ app.post( '/submit', function( request, response ) {
   // history.push( request.body.newmix)
   // console.log('response', response)
   // debugger
-  console.log('submit', request.json)
+  // console.log('submit', request.json)
   response.writeHead( 200, { 'Content-Type': 'application/json'})
   // console.log('submit response', request.json )
   response.end( JSON.stringify(request.json ))
