@@ -3,13 +3,19 @@ const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
       cookie = require('cookie-session'),
       app = express(),
-      bodyParser = require('body-parser')
+      bodyParser = require('body-parser'),
+      slash   = require('express-slash')
+      favicon = require('serve-favicon'),
+      path = require('path')
+      fs = require('fs')
+      morgan = require('morgan')
 
   require('dotenv').config()
 
 app.use( express.static('public') )
 app.use( express.json() )
 app.use(express.urlencoded({extended:true}))
+app.use(favicon(path.join(__dirname, 'public', 'images/bmi.png')))
 
 var newid = 0
 var currentid = 0
@@ -20,6 +26,20 @@ let collection = null
 
 // serve up static files in the directory public
 app.use( express.static('public') )
+app.enable('strict routing')
+
+var router = express.Router({
+  caseSensitive: app.get('case sensitive routing'),
+  strict       : app.get('strict routing')
+})
+
+app.use(router)
+app.use(slash())
+
+var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), { flags: 'a' })
+
+app.use(morgan('combined', { stream: accessLogStream }))
+
 
 client.connect()
   .then( () => {
@@ -79,6 +99,7 @@ app.post('/login', (req,res)=>{
          collection.updateOne(query, update, options)
         currentid = newid
         req.session.login = true
+        //window.alert('New account created')
         res.redirect( 'bmicalculator.html' )
 
       }
@@ -89,7 +110,9 @@ app.post('/login', (req,res)=>{
           res.redirect( 'bmicalculator.html' )
         }
         else{
-          res.redirect('index.html' )
+          req.session.login = false
+          res.sendFile( __dirname + '/public/index.html' )
+          currentid = result[0].userid[0]
         }
       }
     })
@@ -160,9 +183,22 @@ app.post( '/update', (req,res) => {
   collection
     .updateOne(
       { _id:mongodb.ObjectId( req.body._id ) },
-      { $set:{ yourname:req.body.yourname, feet: req.body.feet, inches: req.body.inches, bmi: req.body.bmi, status: req.body.status} }
+      { $set:{ docid: currentid, yourname:req.body.yourname, feet: req.body.feet, inches: req.body.inches, bmi: req.body.bmi, status: req.body.status} 
+    }
     )
     .then( result => res.json( result ) )
 })
   
+app.get('/', function (req, res) {
+  res.send('hello, world!')
+})
+
+router.get('/login', function (req, res) {
+  res.redirect('index.html' )
+});
+
+router.get('/home', function (req, res) {
+  res.redirect('index.html' )
+});
+
 app.listen( 3000 )

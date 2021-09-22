@@ -215,7 +215,6 @@ const submit = function( e ) {
     inc.value = row.childNodes[2].innerText
     weight.value = row.childNodes[3].innerText
     saveRow(row)
-  button.innerHTML = 'Edit'
   }
 
   function saveRow(row){
