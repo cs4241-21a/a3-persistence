@@ -3,7 +3,7 @@ const express = require('express'),
 	path = require('path'),
 	bodyparser = require("body-parser"),
 	favicon = require('serve-favicon'),
-	cookie = require('cookie-session'),
+	cookieSession = require('cookie-session'),
 	app = express()
 
 app.use(express.json())
@@ -24,30 +24,54 @@ client.connect()
 	.then(__collection => {
 		collection = __collection
 		console.log('mongoDB connection established')
+		// DB Tester
+		collection.find({"email": "test@testers.com", "password": "test"})
+			.toArray().then(result => {
+			if (result[0] !== undefined)
+				console.log(result[0]._id.toString())
+			else console.log("Test user not found")
+		})
 	})
+
+// Checks DB connection
+app.use((req, res, next) => {
+	if (collection !== null) {
+		next()
+	} else {
+		res.status(503).send()
+	}
+})
+
+
+// Cookie
+app.use(cookieSession({
+	name: 'session',
+	keys: ['key', 'backup1', 'backup2'],
+	maxAge: 7 * 24 * 60 * 60 * 1000 // A week
+}))
 
 
 // ------ Serve Non-Secret Files ------
 
 
 // login
-app.get('/login', function (request, response) {
-	response.sendFile(__dirname + '/public/login.html')
+app.get('/login', function (req, res) {
+	res.sendFile(__dirname + '/public/login.html')
 })
 
 // join
-app.get('/join', function (request, response) {
-	response.sendFile(__dirname + '/public/join.html')
+app.get('/join', function (req, res) {
+	res.sendFile(__dirname + '/public/join.html')
 })
 
 // css
-app.get('/styles.css', function (request, response) {
-	response.sendFile(__dirname + '/public/css/styles.css')
+app.get('/styles.css', function (req, res) {
+	res.sendFile(__dirname + '/public/css/styles.css')
 })
 
 // icon
-app.get('/G3P-logo.png', function (request, response) {
-	response.sendFile(__dirname + '/public/assets/G3P-logo.png')
+app.get('/G3P-logo.png', function (req, res) {
+	res.sendFile(__dirname + '/public/assets/G3P-logo.png')
 })
 
 
@@ -55,43 +79,76 @@ app.get('/G3P-logo.png', function (request, response) {
 
 
 // User login authentication
-app.post('/login', (request, response) => {
+app.post('/login', (req, res) => {
 	console.log('/login:')
-	console.log(request.body)
+	console.log(req.body)
 
-	// TODO: authenticate account with DB
-	if (request.body.password === 'test') {
-		request.session.login = true
-		response.redirect('/')
-	} else {
-		// TODO: inform client about login error
-		response.redirect('/login')
-	}
+	collection.find({"email": req.body.email, "password": req.body.password}).toArray()
+		.then(
+			result => {
+				if (result === "" || result[0] === undefined) {
+					// TODO: Inform user "Email or Password Incorrect"
+					res.redirect('/login')
+				} else {
+					console.log("Successfully logged in")
+					req.session.login = true
+					console.log("user _id: " + result[0]._id.toString())
+					req.session._id = result[0]._id.toString()
+					// TODO: This is a temporary implementation of the "Remember me" feature
+					if (req.body.remember !== 'on') {
+						req.sessionOptions.maxAge = 60 * 1000 // 1 Minute
+					}
+					res.redirect('/')
+				}
+			})
+})
+
+// User logout
+app.get('/logout', function (req, res) {
+	req.session = null
+	// TODO: Inform user "Successfully logged out"
+	res.redirect('/login')
 })
 
 
 // Create new account
-app.post('/join', (request, response) => {
+app.post('/join', (req, res) => {
 	console.log('/join:')
-	console.log(request.body)
+	console.log(req.body)
 
-	// TODO: Check if account exist etc
-	if (request.body.email === 'not@registered.com') {
-		// Create account
-		response.redirect('/login')
-	} else {
-		// TODO: inform client about create error
-		response.redirect('/join')
+	if (req.body.password !== req.body.passwordC) {
+		// TODO: Inform user "Passwords don't match"
+		res.redirect('/join')
 	}
+
+	collection.find({"email": req.body.email}).toArray()
+		.then(
+			result => {
+				if (result[0] !== undefined) {
+					// TODO: Inform user "Email already used"
+					res.redirect('/join')
+				} else {
+					let newUser = {
+						"email": req.body.email,
+						"password": req.body.password,
+						"list": []
+					}
+					collection.insertOne(newUser).then(() => {
+							console.log("Successfully created account")
+							res.redirect('/login')
+						}
+					)
+				}
+			})
 })
 
 
 // Block all unauthenticated access
-app.use(function (request, response, next) {
-	if (request.session.login === true)
+app.use(function (req, res, next) {
+	if (req.session.login === true)
 		next()
 	else
-		response.redirect('/login')
+		res.redirect('/login')
 })
 
 
@@ -104,8 +161,8 @@ app.use(function (request, response, next) {
 app.use(express.static('public', {extensions: ['html', 'js', 'css']}))
 
 // index
-app.get('/', function (request, response) {
-	response.sendFile(__dirname + '/public/index.html')
+app.get('/', function (req, res) {
+	res.sendFile(__dirname + '/public/index.html')
 })
 
 
