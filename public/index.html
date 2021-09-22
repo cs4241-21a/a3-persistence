@@ -6,300 +6,299 @@
     <meta charset="utf-8">
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
     <link rel='stylesheet' href='css/style.css'>
-    <script scr='js/scripts.js'></script>
 </head>
 
 <body>
-
-    <li id='login'>
-        <a id='loginTrigger'>
-            Log in <span>🔻</span>
-        </a>
-        <div id='loginContent'>
-            <form>
-
-            </form>
-        </div>
-    </li>
-
+    <a href='/logout'>log out</a>
 
     <div id='header'>
         <h1>to-do list</h1>
-        <form id='form' action="">
+        <form id='form'>
             <div id='inputs'>
                 <input type='text' id='task' placeholder="add a task">
                 <input type='time' id='time'>
                 <input type='date' id='date'>
                 <button id='addB'>+</button>
             </div>
-
         </form>
     </div>
     <div id='toDoList'>
 
     </div>
-</body>
-<script>
-    const submit = function(e) {
-        // prevent default form action from being carried out
-        e.preventDefault()
+    <script>
+        const submit = function(e) {
+            // prevent default form action from being carried out
+            e.preventDefault()
 
-        const taskInput = document.querySelector('#task'),
-            timeInput = document.querySelector('#time'),
-            dateInput = document.querySelector('#date')
+            const taskInput = document.querySelector('#task'),
+                timeInput = document.querySelector('#time'),
+                dateInput = document.querySelector('#date')
 
-        if (taskInput.value === '') {
-            window.alert('Please input a task!')
+            if (taskInput.value === '') {
+                window.alert('Please input a task!')
+                return;
+            }
+
+            const json = {
+                    'task': taskInput.value,
+                    'time': timeInput.value,
+                    'date': dateInput.value,
+                    'done': 'false'
+                },
+                body = JSON.stringify(json)
+
+            taskInput.value = ''
+            timeInput.value = ''
+            dateInput.value = ''
+
+            fetch('/submit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body
+                })
+                .then(response => response.json())
+                .then(function(json) {
+                    refresh()
+                })
+
+            return false
+        }
+
+        const del = function del(e) {
+            const toDoItemID = e.target.parentNode.id
+
+            body = {
+                '_id': toDoItemID
+            }
+            body = JSON.stringify(body)
+            console.log(body)
+            fetch('/delete', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body
+                })
+                .then(response => response.json())
+                .then(function(json) {
+                    console.log('deleting')
+                    document.getElementById(toDoItemID).remove()
+                })
+            return false
+        }
+
+        function checked(box) {
+            const toDoItemID = box.parentNode.id,
+                toDoItem = document.getElementById(toDoItemID),
+                checked = (toDoItem.getAttribute("done") === "true") ? "false" : "true"
+            console.log(toDoItem.done)
+            toDoItem.setAttribute('done', checked)
+            let json = {
+                '_id': toDoItemID,
+                'done': checked
+            }
+            body = JSON.stringify(json)
+
+            fetch('/check', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body
+                })
+                .then(response => response.json())
+                .then(function(json) {
+                    refresh()
+
+                })
+            return false
+        }
+
+        const edit = function editTask(e) {
+            const toDoItem = e.target.parentNode,
+                taskInput = toDoItem.querySelector('.taskItem'),
+                timeInput = toDoItem.querySelector('.timeItem'),
+                dateInput = toDoItem.querySelector('.dateItem'),
+                editB = toDoItem.querySelector('.editB'),
+                deleteB = toDoItem.querySelector('.deleteB'),
+                saveB = toDoItem.querySelector('.saveB')
+
+            editB.style.display = 'none'
+            deleteB.style.display = 'none'
+            saveB.style.display = 'table-cell'
+
+            taskInput.readOnly = false;
+            timeInput.readOnly = false;
+            dateInput.readOnly = false;
+
             return;
         }
 
-        const json = {
+        const save = function saveTask(e) {
+            e.preventDefault()
+
+            const toDoItem = e.target.parentNode
+            const toDoItemID = toDoItem.id
+
+            const taskInput = toDoItem.querySelector('.taskItem'),
+                timeInput = toDoItem.querySelector('.timeItem'),
+                dateInput = toDoItem.querySelector('.dateItem'),
+                editB = toDoItem.querySelector('.editB'),
+                deleteB = toDoItem.querySelector('.deleteB'),
+                saveB = toDoItem.querySelector('.saveB')
+
+            editB.style.display = 'table-cell'
+            deleteB.style.display = 'table-cell'
+            saveB.style.display = 'none'
+
+            json = {
+                '_id': toDoItemID,
                 'task': taskInput.value,
                 'time': timeInput.value,
                 'date': dateInput.value,
                 'done': 'false'
-            },
+            }
+
             body = JSON.stringify(json)
 
-        taskInput.value = ''
-        timeInput.value = ''
-        dateInput.value = ''
-
-        fetch('/submit', {
-                method: 'POST',
-                body
-            })
-            .then(response => response.json())
-            .then(function(json) {
-                //console.log(json)
-                refresh(json)
-            })
-
-        return false
-    }
-
-    function del(e) {
-        const toDoItemID = e.target.parentNode.id
-        const idNum = toDoItemID.slice(4)
-            //console.log(idNum)
-        const toDoItem = document.getElementById(toDoItemID)
-
-        body = "delete " + idNum
-
-        fetch('/submit', {
-                method: 'POST',
-                body
-            })
-            .then(response => response.json())
-            .then(function(json) {
-                document.getElementById(toDoItemID).remove()
-                    //console.log(json)
-                for (let i = parseInt(idNum) + 1; i <= json.length; i++) {
-                    //console.log("current id: " + i)
-                    let curItem = document.getElementById("task" + i)
-                    curItem.id = "task" + (i - 1)
-                        //console.log("new id: " + curItem.id)
-                }
-            })
-        return false
-    }
-
-    function checked(box) {
-        const toDoItemID = box.parentNode.id
-        const idNum = toDoItemID.slice(4)
-            //console.log(idNum)
-        const toDoItem = document.getElementById(toDoItemID)
-
-        body = "c" + idNum
-
-        fetch('/submit', {
-                method: 'POST',
-                body
-            })
-            .then(response => response.json())
-            .then(function(json) {
-                refresh(json)
-            })
-        return false
-    }
-
-    function editTask(e) {
-        const toDoItem = e.target.parentNode,
-            taskInput = toDoItem.querySelector('.taskItem'),
-            timeInput = toDoItem.querySelector('.timeItem'),
-            dateInput = toDoItem.querySelector('.dateItem'),
-            editB = toDoItem.querySelector('.editB'),
-            deleteB = toDoItem.querySelector('.deleteB'),
-            saveB = toDoItem.querySelector('.saveB')
-
-        editB.style.display = 'none'
-        deleteB.style.display = 'none'
-        saveB.style.display = 'table-cell'
-
-        taskInput.readOnly = false;
-        timeInput.readOnly = false;
-        dateInput.readOnly = false;
-
-        return;
-    }
-
-    function saveTask(e) {
-        //console.log('button clicked')
-        e.preventDefault()
-
-        const toDoItem = e.target.parentNode
-        const toDoItemID = toDoItem.id
-        const idNum = toDoItemID.slice(4)
-
-        const taskInput = toDoItem.querySelector('.taskItem'),
-            timeInput = toDoItem.querySelector('.timeItem'),
-            dateInput = toDoItem.querySelector('.dateItem'),
-            editB = toDoItem.querySelector('.editB'),
-            deleteB = toDoItem.querySelector('.deleteB'),
-            saveB = toDoItem.querySelector('.saveB')
-
-        editB.style.display = 'table-cell'
-        deleteB.style.display = 'table-cell'
-        saveB.style.display = 'none'
-
-        json = {
-            'task': taskInput.value,
-            'time': timeInput.value,
-            'date': dateInput.value,
-            'done': 'false'
-        }
-
-        body = "e" + idNum + ',' + JSON.stringify(json)
-
-        fetch('/submit', {
-                method: 'POST',
-                body
-            })
-            .then(response => response.json())
-            .then(function(json) {
-                refresh(json)
-            })
-        return false
-    }
-
-    function refresh(json) {
-        const toDoList = document.getElementById('toDoList')
-            //console.log(json)
-
-        while (toDoList.firstChild) {
-            toDoList.removeChild(toDoList.firstChild)
-        }
-
-        if (Array.isArray(json)) {
-            json.forEach((input, index) => {
-                const task = input.task,
-                    time = input.time,
-                    date = input.date,
-                    done = input.done,
-                    u = input.urgent
-
-                const toDoItem = document.createElement('li')
-                toDoItem.id = 'task' + index
-                toDoItem.className = 'toDoItem'
-                toDoItem.setAttribute('done', done)
-
-                const check = document.createElement('input') // making checkbox
-                check.type = 'checkbox'
-                check.className = 'checkbox'
-                check.addEventListener('change', function() {
-                    checked(check)
+            fetch('/edit', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body
                 })
-                if (done === 'true') {
-                    check.checked = true;
-                }
-
-                const taskEdit = document.createElement('input') // making info elements
-                const timeEdit = document.createElement('input')
-                const dateEdit = document.createElement('input')
-
-                taskEdit.type = 'text'
-                timeEdit.type = 'time'
-                dateEdit.type = 'date'
-
-                taskEdit.value = task
-                timeEdit.value = time
-                dateEdit.value = date
-
-                taskEdit.readOnly = true;
-                timeEdit.readOnly = true;
-                dateEdit.readOnly = true;
-
-                taskEdit.className = 'taskItem'
-                timeEdit.className = 'timeItem'
-                dateEdit.className = 'dateItem'
-
-                // making urgency tag
-                const urg = document.createElement('p')
-                let str = ""
-                    //console.log(u)
-                urg.className = 'urgItem'
-                for (let i = 0; i < u; i++) {
-                    str += '!'
-                }
-                urg.innerHTML = str
-
-                // making buttons -----------------------------------
-                const editB = document.createElement('button'),
-                    deleteB = document.createElement('button'),
-                    saveB = document.createElement('button')
-
-                editB.className = 'editB'
-                deleteB.className = 'deleteB'
-                saveB.className = 'saveB'
-
-                editB.textContent = 'Edit'
-                deleteB.textContent = 'Delete'
-                saveB.textContent = 'Save'
-
-                deleteB.onclick = del
-                editB.onclick = editTask
-                saveB.onclick = saveTask
-
-                saveB.style.display = 'none'
-
-                if (done === 'true') {
-                    deleteB.style.display = 'none'
-                    editB.style.display = 'none'
-                } else {
-                    deleteB.style.display = 'table-cell'
-                    editB.style.display = 'table-cell'
-                }
-
-                // append to to-do item
-                toDoItem.appendChild(check)
-                toDoItem.appendChild(urg)
-                toDoItem.appendChild(taskEdit)
-                toDoItem.appendChild(deleteB)
-                toDoItem.appendChild(editB)
-                toDoItem.appendChild(saveB)
-                toDoItem.appendChild(timeEdit)
-                toDoItem.appendChild(dateEdit)
-
-
-                // append to list
-                toDoList.appendChild(toDoItem)
-            })
+                .then(response => response.json())
+                .then(function(json) {
+                    refresh()
+                })
+            return false
         }
-    }
 
-    window.onload = function() {
-        const button = document.querySelector('button')
-        button.onclick = submit
+        function refresh() {
+            body = ''
 
-        // fetch('/submit', {
-        //         method: 'GET',
-        //         body: null
-        //     })
-        //     .then(response => response.json())
-        //     .then(function(json) {
-        //         refresh(json)
-        //     })
-    }
-</script>
+            fetch('/collection', {
+                    method: 'POST',
+                    body
+                })
+                .then(response => response.json())
+                .then(function(json) {
+                    const toDoList = document.getElementById('toDoList')
+
+                    while (toDoList.firstChild) {
+                        toDoList.removeChild(toDoList.firstChild)
+                    }
+
+                    if (Array.isArray(json)) {
+                        json.forEach((input, index) => {
+                            const task = input.task,
+                                time = input.time,
+                                date = input.date,
+                                done = input.done,
+                                u = input.urgent
+
+                            const toDoItem = document.createElement('li')
+                            toDoItem.id = input._id
+                            toDoItem.className = 'toDoItem'
+                            toDoItem.setAttribute('done', done)
+
+                            const check = document.createElement('input') // making checkbox
+                            check.type = 'checkbox'
+                            check.className = 'checkbox'
+                            check.addEventListener('change', function() {
+                                checked(check)
+                            })
+                            if (done === 'true') {
+                                check.checked = true;
+                            }
+
+                            const taskEdit = document.createElement('input') // making info elements
+                            const timeEdit = document.createElement('input')
+                            const dateEdit = document.createElement('input')
+
+                            taskEdit.type = 'text'
+                            timeEdit.type = 'time'
+                            dateEdit.type = 'date'
+
+                            taskEdit.value = task
+                            timeEdit.value = time
+                            dateEdit.value = date
+
+                            taskEdit.readOnly = true;
+                            timeEdit.readOnly = true;
+                            dateEdit.readOnly = true;
+
+                            taskEdit.className = 'taskItem'
+                            timeEdit.className = 'timeItem'
+                            dateEdit.className = 'dateItem'
+
+                            // making urgency tag
+                            const urg = document.createElement('p')
+                            let str = ""
+                                //console.log(u)
+                            urg.className = 'urgItem'
+                            for (let i = 0; i < u; i++) {
+                                str += '!'
+                            }
+                            urg.innerHTML = str
+
+                            // making buttons -----------------------------------
+                            const editB = document.createElement('button'),
+                                deleteB = document.createElement('button'),
+                                saveB = document.createElement('button')
+
+                            editB.className = 'editB'
+                            deleteB.className = 'deleteB'
+                            saveB.className = 'saveB'
+
+                            editB.textContent = 'Edit'
+                            deleteB.textContent = 'Delete'
+                            saveB.textContent = 'Save'
+
+                            deleteB.onclick = del
+                            editB.onclick = edit
+                            saveB.onclick = save
+
+                            saveB.style.display = 'none'
+
+                            if (done === 'true') {
+                                deleteB.style.display = 'none'
+                                editB.style.display = 'none'
+                            } else {
+                                deleteB.style.display = 'table-cell'
+                                editB.style.display = 'table-cell'
+                            }
+
+                            // append to to-do item
+                            toDoItem.appendChild(check)
+                            toDoItem.appendChild(urg)
+                            toDoItem.appendChild(taskEdit)
+                            toDoItem.appendChild(deleteB)
+                            toDoItem.appendChild(editB)
+                            toDoItem.appendChild(saveB)
+                            toDoItem.appendChild(timeEdit)
+                            toDoItem.appendChild(dateEdit)
+
+
+                            // append to list
+                            toDoList.appendChild(toDoItem)
+                        })
+                    }
+                })
+
+
+        }
+
+        window.onload = function() {
+            const addB = document.getElementById('addB')
+            addB.onclick = submit
+            refresh()
+        }
+    </script>
+
+</body>
 
 </html>
