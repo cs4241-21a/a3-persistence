@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+        <title>CS4241 Assignment 3</title>
+        <meta charset="utf-8">
+        <script src="script.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    
+    <body>
+        <header>
+            <nav>
+                <img src="./money-1-featured-2.png" width=100 height=auto>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li>Portfolio</li>
+                    <li><a href="logout">Log Out</a></li>
+                </ul>
+            </nav>
+            <h1>User Portfolio</h1>
+        </header>
+        
+        <main>
+            
+            <section>
+                
+                <table id='userTable'>
+                    
+                    <thead>
+                        <tr>
+                            <th>Ticker</th>
+                            <th>Amount</th>
+                            <th>Purchase Price</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tbody id='tableBody'>
+                        <tr id="addNewRow">
+                            <td>
+                                <input id="ticker" name="ticker" placeholder="Ticker">
+                            </td>
+                            <td>
+                                <input id="amount" name="amount" placeholder="Amount">
+                            </td>
+                            <td>
+                                <input id="purchase" name="purchase" placeholder="Purchase">
+                            </td>
+                            <td>
+                                <button onclick="addRow()">Add Row</button>
+                            </td>
+                        </tr>
+                            
+                    </tbody>
+
+                </table>
+
+            </section>
+
+        </main>
+
+    </body>
+
+</html>

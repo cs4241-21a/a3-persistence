@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+        <title>CS4241 Assignment 3</title>
+        <meta charset="utf-8">
+        <script src="script.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+
+    <body>
+        <header>
+            <nav>
+                <img src="./money-1-featured-2.png" width=100 height=auto>
+                <ul>
+                    <li><a href="./index.html">Home</a></li>
+                    <li><a href="portfolio">Portfolio</a></li>
+                    <li><a href="./login.html">Log In</a></li>
+                </ul>
+            </nav>
+            <h1>Create Account</h1>
+        </header>
+        <main>
+            <section>
+                <form id="createAcctForm">
+                    <label for="firstname">First Name:</label>
+                    <input name="firstname" id="firstname" placeholder="First name" size=25>
+                    <label for="lastname">Last Name</label>
+                    <input name="lastname" id="lastname" placeholder="Last Name" size=25>
+                    <label for="username">Username</label>
+                    <input name="username" id="username" placeholder="Username" size=25>
+                    <label for="password">Password</label>
+                    <input type = "password" name="password" id="password" placeholder="Password" size=25>
+                    <label for="password2">Confirm Password</label>
+                    <input type="password" name="password2" id="password2" placeholder="Repeat Password" size=25>
+                    <button onclick="submitNewAcct(event)">Submit</button>
+                </form>
+            </section>
+        </main>
+    </body>
+
+</html>
