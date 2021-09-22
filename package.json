@@ -1,0 +1,12 @@
+{
+    "name": "a3-shortstack",
+    "version": "1.0.0",
+    "description": "",
+    "author": "Michael Lai",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "dependencies": {
+        "mime": "^2.5.2"
+    }
+}
