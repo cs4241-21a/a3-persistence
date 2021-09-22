@@ -182,7 +182,6 @@ function gameLoop(){
       }
     }, {once: true});
   } else if(gameOver) {
-    console.log("poggy woggy: " + wrongKeyPressed)
     if(!wrongKeyPressed){
       displayMessage.innerHTML = " The key was not pressed in time! Game over!";
     }

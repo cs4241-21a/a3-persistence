@@ -3,9 +3,12 @@
 //INITIAL SETUP/MIDDLEWARE//
 ////////////////////////////
 
+const res = require('express/lib/response')
+
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
       cookie = require("cookie-session"),
+      morgan = require("morgan"),
       app = express()
 
 app.use( express.static('public') )
@@ -21,6 +24,9 @@ app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
 }))
+
+morgan(':method :url :status :res[content-length] - :response-time ms');
+
 
 const uri = "mongodb+srv://TestUser:Mario35@cluster0.oxb6m.mongodb.net/"
 
@@ -204,12 +210,29 @@ app.post( '/submit', (req,res) => {
 
     //Update the score object of the player
     updatePlayerScore(req.session.username, req.body.playerscore);
-    
-    //Sort player data
-    sortPlayerData();
 
-    collection.find({ }).sort({rank: 1}).toArray().then( result => res.json( result ) )
-    
+    //Sort player data
+    collection.aggregate(
+      [
+        {$sort: {score: -1}}
+      ]
+    ).toArray()
+    .then(sorted_data => {
+      console.log(sorted_data)
+      //update the document in order using ids you got back
+      for(let i = 0; i < sorted_data.length; i++){
+        collection.updateOne(
+          {_id: sorted_data[i]._id},
+          {$set: {rank: i+1}}
+          
+        )
+      }
+  
+      //collection = sorted_data;
+    })
+    .then( result => res.json( result ) )
+    //collection.find({ }).sort({score: -1}).toArray().then( result => res.json( result ) )
+
   } else {
     console.log("Invalid parameters!");
   }
@@ -224,7 +247,7 @@ app.post( '/delete', (req,res) => {
     deletePlayerScore(req.body.playername);
     
     //Sort player data
-    sortPlayerData();
+    //sortPlayerData();
 
     collection.find({ }).sort({rank: 1}).toArray().then( result => res.json( result ) )
     
@@ -248,16 +271,24 @@ app.listen( 3000 )
  * @param {*} playerScore - score value that will be replaced
  */
 function updatePlayerScore(playerName, playerScore){
+  const query = { name: playerName};
+  const update = {
+    $set: {score: playerScore}
+  };
+  const options = { returnNewDocument: true };
+
+  collection.findOneAndUpdate(query, update, options);
+/*
   collection.find(({name: playerName})).toArray()
   .then(foundUsername => {
-    collection.updateOne(
+    collection
+    .updateOne(
       {_id: foundUsername[0]._id},
       {$set: {score: playerScore}}
-
-      
-      
     )
+    .then( result => res.json( result ))
   })
+  */
 }
 
 /**
@@ -282,8 +313,9 @@ function sortPlayerData(){
     [
       {$sort: {score: -1}}
     ]
-  ).toArray().then(sorted_data => {
-    console.log("Sorted data: " + sorted_data)
+  ).toArray()
+  .then(sorted_data => {
+    console.log(sorted_data)
     //update the document in order using ids you got back
     for(let i = 0; i < sorted_data.length; i++){
       collection.updateOne(
@@ -293,8 +325,9 @@ function sortPlayerData(){
       )
     }
 
-    collection = sorted_data;
+    //collection = sorted_data;
   })
+  .then( result => res.json( result ) )
 }
 
 /**
