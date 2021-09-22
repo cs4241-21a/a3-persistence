@@ -69,7 +69,6 @@ app.post('/login', (req,res)=>{
     .then(result => {
       if(result.length === 0){
         collection.insertOne(req.body).then(result => res.json(result))
-
         const query = {'username': req.body.username}
         const update = {
         "$push": {
@@ -86,7 +85,7 @@ app.post('/login', (req,res)=>{
       else{
         if(req.body.password === result[0].password){
           req.session.login = true
-          currentid = req.body.userid
+          currentid = result[0].userid[0]
           res.redirect( 'bmicalculator.html' )
         }
         else{
@@ -133,14 +132,14 @@ app.use( (req,res,next) => {
 app.post( '/entries', bodyParser.json(), (req,res) => {
   if( collection !== null ) {
     // get array and pass to res.json
-    collection.find({"docid": currentid }).toArray().then( result => res.json( result ) )
+    collection.find({"docid": currentid}).toArray().then( result => res.json( result ) )
   }
 })
 
 app.post( '/add', (req,res) => {
   // assumes only one object to insert
   collection.insertOne( req.body ).then( result => res.json( result ) )
-  const query = {'yourname': req.body.yourname}
+  const query = req.body
   const update = {
     "$push": {
       "docid": currentid
