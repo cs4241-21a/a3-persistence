@@ -18,7 +18,7 @@ var accessLogStream = fs.createWriteStream(path.join(__dirname, 'access.log'), {
 app.use(morgan('combined', { stream: accessLogStream }))
 app.use(express.json())
 app.use(cookieSession({
-  name: 'github-auth-session',
+  name: 'github-user',
   keys: [process.env.cookieKey1, process.env.cookieKey2],
   maxAge: 24 * 60 * 60 * 1000
 }))
@@ -37,6 +37,11 @@ app.get('/auth/github/callback', passport.authenticate('github', {
 }), function(req, res) {
   res.redirect('/');
 });
+
+app.get('/auth/error', (req, res) => {
+  res.writeHeader( 400, { 'Content-Type': 'text/plain' })
+  res.end("Could not authenticate you with GitHub, error from OAuth2")
+})
 
 app.get('/auth/getUserID', validateLoginMiddleware, (req, res) => {
   res.writeHeader( 200, { 'Content-Type': 'application/json' })
@@ -63,13 +68,21 @@ app.get('/api/founditems', validateLoginMiddleware, (req, res) => {
 })
 
 app.post('/api/update', validateLoginMiddleware, (req, res) => {
-  mongodbclient.update(req.body)
-  .then(e => {
-    if (e === false) {
-      res.writeHead( 404, "Invalid UID", {'Content-Type': 'text/plain' })
-      res.end()  
+  mongodbclient.getElement(req.body._id)
+  .then(item => {
+    if (req.user.emails[0].value === item[0].emailme) {
+      mongodbclient.update(req.body)
+      .then(e => {
+        if (e === false) {
+          res.writeHead( 404, "Invalid UID", {'Content-Type': 'text/plain' })
+          res.end()  
+        } else {
+          res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+          res.end()  
+        }
+      })  
     } else {
-      res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+      res.writeHead( 403, "Unauthorized", {'Content-Type': 'text/plain' })
       res.end()  
     }
   })

@@ -12,9 +12,11 @@ passport.deserializeUser(function(user, done) {
 passport.use(new GitHubStrategy({
   clientID: process.env.githubClientID,
   clientSecret: process.env.githubClientSecret,
-  callbackURL: process.env.githubCallbackURL
+  callbackURL: process.env.githubCallbackURL,
+  scope: ['user:email']
 },
-function(accessToken, refreshToken, profile, done) {
-  return done(null, profile);
+function(accessToken, refreshToken, user, done) {
+  console.log(user.username + " logged in")
+  return done(null, user);
 }
 ));

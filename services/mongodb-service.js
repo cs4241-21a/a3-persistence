@@ -71,3 +71,8 @@ exports.getFoundItems = async function() {
     // console.log('Found founditems document =>', findResult)
     return findResult
 }
+
+exports.getElement = async function(id) {
+    const findResult = await lostitems.find({ _id: new ObjectID(id) }).toArray()
+    return findResult
+}
