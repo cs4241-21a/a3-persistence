@@ -121,24 +121,21 @@ app.post('/submit', bodyParser.json(), async (req, res) => {
     let evalScore = await(alreadyInSystem(req.session.username))
     if(evalScore === -1){
         await updateRankMongo(rankAdd);
-        entry.save()
+        await entry.save()
             .then(async result => {
-                res.send(result);
+               // res.send(result);
             })
             .catch(err => {
                 console.log(err);
             });
-        return;
-    }
-    if (evalScore >= rankAdd){
-        console.log("here")
+    } else if (evalScore >= rankAdd){
         await updateRankMongo(rankAdd);
         await deleteRankMongo(evalScore);
-        ScoreEntry.findOneAndUpdate({yourname: {$eq: req.session.username}}, {score: parseInt(req.body.score), rank: rankAdd})
+        await ScoreEntry.findOneAndUpdate({yourname: {$eq: req.session.username}}, {score: parseInt(req.body.score), rank: rankAdd})
             .then( result =>{
             });
-
     }
+    res.redirect('/index')
 });
 
 async function alreadyInSystem(name){
@@ -173,8 +170,6 @@ app.get('/updateRanks', (req,res) =>{
     res.redirect('/index');
 })
 
-
-
 app.get('/all-scores', (req,res) => {
     ScoreEntry.find()
         .then(result => {
@@ -202,21 +197,27 @@ async function findRank(newScore) {
     return tempRank;
 }
 
-app.post('/postReview', bodyParser.json(), (req,res) =>{
+app.post('/getReview', bodyParser.json(), async(req,res) =>{
+    ReviewEntry.findById(req.body.id)
+        .then(result =>{
+            console.log(result)
+        })
+})
+
+app.post('/postReview', bodyParser.json(), async (req, res) => {
     const entry = new ReviewEntry({
         username: req.session.username,
         review: req.body.review,
         rating: req.body.rating
     })
-    entry.save()
+    await entry.save()
         .then(async result => {
         })
         .catch(err => {
             console.log(err);
         });
-    return;
-})
-
+    res.redirect('/review');
+});
 
 app.get('/', (req,res) => {
     res.redirect('/index');
@@ -236,10 +237,10 @@ app.get('/leaderboard', (req,res) => {
         })
 })
 
-app.get('/index', (req, res) => {
+app.get('/index', async (req, res) => {
     ScoreEntry.find({rank: {$lte: 5}}).sort({rank: 0})
         .then(result => {
-            res.render('index', {leaderboards: result, title:"Game"});
+            res.render('index', {leaderboards: result, title: "Game"});
         })
         .catch(err => {
             console.log(err);
@@ -260,10 +261,10 @@ app.get('/review',(req, res) =>{
 app.post('/delete', bodyParser.json(), async (req, res) => {
     await ReviewEntry.findByIdAndDelete(req.body.id)
             .then(result => {
-            });
 
-    res.redirect('/index')
-})
+            });
+    res.redirect('/review')
+});
 
 app.get('/login', (req,res) => {
     res.render('login', {title:"Chat Page"})

@@ -1,25 +1,9 @@
-const dataTable = document.getElementById('Leaderboard');
 const gameCanvas = document.getElementById('canvascontainer');
 let submitBtn = document.getElementById( 'submitBtn' );
-let editSubBtn = document.getElementById('submitNewNameBtn');
-let rowNumEdit;
-let killEdit = false;
 
 window.onload = function() {
     submitBtn.onclick = submit;
-    editSubBtn.onclick = callEdit;
 }
-
-document.addEventListener('keyup', event => {
-    if (event.code === 'Space') {
-        accelerate(0.05);
-    }
-});
-document.addEventListener('keydown', event => {
-    if (event.code === 'Space') {
-        accelerate(-0.2);
-    }
-});
 
 const submit = function( e ) {
     e.preventDefault();
@@ -40,83 +24,18 @@ const submit = function( e ) {
     })
         .then(function (response) {
             // do something with the response
-
             console.log("Post made to server");
         })
         .then(function (json) {
             console.log(json);
+            window.location.reload();
         })
+
     //updateLeaderboards();
     return false;
 }
 
-function updateLeaderboards(){
-
-}
-
-let appdata;
-
-
-function checkExisting(){
-    const input = document.querySelector( '#editName' );
-    fetch('/updatePage', {
-        method: 'GET'
-    }).then(function (response) {
-        return response.json();
-    }).then(function (json) {
-        appdata = json;
-        for(let user of appdata){
-            console.log(user.yourname);
-            if (user.yourname === input.value){
-                window.alert("Please enter a unique username");
-                killEdit = true;
-            }
-        }
-    })
-    return false;
-}
-
-//Edit Function
-const callEdit = async function () {
-    const input = document.querySelector('#editName'),
-        input2 = rowNumEdit,
-        json = {
-            newName: input.value,
-            oldName: input2
-        },
-        body = JSON.stringify(json)
-
-    /*const promise1 = ()=> new Promise( async (resolve) => {
-        checkExisting();
-        resolve();
-    });
-
-    await promise1;*/
-    await checkExisting();
-
-    if (killEdit) {
-        killEdit = false;
-        return false;
-    }
-    fetch('/modify', {
-        method: 'POST',
-        body,
-        headers: {
-            "Content-Type": "application/json"
-        }
-    }).then(function (response) {
-        // do something with the response
-        console.log("Post made to server");
-    }).then(function (json) {
-        console.log(json);
-        updatePage();
-        document.getElementById("editName").style.display = "none";
-        document.getElementById("submitNewNameBtn").style.display = "none";
-    })
-    return false;
-}
-
-//////////////////////////////////////////
+/////////////////JS for the Game/////////////////////////
 let myGameArea;
 let myGamePiece;
 let myObstacles = [];
@@ -264,3 +183,13 @@ function accelerate(n) {
     myGamePiece.gravity = n;
 }
 
+document.addEventListener('keyup', event => {
+    if (event.code === 'Space') {
+        accelerate(0.05);
+    }
+});
+document.addEventListener('keydown', event => {
+    if (event.code === 'Space') {
+        accelerate(-0.2);
+    }
+});
