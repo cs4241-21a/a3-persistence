@@ -15,13 +15,12 @@ function js_login() {
   }).then(function(response) {
     if (response.redirected) {
         window.location.href = response.url;
-      }
+    }
+    else {
+      const errText = document.getElementById("loginFail")
+      errText.textContent = "Incorrect password, please try again.";
+    }
   });
-}
-
-function setError(message) {
-  const msg = document.getElementById("err")
-  msg.textContent = message;
 }
 
 function addRoll() {
@@ -75,33 +74,88 @@ function deleteRoll() {
     }
   }).then(function(text) {
     if(text === true) {
-      setError("");
+      // setError("");
       return true;
     }
     else {
       console.log("ERROR 2")
       console.log(text)
-      setError(text);
+      // setError(text);
     }
   });
 
   return false;
+}
+
+function editRoll() {
+  let dataInput = document.getElementById("add");
+
+  // Steps:
+  // 1) Get the row with specified ID
+  const input = document.getElementById("edit"),
+    json = {
+      id: input.elements[0].value,
+    },
+    body = JSON.stringify(json);
+
+  fetch("/getedit", {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body
+  }).then(function(response) {
+    // 2) Push row data back to input
+      response.json().then(function(data) {
+        dataInput.elements[0].value = data.character;
+        dataInput.elements[1].value = data.diceType;
+        dataInput.elements[2].value = data.quantity;
+        dataInput.elements[3].value = data.modifier;
+
+        let addButton = document.getElementById("add_button");
+        addButton.innerText = "Edit";
+        // 3) After submit, push an edit request with new data
+        addButton.onclick = editButton;
+      })
+    });
+}
+
+function editButton() {
+  let id = document.getElementById("edit")
+  const input = document.getElementById("add"),
+    json = {
+      id: id.elements[0].value,
+      character: input.elements[0].value,
+      diceType: input.elements[1].value,
+      quantity: input.elements[2].value,
+      modifier: input.elements[3].value
+    },
+    body = JSON.stringify(json);
+
+    fetch("/editroll", {
+      method: "POST",
+      headers: { 'Content-Type': 'application/json' },
+      body
+    }).then(function(response) {
+      // 4) Clear all fields and change button back
+      if (response.status === 200) {
+        console.log(body);
+        update(response);
+
+        // clear data and fix button
+        input.elements[0].value = ""
+        input.elements[1].value = ""
+        input.elements[2].value = ""
+        input.elements[3].value = ""
+        let addButton = document.getElementById("add_button");
+        addButton.innerText = "Add";
+        addButton.onclick = addRoll;
+
+      }
+    });
+
 }
 
 function clearRolls() {
   fetch("/clear", {
-    method: "GET"
-  }).then(function(response) {
-    if (response.status === 200) {
-      update(response);
-      return true;
-    }
-  });
-  return false;
-}
-
-function sortRolls() {
-  fetch("/sort", {
     method: "GET"
   }).then(function(response) {
     if (response.status === 200) {
@@ -139,18 +193,11 @@ function logout() {
   });
 }
 
-function editRoll() {
-
-}
-
 function update(results) {
   let table = document.getElementById("table_list");
   let newTable = document.createElement("tbody");
 
   table.replaceChild(newTable, table.lastChild);
-
-  // results.text().then(console.log);
-  // console.log(results)
 
   results.json().then(function(data) {
     let nRows = data.nRows;

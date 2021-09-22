@@ -48,7 +48,7 @@
             <input type="text" id="quantity" placeholder="Quantity" required />
             <label for="Modifier">Modifier</label>
             <input type="text" id="modifier" placeholder="Modifier" required />
-            <button class="contrast" type="button" onclick="addRoll()">
+            <button id = "add_button" class="contrast" type="button" onclick="addRoll()">
               Add
             </button>
           </form>
@@ -74,7 +74,7 @@
         <div class="form_box" id="button_box">
             <form class="forms" id="edit" actions="">
               <h3>Edit a Roll</h3>
-              <label for="ID">ID</label>  
+              <label for="ID">ID</label>
               <input type="text" id="edit_id" placeholder="ID" required />
               <button class="contrast" type="button" onclick="editRoll()">
                 Edit

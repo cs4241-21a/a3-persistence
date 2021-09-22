@@ -7,8 +7,12 @@ body > main {
   padding: 1rem 0;
 }
 
-::placeholder { 
+::placeholder {
   color: white;
+}
+
+#loginFail {
+  color: red !important;
 }
 
 article {

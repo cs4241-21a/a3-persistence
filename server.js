@@ -87,12 +87,25 @@ app.post( '/submit', function( request, response ) {
     }
     else {
       console.log("Login Failure")
-      console.log(creds)
+      credentials.find({user: body.user}).toArray().then(function(creds) {
+        console.log(creds)
+        if(creds.length > 0) { // password incorrect
+          response.send("Invalid Login!")
+        }
+        else { // Make new User
+          console.log("Login Success")
+          addCreds(body)
+
+          current_user = body.user
+          request.session.login = true
+          request.session.user = body.user
+
+          response.redirect('/table.html')
+          console.log(creds)
+        }
+      });
     }
   });
-
-  // response.writeHead( 200, { 'Content-Type': 'application/json'})
-  // response.end( JSON.stringify( dreams ) )
 })
 
 app.post( '/add', (req,res) => {
@@ -153,6 +166,67 @@ app.post('/delete', (req,res) => {
   }
 })
 
+app.post('/getedit', (req,res) => {
+  editData = req.body
+  console.log("FETCH FOR EDIT")
+  console.log(req.body)
+
+  j_index = {
+    id: parseInt(req.body.id),
+    user: req.session.user
+  }
+
+  // console.log(j_index)
+
+  user_data.find(j_index).toArray().then(function(out) {
+    if(out.length === 1) {
+      // console.log(out[0]);
+      j_out = {
+        character: out[0].character,
+        diceType: out[0].diceType,
+        quantity: out[0].quantity,
+        modifier: out[0].modifier
+      }
+
+      outBody = JSON.stringify(j_out)
+      res.send(outBody)
+    }
+  });
+});
+
+app.post('/editroll', (req,res) => {
+  editData = req.body
+
+  j_index = {
+    id: parseInt(editData.id),
+    user: req.session.user
+  }
+
+  console.log("TO EDIT:")
+  console.log(j_index)
+
+  user_data.find(j_index).toArray().then(function(out) {
+    id = out[0]._id
+
+    let newRoll = rollDice(editData.diceType, editData.quantity, editData.modifier);
+
+    console.log(id + " / " + newRoll)
+
+    user_data.updateOne(
+      { _id:mongodb.ObjectId( id ) },
+      { $set:{
+        character: editData.character,
+        diceType: editData.diceType,
+        quantity: editData.quantity,
+        modifier: editData.modifier,
+        roll: newRoll
+      }
+    }).then(function() {
+      sendTable(res)
+    })
+  });
+});
+
 app.get('/load', (req,res) => {
   current_user = req.session.user
   console.log("Login: " + current_user + " " + req.session.login)
@@ -205,6 +279,11 @@ const deleteList = function(res, list) {
     user_data.deleteOne({_id:mongodb.ObjectId(list[i]._id)})
     // .then( result => res.json( result ) )
   }
+}
+
+const addCreds = function(creds) {
+  credentials.insertOne( creds )
+  user_data.insertOne( {index_user: creds.user, index: 0} )
 }
 
 app.listen( process.env.PORT || 3000 )
