@@ -1,0 +1,24 @@
+{
+  "name": "a3-m-d-jo",
+  "version": "1.0.0",
+  "description": "An application using Express",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/m-d-jo/a3-m-d-jo.git"
+  },
+  "author": "m-d-jo",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/m-d-jo/a3-m-d-jo/issues"
+  },
+  "homepage": "https://github.com/m-d-jo/a3-m-d-jo#readme"
+}
