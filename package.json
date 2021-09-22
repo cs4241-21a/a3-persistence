@@ -1,0 +1,14 @@
+{
+  "name": "cs-4241-simple-glitch",
+  "version": "0.1.0",
+  "description": "WPI CS 4241 third assignment",
+  "author": "Evan Llewellyn",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "mongodb": "^4.1.2"
+  }
+}

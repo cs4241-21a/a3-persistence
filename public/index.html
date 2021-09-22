@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>CS4241 Assignment 3</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Register your car online for FREE!"/>
+  
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.5.5.min.css"/>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto">
+  <script src="js/scripts.js"></script>
+</head>
+
+<body>
+  <h1>Car Registry</h1>
+  <h2>Put your car information here to be entered into the registry.</h2>
+  <div id='grid'>
+  <form id='carform' autocomplete='off'>
+    <h3>Enter Information Here:</h3>
+    <label>Your Name:</label>
+    <input type='text' id='yourname' placeholder='Your Name Here'><br>
+    <label>Make:</label>
+    <input type='text' id='make' placeholder='Car Make Here'><br>
+    <label>Model:</label>
+    <input type='text' id='model' placeholder='Car Model Here'><br>
+    <label>Year:</label>
+    <input type='text' id='year' placeholder='Car Year Here'><br>
+    <label>Plate Number:</label>
+    <input type='text' id='platenumber' placeholder='Plate Number Here'>
+    <button id="submit">Submit Information</button>
+  </form>
+  <table id='cartable'>
+    <caption>Registry Table</caption>
+    <tr class='rowfixes'>
+      <th>Name</th>
+      <th>Make</th>
+      <th>Model</th>
+      <th>Year</th>
+      <th>Plate Number</th>
+      <th>Car Age</th>
+      <th>Edit</th>
+      <th>Delete</th>
+      <th>MongoDB_ID</th>
+    </tr>
+  </table>
+  </div>
+</body>
+</html>
