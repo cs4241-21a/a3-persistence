@@ -2,12 +2,15 @@
 <html lang="en">
 
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CS4241 Assignment 3</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/signin.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:wght@100;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <meta name="description" content="Calculate how far you are through the average lifespan with this easy to use app">
     <script>
         const login = function (event) {
             event.preventDefault()
@@ -46,15 +49,16 @@
 </head>
 
 <body>
-    <h1 id="intro">Welcome to Life Progression</h1>
-    <p>To get started seeing how far through your life you are login below. If you don't have a login enter a username
-        and password to create an account</p>
-    <form id='input' action='/login' method="POST">
-        <label class='buttonLabel' for='username'>Username:</label>
-        <input type='text' id='username' name='username'>
-        <label class='buttonLabel' for='pass'>Password (8 characters minimum):</label>
-        <input type='password' id='pass' name='pass' minlength='8' required>
-        <button id='login'>Sign in</button>
+    <form class='form-signin' id='input' action='/login' method="POST">
+        <h1 id="intro" class='text-center'>Welcome to Life Progression</h1>
+        <p class='text-center'>To get started seeing how far through your life you are login below.</p>
+        <label class='sr-only' for='username'>Username:</label>
+        <input class='form-control' type='text' id='username' name='username' placeholder='Username' required autofocus>
+        <label class='sr-only' for='pass'>Password:</label>
+        <input class='form-control' type='password' id='pass' name='pass' minlength='8' placeholder='Password' required>
+        <button class='btn btn-lg btn-primary btn-block' id='login'>Sign in</button>
+        <p class=' text-center'>If you don't have a login enter a username and password to create an account.
+        </p>
     </form>
 </body>
 

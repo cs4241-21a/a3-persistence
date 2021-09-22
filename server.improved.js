@@ -173,9 +173,7 @@ app.post('/login', function (request, response) {
         } else {
           request.session.login = false
           console.log('failed login')
-          return response.status(400).send({
-            message: 'Wrong Password'
-          })
+          return response.sendFile(__dirname + '/public/login.html')
         }
       }
     })
@@ -191,8 +189,12 @@ app.get('/login.html', function (req, res) {
   res.sendFile(__dirname + '/public/login.html')
 })
 
-app.get('/css/style.css', function (request, response) {
-  response.sendFile(__dirname + '/public/css/style.css')
+app.get('/css/signin.css', function (request, response) {
+  response.sendFile(__dirname + '/public/css/signin.css')
+})
+
+app.get('/robots.txt', function (request, response) {
+  response.status(404).send()
 })
 
 app.use(function (req, res, next) {

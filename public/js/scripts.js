@@ -2,12 +2,21 @@ let firstTime = true
 let showingAll = false
 const createEntry = function (record) {
     if (firstTime) {
+        let div = document.createElement('div')
         let table = document.createElement('table')
         table.id = "data"
-        let header = document.createElement('tr')
-        header.innerHTML = "<th>Name</th><th>Birthday</th><th>Gender</th><th>Life Lived</th><th colspan = \"2\">Actions</th>"
+        table.classList.add("table")
+        table.classList.add("table-bordered")
+        table.classList.add("table-striped")
+        let header = document.createElement('thead')
+        let hrow = document.createElement('tr')
+        hrow.innerHTML = "<th>Name</th><th>Birthday</th><th>Gender</th><th>Life Lived</th><th colspan = \"2\">Actions</th>"
+        header.appendChild(hrow)
         table.appendChild(header)
-        document.body.appendChild(table)
+        let body = document.createElement('tbody')
+        table.appendChild(body)
+        div.appendChild(table)
+        document.body.appendChild(div)
         firstTime = false
     }
     console.log(record)
@@ -15,19 +24,20 @@ const createEntry = function (record) {
     row.id = record._id
     console.log(row)
 
-    const name = document.createElement('Input')
-    name.setAttribute('type', 'text')
-    name.setAttribute('value', record.yourname)
+    const name = document.createElement('td')
+    name.setAttribute('contenteditable', 'true')
+    name.innerText = record.yourname
     name.setAttribute('class', 'name')
 
-    const DOB = document.createElement('Input')
-    DOB.setAttribute('type', 'date')
-    DOB.setAttribute('value', record.yourdob)
+    const DOB = document.createElement('td')
+    DOB.setAttribute('contenteditable', 'true')
+    DOB.innerText = record.yourdob
     DOB.setAttribute('class', 'dob')
 
     const gender = document.createElement('Select')
     gender.setAttribute('name', 'Gender')
     gender.setAttribute('class', 'gender')
+    gender.classList.add('form-select')
 
     switch (record.yourgender) {
         case "Male":
@@ -55,14 +65,14 @@ const createEntry = function (record) {
     removeBtn.innerText = 'Remove'
     removeBtn.onclick = remove
 
-    row.appendChild(document.createElement('td')).appendChild(name)
-    row.appendChild(document.createElement('td')).appendChild(DOB)
+    row.appendChild(name)
+    row.appendChild(DOB)
     row.appendChild(document.createElement('td')).appendChild(gender)
     row.appendChild(document.createElement('td')).appendChild(percent)
     row.appendChild(document.createElement('td')).appendChild(updateBtn)
     row.appendChild(document.createElement('td')).appendChild(removeBtn)
 
-    document.querySelector('table').appendChild(row)
+    document.querySelector('tbody').appendChild(row)
 
     return false
 }
@@ -99,7 +109,7 @@ const update = function (event) {
     const name = row.querySelector('.name')
     const dob = row.querySelector('.dob')
     const gender = row.querySelector('.gender')
-    json = { yourname: name.value, yourdob: dob.value, yourgender: gender.value, _id: row.id }
+    json = { yourname: name.innerText, yourdob: dob.innerText, yourgender: gender.value, _id: row.id }
 
     fetch('/update', {
         method: 'POST',

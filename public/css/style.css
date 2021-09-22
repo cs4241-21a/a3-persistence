@@ -1,120 +1,32 @@
-html, body, div, span, applet, object, iframe,
-h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-a, abbr, acronym, address, big, cite, code,
-del, dfn, em, img, ins, kbd, q, s, samp,
-small, strike, strong, sub, sup, tt, var,
-b, u, i, center,
-dl, dt, dd, ol, ul, li,
-fieldset, form, label, legend,
-table, caption, tbody, tfoot, thead, tr, th, td,
-article, aside, canvas, details, embed, 
-figure, figcaption, footer, header, hgroup, 
-menu, nav, output, ruby, section, summary,
-time, mark, audio, video {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	font-size: 150%;
-	font: inherit;
-	vertical-align: baseline;
-    box-sizing: border-box;
-}
-
-article, aside, details, figcaption, figure, 
-footer, header, hgroup, menu, nav, section {
-	display: block;
-}
-body {
-	line-height: 1;
-}
-ol, ul {
-	list-style: none;
-}
-blockquote, q {
-	quotes: none;
-}
-blockquote:before, blockquote:after,
-q:before, q:after {
-	content: '';
-	content: none;
-}
-table#data {
-	border-collapse: collapse;
-	border-spacing: 0;
-    margin-top: 1em;
-}
-
-form, label, select, option, table, td, tr, input, button, p{
-    font-family: 'Urbanist', sans-serif;
-    font-size:medium;
-    box-sizing:border-box;
-    outline:none;
-    max-width: 700px;
-    margin:auto;
-}
-
-form#input{
-    display: flex;
-    flex-wrap:wrap;
-    align-items: center;
-}
-
-table, td, tr, th {
-    border: 1px solid black;
-}
-
 .gender{
-    outline:none;
-}
-
-.dob{
-    border: none;
-    width:10em;
-}
-
-.name{
+    width:100%; 
+    height:100%; 
+    background-color: transparent; 
     border:none;
-    width: 7em;
 }
 
-th{
-    padding:2px
+div{
+    margin: 2em !important;
 }
 
 button.update, button.remove{
-    background-color: white;
+    background-color: transparent;
     border: none;
 }
 
 button.update:hover, button.remove:hover{
-    color:blue;
-    
+    color:blue;   
 }
 
-input#name, input#yourname{
-    width :100px;
+.form{
+    max-width: max-content;
 }
 
-label{
-    
-    padding-right:0.25em;
+#addEntry{
+    margin:0 auto !important;
 }
 
-#intro{
-    text-align: center;
-    max-width: 700px;
-    padding-top:1em;
-    margin:auto;
-}
-
-#instructions{
-    text-align: center;
-    margin:auto;
-    max-width: 700px;
-    margin-bottom:1em;
-    padding-top:1em;
-}
-
-a{
-    display: inline;
+.float-right{
+    display:flex;
+    justify-content: flex-end;
 }
