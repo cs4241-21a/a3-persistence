@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>CS 4241 Assignment 3</title>
+        <meta charset="utf-8">
+        <!-- minify -->
+        <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
+        <!-- latest -->
+        <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
+        <!-- core style only -->
+        <link href="https://unpkg.com/nes.css/css/nes-core.min.css" rel="stylesheet" />
+        <link rel="stylesheet" href="/public/style.css" type="text/css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            <h1>Log In</h1>
+        </header>
+        <form action="/login" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" name="username">
+            <label for="password">Password:</label>
+            <input type="password" name="password">
+            <input type="submit" value="Log In">
+        </form>
+        <a href="/public/new.html">Sign Up</a>
+    </body>
+</html>

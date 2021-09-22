@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require( "express" ),
-    { MongoClient } = require('mongodb'),
+    mongodb = require('mongodb'),
     bodyParser = require('body-parser'),
     cookierParser = require('cookie-parser'),
     session = require('express-session'),
@@ -9,18 +9,18 @@ const express = require( "express" ),
     app = express()
 
 
-app.use(express.static( "public" ))
+app.use('/public', express.static(__dirname + '/public'))
 app.use(session({ secret: "secret"}))
 app.use( express.json() )
+app.use( cookierParser("Secret") )
 app.use( bodyParser.urlencoded() )
-app.use( cookierParser() )
 app.use( passport.initialize() )
 app.use( passport.session() )
 
 
 passport.use(new LocalStrategy( function(username, password, done) {
   collection.findOne({ username: username, password: password }, function(err, user) {
-    if (err) { 
+    if (err) {
       return done(err)
     }
     if (!user) {
@@ -38,14 +38,13 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  collection.findOne({_id: id}, function(err, user) {
+  collection.findOne({_id:id}, function(err, user) {
     done(err, user);
   });
 });
 
-
 const uri = "mongodb+srv://admin:admin@cluster0.vkyuj.mongodb.net/database?retryWrites=true&w=majority";
-const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
 client.connect()
   .then( () => {
@@ -61,24 +60,24 @@ client.connect()
   .then( console.log )
 
 app.get("/", ( request, response ) => {
-  response.sendFile( __dirname + "/views/login.html" );
+  response.sendFile( __dirname + "/public/login.html" );
   console.log("cookies:", request.cookies)
-});
-
-app.get("/views/login.html", ( request, response ) => {
-  response.sendFile( __dirname + "/views/login.html" );
 });
 
 app.get("/views/index.html", ( request, response ) => {
   response.sendFile( __dirname + "/views/index.html" );
 });
 
-app.get("/views/new.html", ( request, response ) => {
-  response.sendFile( __dirname + "/views/new.html" );
-});
-
 app.get( "/dreams", ( request, response ) => {
   response.json( dreams );
+});
+
+app.get("/logout", function(req, res){
+  console.log(req.user)
+  req.logout()
+  console.log(req.user)
+  res.redirect("../public/login.html")
+  console.log('here')
 });
 
 app.post( "/submit", ( request, response ) => {
@@ -90,11 +89,12 @@ app.post( "/createUser", ( request, response ) => {
   console.log(request.body)
   collection
     .insertOne( request.body )
-    .then( result => response.json( result ) )
+    .then( response.redirect("/") )
+    //.then( result => response.json( result ) )
 })
 
 app.post('/login',
-  passport.authenticate('local', { successRedirect: '/views/index.html', failureRedirect: '/', failureFlash: false })
+  passport.authenticate('local', { successRedirect: '/views/index.html', failureRedirect: '/public/Failed_Login.html', failureFlash: false })
 )
 
 // listen for requests :)
@@ -115,19 +115,22 @@ app.use( (req,res,next) => {
 
 app.post( '/add', ( request, response ) => {
   // assumes only one object to insert
+  console.log(request.user)
+  response.send(request.user)
+  //request.body.user_id = request.user._id
   collection.insertOne( request.body ).then( result => response.json( result ) )
 })
 
 app.post( '/remove', ( request, response ) => {
   collection
-    .deleteOne({ _id:mongodb.ObjectId( request.body._id ) })
+    .deleteOne({ _id:request.body._id})
     .then( result => response.json( result ) )
 })
 
 app.post( '/update', ( request, response ) => {
   collection
     .updateOne(
-      { _id:mongodb.ObjectId( request.body._id ) },
+      { _id:request.body._id},
       { $set:{ name:request.body.name } }
     )
     .then( result => response.json( result ) )
