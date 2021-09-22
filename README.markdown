@@ -118,7 +118,18 @@ add a little more detail about what it does.
 
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: Host on Heroku
+
+This was more involved than I expected it was going to be. I assumed I could just connect my github repo and everything would
+  work because it was working fine on my local computer. Sadly that was not the case. The first thing I found out was that it didn't
+  like that my name was 'Ido Katz' in the .json files; I had to remove the space. The other thing I learned is that I can't decide what port to listen on.
+  This works locally but heroku wants to pick their own port. Lastly, in my package.json, I had to remove the version number which I
+  originally had as '2.0'. This is a bit more nit-picky than glitch but from my understanding, the server will stay up and
+  doesn't sleep/wake up at all
+
+- **Tech Achievement 2**: 100% in all 4 lighthouse tests
+  
+
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...

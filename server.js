@@ -157,8 +157,14 @@ app.post('/login', bodyParser.json(), (req, res) => {
                 req.session.login = false
                 req.session.username = null
                 // password incorrect, redirect back to login page
+                alert("Incorrect Username or Password")
                 res.sendFile( __dirname + '/public/index.html' )
             }
+        }
+        else {
+            // User doesn't exist. Send to login page
+            alert("User Doesn't Exist")
+            res.sendFile( __dirname + '/public/index.html' )
         }
     })
 })
