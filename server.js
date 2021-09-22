@@ -92,8 +92,10 @@ app.get( '/load', (req,res) => {
     }
 })
 
-
-app.listen(3000);
+// Listen on port 3000 for dev or whatever heroku wants
+app.listen(process.env.PORT || 3000, function(){
+    console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
+});
 
 // app.get("/load", (request, response) => {
 //     // response.json(appdata)
