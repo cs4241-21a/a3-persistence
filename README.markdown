@@ -132,4 +132,28 @@ This was more involved than I expected it was going to be. I assumed I could jus
 
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: CRAP principles write up
+- Contrast: There is also a lack of contrast on the page in my input tags and the placeholder text (score: 2.53). This is beneificial
+  because it hints to the user that the placeholder text is temporary and that it is a prompt for what they should 
+  put in the text box. Another way I use contrast is through color. The shopping list entries are the only elements with color
+  on the entire page. When a user logs in to check their shopping list, their eyes are instantly drawn to that color. I also made the orange and yellow
+  colors a bit lighter instead of using the defaults. This made increased to contrast by a fraction of a point. 
+
+
+- Repetition: There is general repetition between the login and main page. The forms you see are similar and placed one on top of the other in both pages. 
+  I start every page with an 'h1'. Originally, the login page had an 'h1' at the top like it does now but the main page had an 'h2' at the top. As I was 
+  exploring this principle, I realised that it made sense to be consistent and when I switched the tag, the pages seemed to flow better.
+
+
+- Alignment: Most of my alignment can be attributed to the CSS framework that I used. It re-aligned my page and made it look more professional which was the entire point.
+The most noticeable change was that instead of spanning the entire width of the screen, the elements are more tightly bound towards the center of the screen (although they are
+  still right aligned). This is great for people with wide monitors; they wont have to move their eyes across the entire screen to read the instructions or the table itself. 
+  You can also see that the margin between the form elements are smaller than the margin between other elements of the page. This signifies to the user that all those elements are united as one component. 
+  
+
+
+- Proximity: You can see that the margin between the form elements are smaller than the margin between other elements of the page. This signifies to the user that all those elements are united as one component.
+As I mentioned above, the CSS framework I used squeezed the contents of my page more to the center. Bringing everything closer creates a more polished feel on a large monitor. In assignment A2, I had three 'br' tags between my
+  form and the shopping list table. After exploring this principle, I reduced this number and I'm happy with how it looks now. The three breaks removed the table from the rest of the page. Now, with only one break, I 
+  have the separation that I want, but the table does not look out of place. 
+
