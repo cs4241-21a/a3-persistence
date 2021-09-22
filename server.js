@@ -73,6 +73,7 @@ app.use( cookie({
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
   console.log( req.body )
+  req.session.login = false
   
   // get the list of users from the database
   if( users_collection !== null ) {
@@ -123,7 +124,13 @@ app.use( cookie({
     // }
   })
 
+  console.log('exited for loop...')
+  console.log(req.session.login)
+
+  // create new user if login status is false
+  // and the us
   if (req.session.login === false && !loginFailed) {
+    console.log('creating new user...')
     next()
     // todo message: signed up successfully
     console.log('signed up successfully!')
