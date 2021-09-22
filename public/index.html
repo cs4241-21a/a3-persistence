@@ -56,12 +56,15 @@
       return false;
     }
 
-          json = {name: inputName.value, chore: inputChore.value , complete:inputComplete.value, load:0, id:-1}
-          body = JSON.stringify( json )
+          let json = {name: inputName.value, chore: inputChore.value , complete:inputComplete.value, load:0, id:-1}
+          let body = JSON.stringify( json )
 
+
+          
           fetch( '/submit', {
       method:'POST',
-      body 
+      body: body,
+      headers: {"Content-Type": "application/json"} 
     })
     .then(function( response ) {
          return response.json();

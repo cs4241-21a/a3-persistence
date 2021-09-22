@@ -1,14 +1,17 @@
 
 const express = require("express")
-const cookie  = require( 'cookie-session' )
+//const cookie  = require( 'cookie-session' )
 const app = express() 
+let userSignIn;
+
 
 app.use( express.urlencoded({ extended:true }) )
 app.use(express.json())
-app.use( cookie({
+
+/*app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
-}))
+}))*/
 
 const { ObjectID } = require('bson');
 const { MongoClient, ObjectId } = require('mongodb');
@@ -37,9 +40,9 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/signin.html")
 })
 
-const getappdata = async () => {
+const getappdata =  () => {
   const collection = client.db("test").collection("devices");
-  return await collection.findOne({user:req.session.username}).appData
+  return  collection.findOne({user:userSignIn}).appdata
 }
 
 const getUsername = ( username) => {
@@ -72,29 +75,27 @@ const getUsername = ( username) => {
     if(foundJSON.password===dataObj.password){
 // define a variable that we can check in other middleware
     // the session object is added to our requests by the cookie-session middleware
-    req.session.username = user
-    req.session.login = true
+    userSignIn = user
+    
 
     console.log("login sucess")
     // since login was successful, send the user to the main content=
-    res.redirect( '/index' )
+    res.status(201).end();
     }
     else{
       // password incorrect, redirect back to login page
-      res.redirect( '/signin' )
+      res.status(202).end();
 
-      console.log("incorrect")
       //res.sendFile( __dirname + '/public/signin.html' )
     }
   }
     
   else{
     // user incorrect, redirect back to login page
-    console.log("userincorrect")
-    res.redirect(  '/signin' )
+    res.status(202).end();
+    
   }
 
- 
 })
 
 // add some middleware that always sends unauthenicaetd users to the login page
@@ -113,14 +114,17 @@ app.use( express.static('public', {extensions: ["html"]}) )
   
 })*/
 
-app.post("/submit", (req, res) => {
+app.post("/submit", async (req, res) => {
 
-  appdata = getappdata()
+  appdata = await getappdata()
 
   let dataObj =  req.body
 
+  console.log(userSignIn)
+
   if(dataObj.id >= appdata.length){
-    res.json({peepee:"poopoo"}) //sends a json object as response
+    console.log("400")
+    res.status(400) //sends a json object as response
   }
     else{
     if(dataObj.id == -1){ //indicates add
@@ -148,7 +152,7 @@ app.post("/submit", (req, res) => {
       appdata = newappdata
     }
     else{ // indicates modify
-      appdata[dataObj.id] = dataString
+      appdata[dataObj.id] = dataObj
     }
 
     //load re-calculation
@@ -187,13 +191,10 @@ app.post("/submit", (req, res) => {
       appdata[i] = aline
     }
 
-    response.writeHead( 200, "OK", {'appdata': appdata })
-    response.end(appdata)
+   
+    //res.json(appdata)
   }
-  
-
-
-  res.json({peepee:"poopoo"}) //sends a json object as response
+  res.json(appdata)
 })
 
 app.listen(3000)
