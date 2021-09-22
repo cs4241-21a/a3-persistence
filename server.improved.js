@@ -34,9 +34,7 @@ client.connect()
       // blank query returns all documents
       return collection.find({ }).toArray()
     })
-    .then( console.log )
 
-// route to get all docs
 app.get( '/', (req,res) => {
   if( collection !== null ) {
     debugger
