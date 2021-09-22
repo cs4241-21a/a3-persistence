@@ -1,9 +1,10 @@
 const express = require("express");
-const session = require("express-session");
 const { MongoClient } = require("mongodb");
 const passport = require("passport");
 const GithubStrategy = require("passport-github2").Strategy;
 const dotenv = require("dotenv").config();
+const session = require("express-session");
+
 const port = 3000;
 
 /* MongoDB Setup */
@@ -27,6 +28,8 @@ app.use(
   session({ secret: "a3-jhsul", resave: false, saveUninitialized: true })
 );
 
+app.use(express.json());
+
 app.use(passport.initialize());
 app.use(passport.session());
 
@@ -35,23 +38,25 @@ app.use((req, res, next) => {
     res.redirect("/account");
     return;
   }
+
+  if (req.url === "/account" && !req.user) {
+    res.redirect("/");
+    return;
+  }
+
   next();
 });
 
-app.use(express.static(__dirname + "/public", { extensions: ["html"] }));
+app.use(express.static("public", { extensions: ["html"] }));
 
 /* Passport and Github OAuth setup */
 
 passport.serializeUser((user, done) => {
-  console.log("Serializing");
-  //console.log(user);
   done(null, user);
 });
 
-passport.deserializeUser((user, done) => {
-  console.log("Deserializing");
-  //console.log(user);
-  done(null, user);
+passport.deserializeUser((obj, done) => {
+  done(null, obj);
 });
 
 passport.use(
@@ -68,6 +73,8 @@ passport.use(
     }
   )
 );
+
+/* OAuth Routes */
 
 app.get(
   "/auth/github",
@@ -108,9 +115,38 @@ app.get(
   }
 );
 
-app.get("/me", (req, res) => {
+app.post("/contacts", async (req, res) => {
+  console.log(req);
+  if (!req.user) res.status(400);
+
+  if (req.body.uuid) {
+  } else {
+  }
+
+  await client
+    .db("a3")
+    .collection("users")
+    .findOneAndUpdate(
+      { _id: req.user.id },
+      { $push: { contacts: req.body } },
+      { returnOriginal: false }
+    );
+});
+
+app.get("/me", async (req, res) => {
   if (!req.user) res.status(404);
-  console.log(req.user);
+
+  const userRes = await client
+    .db("a3")
+    .collection("users")
+    .findOne({ _id: req.user.id });
+
+  console.log(userRes);
+
+  if (!userRes) res.status(404);
+
+  req.user.data = userRes;
+
   res.json(req.user);
 });
 

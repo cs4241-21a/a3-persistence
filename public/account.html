@@ -9,26 +9,60 @@
       integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
       crossorigin="anonymous"
     />
+    <link href="styles.css" rel="stylesheet" />
     <script src="account.js"></script>
   </head>
   <body>
-    <div class="full-page">
-      <h1>Account Info</h1>
-      <h2>Github Info</h2>
-      <code id="github"></code>
-      <div class="container">
-        <div class="row">
-          <div class="col">Name</div>
-          <div class="col">Email</div>
-          <div class="col">Username</div>
-          <div class="col">Photo</div>
+    <div class="page-container">
+      <div class="page px-3">
+        <h3>Github Info</h3>
+        <div style="display: flex">
+          <div class="mr-2" id="photo"></div>
+          <div class="mx-2" style="flex-direction: column">
+            <div id="name"></div>
+            <div id="email"></div>
+            <div id="username"></div>
+          </div>
         </div>
-        <div class="row">
-          <div id="name" class="col"></div>
-          <div id="email" class="col"></div>
-          <div id="username" class="col"></div>
-          <div id="photo" class="col"></div>
+        <h3>Contacts</h3>
+        <table id="contactTable" class="container">
+          <tr id="headerRow" class="row" style="background-color: white">
+            <th class="col">Name</th>
+            <th class="col">Phone Number</th>
+            <th class="col">Country</th>
+            <th class="col">Actions</th>
+          </tr>
+        </table>
+        <div
+          style="
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+          "
+          class="my-2"
+        >
+          <p id="noContactsLabel">`</p>
+          <form action="/contacts" method="POST">
+            <div class="form-group">
+              <label>Name</label>
+              <input name="name" class="form-control" type="text" />
+            </div>
+            <div class="form-group">
+              <label>Phone Number</label>
+              <input name="phone" class="form-control" type="text" />
+            </div>
+            <div class="form-group">
+              <label>Country</label>
+              <input name="country" class="form-control" type="text" />
+            </div>
+            <button type="submit" class="mx-auto btn btn-primary">
+              Add Contact
+            </button>
+          </form>
         </div>
+        <h3>Login History</h3>
+        <ul id="loginHistoryList"></ul>
       </div>
     </div>
   </body>
