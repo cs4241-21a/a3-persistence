@@ -67,6 +67,7 @@ app.use( cookie({
  *               EXPRESS ROUTES
  *---------------------------------------------**/
  app.post( '/login', async (req,res, next)=> {
+  let loginFailed = false
   let users = []
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
@@ -105,10 +106,12 @@ app.use( cookie({
         res.redirect( '/' )
       } else {
         // password incorrect, redirect back to login page
-        res.sendFile( __dirname + '/public/views/login.html' )
         // todo show message: incorrect password
         console.log('incorrect password!')
         req.session.login = false
+        res.sendFile( __dirname + '/public/views/login.html' )
+        loginFailed = true
+        // res.redirect( '/' )
       }
     } 
     // else {
@@ -120,12 +123,12 @@ app.use( cookie({
     // }
   })
 
-  if (req.session.login === false) {
-    debugger
+  if (req.session.login === false && !loginFailed) {
     next()
     // todo message: signed up successfully
     console.log('signed up successfully!')
     req.session.login = true
+    res.redirect( '/' )
   }
 
   // console.log('users')
@@ -193,7 +196,6 @@ app.use( function( req, res, next ) {
 app.use( express.static('public') )
 
 app.get('/', function(req, res) {
-  debugger
   res.sendFile( __dirname + '/public/views/index.html' )
 })
 
