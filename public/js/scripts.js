@@ -10,11 +10,11 @@ const submit = function (e) {
 
   const form = document.querySelector("form"),
     json = {
-      title: form.title.value,
-      author: form.author.value,
-      score: form.score.value,
+      plant: form.plant.value,
+      sunlight: form.sunlight.value,
+      water: form.water.value,
+      adopt: form.adopt.value,
       notes: form.notes.value,
-      year: form.year.value,
     },
     body = JSON.stringify(json);
 
@@ -49,9 +49,9 @@ function buildTable(json) {
 
   console.log(json)
   let row = document.querySelector("#tbody").insertRow();
-  row.insertCell(0).innerHTML = json.title;
-  row.insertCell(1).innerHTML = json.author;
-  row.insertCell(2).innerHTML = json.score;
-  row.insertCell(3).innerHTML = json.notes;
-  row.insertCell(4).innerHTML = json.year;
+  row.insertCell(0).innerHTML = json.plant;
+  row.insertCell(1).innerHTML = json.sunlight;
+  row.insertCell(2).innerHTML = json.water;
+  row.insertCell(3).innerHTML = json.adopt;
+  row.insertCell(4).innerHTML = json.notes;
 }

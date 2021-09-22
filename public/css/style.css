@@ -1,7 +1,7 @@
 /*Style your own assignment! This is fun! */
 .flex-container {
     display: flex;
-    background-color: DodgerBlue;
+    background-color: #A3B18A;
   }
   
 .flex-container > div {
@@ -26,6 +26,7 @@ button {
   margin-left: 25%;
   margin-right: 25%;
   width: 50%;
+  font-size: 12pt;
 }
 
 table {
@@ -35,6 +36,8 @@ table {
 table, th, td {
   border: solid #000;
   border-width: 1px;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 12pt;
 }
 
 body {
@@ -91,3 +94,10 @@ label {
   flex: 1;
   
 }  
+
+h3 {
+  font-family: 'Open Sans', sans-serif;
+  color: #344E41;
+  font-size: 18pt;
+  text-align: center;
+}

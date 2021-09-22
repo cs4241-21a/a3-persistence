@@ -69,7 +69,7 @@ app.post( '/add', (req,res) => {
 
 app.get('/data', (req, res) => {
   if (collection !== null) {
-    collection.find({ }).toArray().then(result => res.json(result));
+    collection.find({username: user}).toArray().then(result => res.json(result));
   }
 });
 
