@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1"> 
+    <meta name="description" content="Table with contacts and entry fields for new contacts.">
+
+    <script src = "/js/scripts.js"></script>
+
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300italic,700,700italic&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
+  </head>
+
+  <body>
+    <h3 id = curUser></h3>
+    <h3 id = tableHeading>Contacts</h3>
+    <table onclick= "selectingRow()" id="allEntries">
+      <tr> 
+        <th>Name</th>
+        <th>Phone Number</th>
+        <th>Birthday</th>
+        <th>Gift?</th>
+        <th>Get Gift By</th>
+        <th>Delete</th>
+        <th>UniqueID</th> <!--   <th style="display:none;">UniqueID</th>  -->
+      </tr> 
+    </table>
+
+    <h3 id = "updateHeading">Add/Update</h3>
+    <form class = "submission">
+        <label for ="name">Name:</label>
+        <input type='text' id='name' placeholder="Name">
+
+        <label for ="phoneNum">Phone number:</label>
+        <input type='tel' id='phoneNum' placeholder="012-345-6789" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"  required>
+
+        <label for='birthday'>Birthday:</label>
+        <input type="date" id="birthday"> 
+
+        <label for ="toGift">Gift:</label>
+        <input type="checkbox" id="toGift">
+
+        <button id = "update"  class="float-right">Update</button> 
+    </form>
+
+    <h3 id = "infoHeading">Note</h3>
+    <p id = "information"> To add a new entry fill in the fields, and click update. <br>
+      To modify an entry select the row on the table, update the fields, and click update. <br>
+      To delete an entry click delete on the desired row. <br>
+      Click the table once to focus on the table, then click the desired row for modifying/deleting.  <br>
+      Entries must have unique names. Adding/modifying an entry with the same name as an existing one will 
+      replace the previous entry. <br>
+      Gift selected with no birthday will default to the Jan. 1st of the coming year. 
+    </p>
+  </body>
+</html>
