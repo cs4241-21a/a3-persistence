@@ -1,13 +1,27 @@
 // Enable .env file setup
 require('dotenv').config()
 
-const express = require("express"),
+// import fetch from 'node-fetch'
+
+const fetch = require("node-fetch"),
+      express = require("express"),
+      cors = require("cors"),
+      cookie = require("cookie-session"),
       bodyparser = require("body-parser"),
       mongodb = require( 'mongodb' ),
       app = express(),
+      staticURL = "http://localhost",
       staticDir  = "public",
-      hwAPIPath = "/homework",
+      hwPath = "/agenda"
+      hwAPIPath = hwPath + "/data",
       port = 80
+
+const githubRedirect = "/login",
+      githubAuth = "/auth/github"
+      githubAuthToken = githubAuth + "/authorized",
+      githubUserScope = [
+        "read:user"
+      ].join(" ")
 
 // Key is corresponding to submission date (really just for uniqueness, doesn't matter for the preset values like this)
 const homeworkData = {
@@ -38,6 +52,9 @@ client.connect()
   })
   .then( console.log )
 
+// Middleware for handling CORS headers
+app.use(cors())
+
 // Custom middleware for outputting an error code if the MongoDB server is down
 app.use((req,res,next) => {
   if(collection !== null) {
@@ -47,11 +64,38 @@ app.use((req,res,next) => {
   }
 })
 
+/**
+ * Middleware for creating and storing cookies
+ * Each session stores the following keys:
+ * - access_token = used for accessing the GitHub API (obtaining user info)
+ */ 
+app.use(cookie({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
+// Redirect to home page if a user is not logged in and is attempting to view their agenda
+app.use((req, res, next) => {
+  if(req.path.startsWith(hwPath) && !req.session.hasOwnProperty("access_token")) {
+    res.redirect("/")
+  }
+  else {
+    // Session cookie exists, continue
+    next() 
+  }
+})
+
 // Serve static files when necessary
 app.use(express.static(staticDir))
+
 // Use body parser to parse JSON when necessary
 app.use(bodyparser.json())
 
+/**
+ * Adds new data to the homework database
+ * @param {*} request 
+ * @param {*} response 
+ */
 function addNewData(request, response) {
   let hwData = JSON.parse(request.body.newHW)
 
@@ -96,6 +140,58 @@ app.get(hwAPIPath, (request, response) => {
   response.end(JSON.stringify(homeworkData))
 })
 
+// Handles GET request to login location for redirecting to GitHub
+// This will then redirect to GitHub's OAuth page for authorization
+app.get(githubRedirect, (request, response) => {
+  let authParams = {
+    client_id: process.env.GH_OAUTH_ID,
+    redirect_uri: staticURL + githubAuth,
+    scope: githubUserScope,
+    state: process.env.GH_OAUTH_STATE
+  }
+
+  response.redirect("https://github.com/login/oauth/authorize?" + new URLSearchParams(authParams))
+})
+
+// Handles GET request to app's GitHub post-authorization location
+// This obtains the authorization token to be used with the GitHub API
+app.get(githubAuth , (req, res) => {
+  // If state does not match, output error and given bad response
+  if(req.query.state != process.env.GH_OAUTH_STATE) {
+    const errorMsg = "ERROR: Bad state given for GitHub Authentication"
+    console.log(errorMsg)
+    res.status(401).send(errorMsg)
+    return
+  }
+
+  let code = req.query.code;
+  let authParams = {
+    client_id: process.env.GH_OAUTH_ID,
+    client_secret: process.env.GH_OAUTH_SECRET,
+    code: code,
+    redirect_uri: staticURL + githubAuthToken
+  }
+
+  app.get
+  fetch("https://github.com/login/oauth/access_token?" + new URLSearchParams(authParams))
+  .then(response => {
+    console.log(response)
+    // return response.json()
+  })
+  // .then(response => {
+  //   console.log(response)
+  //   // console.log(response.body)
+
+  //   // let auth = response
+  //   // console.log(auth)
+  //   // res.session.access_token = auth.access_token
+
+  //   // res.redirect("/")
+  // })
+  .catch(reason => {
+    console.log(reason)
+  })
+});
 
 ////// POST REQUEST ///////
 
@@ -126,5 +222,5 @@ app.delete(hwAPIPath, (request, response) => {
 
 
 const listener = app.listen( process.env.PORT || port, () => {
-  console.log( 'Your app is listening on port: ' + listener.address().port)
+  console.log( 'Your app is listening on: ' + staticURL + ":" + listener.address().port)
 })
