@@ -1,49 +1,81 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <title>Welcome to Glitch!</title> 
+    <title>Event Itinerary</title>
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Assignment 3 Website">
 
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
+    <!-- Importing CSS Stylesheet -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
 
-    <!-- import the webpage's client-side javascript file -->
-    <script src="/script.js" defer></script>
+    <!-- Importing JS Script -->
+    <script src="js/scripts.js"></script>
+
+    <!-- Importing Custom Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Glory:wght@100&display=swap" rel="stylesheet">
   </head>
-  <body>
-    <header>
-      <h1>A Dream of the Future</h1>
-    </header>
+  <body class="center-container">
+    <div>
+      <a href="/login">Logout</a>
+    </div>
 
-    <main>
-      <h2>Oh hi,</h2>
+    <h3>Event Itinerary</h3>
 
-      <p>Tell me your hopes and dreams:</p>
+    <div id="investment-table-container" class="center-content">
+      <table>
+        <tr>
+          <th>Event</th>
+          <th>Date</th>
+          <th>Time</th>
+          <th>Mandatory Attendance</th>
+          <th></th>
+        </tr>
+        <tr id="empty-row">
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td>—</td>
+          <td class="icon-button-cell">
+            <div class="icon-button-container">
+              <button id="add-button" class="icon-button">
+                <img title="Add Entry" class="icon add-icon" src="img/add-file.svg">
+              </button>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </div>
 
-      <form>
-        <label>
-          New Dream
-          <input name="dream" type="text" maxlength="100" required placeholder="Dreams!">
-        </label>
-        <button type="submit" id="submit-dream">Add Dream</button>
-      </form>
+    <form class="flex-box" hidden>
+      <div class="flex-item">
+        <label>Event Name:</label>
+        <input type="text" id="name" placeholder="Zoom Meeting" required>
+      </div>
+      <div class="flex-item">
+        <label>Date:</label>
+        <input type="date" id="date">
+      </div>
+      <div class="flex-item">
+        <label>Time:</label>
+        <input type="time" id="time">
+      </div>
+      <div class="flex-item">
+        <label>Attendance Mandatory:</label>
+        <input type="checkbox" id="attendance">
+      </div>
+      <div class="flex-item">
+        <button id="submit-button" value="">Save Event</button>
+      </div>
+    </form>
 
-      <section class="dreams">
-        <ul id="dreams">
-          <em>loading dreams&hellip;</em>
-        </ul>
-      </section>
-    </main>
-
-    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
-
-    <!-- include the Glitch button to show what the webpage is about and
-          to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js" defer></script>
+    <p>
+      Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+    </p>
   </body>
 </html>

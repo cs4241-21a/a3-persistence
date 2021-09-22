@@ -8,11 +8,7 @@ const path = require('path');
 const app = express();
 const port = 3000
 
-let dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
-];
+const events = [];
 
 // Middleware 1 - Cookie Parsing
 app.use(cookieParser(cookieParser));
@@ -51,14 +47,20 @@ app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
-app.get("/dreams", (request, response) => {
-  response.json(dreams);
+app.get("/events", (request, response) => {
+  response.json(events);
 });
 
 app.post('/submit', (request, response) => {
-  dreams.push(request.body.newdream);
+  if (request.body.index > events.length - 1) {
+    events.push(request.body.item);
+  } else if (request.body.item === undefined) {
+    events.splice(request.body.index, 1);
+  } else {
+    events[request.body.index] = request.body.item;
+  }
   response.writeHead( 200, { 'Content-Type': 'application/json'});
-  response.end(JSON.stringify(dreams));
+  response.end(JSON.stringify(events));
 })
 
 const listener = app.listen(process.env.PORT || port, () => {
