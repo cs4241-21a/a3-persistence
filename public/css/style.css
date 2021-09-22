@@ -1,0 +1,134 @@
+/* @import url("https://fonts.google.com/specimen/Knewave?category=Display#standard-styles");
+@import url("https://fonts.google.com/specimen/ZCOOL+QingKe+HuangYou?category=Display&query=Zheng+Qingke");
+@import url("https://fonts.google.com/specimen/VT323?category=Monospace"); */
+
+html {
+    height: 100%;
+    /* margin: 0; */
+    overflow:hidden;
+    color: white;
+    /* color: black; */
+} 
+body {
+  /* background-image: url('../backgrounds/home.jpeg');  */
+  background-color: black;
+  font-family: "VT323", monospace;
+  background-position: center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  height: 100%;
+  /* margin: 0; */
+}
+#bg-image {
+  background-image: url('../backgrounds/train.jpeg'); 
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
+  min-height:100%; 
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+
+button, input {
+  font-family: "VT323", monospace;
+
+}
+
+  /* #background {
+    position:absolute;
+  } */
+
+table, th, td {
+  border:1px solid gray;
+  border-collapse: collapse;
+
+}
+
+#history_table {
+  max-width: 50%;
+  overflow-y:auto;
+  max-height: 500px;
+  justify-content: space-around;
+  display:block;
+}
+
+#mother {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items:flex-start;
+  position: absolute;
+  top: 20%;
+  left: 7%;
+  width: 80%;
+}
+
+h1 {
+  display: flex;
+  align-items:flex-end;
+  justify-content: center;
+  font-family: "Knewave", monospace;
+  position: absolute;
+  top: 3%;
+  left: 7%
+}
+
+/* #mix_name, #play {
+  margin-top: 20px;
+} */
+
+
+
+  
+/* The container */
+.container {
+  /* display: flex; */
+  /* flex-direction: row; */
+  position: relative;
+  padding-left: 20px;
+  /* margin-bottom: 12px; */
+  cursor: pointer;
+  /* font-size: 22px; */
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+  
+
+  /* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+}
+
+/* Create a custom radio button */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 14px;
+  width: 14px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .checkmark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .checkmark {
+  background-color:indianred;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
