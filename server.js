@@ -5,6 +5,7 @@ const express    = require('express'),
       cookie     = require('cookie-session'),
       helmet     = require('helmet'),
       favicon    = require('serve-favicon')
+      response   = require('response-time')
       dreams     = []
 
 // automatically deliver all files in the public folder
@@ -13,6 +14,7 @@ app.use(express.static( 'public' ) )
 app.use(express.urlencoded({ extended: true }))
 app.use(helmet());
 app.use(favicon(__dirname + '/public/img/favicon.ico'))
+app.use(responseTime())
 
 // get json when appropriate
 app.use( bodyparser.json() )
