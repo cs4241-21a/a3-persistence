@@ -4,6 +4,7 @@ const express   = require("express"),
         mongodb = require( 'mongodb' ),
         cookie  = require( 'cookie-session' ),
         favicon = require('serve-favicon'),
+        timeout = require('connect-timeout')
         path = require('path'),
         app     = express();
 
@@ -12,11 +13,19 @@ app.use( express.urlencoded({ extended:true }) )
 
 app.use( favicon(path.join(__dirname, 'public/assets', 'binky.png')) )
 
+app.use(timeout('10s'))
+app.use(haltOnTimedout)
+
 
 app.use( cookie({
     name: 'session',
     keys: ['key1', 'key2']
 }))
+app.use(haltOnTimedout)
+
+function haltOnTimedout (req, res, next) {
+    if (!req.timedout) next()
+}
 
 // // add some middleware that always sends unauthenicaetd users to the login page
 app.use( function( req,res,next) {
@@ -157,13 +166,11 @@ app.post('/login', bodyParser.json(), (req, res) => {
                 req.session.login = false
                 req.session.username = null
                 // password incorrect, redirect back to login page
-                alert("Incorrect Username or Password")
                 res.sendFile( __dirname + '/public/index.html' )
             }
         }
         else {
             // User doesn't exist. Send to login page
-            alert("User Doesn't Exist")
             res.sendFile( __dirname + '/public/index.html' )
         }
     })
