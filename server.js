@@ -9,9 +9,9 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-//const {user, pass} = require('./env.js')
-const user = process.env.username
-const pass = process.env.password
+const {user, pass} = require('./env.js')
+//const user = process.env.username
+//const pass = process.env.password
 
 const express = require('express');
 const app = express();
@@ -23,12 +23,6 @@ app.use(express.json());
 
 app.use( express.urlencoded({ extended:true }) )
 
-
-
-app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
-})
-
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
   console.log("Your app is listening on port " + listener.address().port);
@@ -36,7 +30,7 @@ const listener = app.listen(process.env.PORT, () => {
 
 app.use( cookie({
   name: 'session',
-  keys: ['key1', 'key2']
+  keys: ['key1','key2']
 }))
 
 const MongoClient = mongodb.MongoClient;
@@ -54,27 +48,35 @@ client.connect()
 })
 //.then(console.log)
 
-
 app.post( '/login', function(req,res) {
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
-  console.log( req.body )
-  
-  // below is *just a simple authentication example* 
-  // for A3, you should check username / password combos in your database
-  if( req.body.password === 'test' ) {
-    // define a variable that we can check in other middleware
-    // the session object is added to our requests by the cookie-session middleware
-    req.session.login = true
 
-    // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-    // make redirect
-    res.sendFile( __dirname + '/views/index.html' )
-  }else{
-    // password incorrect, redirect back to login page
-    res.sendFile( __dirname + '/views/login.html' )
-  }
+  collection.find({'username':req.body.username}).toArray()
+    .then(dbresponse => {
+      if(dbresponse.length === 0){
+    // below is *just a simple authentication example* 
+    // for A3, you should check username / password combos in your database
+
+    if( req.body.password.toString() === 'test' ) {
+
+        collection.insertOne(req.body)
+          .then( function(){
+              // define a variable that we can check in other middleware
+              // the session object is added to our requests by the cookie-session middleware
+              req.session.login = true
+
+              // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
+              // make redirect
+              res.sendFile( __dirname + '/views/index.html' )
+           })
+    }else{
+        // password incorrect, redirect back to login page
+        res.sendFile( __dirname + '/views/login.html' )
+      }
+    }
+  })
 })
 
 // add some middleware that always sends unauthenicaetd users to the login page
@@ -83,6 +85,10 @@ app.use( function( req,res,next) {
     next()
   else
     res.sendFile( __dirname + '/views/login.html' )
+})
+
+app.get("/", (request, response) => {
+  response.sendFile(__dirname + "/views/index.html");
 })
 
 app.post('/submit', bodyparser.json(),function(req, res){
@@ -130,75 +136,6 @@ app.post('/loadTable', bodyparser.json(),function(req, res){
   //console.log(dbresponse)
   })
 })
-
-
-/*
-
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
-  }
-})
-
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
-
-  if( request.url === '/' ) {
-    sendFile( response, 'views/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
-}
-
-const handlePost = function( request, response ) {
-  console.log(request.url)
-  let dataString = ''
-
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
-
-  request.on( 'end', function() {
-    dataString = JSON.parse( dataString )
-    console.log( dataString )
-
-    appdata.push(dataString)
-
-    for(let count = 0; count < appdata.length; count++){
-      
-      if(appdata[count].day === 'Sunday'){
-        appdata[count].difficulty = appdata[count].priority * 5
-      }
-      else if(appdata[count].day === 'Monday'){
-        appdata[count].difficulty = appdata[count].priority * 10
-      }
-      else if(appdata[count].day === 'Tuesday'){
-        appdata[count].difficulty = appdata[count].priority * 7
-      }
-      else if(appdata[count].day === 'Wednesday'){
-        appdata[count].difficulty = appdata[count].priority * 6
-      }
-      else if(appdata[count].day === 'Thursday'){
-        appdata[count].difficulty = appdata[count].priority * 10
-      }
-      else if(appdata[count].day === 'Friday'){
-        appdata[count].difficulty = appdata[count].priority * 6
-      }
-      else if(appdata[count].day === 'Saturday'){
-        appdata[count].difficulty = appdata[count].priority * 5
-      }
-    }
-
-  console.log(appdata)
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.write(JSON.stringify(appdata))
-    response.end()
-  })
-}
-*/
 
 const sendFile = function( response, filename ) {
    //const type = mime.getType( filename ) 

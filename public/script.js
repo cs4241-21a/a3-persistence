@@ -2,6 +2,9 @@ const todoInput = document.querySelector( '#todo' )
 const dayInput = document.querySelector( '#day' )
 const difficultyInput = document.querySelector('#difficulty')
 
+const usernameInput = document.querySelector('#username')
+const passwordInput = document.querySelector('#password')
+
 const submit = function( ) {
   // prevent default form action from being carried out
   //e.preventDefault()
@@ -117,8 +120,8 @@ const populateTable = function(json){
                 
                 for(let count = 0; count < json.length; count++){
                     let tr = document.createElement('tr')
-                    let day = json[count].day.toString()
-                    let table = document.getElementById(day.toString())
+                    let day = json[count].day
+                    let table = document.getElementById(day)
                     let td = document.createElement('td')
                     let item = document.createTextNode(json[count].todo)
                     td.appendChild(item)
@@ -152,6 +155,6 @@ const populateTable = function(json){
 
 window.onload = function() {
     populateTable()
-    const button = document.querySelector( '#submitButton' )
-    button.onclick = submit
+    const submitButton = document.querySelector( '#submitButton' )
+    submitButton.onclick = submit
 }
