@@ -1,6 +1,8 @@
 window.onload = function(){
     let loginBtn = document.getElementById('sign_in_button')
     loginBtn.onclick = login
+
+    console.log("In inside onload")
 }
 
 let login = function(){
@@ -25,5 +27,9 @@ let login = function(){
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: jsonBody
+    }).then(function(res){
+        return res.json();
+    }).then(function(result){
+        console.log("Result", result);
     })
 }
