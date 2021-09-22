@@ -14,7 +14,7 @@
     "express-slash": "^2.0.1",
     "mime": "^2.4.4",
     "mongo": "^0.1.0",
-    "mongodb": "^4.1.1",
+    "mongodb": "^4.1.2",
     "morgan": "^1.10.0",
     "serve-favicon": "^2.5.0"
   }
