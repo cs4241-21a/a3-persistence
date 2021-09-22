@@ -1,0 +1,35 @@
+<div class="card" style="width: 95%; left: 20px;">
+    <div class="card-body" style=" padding-left: 20px;">
+        <table class="table table-striped">
+            <tr>
+                <th>Type</th>
+                <th>Description </th>
+                <th>
+                    <% if(readonly) { %>
+                        Name
+                    <% } else { %>
+                        Operation
+                    <% } %>
+                </th>
+            </tr>
+            <% for (var i = 0; i < content.length; i++) { %>
+                <tr>
+                    <td id="contentType<%= content[i]._id %>"><%= content[i].type %></td>
+                    <td id="contentText<%= content[i]._id %>"><%= content[i].text %></td>
+                    <% if(readonly) { %>
+                        <td><%= content[i].username %></td>
+                    <% } else { %>
+                        <td>
+                            <button class="btn btn-info"
+                                    onclick="edit('<%= content[i]._id %>')">Edit
+                            </button>
+                            <button class="btn btn-danger"
+                                    onclick="deleteContent('<%= content[i]._id %>')">Delete
+                            </button>
+                        </td>
+                    <% } %>
+                </tr>
+            <% } %>
+        </table>
+    </div>
+</div>

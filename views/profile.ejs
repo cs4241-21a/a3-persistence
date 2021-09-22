@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+</head>
+<body class="results">
+<%- include nav.ejs %>
+<br/>
+
+<div id="editorcard" class="card" style="width: 40%; left: 20px;">
+    <div class="card-body" style=" padding-left: 20px;">
+        <h5 id="EditorTitle" class="card-title">Add content</h5>
+        <form action="/submit" method="post">
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="contentType" id="HomeworkOption"
+                       value="Homework"
+                       onchange="updateContentLabel()" checked>
+                <label class="form-check-label" for="inlineRadio1">Homework</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="contentType" id="ProjectOption"
+                       value="Project"
+                       onchange="updateContentLabel()">
+                <label class="form-check-label" for="inlineRadio2">Project</label>
+            </div>
+            <textarea class="form-control" rows="3" id="contentInput" name="contentInput" style="width: 90%"></textarea>
+            <br/>
+            <input type="hidden" id="contentID" name="contentID">
+            <div class="row">
+                <button type="submit" id="submitButton" class="btn btn-primary">Submit</button>
+                <button class="btn btn-link" id="EditCancel" type="button" onclick="cancelEdit();" hidden>
+                    Cancel Editing
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+<br/>
+<%- include content.ejs %>
+</body>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+<script>
+    window.onload = profileLoad();
+    function profileLoad(){
+        updateContentLabel();
+        if (screen.width < 800) {
+            document.get("editorcard").attr("width", "100%");
+        }
+    }
+    function updateContentLabel() {
+        let radios = document.getElementsByName('contentType');
+        for (let i = 0, length = radios.length; i < length; i++)
+            if (radios[i].checked) {
+                document.getElementById('contentInput').placeholder = 'Your ' + radios[i].value + ' Discription : (CS4241 ' + radios[i].value + ' 1)';
+                break;
+            }
+    }
+    function edit(id) {
+        console.log("Editing ", id);
+        document.getElementById('contentInput').innerHTML = document.getElementById('contentText' + id).innerHTML
+        let type = document.getElementById('contentType' + id).innerHTML
+        document.getElementById(type.toLowerCase() + 'Option').checked = true;
+        document.getElementById('contentID').value = id;
+        document.getElementById('EditorTitle').innerHTML = "Edit content";
+        document.getElementById('EditCancel').hidden = false;
+    }
+    function cancelEdit() {
+        document.getElementById('contentInput').innerHTML = "";
+        document.getElementById('HomeworkOption').checked = true;
+        document.getElementById('contentID').value = "";
+        document.getElementById('EditorTitle').innerHTML = "Add content";
+        document.getElementById('EditCancel').hidden = true;
+    }
+    function deleteContent(id) {
+        console.log("deleting " + id)
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "/delete", true);
+        xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8');
+        xhr.send(JSON.stringify({"contentID": id}));
+        location.reload();
+    }
+</script>
+</html>
