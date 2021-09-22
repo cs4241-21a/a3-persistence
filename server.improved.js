@@ -5,6 +5,7 @@ const crypto = require('crypto')
 const cookie = require('cookie-session')
 require('dotenv').config()
 const app = express()
+const favicon = require('serve-favicon')
 // var bodyparser = require('body-parser')
 
 
@@ -71,6 +72,8 @@ const createUser = function (user) {
       console.log(user.username)
     })
 }
+
+app.use(favicon(__dirname + '/public/images/' + 'favicon.ico'))
 
 app.use(function (req, res, next) {
   console.log('url:', req.url)
