@@ -253,24 +253,15 @@ app.get('/chat',(req, res) =>{
 app.get('/review',(req, res) =>{
     ReviewEntry.find().sort({rating: -1})
         .then(result => {
-            res.render('review', {reviews: result, title:"Reviews"})
+            res.render('review', {reviews: result, sentUsername: req.session.username, title:"Reviews"})
         })
 });
 
 app.post('/delete', bodyParser.json(), async (req, res) => {
-    let rankDel = 0;
-    let username = '';
-    await ScoreEntry.findById(req.body.id)
-        .then(result => {
-            username = result.yourname;
-            rankDel = result.rank;
-        })
-    if (username === req.session.username){
-        await ScoreEntry.findByIdAndDelete(req.body.id)
+    await ReviewEntry.findByIdAndDelete(req.body.id)
             .then(result => {
             });
-        await deleteRankMongo(rankDel);
-    }
+
     res.redirect('/index')
 })
 

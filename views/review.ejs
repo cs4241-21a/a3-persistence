@@ -38,6 +38,10 @@
                         <%for (let i = 0; i < review.rating; i++ ){ %>
                             <i class="bi bi-star-fill"></i>
                          <%   }%>
+                        <% if(review.username === sentUsername){%>
+                            <button onclick="myEdit(parentNode.id)"><i class="bi bi-pencil"></i></button>
+                            <button onclick="myDelete(parentNode.id)"><i class="bi bi-trash"></i></button>
+                        <% }%>
                     </div>
                     <% }) %>
                 <% } %>

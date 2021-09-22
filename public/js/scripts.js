@@ -264,26 +264,3 @@ function accelerate(n) {
     myGamePiece.gravity = n;
 }
 
-function myEdit(idValue){
-    console.log(idValue)
-}
-
-function myDelete(idValue){
-
-     const json = { id: idValue},
-        body = JSON.stringify( json )
-    fetch('/delete', {
-        method:'POST',
-        body,
-        headers:{
-            "Content-Type":"application/json"
-        }
-    })
-        .then( function( response ) {
-            // do something with the response
-            console.log("Post made to server");
-        })
-        .then( function( json ) {
-            console.log(json);
-        })
-}
