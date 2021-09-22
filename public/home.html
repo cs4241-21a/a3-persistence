@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang='en'>
+  <head>
+    <style>
+      #title {
+        font-size: 70px !important;
+      }
+
+      #header {
+        width: 95% !important;
+      }
+
+      table {
+        width: 95% !important;
+      }
+
+      #form {
+        margin-bottom: 90px;
+      }
+
+      body {
+        background-color: #e6d7be !important;
+      }
+    </style>
+    <link
+      href='https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css'
+      rel='stylesheet'
+      integrity='sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU'
+      crossorigin='anonymous'
+      defer
+    />
+    <link rel='shortcut icon' href='#' />
+    <script src='js/scripts.js' defer></script>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <title>Entry Page</title>
+    <meta charset='utf-8' />
+    <meta
+      name='description'
+      content='Main page for the Hotel Reviews website where you can add, edit, and delete hotel reviews'
+    />
+  </head>
+  <body>
+    <div class='container-fluid m-4 bg-dark' id='header'>
+      <div class='col'>
+        <h1 class='text-white' id='title'>Entry Page</h1>
+      </div>
+      <div class='col'>
+        <a href='/logout' type='button' class='btn btn-danger'>Log Out</a>
+      </div>
+    </div>
+    <!-- </header> -->
+    <h2 class='m-4'>Leave a review:</h2>
+    <form action='' method='POST' id='form'>
+      <div class='m-4 mb-5'>
+        <div>
+          <label class='form-label'
+            >Hotel Name:
+            <input
+              class='form-control'
+              type='text'
+              id='hotel-name'
+              placeholder='Enter Name Here'
+            />
+          </label>
+        </div>
+        <div>
+          <label class='form-label'
+            >Hotel Location:
+            <input
+              class='form-control'
+              type='text'
+              id='hotel-location'
+              placeholder='Enter Location Here'
+            />
+          </label>
+        </div>
+        <div>
+          <label class='form-label'
+            >Start Date Of Stay:
+            <input
+              class='form-control'
+              type='date'
+              id='start-date'
+              placeholder='YYYY-MM-DD'
+            />
+          </label>
+        </div>
+        <div>
+          <label class='form-label'
+            >Cleanliness (1-10):
+            <input
+              class='form-control'
+              type='number'
+              id='cleanliness-score'
+              placeholder='#'
+              min='1'
+              max='10'
+            />
+          </label>
+        </div>
+        <div>
+          <label class='form-label'
+            >Service (1-10):
+            <input
+              class='form-control'
+              type='number'
+              id='service-score'
+              placeholder='#'
+              min='1'
+              max='10'
+            />
+          </label>
+        </div>
+        <div>
+          <label class='form-label'
+            >Amenities (1-10):
+            <input
+              class='form-control'
+              type='number'
+              id='amenity-score'
+              placeholder='#'
+              min='1'
+              max='10'
+            />
+          </label>
+        </div>
+        <div id='Button-Container'>
+          <button type='button' class='btn btn-success' id='Submit-Button'>
+            Submit Review
+          </button>
+        </div>
+      </div>
+    </form>
+    <h2 class='m-4 mt-5' id='reviews-header'>Check out your reviews:</h2>
+    <table
+      class='table table-responsive table-bordered border-dark align-middle m-2'
+      id='table'
+    ></table>
+  </body>
+</html>
