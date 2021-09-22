@@ -3,7 +3,6 @@ window.onload = function() {
     fetch("/load")
     .then(response => response.json())
     .then(appdata => {
-        console.log(appdata)
         update_table(appdata)
     });
     button.onclick = submit
@@ -12,12 +11,6 @@ window.onload = function() {
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
-    console.log("Started submit function")
-
-    let updating = button.innerText === 'Update Selected Entry';
-    if(updating) {
-        // console.log('inside if', id)
-    }
 
     const input = document.querySelector( '#my_form' ).elements
     var json = {}
@@ -62,31 +55,13 @@ function load_table() {
     fetch("/load")
         .then(response => response.json())
         .then(appdata => {
-            console.log(appdata)
             update_table(appdata)
         });
 }
 
-//
-// fetch("/load")
-//     .then(response => response.json())
-//     .then(appdata => {
-//         console.log(appdata)
-//         update_table(appdata)
-//     })
-//
-// fetch("/submit", {
-//     method:'POST',
-//     body:JSON.stringify({test:1}),
-//     headers: {
-//         "Content-Type":"application/json"
-//     }
-// })
-
 const submit_update = function( e, id ) {
     // prevent default form action from being carried out
     e.preventDefault()
-    console.log("STARTING UPDATE")
 
     const input = document.querySelector( '#my_form' ).elements
     var json = {}
@@ -97,7 +72,6 @@ const submit_update = function( e, id ) {
     }
 
     if(validate_row(json.list_entry, json.quantity)) {
-        console.log("VALIDATED")
         document.getElementById("submit_button").innerText = 'Add Item';
         button.onclick = submit
 

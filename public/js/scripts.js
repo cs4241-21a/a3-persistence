@@ -1,16 +1,12 @@
-// // Add some Javascript code here, to run on the front end.
-//
-// let appdata = []
 let table = document.getElementById("shopping_list");
-//
+
 function update_table(data) {
     // let json_data = JSON.parse(data);
     // appdata = json_data["data"];
     clear_table();
     data.forEach(element => add_row(element["_id"], element["list_entry"], element["quantity"], element["urgency"], element["deadline"]));
 }
-// // The line below is at the top of the document
-// let table = document.getElementById("shopping_list");
+
 function add_row(id, item, quantity, urgent, deadline) {
     let row = table.insertRow(-1);
 
@@ -70,29 +66,19 @@ function update_row(id) {
         .then(json => {
             populate_form(json[0])
         })
-
-    // Enter that data into the form
-
-
 }
 
 function populate_form(json) {
-    console.log(json)
     document.getElementById("list_entry").value = json['list_entry'];
     document.getElementById("quantity").value = json['quantity'];
     document.getElementById("urgency").checked = json['urgency'];
     document.getElementById("submit_button").innerText = 'Update Selected Entry';
-
-    console.log('scripts', json['_id'])
 
     const button = document.querySelector( 'button' )
     button.onclick = null // Remove current submit for button
     button.addEventListener('click', function () {
         submit_update(event, json['_id'])
     },{once : true})
-
-
-    console.log(json['list_entry'])
 }
 
 function clear_table() {
@@ -109,18 +95,3 @@ function clear_table() {
         }
     }
 }
-//
-// function toggle_got_item(cb, row, urgent) {
-//     if(cb.checked) {
-//         row.setAttribute("Style", "background-color: green");
-//     }
-//     else {
-//         if(urgent) {
-//             row.setAttribute("Style", "background-color: orange");
-//         }
-//         else {
-//             row.setAttribute("Style", "background-color: yellow");
-//         }
-//     }
-//
-// }

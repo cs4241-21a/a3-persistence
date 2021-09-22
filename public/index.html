@@ -12,7 +12,7 @@
 <body>
     <h1>Log in or Create an Account Below</h1>
 
-    <form action='/login' method='POST' id="login_form">
+    <form action='/login' method='POST' id="login_form" autocomplete="off">
         <input type='text' id='username_login' name='username' placeholder="Username">
         <input type='password' id='password' name='password' placeholder="Password">
         <button id="submit_button">Log In</button>
@@ -20,7 +20,7 @@
 
     <h2>Create Account</h2>
 
-    <form action='/new_user' method='POST' id="create_account_form">
+    <form action='/new_user' method='POST' id="create_account_form" autocomplete="off">
         <input type='text' name='username' placeholder="Username">
         <input type='password' name='password' placeholder="Password">
         <button id="create_account_submit_button">Sign Up</button>
