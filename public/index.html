@@ -1,37 +1,30 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 2</title>
-    <meta charset="utf-8">
-    <script src="js/scripts.js"></script>
-    <link rel="stylesheet" href="css/style.css">
-  </head>
-  <body>
-    <h2>Shopping List</h2>
-    <div class="instructions">
-      <p>Add items to the shopping list by entering an item in the first field and how many of that item you need in the second.</p>
-      <p>Note that the quantity field only accepts numbers.</p>
-      <p>You can also indicate if an item is urgent so it can be visually indicated as such.</p>
-    </div>
-    <form id="my_form">
-      <input type='text' id='list_entry' name='list_entry' placeholder="Add item to shopping list">
-      <input type='number' id='quantity' name='quantity' placeholder="Quantity">
-      <div class="checkbox">
-        <input type='checkbox' id='urgency' name="urgency">
-        <label for="urgency">Urgent?</label>
-      </div>
-      <button id="submit_button">Add item</button>
-    </form>
-    <br><br><br>
-    <table id="shopping_list">
-      <tr class="header_row">
-        <th>Item</th>
-        <th>Quantity</th>
-        <th>Recommended Deadline</th>
-        <th>Got Item?</th>
-      </tr>
-    </table>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Log in page to the easiest shopping list on the web. Log in or create a new account here."/>
+    <title>Log In</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 
-    <script src="js/server_communication.js"></script>
-  </body>
+
+</head>
+<body>
+    <h1>Log in or Create an Account Below</h1>
+
+    <form action='/login' method='POST' id="login_form">
+        <input type='text' id='username_login' name='username' placeholder="Username">
+        <input type='password' id='password' name='password' placeholder="Password">
+        <button id="submit_button">Log In</button>
+    </form>
+
+    <h3>Create Account</h3>
+
+    <form action='/new_user' method='POST' id="create_account_form">
+        <input type='text' name='username' placeholder="Username">
+        <input type='password' name='password' placeholder="Password">
+        <button id="create_account_submit_button">Sign Up</button>
+    </form>
+    <script src="js/account.js"></script>
+</body>
 </html>
