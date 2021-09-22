@@ -32,20 +32,24 @@ section {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    padding-top: 5%;
 }
 
 .loginText{
     display: flex;
     justify-content: center;
+    padding-top: 1%;
     width: 100%;
-    padding-left: 20px;
+}
+.loginTextDiv{
+    padding-top: 1%;
 }
 
 .loginButton{
     display: flex;
     justify-content: center;
-    width: 100%;
-    padding-left: 20px;
+    align-items: center;
+    padding-top: 2%;
 }
 
 .gameForm{

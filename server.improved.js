@@ -8,6 +8,7 @@ const res = require('express/lib/response')
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
       cookie = require("cookie-session"),
+      morgan = require("morgan"),
       app = express()
 
 app.use( express.static('public') )
@@ -23,6 +24,9 @@ app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
 }))
+
+morgan(':method :url :status :res[content-length] - :response-time ms');
+
 
 const uri = "mongodb+srv://TestUser:Mario35@cluster0.oxb6m.mongodb.net/"
 
@@ -255,7 +259,7 @@ app.post( '/delete', (req,res) => {
     deletePlayerScore(req.body.playername);
     
     //Sort player data
-    sortPlayerData();
+    //sortPlayerData();
 
     collection.find({ }).sort({rank: 1}).toArray().then( result => res.json( result ) )
     
@@ -279,6 +283,14 @@ app.listen( 3000 )
  * @param {*} playerScore - score value that will be replaced
  */
 function updatePlayerScore(playerName, playerScore){
+  const query = { name: playerName};
+  const update = {
+    $set: {score: playerScore}
+  };
+  const options = { returnNewDocument: true };
+
+  collection.findOneAndUpdate(query, update, options);
+/*
   collection.find(({name: playerName})).toArray()
   .then(foundUsername => {
     console.log(foundUsername[0])
@@ -286,8 +298,11 @@ function updatePlayerScore(playerName, playerScore){
       {_id: foundUsername[0]._id},
       {$set: {score: playerScore}} 
     )
+    .then( result => res.json( result ))
   })
   .then(findResponse => res.json(findResponse))
+}
+*/
 }
 
 /**
@@ -312,7 +327,8 @@ function sortPlayerData(){
     [
       {$sort: {score: -1}}
     ]
-  ).toArray().then(sorted_data => {
+  ).toArray()
+  .then(sorted_data => {
     console.log(sorted_data)
     //update the document in order using ids you got back
     for(let i = 0; i < sorted_data.length; i++){
@@ -323,8 +339,9 @@ function sortPlayerData(){
       )
     }
 
-    collection = sorted_data;
+    //collection = sorted_data;
   })
+  .then( result => res.json( result ) )
 }
 
 /**
@@ -336,7 +353,7 @@ function sortPlayerData(){
 function makeUserObject(username, userPassword){
   return {name: username, password: userPassword, score: 0, rank: 0};
 }
-
+/*
 //Removes a piece of data from the table
 function removeData(appdata, row){
 
@@ -358,3 +375,4 @@ function removeData(appdata, row){
     }
   }
 }
+*/

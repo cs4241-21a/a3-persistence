@@ -18,65 +18,34 @@
   <body>
     <div id="mainContainer">
       <form action='/login' class="loginForm" method='POST'>
-        <input type='text' class="nes-input loginText" name='username'>
-        <input type='password' class="nes-input loginText" name='password'>
-        <button id="login" class="nes-btn loginButton">Log In</button>
+        <label>Returning player?</label>
+        <label>Log in to start playing!</label>
+        <div class="loginTextDiv">
+          <input type='text' class="nes-input loginText" name='username' placeholder="Username">
+        </div>
+        <div class="loginTextDiv">
+          <input type='password' class="nes-input loginText" name='password' placeholder="Password">
+        </div>
+        
+        <div class="loginButton">
+          <button id="login" class="nes-btn">Log In</button>
+        </div>
+        
       </form><br>
   
       <form action='/register' class="loginForm" method='POST'>
-        <input type='text' class="nes-input loginText" name='username'>
-        <input type='password' class="nes-input loginText" name='password'>
-        <button id="register" class="nes-btn loginButton">Register</button>
+        <label>New player?</label>
+        <label> Create your account here!</label>
+        <div class="loginTextDiv">
+          <input type='text' class="nes-input loginText" name='username' placeholder="Username">
+        </div>
+        <div class="loginTextDiv">
+          <input type='password' class="nes-input loginText" name='password' placeholder="Password">
+        </div>
+        <div class="loginButton">
+          <button id="register" class="nes-btn">Register</button>
+        </div>
       </form>
     </div>
   </body>
-  <script>
-    /*
-    const login = function(e){
-      e.preventDefault();
-
-      fetch('/login',{
-      method: 'POST',
-      body: body,
-      headers:{
-        "Content-Type":"application/json"
-      }
-      })
-      .then(function (response){
-        response.text().then(function(textdata) {
-          console.log(JSON.parse(textdata));
-          usernameVar = JSON.parse(textdata);
-
-          makeTableFromData(newAppdata);
-        })
-      })
-
-      return false;
-    }
-
-    const register = function(e){
-      e.preventDefault();
-
-      fetch('/register',{
-        method: 'POST',
-        body: body,
-        headers:{
-          "Content-Type":"application/json"
-        }
-      })
-      .then(function (response){
-        //do something with the reponse 
-          response.text().then(function(textdata) {
-          console.log(JSON.parse(textdata));
-          let newAppdata = JSON.parse(textdata);
-
-          makeTableFromData(newAppdata);
-        })
-      })
-
-    return false;
-    }
-    */
-
-  </script>
 </html>
