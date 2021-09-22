@@ -1,7 +1,7 @@
 $(document).ready(async function () {
     let users = []
-    await $.get('/getUsers', (data) => {
-        users = data
+    await $.get('/getUsers', (res) => {
+        users = res
     });
 
     $('#username').on('keyup', function () {

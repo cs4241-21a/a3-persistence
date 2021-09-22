@@ -9,6 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
         integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./public/loadUserData.js"></script>
     <title>A3 Persistance</title>
 </head>
 
@@ -16,7 +19,7 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
-                <h1>Welcome to GTWFin, <span class="user-name"></span></h1>
+                <h1>Welcome to GTWFin, <span id="user-name"></span></h1>
                 <form action="/logout?_method=DELETE" method="POST">
                     <button type="submit" class="btn btn-primary">Log Out</button>
                 </form>
@@ -24,24 +27,252 @@
             <div class="col-sm-6">Overview</div>
         </div>
         <div class="row">
-            <div class="col-sm-1">Jan</div>
-            <div class="col-sm-1">Feb</div>
-            <div class="col-sm-1">Mar</div>
-            <div class="col-sm-1">Apr</div>
-            <div class="col-sm-1">May</div>
-            <div class="col-sm-1">Jun</div>
-            <div class="col-sm-1">Jul</div>
-            <div class="col-sm-1">Aug</div>
-            <div class="col-sm-1">Sep</div>
-            <div class="col-sm-1">Oct</div>
-            <div class="col-sm-1">Nov</div>
-            <div class="col-sm-1">Dec</div>
+            <ul class="nav nav-tabs justify-content-center" id="monthsTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="jan-tab" data-bs-toggle="tab" data-bs-target="#jan"
+                        type="button" role="tab" aria-controls="jan" aria-selected="true">January</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="feb-tab" data-bs-toggle="tab" data-bs-target="#feb" type="button"
+                        role="tab" aria-controls="feb" aria-selected="fasle">February</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="mar-tab" data-bs-toggle="tab" data-bs-target="#mra" type="button"
+                        role="tab" aria-controls="mar" aria-selected="fasle">March</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="apr-tab" data-bs-toggle="tab" data-bs-target="#apr" type="button"
+                        role="tab" aria-controls="apr" aria-selected="fasle">April</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="may-tab" data-bs-toggle="tab" data-bs-target="#may" type="button"
+                        role="tab" aria-controls="may" aria-selected="fasle">May</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="jun-tab" data-bs-toggle="tab" data-bs-target="#jun" type="button"
+                        role="tab" aria-controls="jun" aria-selected="fasle">June</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="jul-tab" data-bs-toggle="tab" data-bs-target="#jul" type="button"
+                        role="tab" aria-controls="jul" aria-selected="fasle">July</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="aug-tab" data-bs-toggle="tab" data-bs-target="#aug" type="button"
+                        role="tab" aria-controls="aug" aria-selected="fasle">August</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="sep-tab" data-bs-toggle="tab" data-bs-target="#sep" type="button"
+                        role="tab" aria-controls="sep" aria-selected="fasle">September</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="oct-tab" data-bs-toggle="tab" data-bs-target="#oct" type="button"
+                        role="tab" aria-controls="oct" aria-selected="fasle">October</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="nov-tab" data-bs-toggle="tab" data-bs-target="#nov" type="button"
+                        role="tab" aria-controls="nov" aria-selected="fasle">November</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="dec-tab" data-bs-toggle="tab" data-bs-target="#dec" type="button"
+                        role="tab" aria-controls="dec" aria-selected="fasle">December</button>
+                </li>
+            </ul>
+            <div class="tab-content" id="monthsData">
+                <div class="tab-pane fade show active" id="jan" role="tabpanel" aria-labelledby="jan-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="jan-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="feb" role="tabpanel" aria-labelledby="feb-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="feb-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="mar" role="tabpanel" aria-labelledby="mar-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="mar-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="apr" role="tabpanel" aria-labelledby="apr-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="apr-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="may" role="tabpanel" aria-labelledby="may-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="may-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="jun" role="tabpanel" aria-labelledby="jun-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="jun-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="jul" role="tabpanel" aria-labelledby="jul-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="jul-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="aug" role="tabpanel" aria-labelledby="aug-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="aug-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="sep" role="tabpanel" aria-labelledby="sep-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="sep-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="oct" role="tabpanel" aria-labelledby="oct-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="oct-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="nov" role="tabpanel" aria-labelledby="nov-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="nov-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="dec" role="tabpanel" aria-labelledby="dec-tab">
+                    <div class="row mt-4 text-center justify-content-center">
+                        <div class="col-sm-8">
+                            <table class="table table-sm" id="dec-table">
+                                <thead>
+                                    <tr class="table-primary align-middle" height="40px">
+                                        <th scope="col">From</th>
+                                        <th scope="col">Amount</th>
+                                        <th scope="col">Category</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="row">
-            <div class="col-sm-4">From</div>
-            <div class="col-sm-4">Money</div>
-            <div class="col-sm-4">Category</div>
-        </div>
+
     </div>
 </body>
 

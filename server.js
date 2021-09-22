@@ -2,6 +2,7 @@ require('dotenv').config();
 const express = require('express');
 const app = express();
 const mongodb = require('mongodb');
+const ObjectId = require('mongodb').ObjectId
 const flash = require('express-flash');
 const session = require('express-session');
 const methodOverride = require('method-override');
@@ -32,7 +33,7 @@ client.connect()
     })
     .then(__collection => {
         collection = __collection;
-        return collection.find({ "username": "test" }).toArray()
+        return collection.find({ "_id": ObjectId("6147f85cd90f4c042137e74b") }).toArray()
     }).then(console.log)
 
 
@@ -70,7 +71,8 @@ const authUser = async (username, password, next) => {
 
 let getUserbyId = async id => {
     if (collection !== null) {
-        return await collection.find({ "_id": id }).toArray()[0];
+        let users = await collection.find({ "_id": id }).toArray();
+        return users[0];
     } else {
         return null
     }
@@ -135,7 +137,19 @@ app.get('/getUsers', async (req, res) => {
         usernameList.push(element.username);
     });
     res.json(usernameList);
-    res.end()
+    res.end();
+});
+
+app.get('/getUserData', async (req, res) => {
+    let userID = req.query.id;
+    let users = await collection.find({ "_id": ObjectId(userID) }).toArray();
+    let userData = users[0];
+    delete userData['password'];
+    delete userData['_id'];
+    console.log(userData);
+
+    res.json(userData);
+    res.end();
 });
 
 async function checkAuthenticated(req, res, next) {
