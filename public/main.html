@@ -1,0 +1,90 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+
+    <title>Welcome to Glitch!</title>
+
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="style.css">
+    <link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
+
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body>
+<div class="contain">
+      <div class="head">
+    <h1>Fate Servant Generator</h1>
+    <p2>Note: All attributes (EX ~ E) are generated randomly based on occupation chosen</p2><br>
+    <p2>eg: Saber occupation will be more likely to generate high attribute (EX, A++) in Strength</p2><br><br>
+    <img src="https://cdn.glitch.com/780fb715-bb40-487c-ac1f-6633a82a7274%2Ficon.png?v=1632332584960" alt="icon" width="344" height="282" /><br>
+
+    <button id = resultb>Show Exist Servant</button>
+    <button id="addb">Add Servant</button><br>
+      </div>
+
+    <div id="addform">
+      <br><br><br>
+      <form action="">
+        <hr>
+        <strong>Add Servant information</strong><hr>
+        <strong>Character Name: </strong><br><br>
+        <input type='text' id='yourname' value="character name"><br><br>
+
+        <strong>Character Occupation: </strong><br>
+        <br>
+      </form>
+
+      <form name="occupation_selection">
+        <input type="radio" id="saber" name="occupation">
+        <label for="saber">Saber</label><br>
+        <input type="radio" id="lancer" name="occupation">
+        <label for="lancer">Lancer</label><br>
+        <input type="radio" id="archer" name="occupation">
+        <label for="archer">Archer</label><br>
+        <input type="radio" id="caster" name="occupation">
+        <label for="caster">Caster</label><br>
+        <input type="radio" id="rider" name="occupation">
+        <label for="rider">Rider</label><br>
+        <input type="radio" id="assassin" name="occupation">
+        <label for="assassin">Assassin</label><br>
+      </form>
+      <br>
+
+      <button id="submitb">submit</button><hr>
+    </div>
+    </div>
+
+    <table id="myTable" width="100%" border="1">
+      <tbody>
+      </tbody>
+    </table>
+    <script type="text/javascript" src = "./script.js"> </script>
+    <script>
+      var myform = document.getElementById("addform");
+      myform.style.display = "none";
+
+      const openaddform = function( e ) {
+        e.preventDefault()
+        if(myform.style.display==="none"){
+          myform.style.display = "block";
+        }
+        else {
+          myform.style.display = "none";
+        }
+      }
+      window.onload = function(){
+        const button_open_add_form = document.querySelector( '#addb' )
+        button_open_add_form.onclick = openaddform
+      }
+  </script>
+  </body>
+</html>

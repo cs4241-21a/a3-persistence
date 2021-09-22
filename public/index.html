@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang='en'>
+  <head>
+      <link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet">
+  </head>
+  <body>
+    <form>
+      <h1>To Sign In</h1>
+      <p1>username:</p1>
+      <input type='text' name='susername' id='susername'><br><br>
+      <p1>password:</p1>
+      <input type='password' name='spassword' id='spassword'><br><br>
+      <button type='submit' id='loginb'>Log in</button><hr>
+      
+      <h1>To Create A New Account</h1>
+      <p1>username:</p1>
+      <input type='text' name='cusername' id='cusername'><br><br>
+      <p1>password:</p1>
+      <input type='password' name='cpassword' id='cpassword'><br><br>
+      <button type='submit' id='createb'>Create Account</button><br>
+    </form>
+    <script type="text/javascript" src = "./script.js"> </script>
+    <script>
+      window.onload = function(){
+        const button_login = document.querySelector('#loginb')
+        button_login.onclick = login
+  
+        const button_create = document.querySelector('#createb')
+        button_create.onclick = create
+      }
+    </script>
+  </body>
+</html>
