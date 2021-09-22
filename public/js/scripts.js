@@ -203,8 +203,6 @@ function playNewSound(json, isSnippet = false) {
   // text.innerHTML = json.rain_mix_name
 }
 
-// todo separate function for remove
-
 
 /**
  * Updates the history table using the data
