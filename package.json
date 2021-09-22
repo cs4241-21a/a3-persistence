@@ -4,7 +4,7 @@
   "description": "",
   "author": "",
   "scripts": {
-    "start": "node ../a3-persistence/server.improved.js"
+    "start": "node server.improved.js"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
