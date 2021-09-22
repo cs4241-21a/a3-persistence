@@ -3,6 +3,8 @@
 //INITIAL SETUP/MIDDLEWARE//
 ////////////////////////////
 
+const res = require('express/lib/response')
+
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
       cookie = require("cookie-session"),
@@ -202,13 +204,42 @@ app.post( '/submit', (req,res) => {
   // assumes only one object to insert
   if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
 
+    console.log(req.body.playerscore)
+
     //Update the score object of the player
-    updatePlayerScore(req.session.username, req.body.playerscore);
+    //updatePlayerScore(req.session.username, req.body.playerscore);
+    collection.find(({name: req.session.username})).toArray()
+    .then(foundUsername => {
+      console.log(foundUsername[0])
+      collection.updateOne(
+        {_id: foundUsername[0]._id},
+        {$set: {score: req.body.playerscore}} 
+      )
+    })
+    .then(collection.aggregate(
+      [
+        {$sort: {score: -1}}
+      ]
+    ).toArray().then(sorted_data => {
+      console.log(sorted_data)
+      //update the document in order using ids you got back
+      for(let i = 0; i < sorted_data.length; i++){
+        collection.updateOne(
+          {_id: sorted_data[i]._id},
+          {$set: {rank: i+1}}
+          
+        )
+      }
+  
+      collection = sorted_data;
+    }))
+    .then(findResponse => res.json(findResponse.body))
+    .then(console.log)
     
     //Sort player data
-    sortPlayerData();
+    //sortPlayerData();
 
-    collection.find({ }).sort({rank: 1}).toArray().then( result => res.json( result ) )
+    //collection.find({ }).sort({rank: 1}).toArray().then( result => res.json( result ) )
     
   } else {
     console.log("Invalid parameters!");
@@ -250,14 +281,13 @@ app.listen( 3000 )
 function updatePlayerScore(playerName, playerScore){
   collection.find(({name: playerName})).toArray()
   .then(foundUsername => {
+    console.log(foundUsername[0])
     collection.updateOne(
       {_id: foundUsername[0]._id},
-      {$set: {score: playerScore}}
-
-      
-      
+      {$set: {score: playerScore}} 
     )
   })
+  .then(findResponse => res.json(findResponse))
 }
 
 /**
@@ -283,7 +313,7 @@ function sortPlayerData(){
       {$sort: {score: -1}}
     ]
   ).toArray().then(sorted_data => {
-    console.log("Sorted data: " + sorted_data)
+    console.log(sorted_data)
     //update the document in order using ids you got back
     for(let i = 0; i < sorted_data.length; i++){
       collection.updateOne(
