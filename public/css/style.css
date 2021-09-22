@@ -1,0 +1,72 @@
+/*Style your own assignment! This is fun! */
+
+form {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+
+body {
+    background-color: white;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+
+td {
+    text-align: center;
+}
+
+.header {
+    margin: 35px;
+}
+
+#jellybean {
+    max-height: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 12px;
+}
+
+.table-disp {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 12px;
+}
+
+#table {
+    align-items: center;
+    min-width: 400px;
+}
+
+
+.columns {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.form {
+    margin-left: auto;
+    margin-right: auto;
+    padding: 12px;
+}
+
+.form-label {
+    display: block;
+    padding: 10px;
+}
+
+.form-radio-group {
+    padding: 10px;
+}
+
+.form-text-input {
+    border-width: 0px;
+    border-bottom-width: 2px;
+}
