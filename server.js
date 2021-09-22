@@ -14,7 +14,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookie({
     name: 'session',
-    keys: ['key1', 'key2'] //WHAT DO I CHANGE THESE TO
+    keys: [process.env.KEY_ONE, process.env.KEY_TWO],
+    sameSite: 'none'
 }))
 
 const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
@@ -72,6 +73,13 @@ app.post('/add', bodyParser.json(), (req, res) => {
         return data;
     }).then(data => {
         //MAKE IT CHECK FOR SECRET MESSAGES HERE BEFORE ENTERING THE DATA
+        let visible = [];
+        for (i = 0; i < data.length; i++) {
+            if (data[i].un === req.session.user || data[i].secret === "false") {
+                visible.push(data[i]);
+            }
+        }
+        checkForSecretMessage(newentry.result, newentry, visible)
         //make sure it says whether or not it is secret
         collection.insertOne(newentry)
             .then(insertResponse => collection.findOne(insertResponse.insertedId))
@@ -126,19 +134,15 @@ app.post('/edit', bodyParser.json(), (req, res) => {
     //if success, have client edit row locally (dont reload entire table)
 })
 
-//implement button with this
+
 app.get('/logout', (req, res) => {
     req.session.login = false;
     req.session.user = null;
     res.sendFile(__dirname + '/views/index.html')
-    debugger;
 })
 
 
 app.post('/login', (req, res) => {
-    // express.urlencoded will put your key value pairs 
-    // into an object, where the key is the name of each
-    // form field and the value is whatever the user entered
     console.log(req.body)
     failed = true;
     collection.find({ pw: { $exists: true } }).toArray() //find each entry with a password
@@ -262,9 +266,11 @@ app.listen(3000)
 
 
 
+
+
 //DONT READ THIS UNLESS YOU WANT SPOILERS
 //If you want to know what to type to get a secret response, look here
-const checkForSecretMessage = function (inputstr, newdata) {
+const checkForSecretMessage = function (inputstr, newdata, alldata) {
     let savedinput = inputstr;
     inputstr = parseInt(inputstr).toString(2); //convert to binary, no spaces
     let strlen = inputstr.length;
@@ -276,13 +282,14 @@ const checkForSecretMessage = function (inputstr, newdata) {
 
     //This section of code inspired by https://stackoverflow.com/questions/21354235/converting-binary-to-text-using-javascript/21354328
     //all other binary parsing and converting code done by me
+    //converting the split binary to text
     let message = '';
     inputstr.split(' ').map(function (bin) {
         message += String.fromCharCode(parseInt(bin, 2));
     });
-    //console.log(message);
 
     //DONT READ THIS UNLESS YOU WANT SPOILERS
+    //check for an embedded message
     secret = false;
     if (message.includes("test")) {
         newdata.name = "ERROR: UNKNOWN ERROR. \nError Code: help me\n see traceback for details";
@@ -309,7 +316,7 @@ const checkForSecretMessage = function (inputstr, newdata) {
         secret = true;
     }
     else if (message.includes("hint")) {
-        newdata.name = "agebyehintwhowhatterminateexitkilloldhellotestduncan";
+        newdata.name = "agebyehintwhowhatterminateexitkilloldhellotestduncanhelpmehelp";
         secret = true;
     }
     else if (message.includes("duncan")) {
@@ -327,25 +334,50 @@ const checkForSecretMessage = function (inputstr, newdata) {
     else if (savedinput === "69") {
         newdata.name += " (nice)";
     }
-    if (secret === true && appdata2.length > 1) { //chance to "corrupt" some data
-        if (Math.floor(Math.random() * 10) < 7.5) {
-            let corruptor = Math.floor(Math.random() * 10);
-            if (corruptor < 5) {
-                appdata2[Math.floor(Math.random() * (appdata2.length - 2)) + 2].result = "[REDACTED]";
-            }
-            else if (corruptor < 6) {
-                appdata2[Math.floor(Math.random() * (appdata2.length - 2)) + 2].x = "ERRORERRORERROR";
-            }
-            else if (corruptor < 7.5) {
-                appdata2[Math.floor(Math.random() * (appdata2.length - 2)) + 2].x = "-666";
-            }
-            else if (corruptor < 8.5) {
-                appdata2[Math.floor(Math.random() * (appdata2.length - 2)) + 2].y = "hRRRRERRlRRP";
-            }
-            else {
-                appdata2[Math.floor(Math.random() * (appdata2.length - 2)) + 2].y = toString(-666); //a mistake, but it actually fits so im keeping it
-            }
+    //note to self: I should add route of secret hints for "trace"
+    newdata.secret = (new Boolean(secret)).toString();
 
+    if (secret === true && alldata.length > 1) { //chance to "corrupt" some data
+        if (Math.floor(Math.random() * 10) < 7.5) {
+            corruptAnEntry(alldata)
         }
     }
 }
+
+function corruptAnEntry(alldata) {
+    let i = Math.floor(Math.random() * (alldata.length - 2)) + 2;
+    let corruptor = Math.floor(Math.random() * 10);
+    if (corruptor < 5) {
+        collection.updateOne(
+            { _id: mongodb.ObjectId(alldata[i]._id) },
+            { $set: { result: "[REDACTED]" } }
+        )
+    }
+    else if (corruptor < 6) {
+        collection.updateOne(
+            { _id: mongodb.ObjectId(alldata[i]._id) },
+            { $set: { x: "ERRORERRORERROR" } }
+        )
+    }
+    else if (corruptor < 7.5) {
+        collection.updateOne(
+            { _id: mongodb.ObjectId(alldata[i]._id) },
+            { $set: { x: "-666" } }
+        )
+    }
+    else if (corruptor < 8.5) {
+        collection.updateOne(
+            { _id: mongodb.ObjectId(alldata[i]._id) },
+            { $set: { x: "HRERRORERRLRORRP" } }
+        )
+    }
+    else {
+        collection.updateOne(
+            { _id: mongodb.ObjectId(alldata[i]._id) },
+            { $set: { y: toString(-666) } } //a mistake, but it fits actually so im keeping it
+        )
+    }
+
+}
+
+
