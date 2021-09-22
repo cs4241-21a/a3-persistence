@@ -1,0 +1,41 @@
+body{
+    font-family: 'Montserrat'
+}
+
+
+.submission{
+    background-color: lightgray;
+    display: grid; 
+    grid-gap: 9px; 
+    padding: 15px; 
+    margin: 50px; 
+    width: 25%; 
+}
+
+.submission > input {
+    font-family: 'Montserrat';
+    border: none; 
+    padding: 5px; 
+}
+
+#update{
+    border: none; 
+    font-family: 'Montserrat';
+    padding: 5px; 
+}
+
+#allEntries{
+    border-spacing: 50px 0px;
+}
+
+th{
+    text-decoration: underline;
+    text-align: left;
+}
+
+.deleteBtn{
+    cursor: grab;
+}
+
+
+
