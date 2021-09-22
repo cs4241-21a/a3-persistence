@@ -2,9 +2,12 @@ const express = require( 'express' ),
       // bodyparser = require( 'body-parser' )
       mongodb = require( 'mongodb' )
       app = express()
+      cookie = require('cookie-session')
 
-app.use( express.static('public') )
 app.use( express.json() )
+// use express.urlencoded to get data sent by defaut form actions
+// or GET requests
+app.use( express.urlencoded({ extended: true }) )
 
 require('dotenv').config()
 
@@ -20,6 +23,7 @@ const uri = 'mongodb+srv://'+process.env.DB_USER+':'+process.env.DB_PASS+'@'+pro
 
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
+let users_collection = null
 
 client.connect()
 .then( () => {
@@ -30,7 +34,14 @@ client.connect()
   // store reference to collection
   collection = __collection
   // blank query returns all documents
-  return collection.find({ }).toArray()
+  // return collection.find({ }).toArray()
+  return client.db( db_name ).collection( db_user_col)
+})
+.then( __users_collection => {
+  // store reference to collection
+  users_collection = __users_collection
+  // blank query returns all documents
+  return users_collection.find({ }).toArray()
 })
 .then( console.log('connected to database') )
 
@@ -44,16 +55,75 @@ app.use( (req,res,next) => {
 })
 
 /**--------------------------------------------
+ *                  COOKIES
+ *---------------------------------------------**/
+// cookie middleware!
+app.use( cookie({
+  name: 'session',
+  keys: ['psjuCsIfexaASL7EXMrd', '3hxRqrLbTUJku362ry82h6eMv']
+}))
+
+/**--------------------------------------------
  *               EXPRESS ROUTES
  *---------------------------------------------**/
-app.use( function( req, res, next ) {
-  console.log( 'url:', req.url )
-  next()
+ app.post( '/login', (req,res)=> {
+  let users = []
+  // express.urlencoded will put your key value pairs 
+  // into an object, where the key is the name of each
+  // form field and the value is whatever the user entered
+  console.log( req.body )
+  // below is *just a simple authentication example* 
+  // for A3, you should check username / password combos in your database
+  if( users_collection !== null ) {
+    // get array and pass to res.json
+    users_collection.find({ }).toArray()
+    // debugger
+    // users = users_collection.find({ }).toArray()
+
+    .then(result => JSON.stringify(result))
+    .then( jsonArr => {
+      users = jsonArr
+    })
+  }
+
+  console.log('users')
+  console.log(users)
+
+  if( req.body.password === 'test' ) {
+  
+    // define a variable that we can check in other middleware
+    // the session object is added to our requests by the cookie-session middleware
+    req.session.login = true
+    
+    // since login was successful, send the user to the main content
+    // use redirect to avoid authentication problems when refreshing
+    // the page or using the back button, for details see:
+    // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
+    // next()
+    res.redirect( '/' )
+  }else{
+    // password incorrect, redirect back to login page
+    res.sendFile( __dirname + '/public/views/login.html' )
+  }
 })
 
-app.get( '/', function (req, res) {
-  // res.send( 'Hello World!' )
-  res.sendFile(__dirname + "/public/index.html");
+app.post('/checklogin', function(res,req) {
+
+})
+
+
+app.use( function( req, res, next ) {
+  console.log( 'url:', req.url )
+  if( req.session.login === true )
+    next()
+  else
+    res.sendFile( __dirname + '/public/views/login.html' )
+})
+
+app.use( express.static('public') )
+
+app.get('/', function(req, res) {
+  res.sendFile( __dirname + '/public/views/index.html' )
 })
 
 app.get( '/getHistory', function (req, res) {
@@ -68,6 +138,17 @@ app.get( '/getHistory', function (req, res) {
   }
 })
 
+app.get( '/getUsers', function (req, res) {
+  res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+  if( users_collection !== null ) {
+    // get array and pass to res.json
+    users_collection.find({ }).toArray()
+    .then(result => res.end( JSON.stringify(result)))
+    .then( json => {
+      return json
+    })
+  }
+})
 
 // routes for handling the post request
 app.use('/submit',  function( request, response, next ) {
@@ -147,6 +228,8 @@ app.post( '/remove', express.json(), function (req,res) {
    }
   }
 })
+
+
 
 const listener = app.listen( process.env.PORT || 3000, function() {
   console.log( 'Your app is listening on port ' + listener.address().port )
