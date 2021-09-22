@@ -21,7 +21,7 @@
   float:right;
 }
 
-button {
+.button1 {
   margin-top: 20px;
   margin-left: 25%;
   margin-right: 25%;
@@ -99,5 +99,16 @@ h3 {
   font-family: 'Open Sans', sans-serif;
   color: #344E41;
   font-size: 18pt;
+  text-align: center;
+}
+
+.button2{
+  height:20px; 
+  border: 0;
+  background-size: 60%; /* To fill the dimensions of container (button), or */
+  background-size: 10px auto; /* to specify dimensions explicitly */
+}
+
+tr {
   text-align: center;
 }
