@@ -7,22 +7,33 @@ html {
     /* margin: 0; */
     overflow:hidden;
     color: white;
+    /* color: black; */
 } 
 body {
-    background-image: url('../backgrounds/home.jpeg'); 
-    /* font-family: "ZCOOL QingKe HuangYou", sans-serif; */
-    font-family: "VT323", monospace;
-    /* font-size:medium; */
-    /* height: 100%; */
-    background-position: center;
-    background-repeat:no-repeat;
-    background-size:cover;
-    /* margin:0;
-    padding:0; */
+  /* background-image: url('../backgrounds/home.jpeg');  */
+  background-color: black;
+  font-family: "VT323", monospace;
+  background-position: center;
+  background-repeat:no-repeat;
+  background-size:cover;
+  height: 100%;
+  /* margin: 0; */
 }
+#bg-image {
+  background-image: url('../backgrounds/train.jpeg'); 
+  filter: blur(2px);
+  -webkit-filter: blur(2px);
+  min-height:100%; 
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
 
 button, input {
   font-family: "VT323", monospace;
+
 }
 
   /* #background {
@@ -32,6 +43,7 @@ button, input {
 table, th, td {
   border:1px solid gray;
   border-collapse: collapse;
+
 }
 
 #history_table {
@@ -45,8 +57,12 @@ table, th, td {
 #mother {
   display: flex;
   flex-direction: row;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items:flex-start;
+  position: absolute;
+  top: 20%;
+  left: 7%;
+  width: 80%;
 }
 
 h1 {
@@ -54,56 +70,18 @@ h1 {
   align-items:flex-end;
   justify-content: center;
   font-family: "Knewave", monospace;
+  position: absolute;
+  top: 3%;
+  left: 7%
 }
 
-#mix_name, #play {
+/* #mix_name, #play {
   margin-top: 20px;
-}
-
-/* input[type="radio"] {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  -ms-appearance: none;
-  -o-appearance: none;
-  appearance: none;
-  position: relative;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  height: 14px;
-  width: 14px;
-  -webkit-transition: all 0.15s ease-out 0s;
-  -moz-transition: all 0.15s ease-out 0s;
-  transition: all 0.15s ease-out 0s;
-  background: lightgrey;
-  border: #fff;
-  color: #fff;
-  cursor: pointer;
-  display: inline-block;
-  outline: none;
-  border-radius: 50%;
-  
-  input {
-
-    &:checked + .radio__control {
-      background: radial-gradient(currentcolor 50%, rgba(255, 0, 0, 0) 51%);
-    }
-  }
-}
-
-input[type='radio']:after {
-  background: hotpink;
-  border: 2px solid hotpink;
-  transform: scale(0);
-  -wekbit-transform: scale(0);
-  transition: all 0.3s ease;
 } */
 
 
 
-
   
-  /* http://localhost:3000/ */
 /* The container */
 .container {
   /* display: flex; */

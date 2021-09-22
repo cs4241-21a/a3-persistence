@@ -84,7 +84,7 @@ window.onload = function() {
  * @param {String} environment The environment
  */
 function setBG(environment) {
-  let bg = document.getElementById("body")
+  let bg = document.getElementById("bg-image")
   bg.style.backgroundImage = "url(../backgrounds/"+environment+".jpeg)"
 }
 
