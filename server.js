@@ -3,6 +3,7 @@ const { MongoClient } = require("mongodb");
 const passport = require("passport");
 const GithubStrategy = require("passport-github2").Strategy;
 const dotenv = require("dotenv").config();
+const { v4: uuidv4 } = require("uuid");
 const session = require("express-session");
 
 const port = 3000;
@@ -116,21 +117,43 @@ app.get(
 );
 
 app.post("/contacts", async (req, res) => {
-  console.log(req);
+  //console.log(req.body);
   if (!req.user) res.status(400);
 
   if (req.body.uuid) {
+    await client
+      .db("a3")
+      .collection("users")
+      .updateOne(
+        { _id: req.user.id, "contacts.uuid": req.body.uuid },
+        { $set: { "contacts.$": req.body } }
+      );
   } else {
+    req.body.uuid = uuidv4();
+    const updateRes = await client
+      .db("a3")
+      .collection("users")
+      .findOneAndUpdate(
+        { _id: req.user.id },
+        { $push: { contacts: req.body } },
+        { returnOriginal: false }
+      );
   }
 
-  await client
+  res.status(200).end();
+});
+
+app.delete("/contacts", async (req, res) => {
+  console.log("Deleting contact with uuid " + req.query.uuid);
+  const updateRes = await client
     .db("a3")
     .collection("users")
-    .findOneAndUpdate(
+    .updateOne(
       { _id: req.user.id },
-      { $push: { contacts: req.body } },
-      { returnOriginal: false }
+      { $pull: { contacts: { uuid: req.query.uuid } } }
     );
+  console.log(updateRes);
+  res.status(200).end();
 });
 
 app.get("/me", async (req, res) => {
