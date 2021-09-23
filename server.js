@@ -15,15 +15,19 @@ const port = 3000
 const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST;
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:true });
 let collection = null;
+let currentCollectionId = null;
 
-client.connect()
+const connectToCollection = (collectionId) => {
+  return client.connect()
   .then( () => {
-    return client.db(process.env.DATABASE).collection("testCollection");
+    return client.db(process.env.DATABASE).collection(collectionId);
   })
   .then( __collection => {
-    collection = __collection
-    return collection.find({}).toArray()
+    collection = __collection;
+    currentCollectionId = collectionId;
+    return collection.find({}).toArray();
   });
+}
 
 // Middleware 1 - Cookie Parsing
 app.use(cookieParser(cookieParser));
@@ -37,19 +41,51 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // Middleware 4 - Get JSON when appropriate
 app.use(bodyParser.json());
 
-app.get("/login", (request, response) => {
-  if (request.query["username"] && request.query["password"]) {
-    response.cookie("uid", request.query["username"],  { expires: new Date(Date.now() + 2 * 3600000) });
-    response.redirect("/");
-  } else {
+app.get("/login", async (request, response) => {
+  const uid = await authenticate(request, response);
+
+  if (uid === null) {
     response.clearCookie("uid");
     response.sendFile(__dirname + "/views/login.html");
+  } else {
+    response.cookie("uid", uid.toString(), { expires: new Date(Date.now() + 2 * 3600000)});
+    await connectToCollection(uid.toString());
+    response.redirect("/");
   }
 });
 
+const authenticate = async (request, response) => {
+  const username = request.query["username"];
+  const password = request.query["password"];
+
+  if (currentCollectionId !== process.env.AUTH_COLLECTION) {
+    await connectToCollection(process.env.AUTH_COLLECTION);
+  }
+  
+  if (!username || !password) return null;
+
+  const result = await collection.findOne({"username": username})
+
+  if (result !== null) {
+    // Authenticate Returning User
+    if (password === result.password) {
+      return result._id;
+    } else {
+      // Incorrect Password
+      response.cookie("alert", "Incorrect password.");
+      return null;
+    }
+  } else {
+    // New User
+    response.cookie("alert", `Created a new account for ${username}.`);
+    const resultInsert = await collection.insertOne({"username": username, "password": password})
+    return resultInsert;
+  }
+}
+
 // Middleware 5 - (Custom) User Authentication
 app.use((request, response, next) => {
-  uid = request.cookies["uid"];
+  const uid = request.cookies["uid"];
   if (uid === undefined) {
     response.redirect("/login");
   }
@@ -58,7 +94,7 @@ app.use((request, response, next) => {
 
 // Middleware 6 - (Custom) DB Status
 app.use((req,res,next) => {
-  if( collection !== null ) {
+  if (collection !== null ) {
     next();
   } else {
     res.status( 503 ).send();

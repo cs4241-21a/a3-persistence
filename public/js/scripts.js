@@ -181,7 +181,6 @@ const loadServerData = () => {
 
     const deleteData = (id) => {
         const body = JSON.stringify({id});
-        console.log(body);
 
         fetch("/delete", {
             method:"POST",
