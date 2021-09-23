@@ -55,7 +55,7 @@ exports.creds = {
   // 'profile' scope is required, the rest scopes are optional.
   // (1) if you want to receive refresh_token, use 'offline_access' scope
   // (2) if you want to get access_token for graph api, use the graph api url like 'https://graph.microsoft.com/mail.read'
-  scope: ['profile', 'offline_access', 'https://graph.microsoft.com/mail.read'],
+  scope: ['profile', 'offline_access'],
 
   // Optional, 'error', 'warn' or 'info'
   loggingLevel: 'info',

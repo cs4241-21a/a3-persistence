@@ -18,6 +18,7 @@
     "fs": "0.0.1-security",
     "http-errors": "~1.6.3",
     "method-override": "^3.0.0",
+    "mime": "^2.5.2",
     "mongodb": "^4.1.2",
     "mongoose": "^5.11.13",
     "morgan": "^1.10.0",

@@ -222,7 +222,8 @@ var config = require('./config');
 // set up database for express session
 var MongoStore = require('connect-mongo')(expressSession);
 var mongoose = require('mongoose');
-const fs = require("fs");
+const fs = require("fs"),
+    mime = require( 'mime' );
 
 // Start QuickStart here
 
@@ -394,7 +395,12 @@ function ensureAuthenticated(req, res, next) {
 };
 
 app.get('/', function(req, res) {
-  res.render('index', { user: req.user });
+    if(req.isAuthenticated()){
+        sendFile( res, 'views/logged_in_index.html' )
+    }else {
+        sendFile(res, 'views/index.html')
+    }
+  // res.render('index', { user: req.user });
 });
 
 // '/account' is only available to logged in user
@@ -462,6 +468,36 @@ app.get('/logout', function(req, res){
     res.redirect(config.destroySessionUrl);
   });
 });
+
+
+/**
+ * sendFile
+ *
+ * Sends the requested file back to the client, if the file exists. If not, it returns 404
+ * @param response
+ * @param filename
+ */
+const sendFile = function( response, filename ) {
+    const type = mime.getType( filename )
+
+    fs.readFile( filename, function( err, content ) {
+
+        // if the error = null, then we've loaded the file successfully
+        if( err === null ) {
+
+            // status code: https://httpstatuses.com
+            response.writeHeader( 200, { 'Content-Type': type })
+            response.end( content )
+
+        }else{
+
+            // file not found, error code 404
+            response.writeHeader( 404 )
+            response.end( '404 Error: File Not Found' )
+
+        }
+    })
+}
 
 app.listen(3000);
 
