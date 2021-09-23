@@ -2,7 +2,7 @@ const express = require("express")
 const { emitWarning } = require("process")
 const app = express()
 
-app.get("/",function(res,res){
+app.get("/",function(req,res){
     res.send("Works")
 })
 
