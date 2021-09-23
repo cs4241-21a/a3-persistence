@@ -6,6 +6,8 @@ Homework Agenda Application
 heroku link: http://a3-charlie-roberts.glitch.me
 glitch link: http://a3-renee-sawka.glitch.me
 
+![alt text](/ManagerSS.png)
+
 **Brief Project Summary**
 ---
 - The goal of this application is to provide users with a method of managing their classwork, allowing them to track the course, percentage, deadline, and their current grade in the class related to a particular homework assignment.
@@ -21,47 +23,39 @@ The modifications I made via custom CSS I authored include:
 
 - Express middleware packages
   - Session: Used to create and manage sessions, set the attributes of maxAge, secure, and HTML only of cookies.
-  - Passport: Used to authenticate using github.
+  - Passport: Used to authenticate using github
   - Timeout: Used to set time until timeout for hanging HTTP request to the login page.
   - Json: Used to parse incoming requests with JSON payloads and then use that parsed data (if Content-Type matches) to populate a body object on the request.
   - Static: Used to serve the static files for the website.
 
-
 Achievements
 ---
 
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the 
-assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. 
-These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README, 
-why it was challenging, and how many points you think the achievement should be worth. 
-ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). 
-*You must either use Github authenticaion or provide a username/password to access a dummy account*. 
-Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. 
-Please contact the course staff if you have any questions about this. THIS IS THE HARDEST ACHEIVEMENT OFFERED IN WEBWARE. You have been warned!  
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-- (5 points) Get 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.  
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. 
-For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively 
-getting it "for free" without having to actively change anything about your site. 
-Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. 
-List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. 
-Which element received the most emphasis (contrast) on each page? 
-How did you use proximity to organize the visual information on your page? 
-What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? 
-How did you use alignment to organize information and/or increase contrast for particular elements. 
-Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-
-
+## Technical Achievements
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I used OAuth authentication with passport.js using GitHub authentication.
+- **Tech Achievement 2**: I hosted my site on Heroku. Heroku is a better service than Glitch in that it is a cloud application platform, allowing users to build, deploy, and scale web apps and APIS. I think Heroku has a much cleaner UI than Glitch, making it easier to navigate, but for very simple web app deployment (like we are doing in this class), Glitch is much more user-friendly in terms of ease and clarity.
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+## Design/UX Achievements
+- **Design Achievement 1**: Made my site accessible using the resources and hints available from the W3C.
+
+*Tips for Writing*
+1. Provide informative, unique page titles: I changed the title in my HTML file to describe what the application does as opposed to having it generically say CS 4241 Assignment 3.
+2. Use headings to convey meaning and structure: I changed the layout of my page to make it more clear which blocks of HTML elements are related to one another, distinguishing the directions from the form table.
+3. Make link text meaningful: For my logout and login links I described the content of the link target as opposed to using an ambiguous link text such as 'click here'.
+4. Write meaningul text alternatives for images: On my login page I included an image of what a written homework agenda looks like described how the online version works in the alternative text for the image.
+5. Provide clear instructions: In my directions paragraph I clearly described input requirements to ensure that the user inputs valid attributes.
+
+*Tips for Designing*
+6. Provide sufficient contrast between foreground and background: I used colors with lower luminance and ensured that the text as opposed to the backdrop had a stark contrast by using black and white. I changed the CSS framework to use a darker color for the primary color, so that the white text on the buttons contrasted enough to make it easily readable.
+7. Ensure that interactive elements are easy to identify: The logout link and the buttons on my page have very unique/distinct styles compared to the rest of the page, ensuring that they can easily be identified.
+8. Ensure that form elements include clearly associated labels: The way I structured my table ensured that each button and radio button had the label included in the element (buttons) or right adjacent (radio buttons. The other input fields all have their corresponding label as the column header, since the form is structured as a table.
+9. Use headings and spacing to group related content: I changed the padding and margins between my headings  and the elements that correspond to them to make them have a clearer relationship.
+10. Include image and media alternatives in your design: I included a caption below the picture of a generic homework agenda on the login paeg.
+
+*Tips for Development*
+11. Associate a label with every form control: For each element within the table, there is an associated label element which is linked to the id attribute of the form element.
+12. Include alternative text for images: Similar to tips for writing #4, I took the image I included on the login page and included alternative text for the image. 
+13. Identify page language and language changes: I used the lang attribute in the html tag to specify the primary language of every page as English. 
+14. Reflect the reading order in the code order: I structured my code in a way that the order of HTML elements in the code matches the logical order of the information presented. The sequence is meaningful because changing my order of content would affect the meaning of the page.

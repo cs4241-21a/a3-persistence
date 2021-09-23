@@ -30,9 +30,9 @@ function buildTable(appdata) {
     "<tr id='row"+no+"'><td id='assignment_row"+no+"'>"+appdata[i].assignment
     +"</td><td id='course_row"+no+"'>"+appdata[i].course+"</td><td id='percentage_row"+no+"'>"+appdata[i].percentage+"</td><td id='priority_row"+no
     +"'>"+appdata[i].priority+"</td><td id='deadline_row"+no+"'>"+appdata[i].deadline+"</td><td><input type='radio' id='new_grade_A"+no+"' name='new_grade"+no+"' value='A'>"+
-    "<label for='grade_A"+no+"' >A</label>"+"<input type='radio' id='new_grade_B"+no+"' name='new_grade"+no+"' value='B'>"+
-    "<label for='grade_B"+no+"' >B</label>"+"<input type='radio' id='new_grade_C"+no+"' name='new_grade"+no+"' value='C'>"+
-    "<label for='grade_C"+no+"' >C</label>"+"</td><td><input type='button' id='edit_button" +no+"' value='Edit' class='edit' onclick='edit_row("+no+")'> <input type='button' id='save_button"+no
+    "<label for='new_grade_A"+no+"' >A</label>"+"<input type='radio' id='new_grade_B"+no+"' name='new_grade"+no+"' value='B'>"+
+    "<label for='new_grade_B"+no+"' >B</label>"+"<input type='radio' id='new_grade_C"+no+"' name='new_grade"+no+"' value='C'>"+
+    "<label for='new_grade_C"+no+"' >C</label>"+"</td><td><input type='button' id='edit_button" +no+"' value='Edit' class='edit' onclick='edit_row("+no+")'> <input type='button' id='save_button"+no
     +"' value='Save' class='save' disabled=false onclick='save_row("+no+")'> <input type='button' value='Mark Completed' class='complete' onclick='mark_completed("+no+")'></td></tr>";
 
     document.getElementById('new_grade_'+appdata[i].grade+""+no+"").checked = true;
@@ -234,9 +234,9 @@ const add_row = function( elt ) {
   let row = table.insertRow(table_len).outerHTML="<tr id='row"+table_len+"'><td id='assignment_row"+table_len+"'>"+new_assignment
   +"</td><td id='course_row"+table_len+"'>"+new_course+"</td><td id='percentage_row"+table_len+"'>"+new_percentage+"</td><td id='priority_row"+table_len
   +"'>"+new_priority+"</td><td id='deadline_row"+table_len+"'>"+new_deadline+"</td><td><input type='radio' id='new_grade_A"+table_len+"' name='new_grade"+table_len+"' value='A'>"+
-  "<label for='grade_A"+table_len+"' >A</label>"+"<input type='radio' id='new_grade_B"+table_len+"' name='new_grade"+table_len+"' value='B'>"+
-  "<label for='grade_B"+table_len+"' >B</label>"+"<input type='radio' id='new_grade_C"+table_len+"' name='new_grade"+table_len+"' value='C'>"+
-  "<label for='grade_C"+table_len+"' >C</label>"+"</td><td><input type='button' id='edit_button" +table_len+"' value='Edit' class='edit' onclick='edit_row("+table_len+")'> <input type='button' id='save_button"+table_len
+  "<label for='new_grade_A"+table_len+"' >A</label>"+"<input type='radio' id='new_grade_B"+table_len+"' name='new_grade"+table_len+"' value='B'>"+
+  "<label for='new_grade_B"+table_len+"' >B</label>"+"<input type='radio' id='new_grade_C"+table_len+"' name='new_grade"+table_len+"' value='C'>"+
+  "<label for='new_grade_C"+table_len+"' >C</label>"+"</td><td><input type='button' id='edit_button" +table_len+"' value='Edit' class='edit' onclick='edit_row("+table_len+")'> <input type='button' id='save_button"+table_len
   +"' value='Save' class='save' disabled=false onclick='save_row("+table_len+")'> <input type='button' value='Mark Completed' class='complete' onclick='mark_completed("+table_len+")'></td></tr>";
 
   document.getElementById("new_assignment").value="";

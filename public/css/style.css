@@ -6,10 +6,14 @@
   --primary-inverse: #FFF;
 }
 
-h1, a, p {
+h1, a, p , figcaption{
     padding: 15px;
     margin-bottom: 10px;
     margin-top: 10px;
+}
+
+#pageHeader {
+  justify-content: center;
 }
 
 .save {
@@ -18,4 +22,9 @@ h1, a, p {
 
 input[type=radio] {
   margin:8px;
+}
+
+.center {
+  justify-content: center;
+  padding: 15px;
 }

@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 3</title>
+    <title>Assignment Manager</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="This website will help organize your course assignments">
@@ -16,10 +16,11 @@
       <div class="grid-table">
         <div class = "assignmentData">
           <a href="/logout">Logout</a>
-          <h1 display:inline id="pageHeader">Homework Agenda</h1>
+          <h1 display:inline id="directionHeader">Directions</h1>
           <p>
-            Instructions: Use the homework agenda to manage and view a list of your ongoing assignments. Simply enter the relevant fields and the agenda will determine the priority of each assignment based on 
-            how much it is worth (deadline not accounted for). Make sure to still select date from calendar if choosing today's date.</p>
+            Use the homework agenda to manage and view a list of your ongoing assignments. Simply enter the relevant fields and the agenda will determine the priority of each assignment based on 
+            how much it is worth (deadline not accounted for). Make sure to still select date from calendar if choosing today's date and that the percentage is a valid non-negative number less than 100.</p>
+          <h1 display:inline id="tableHeader">Assignments To Do</h1>
           <table id="hwTable">
             <tr>
                 <th><label for="new_assignment">Assignment</label></th>
