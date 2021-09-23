@@ -4,22 +4,22 @@ const http = require( 'http' ),
       // to install the mime library used in the following line of code
       mime = require( 'mime' ),
       dir  = 'public/',
-      port = 3000
+      port = 3000;
 
 const appdata = [
   { 'name': 'AAA', 'score': 43, 'game': 'Mario Bros.', 'highscore': true, 'id': 0},
   { 'name': 'ABC', 'score': 67, 'game': 'Donkey Kong', 'highscore': true, 'id': 1},
   { 'name': 'ZZZ', 'score': 168, 'game': 'Street Racing', 'highscore': true, 'id': 2},
-  { 'name': 'E', 'score': 2, 'game': 'Mario', 'highscore': false, 'id': 3}
-]
+  { 'name': 'E', 'score': 2, 'game': 'Mario Bros.', 'highscore': false, 'id': 3}
+];
 
 const server = http.createServer( function( request,response ) {
   if( request.method === 'GET' ) {
     handleGet( request, response );
-  }else if( request.method === 'POST' ){
+  } else if( request.method === 'POST' ) {
     handlePost( request, response );
   }
-})
+});
 
 // Handle GET requests (don't touch this you fool, you moron)
 const handleGet = function( request, response ) {
@@ -35,7 +35,6 @@ const handleGet = function( request, response ) {
 
 // Handle POST requests
 const handlePost = function( request, response ) {
-  console.log("POST Request received");
 
   // Create a string based on the data that comes with the POST request
   let dataString = '';
@@ -47,31 +46,34 @@ const handlePost = function( request, response ) {
   request.on( 'end', function() {
 
     if(request.url === '/update') { // Update request, nothing in the dataString, send appdata
-      console.log("Running update request");
+      console.log("POST Request: Update");
+
       response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
       response.end(JSON.stringify(appdata));
       return;
     }
 
     // Take the string and create a JSON object
-    console.log("Received data");
-    const json = JSON.parse(dataString);
-    console.log(json);
+    const jsonInput = JSON.parse(dataString);
+    console.log("POST Request Data:");
+    console.log(jsonInput);
 
     if(request.url === '/delete') { // Delete request
-      console.log("Running delete");
+      console.log("POST Request: Delete");
+
+      // Only item in this JSON object is the ID; that's all we need
       for(let i = 0; i < appdata.length; i++) {
-        if(appdata[i].id === json.id) { // ID Matches
+        if(appdata[i].id === jsonInput.id) { // ID Matches
           appdata.splice(i, 1);
           console.log("Deletion complete");
           break;
         }
       }
-      /*if(json.highscore === true) { // Highscore Update
+      /*if(jsonInput.highscore === true) { // Highscore Update
         let high = -1;
         let score = 0;
         for(let i = 0; i < appdata.length; i++) {
-          if(appdata[i].game === json.game && appdata[i].score > score) {
+          if(appdata[i].game === jsonInput.game && appdata[i].score > score) {
             high = i;
             score = appdata[i].score;
           }
@@ -82,26 +84,40 @@ const handlePost = function( request, response ) {
       }*/
 
     } else if(request.url === '/submit') { // Handle modify case as well
-      console.log("Running submit request");
-      let high = -1;
+      console.log("POST Request: Submit");
+
+      if(jsonInput.id === -1) { // New submission
+        appdata.push(jsonInput); // Add the json info into appdata
+        console.log("Submission complete");
+      } else { // Must be a modification
+        for(let i = 0; i < appdata.length; i++) {
+          if(appdata[i].id === jsonInput.id) { // ID Matches
+            appdata.splice(i, 1, jsonInput);
+            console.log("Modification complete");
+            break;
+          }
+        }
+      }
+      
+      /*let high = -1;
       for(let i = 0; i < appdata.length; i++) { // Highscore Update
-        if(appdata[i].game === json.game && appdata[i].score < json.score) {
+        if(appdata[i].game === jsonInput.game && appdata[i].score < jsonInput.score) {
           high = i;
           appdata.highscore = false;
-          json.highscore = true;
-        } else if(appdata[i].game === json.game && appdata[i].score > json.score) {
-          json.highscore = false;
+          jsonInput.highscore = true;
+        } else if(appdata[i].game === jsonInput.game && appdata[i].score > jsonInput.score) {
+          jsonInput.highscore = false;
           break;
         }
       }
       if(high === -1) {
-        json.highscore = true;
-      }
-      appdata.push(json);
+        jsonInput.highscore = true;
+      }*/
+      
     }
 
-    //response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
-    //response.end(JSON.stringify(appdata));
+    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
+    response.end();
   })
 }
 

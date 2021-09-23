@@ -15,7 +15,9 @@ let modifyID = -1;
 
 // Takes an entry and places it in the form
 function editEntry(name, game, score, id) {
-    document.getElementById("submitButton").innerHTML = "Modify";
+    console.log("Populating entries for edit: Name: %s || Game: %s || Score: %d || ID: %d", name, game, score, id);
+
+    document.getElementById("submitButton").value = "Modify";
     document.getElementById('nameForm').value = name;
     document.getElementById('scoreForm').value = score;
     modifyID = id;
@@ -23,44 +25,48 @@ function editEntry(name, game, score, id) {
     switch(game) {
         case 'Mario Bros.':
             gameSelect.selectedIndex = 1;
+            break;
         case 'Donkey Kong':
             gameSelect.selectedIndex = 2;
+            break;
         case 'Street Racing':
             gameSelect.selectedIndex = 3;
+            break;
         case 'Tetris':
             gameSelect.selectedIndex = 4;
+            break;
         default:
             console.log("Uh oh");
     }
 }
 
 // Deletes an entry
-function deleteEntry(id) {
-    if(containsID === true) { // ID is still in server memory
-        fetch('/delete', {
-            method: 'POST'
-        }).then(function (response) {
-            return response.json()
-        }).then(function (data) {
-            appdata = data;
-        });
-    }
+function deleteEntry(deleteID) {
+    const jsonID = {
+        id: deleteID
+    };
+
+    console.log("Sending delete request for [%d]", deleteID);
+
+    fetch('/delete', {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(jsonID)
+    });
+
     updateForm();
 }
 
-// Creates the JSON String
-const makeJSONString = function () {
+// Creates the JSON object from the form
+const makeFormJSON = function () {
     const name = document.getElementById('nameForm');
     const gameSelect = document.getElementById('gameForm');
     let game = gameSelect.options[gameSelect.selectedIndex];
     const score = document.getElementById('scoreForm');
-    var id = 0;
-	
-    if(modifyID != -1 && containsID(modifyID)) { // We are modifying an ID that exists
-        id = modifyID;
-    } else { // We are adding an ID or the ID no longer exists
-        id = getNextAvailableID();
-    }
+    const id = modifyID;
     
     const json = {
         name: name.value,
@@ -69,38 +75,13 @@ const makeJSONString = function () {
         highscore: false,
         id: id
     };
-    return JSON.stringify(json);
+    return json;
 };
-
-// Gets the next available ID
-// Note: Critical that you update appdata before you call this!
-function getNextAvailableID() {
-    let currentID = 0;
-    for(let i = 0; i < appdata.length; i++) {
-        let scoreEntry = appdata[i];
-
-        if(scoreEntry['id'] >= currentID) {
-            currentID = scoreEntry['id'] + 1;
-        }
-    }
-    return currentID;
-}
-
-// Checks if the given ID is in appdata
-// Note: Critical that you update appdata before you call this!
-function containsID(id) {
-    for(let i = 0; i < appdata.length; i++) {
-        let scoreEntry = appdata[i];
-
-        if(scoreEntry['id'] === id) {
-            return true;
-        }
-    }
-    return false;
-}
 
 // Updates the form
 function updateForm() {
+    console.log("Sending update request");
+
     fetch('/update', {
         method: 'POST'
     }).then(function(response) {
@@ -153,14 +134,12 @@ function updateForm() {
             let editIcon = document.createElement('td');
             editIcon.innerHTML = '<span class="material-icons-outlined iconButton">edit</span>'
             editIcon.onclick = function(e) {
-                e.preventDefault();
                 editEntry(scoreEntry['name'], scoreEntry['game'], scoreEntry['score'], scoreEntry['id']);
             }
 
             let deleteIcon = document.createElement('td');
             deleteIcon.innerHTML = '<span class="material-icons-outlined iconButton">delete_forever</span>'
             deleteIcon.onclick = function(e) {
-                e.preventDefault();
                 deleteEntry(scoreEntry['id']);
             }
 
@@ -176,62 +155,57 @@ const submitEntry = function(e) {
     // Prevent default form action from being carried out
     e.preventDefault();
 
-    let body = makeJSONString();
-    let json = JSON.parse(body);
+    let newJSONEntry = makeFormJSON(); // Call the helper function to make the JSON from the form
+    // let json = JSON.parse(body); // Parse that string back
 
-    if(json['name'] === "" ||
-        json['game'] === "-" ||
-        json['score'] < 0) {
+    // Check if these fields are loaded correctly
+    if(newJSONEntry['name'] === "" ||
+        newJSONEntry['game'] === "-" ||
+        newJSONEntry['score'] < 0) {
         alert("One or more fields aren't filled properly.");
+        return;
     }
 
-    if(modifyID === -1) { // Submit
-        fetch( '/submit', {
-            method:'POST',
-            body
-        }).then(function(response) {
-            updateForm();
-            document.getElementById('nameForm').value = "";
-            document.getElementById('gameForm').value = "";
-            let scoreSelect = document.getElementById('scoreForm');
-            scoreSelect.selectedIndex = 0;
-            return response.json()
-        }).then(function(json){
-			//It's only here you can call update form 
-			console.log(json);
-		});
-    } else { // Modify
-        fetch( '/modify', {
-            method:'POST',
-            body
-        }).then(function(response) {
-            updateForm();
-            document.getElementById('nameForm').value = "";
-            document.getElementById('gameForm').value = "";
-            let scoreSelect = document.getElementById('scoreForm');
-            scoreSelect.selectedIndex = 0;
-            console.log(response);
-        });
-    }
-    newEntry;
-    updateForm();
-    return false;
+    console.log("Name: %s || Game: %s || Score: %d", newJSONEntry['name'], newJSONEntry['game'], newJSONEntry['score']);
+
+    // Submit the entry (server can figure out if it's a new or existing entry)
+    fetch( '/submit', { // Send the POST request
+        method:'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(newJSONEntry)
+    });
+    
+    resetEntry(); // Reset the form
+    updateForm(); // Update the form
+    //return false;
 }
 
 const newEntry = function(e) {
     e.preventDefault();
-    modifyID = -1;
-    document.getElementById('nameForm').value = "";
+    resetEntry();
+}
+
+function resetEntry() {
+    console.log("Reseting Entry Form");
+
+    modifyID = -1; // Reset the modifyID
+
+    document.getElementById('nameForm').value = ""; // Reset the fields
     let gameSelect = document.getElementById('gameForm');
     gameSelect.selectedIndex = 0;
     document.getElementById('scoreForm').value = "";
-    document.getElementById("submitButton").innerHTML = "Submit";
+    document.getElementById("submitButton").value = "Submit";
 }
 
+// Run when the html page loads
 window.onload = function() {
     const submitButton = document.getElementById("submitButton");
     submitButton.onclick = submitEntry;
     const newButton = document.getElementById("newButton");
     newButton.onclick = newEntry;
+    newEntry;
     updateForm();
 }
