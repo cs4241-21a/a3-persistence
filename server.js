@@ -76,7 +76,7 @@ app.post( '/login', (req,res)=> {
     }else{
       // password incorrect, redirect back to login page
       req.session.login = false
-      res.sendFile( __dirname + '/public/views/index.html' )
+      res.sendFile( __dirname + '/public/views/index_failed.html' )
     }
   })
 })
@@ -120,6 +120,24 @@ app.post( '/add', (req,res) => {
     .then( insertResponse => data_collection.findOne(insertResponse.insertedId)) 
     .then( findResponse   => res.json(findResponse))
 })
+
+// delete POST request
+app.post( '/delete', (req,res) => {
+  // delete by id
+  data_collection.deleteOne({"_id": mongodb.ObjectId(req.body._id)})
+    .then( deleteResponse  => res.json(deleteResponse))
+})
+
+/*
+app.post('/edit'), (req,res) => {
+  //edit by id
+  collection.updateOne(
+      { _id:mongodb.ObjectId( req.body._id ) },
+      { $set:{ name:req.body.name } }
+    )
+    .then( result => res.json( result ) )
+}
+*/
 
 // update GET request --> get latest info from database
 app.get('/update', (req, res) => {

@@ -2,27 +2,58 @@
 <html lang="en">
     <head>
         <link rel="stylesheet" href="./css/normalize.css">
+        <link rel="stylesheet" href="./css/modal.css">
+        <link rel="stylesheet" href="./css/main.css">
         <script src="./js/script.js"></script>
     </head>
 
     <body>
-        <h1>Made it</h1>
         <form action="/logout" method="post">
-            <button name="foo" value="logout">Logout</button>
+            <button name="foo" value="logout" class="logoutBtn">Logout</button>
         </form>
 
-        <form id="data_form">
-            <label for="pokemon">Pokemon</label><br>
-            <input type="text" id="pokemon" name="pokemon" required><br>
+        <div class="main_container">
 
-            <label for="nickname">Nickname</label><br>
-            <input type="text" id="nickname" name="nickname" required><br>
+            <h1>Welcome to PokeTracker!</h1>
 
-            <div class="centeredContent"><input id="submitBtn" type="submit"></div>
-        </form>
+            <button class=btn id="modalBtn">Add Pokemon</button>
 
-        <div id="result_container" class="table_container">
-            <table id="results"></table>
+            <div id="modal" class="modal">
+                <div class="modal-content">
+                  
+                  <div class="modal-header">
+                    <span id="exitModalBtn" class="closeBtn">&times;</span>
+                    <h2>Add a Pokemon:</h2>
+                  </div>
+                  
+                  <div class="modal-body">
+                    <form id="data_form">
+                        <div id="firstPart"></div>
+                        <div id="secondPart" style="display:none;">
+                            <label for="nickname">Nickname?</label><br>
+                            <input type="text" name="nickname"><br>
+                            <label for="gender">Gender?</label><br>
+                            <select name="gender" id="gender" required>
+                                <option value="Male">Male</option>
+                                <option value="Female">Female</option>
+                                <option value="Other">Other</option>
+                            </select>
+                            <input type="submit" value="Submit">
+                        </div>
+                    </form>  
+                  </div>
+          
+                  <div class="modal-footer"></div>
+          
+                </div>
+            </div>
+
+            <div id="result_container" class="table_container">
+                <table id="results" class="content-table"></table>
+            </div>
+
         </div>
+
+        <script src="./js/modal_init2.js"></script>
     </body>
 </html>

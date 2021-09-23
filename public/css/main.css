@@ -1,0 +1,96 @@
+/* Generic page elements */
+h1 {
+    color: #009879;
+    text-align: center;
+}
+
+body {
+    background: #009879;
+}
+
+.logoutBtn {
+    position:fixed;
+    right:10px;
+    top:5px;
+}
+
+.btn {
+    color: white;
+    margin: 0 auto;
+    padding: 12px;
+    background: #009879;
+    border: none;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+
+.main_container {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 35%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    background: white;
+    border-radius: 10px;
+}
+
+/* Related to form */
+input:focus {
+    background-color: #aac4df;
+    border-color: #304f6d;
+}
+
+/* Related to tables */
+
+.table_container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content-table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    min-width: 400px;
+    border-radius: 5px 5px 0 0;
+    overflow: hidden;
+    box-shadow: 0 0 20px black;
+}
+
+.content-table thead tr {
+    background-color: #009879;
+    color: white;
+    text-align: left;
+    font-weight: bold;
+}
+
+.content-table th, .content-table td {
+    padding: 12px 15px
+}
+
+.content-table tbody, tr {
+    border-bottom:  1px solid #dddddd;
+}
+
+.content-table tbody tr:nth-of-type(even) {
+    background-color: #f3f3f3;
+}
+
+.content-table tbody tr:last-of-type {
+    border-bottom:- 2px solid #009879;
+}
+
+.content-table tbody tr:hover {
+    font-weight: bold;
+    color: #009879;
+}
+
+
+.icon:hover {
+    color: red;
+    cursor: pointer;
+}

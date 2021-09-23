@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Student Login</title>
+        <link rel="stylesheet" href="./css/normalize.css">
+        <link rel="stylesheet" href="./css/login.css">
+        <link rel="stylesheet" href="./css/modal.css">
+        <script src="./js/login_form.js"></script>
+    </head>
+
+    <body>
+        <div class="center">
+            <h1>Login</h1>
+            <form action="/login" method="post">
+              <div style="color:red;">Incorrect credentials. Try again</div>
+                <div class="txt_field"> 
+                    <input type="text" name="username" required>
+                    <span></span>
+                    <label>Username</label>
+                </div>
+                <div class="txt_field"> 
+                    <input type="password" name="password" required>
+                    <label>Password</label>
+                </div>
+                <div class="pass" id="forget_password">Forgot Password?</div>
+                <input type="submit" value="Login">
+                <div class="signup_link">
+                    Not a member? <a id="signup_prompt">Signup</a>
+                </div>
+            </form>
+        </div>
+
+        <div id="passModel" class="modal">
+            <div class="modal-content">
+              
+              <div class="modal-header">
+                <span id="exitPass" class="closeBtn">&times;</span>
+                <h2>Please enter your username:</h2>
+              </div>
+              
+              <div class="modal-body">
+                  The creator of this website did not have time to implement O-Auth or care about your security.
+                  Just provide a username and we'll get you its associated password.
+                  <div id="forget_response"></div>
+                  <form id="forget_password_form">
+                    <div class="txt_field"> 
+                        <input type="text" name="username" required>
+                        <span></span>
+                        <label>Username</label>
+                    </div>
+                    <input type="submit" value="Get Password">
+                  </form>
+              </div>
+      
+              <div class="modal-footer"></div>
+      
+            </div>
+          </div>
+
+          <div id="signup_modal" class="modal">
+            <div class="modal-content">
+              
+              <div class="modal-header">
+                <span id="exitSignup" class="closeBtn">&times;</span>
+                <h2>Create a username and password</h2>
+              </div>
+              
+              <div class="modal-body">
+                <form action="/signup" method="post">
+                    <div class="txt_field"> 
+                        <input type="text" name="username" required>
+                        <span></span>
+                        <label>Username</label>
+                    </div>
+                    <div class="txt_field"> 
+                        <input type="password" name="password" required>
+                        <label>Password</label>
+                    </div>
+                    <input type="submit" value="Signup">
+                </form>
+              </div>
+      
+              <div class="modal-footer"></div>
+      
+            </div>
+          </div>
+
+        <script src="./js/modal_init.js"></script>
+    </body>
+</html>

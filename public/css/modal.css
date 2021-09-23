@@ -49,7 +49,7 @@
 }
 
 .modal-header{
-    background: linear-gradient(120deg, #175de0, #0d2f77);
+    background: linear-gradient(120deg, #75e0ca, #0d6b58);
     padding: 15px;
     color: #fff;
 }
@@ -59,7 +59,7 @@
 }
 
 .modal-footer {
-    background: linear-gradient(120deg, #175de0, #0d2f77);
+    background: linear-gradient(120deg, #75e0ca, #0d6b58);
     padding: 10px;
     color: #fff;
     text-align: center;
