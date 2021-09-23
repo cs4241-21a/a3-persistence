@@ -8,8 +8,19 @@ $(document).ready(() => {
         let entries = res.entries;
 
         $('#user-name').text(username);
-        entries.forEach(element => {
-            // Add to the right month!
+        entries.forEach(entry => {
+            let tableId = getMonthTabelId(entry.month);
+            let rowClass = getRowColor(entry.amount);
+            let deleteBtn = `<button type="button" class="btn btn-default remove-entry" onclick="removeEntry('` + entry.month + `', '` + entry.from + `', ` + entry.amount + `, '` + entry.category + `')">` +
+                `<span class="fas fa-times-circle fa-lg add-entry" aria-hiddne="true"></span>` +
+                `</button>`;
+            let newRow = `<tr class="${rowClass} align-middle" height="40px">` +
+                `<td>${entry.from}</td>` +
+                `<td>${entry.amount}</td>` +
+                `<td>${entry.category}</td>` +
+                `<td>${deleteBtn}</td>` +
+                `</tr>`;
+            $('#' + tableId + ' tbody').append(newRow);
         });
     })
 });
@@ -40,5 +51,15 @@ function getMonthTabelId(month) {
             return 'nov-table';
         case 'December':
             return 'dec-table';
+    }
+}
+
+function getRowColor(amount) {
+    if (amount > 0) {
+        return 'table-success';
+    } else if (amount < 0) {
+        return 'table-danger';
+    } else {
+        return 'table-light';
     }
 }

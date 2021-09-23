@@ -117,7 +117,8 @@ app.post('/signUp', async (req, res) => {
     try {
         collection.insertOne({
             "username": req.body.username,
-            "password": req.body.password
+            "password": req.body.password,
+            "entries": []
         });
         return res.redirect('/');
     } catch (e) {
@@ -151,6 +152,48 @@ app.get('/getUserData', async (req, res) => {
     res.json(userData);
     res.end();
 });
+
+app.post('/addEntry', async (req, res) => {
+    let users = await collection.find({ "_id": ObjectId(req.body.id) }).toArray();
+    let userEntries = users[0].entries;
+    userEntries.push({
+        "month": req.body.month,
+        "from": req.body.from,
+        "amount": req.body.amount,
+        "category": req.body.category
+    })
+
+    try {
+        collection.updateOne(
+            { "_id": ObjectId(req.body.id) },
+            { $set: { "entries": userEntries } }
+        );
+        return res.redirect('/dashboard?userID=' + req.body.id);
+    } catch (e) {
+        alert('Failed to add a transaction: ' + e.message);
+        return;
+    }
+});
+
+app.post('/removeEntry', async (req, res) => {
+    console.log(req.query.id, req.query.month, req.query.from, req.query.amount, req.query.category);
+    let users = await collection.find({ "_id": ObjectId(req.query.id) }).toArray();
+    let userEntries = users[0].entries;
+    let entry = {
+        "month": req.query.month,
+        "from": req.query.from,
+        "amount": req.query.amount,
+        "category": req.query.category
+    };
+    console.log(entry, userEntries, userEntries.indexOf(entry));
+    return res.redirect('/dashboard?userID=' + req.query.id);
+});
+
+function deleteElementFromArray(array, element) {
+    let index = array.indexOf(element);
+    array.splice(index, 1);
+    return array;
+}
 
 async function checkAuthenticated(req, res, next) {
 

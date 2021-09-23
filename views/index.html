@@ -6,16 +6,61 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link href="./public/fontawesome/css/all.css" rel="stylesheet">
+    <link href="./public/style.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
         integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
         crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
-        integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./public/loadUserData.js"></script>
+    <script type="text/javascript" src="./public/editData.js"></script>
     <title>A3 Persistance</title>
 </head>
 
 <body>
+    <div class="container whole-page closed" id="addEntryOverlay">
+        <div class="row justify-content-center align-items-center h-100">
+            <div class="col-sm-4">
+                <div id="addEntryForm">
+                    <form autocomplete="off" action="/addEntry" method="POST">
+                        <div class="form-group">
+                            <label for="id">User ID</label>
+                            <input readonly type="text" class="form-control" id="id" name="id">
+                        </div>
+                        <div class="form-group">
+                            <label for="month">Which month</label>
+                            <input readonly type="text" class="form-control" id="month" name="month">
+                        </div>
+                        <div class="form-group">
+                            <label for="from">From where</label>
+                            <input type="text" class="form-control" id="from" name="from"
+                                placeholder="Enter where the transaction is from" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="amount">How much</label>
+                            <input type="text" class="form-control" id="amount" name="amount"
+                                placeholder="Enter the amount of the transaction" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="category">What category</label>
+                            <input type="text" class="form-control" id="category" name="category"
+                                placeholder="Enter the category of transaction" required>
+                        </div>
+                        <div class="row justify-content-start align-items-center mt-3">
+                            <div class="col-sm-5">
+                                <button type="submit" class="btn btn-primary">Add Transaction</button>
+                            </div>
+                            <div class="col-sm-5">
+                                <a class="btn btn-primary" href="#" onclick="openAddForm('January'); return false">Close
+                                    Form</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="container">
         <div class="row">
             <div class="col-sm-6">
@@ -29,8 +74,8 @@
         <div class="row">
             <ul class="nav nav-tabs justify-content-center" id="monthsTabs" role="tablist">
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link active" id="jan-tab" data-bs-toggle="tab" data-bs-target="#jan"
-                        type="button" role="tab" aria-controls="jan" aria-selected="true">January</button>
+                    <button class="nav-link" id="jan-tab" data-bs-toggle="tab" data-bs-target="#jan" type="button"
+                        role="tab" aria-controls="jan" aria-selected="false">January</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="feb-tab" data-bs-toggle="tab" data-bs-target="#feb" type="button"
@@ -61,8 +106,8 @@
                         role="tab" aria-controls="aug" aria-selected="fasle">August</button>
                 </li>
                 <li class="nav-item" role="presentation">
-                    <button class="nav-link" id="sep-tab" data-bs-toggle="tab" data-bs-target="#sep" type="button"
-                        role="tab" aria-controls="sep" aria-selected="fasle">September</button>
+                    <button class="nav-link active" id="sep-tab" data-bs-toggle="tab" data-bs-target="#sep"
+                        type="button" role="tab" aria-controls="sep" aria-selected="true">September</button>
                 </li>
                 <li class="nav-item" role="presentation">
                     <button class="nav-link" id="oct-tab" data-bs-toggle="tab" data-bs-target="#oct" type="button"
@@ -78,7 +123,7 @@
                 </li>
             </ul>
             <div class="tab-content" id="monthsData">
-                <div class="tab-pane fade show active" id="jan" role="tabpanel" aria-labelledby="jan-tab">
+                <div class="tab-pane fade" id="jan" role="tabpanel" aria-labelledby="jan-tab">
                     <div class="row mt-4 text-center justify-content-center">
                         <div class="col-sm-8">
                             <table class="table table-sm" id="jan-table">
@@ -87,6 +132,12 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default"
+                                                onclick="openAddForm('January')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -103,6 +154,12 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default"
+                                                onclick="openAddForm('February')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -119,6 +176,12 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default"
+                                                onclick="openAddForm('March')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -135,6 +198,12 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default"
+                                                onclick="openAddForm('April')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -151,6 +220,11 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default" onclick="openAddForm('May')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -167,6 +241,11 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default" onclick="openAddForm('June')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -183,6 +262,11 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default" onclick="openAddForm('July')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -199,6 +283,12 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default"
+                                                onclick="openAddForm('August')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -206,7 +296,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="tab-pane fade" id="sep" role="tabpanel" aria-labelledby="sep-tab">
+                <div class="tab-pane fade show active" id="sep" role="tabpanel" aria-labelledby="sep-tab">
                     <div class="row mt-4 text-center justify-content-center">
                         <div class="col-sm-8">
                             <table class="table table-sm" id="sep-table">
@@ -215,6 +305,12 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default"
+                                                onclick="openAddForm('September')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -231,6 +327,12 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default"
+                                                onclick="openAddForm('October')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -247,6 +349,12 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default"
+                                                onclick="openAddForm('November')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -263,6 +371,12 @@
                                         <th scope="col">From</th>
                                         <th scope="col">Amount</th>
                                         <th scope="col">Category</th>
+                                        <th scope="col" width="50">
+                                            <button type="button" class="btn btn-default"
+                                                onclick="openAddForm('December')">
+                                                <span class="fas fa-plus-circle fa-lg" aria-hiddne="true"></span>
+                                            </button>
+                                        </th>
                                     </tr>
                                 </thead>
                                 <tbody></tbody>
@@ -272,7 +386,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 </body>
 
