@@ -1,5 +1,4 @@
 const express = require("express")
-const { emitWarning } = require("process")
 const app = express()
 
 app.get("/",function(req,res){
