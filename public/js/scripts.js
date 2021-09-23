@@ -210,6 +210,8 @@ const submit = function( e ) {
     var inc = document.querySelector('#inches')
     var weight = document.querySelector('#weight')
 
+    button.innerText = 'Save'
+
     name.value = row.childNodes[0].innerText
     ft.value = row.childNodes[1].innerText
     inc.value = row.childNodes[2].innerText
@@ -223,17 +225,22 @@ const submit = function( e ) {
     var ft = document.querySelector('#feet')
     var inc = document.querySelector('#inches')
     var weight = document.querySelector('#weight')
+    const a = calculateBMI()
+    const b = weightStatus()
+    id = appdata[row.rowIndex]._id
+    console.log(id)
 
     button.onclick = function(){
-     const newEntry = {
-       yourname: name.value, feet: ft.value, inches: inc.value, weight: weight.value, bmi:calculateBMI(), status: weightStatus()
-      }
         row.childNodes[0].innerText = name.value
         row.childNodes[1].innerText = ft.value 
         row.childNodes[2].innerText = inc.value
         row.childNodes[3].innerText = weight.value
         row.childNodes[4].innerText = calculateBMI()
         row.childNodes[5].innerText = weightStatus()
+        const newEntry = {
+          _id: id, yourname: name.value, feet: parseInt(ft.value), inches: parseInt(inc.value), weight: parseInt(weight.value), bmi:parseInt(a), status: b
+         }
+         console.log(newEntry)
       fetch('/update', {
         method:'POST',
         body:JSON.stringify(newEntry),
@@ -242,8 +249,10 @@ const submit = function( e ) {
         }
       })
       .then(response => response.json())
+      .then(json => console.log(json))
     
   }
+  button.innerText = 'Edit'
 }
 
 //Function to fill table with intial entries when user enters a page
