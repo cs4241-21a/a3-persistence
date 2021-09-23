@@ -1,0 +1,64 @@
+body {
+    background-color: #f5f5f5;
+    margin-top: 5rem;
+    margin-bottom: 5rem;
+}
+
+/* Icon styles
+-------------------------------------------------- */
+.icon-button-container {
+    text-align: center;
+}
+
+.icon-button {
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    margin: 2px;
+    cursor: pointer;
+    background: unset;
+    border: 0;
+}
+
+.icon-button :hover {
+    border-radius: 2px;
+    background: #bbbbbb;
+}
+
+.icon-button > .icon {
+    width: 30px;
+    height: 30px;
+}
+
+.add-icon {
+    padding-top: 1px;
+    padding-left: 1px;
+}
+
+.edit-icon {
+    padding: 1.5px;
+}
+
+.delete-icon {
+    padding: 1px 0 1px 0;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+    background-color: #f5f5f5;
+}
