@@ -17,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/aamaxaa/a3-persistence/issues"
   },
-  "homepage": "https://github.com/aamaxaa/a3-persistence#readme"
+  "homepage": "https://github.com/aamaxaa/a3-persistence#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
 }
