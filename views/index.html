@@ -9,54 +9,62 @@
     <meta name="description" content="Assignment 3 Website">
 
     <!-- Importing CSS Stylesheet -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/index.css">
+    <link rel="stylesheet" href="css/normalize.css" defer>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous" defer>
+    <link rel="stylesheet" href="css/index.css" defer>
 
     <!-- Importing JS Script -->
-    <script src="js/scripts.js"></script>
-    <script src="js/alerts.js"></script>
+    <script src="js/scripts.js" defer></script>
+    <script src="js/alerts.js" defer></script>
   </head>
   <body class="text-center">
     <header>
       <nav class="navbar navbar-dark bg-dark justify-content-between fixed-top">
         <a class="navbar-brand" href="#">Event Itinerary</a>
-        <a class="nav-link text-info" href="/login">Logout</a>
+        <a class="mr-2 text-light" href="/login">Logout</a>
       </nav>
     </header>
 
-    <table class="table table-hover">
-      <thead class="thead-light">
-        <tr>
-          <th scope="col">Event</th>
-          <th scope="col">Date</th>
-          <th scope="col">Time</th>
-          <th scope="col">Mandatory Attendance</th>
-          <th></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr id="empty-row">
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td>—</td>
-          <td class="icon-button-cell">
-            <div class="icon-button-container">
-              <button id="add-button" class="icon-button">
-                <img title="Add Entry" class="icon add-icon" src="img/add-file.svg">
-              </button>
-            </div>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <h3 class="mb-3">
+      Events Scheduled
+    </h3>
+    <div class="row d-flex m-0 justify-content-center">
+      <table class="table table-hover col-sm-8 border border-muted">
+        <thead class="thead-light">
+          <tr>
+            <th scope="col">Event</th>
+            <th scope="col">Date</th>
+            <th scope="col">Time</th>
+            <th scope="col">Mandatory</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="empty-row">
+            <td class="align-middle">—</td>
+            <td class="align-middle">—</td>
+            <td class="align-middle">—</td>
+            <td class="align-middle">—</td>
+            <td class="icon-button-cell">
+              <div class="icon-button-container">
+                <button id="add-button" class="icon-button">
+                  <img title="Add Entry" class="icon add-icon" src="img/add-file.svg">
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <div class="row d-flex m-0 justify-content-center text-left">
-      <form class="col-sm-4 m-5 p-5 bg-dark text-light border border-info rounded" hidden>
+      <form class="col-sm-4 m-5 p-5 bg-dark text-light border border-light rounded" hidden>
+        <h3 class="text-center mb-5">
+          Schedule an Event
+        </h3>
         <div class="form-group row">
           <label for="name" class="col-sm-4 col-form-label">Event Name:</label>
-          <input type="text" id="name" class="col-sm-8 form-control" placeholder="Zoom Meeting" required>
+          <input type="text" id="name" class="col-sm-8 form-control" placeholder="Zoom Meeting">
         </div>
         <div class="form-group row">
           <label for="date" class="col-sm-4 col-form-label">Date:</label>
@@ -75,7 +83,7 @@
           </div>
         </div>
         <div class="text-center">
-          <button id="submit-button" class="btn btn-info" value="">Save Event</button>
+          <button id="submit-button" class="btn btn-primary" value="">Save Event</button>
         </div>
       </form>
     </div>
@@ -84,19 +92,15 @@
       <div class="bg-dark fixed-bottom">
         <span class="text-light">
           Icons made by 
-          <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry" class="text-info">
+          <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry" class="text-light">
             Kiranshastry
           </a> 
           from 
-          <a href="https://www.flaticon.com/" title="Flaticon" class="text-info">
+          <a href="https://www.flaticon.com/" title="Flaticon" class="text-light">
             www.flaticon.com
           </a>
         </span>
       </div>
     </footer>
-
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>
