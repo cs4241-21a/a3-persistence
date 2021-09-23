@@ -197,8 +197,8 @@ async function findRank(newScore) {
     return tempRank;
 }
 
-app.post('/getReview', bodyParser.json(), async(req,res) =>{
-    ReviewEntry.findById(req.body.id)
+app.post('/updateReview', bodyParser.json(), async(req,res) =>{
+    ReviewEntry.findByIdAndUpdate(req.body.id, {review: req.body.review, rating: req.body.rating})
         .then(result =>{
             console.log(result)
         })

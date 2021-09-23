@@ -11,7 +11,8 @@
     <div class="row">
         <div class="col-6">
             <h2 id="writeReview">Write a Review</h2>
-            <form action='/postReview' method='POST' id="reviewForm">
+            <!--<form action='/postReview' method='POST' id="reviewForm">-->
+            <form id="reviewForm">
                 <input type="radio" id="oneStar" name="rating" value=1>
                 <label for="oneStar"><i class="bi bi-star-fill"></i></label><br>
                 <input type="radio" id="twoStar" name="rating" value=2>
@@ -23,7 +24,7 @@
                 <input type="radio" id="fiveStar" name="rating" value=5>
                 <label for="fiveStar"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i></label><br>
                 <!--<input onclick="clearForm()" type='submit'>-->
-                <input type="submit">
+                <input onclick="submitHandler()" id="reviewSubmit" type="submit">
             </form>
             <textarea id="reviewArea" form="reviewForm" name="review"></textarea>
         </div>
@@ -34,12 +35,12 @@
                     <% reviews.forEach(review => { %>
                     <div id=<%=review._id%>>
                         <p><%= review.username%> writes:</p>
-                        <p class="displayedComment"><%= review.review%></p>
+                        <p id="comment<%=review._id %>" class="displayedComment"><%= review.review%></p>
                         <%for (let i = 0; i < review.rating; i++ ){ %>
                             <i class="bi bi-star-fill"></i>
                          <%   }%>
                         <% if(review.username === sentUsername){%>
-                            <button onclick="myEdit(parentNode.id)"><i class="bi bi-pencil"></i></button>
+                            <button id='<%=review.rating%>' onclick="myEdit(parentNode.id, this.id)"><i class="bi bi-pencil"></i></button>
                             <button onclick="myDelete(parentNode.id)"><i class="bi bi-trash"></i></button>
                         <% }%>
                     </div>
