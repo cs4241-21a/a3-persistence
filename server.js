@@ -1,6 +1,5 @@
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
-      path = require('path'),
       cookie  = require( 'cookie-session' ),
       app = express()
       
@@ -43,7 +42,8 @@ app.get( '/data', (req,res) => {
 
 // Landing page should be login page
 app.get( '/login', (req,res)=> {
-  res.sendFile(__dirname + '/public/views/index.html');
+  if (req.session.login === true) res.redirect('main');
+  else res.sendFile(__dirname + '/public/views/index.html');
 })
 
 // main domain redirects to login page
@@ -128,16 +128,15 @@ app.post( '/delete', (req,res) => {
     .then( deleteResponse  => res.json(deleteResponse))
 })
 
-/*
-app.post('/edit'), (req,res) => {
+
+app.post('/edit', (req,res) => {
   //edit by id
-  collection.updateOne(
+  data_collection.updateOne(
       { _id:mongodb.ObjectId( req.body._id ) },
-      { $set:{ name:req.body.name } }
+      { $set:{ pokemon:req.body.pokemon, nickname:req.body.nickname,  gender:req.body.gender} }
     )
     .then( result => res.json( result ) )
-}
-*/
+})
 
 // update GET request --> get latest info from database
 app.get('/update', (req, res) => {

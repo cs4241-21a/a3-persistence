@@ -1,116 +1,48 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
-
-Due: September 20th, by 11:59 AM.
-
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
-a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
-
-Baseline Requirements
 ---
 
-Your application is required to implement the following functionalities:
+## Poketracker
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! One of these five middleware 
-can be a custom function that you write yourself; if you choose to do this, make sure to describe what this function is in your README.  
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). 
-This should do the bulk of your styling/CSS for you and be appropriate to your application. 
-For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+Link: (insert later)
 
-Your application is required to demonstrate the use of the following concepts:  
+Guest Credentials: akumar6 / test1234
 
-HTML:  
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+Name: Aditya Kumar
+WPI Email: akumar6@wpi.edu
+GitHub Username: hellofellowkids
 
-Note that it might make sense to have two pages for this assignment, one that handles login / authentication, and one that contains the rest of your application.
-For example, when visiting the home page for the assignment, users could be presented with a login form. After submitting the login form, if the login is 
-successful, they are taken to the main application. If they fail, they are sent back to the login to try again. For this assignment, it is acceptable to simply create 
-new user accounts upon login if none exist, however, you must alert your users to this fact.  
+Welcome to Poketracker! This website allows you to login and track your own Pokemon. We want to keep track of your Pokemon by displaying information about them. 
 
-CSS:  
-- CSS styling should primarily be provided by your chosen template/framework. 
-Oftentimes a great deal of care has been put into designing CSS templates; 
-don't override their stylesheets unless you are extremely confident in your graphic design capabilities. 
-The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
+At the login screen, you can use the sleek inferface to sign in, remember your password, or sign up. The authentication strategy was basically storing the credentials in a mongdodb collection as that is the easiest to implement and do not have the time to setup O-Auth.
 
-JavaScript:  
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. 
-See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
+![image info](./pictures/login.png)
 
-Node.js:  
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
+Once signed in, you add Pokemon to your tracker. We verify the Pokemon is one that is a known species by using open source **PokeAPI** and able to pull their types. If you want to modify or delete Pokemon you are tracking, click the associated icon on the interface.
 
-General:  
-- Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
-using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test).
-Test early and often so that fixing problems doesn't lead to suffering at the end of the assignment. 
+![image info](./pictures/main.png)
 
-Deliverables
----
+The goal of this application was to gain practice using mongodb to preserve user data and become more familar with webware programming. Specifically, making sure there is data associated and specific to each user. Some of the challenges I faced include mostly with styling and trying to make a sleek interface. While I did use the **normalize.css** framework for a simple and normal interface, I made quite a bit of changes to it including (but not limited) to alignment of items, using modal boxes, and generic changes. While I think the interface I have for this framework is passible, there are still a few bugs I have yet to fully iron out.
 
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the 
-assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. 
-These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README, 
-why it was challenging, and how many points you think the achievement should be worth. 
-ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). 
-*You must either use Github authenticaion or provide a username/password to access a dummy account*. 
-Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. 
-Please contact the course staff if you have any questions about this. THIS IS THE HARDEST ACHEIVEMENT OFFERED IN WEBWARE. You have been warned!  
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-- (5 points) Get 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.  
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. 
-For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively 
-getting it "for free" without having to actively change anything about your site. 
-Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. 
-List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. 
-Which element received the most emphasis (contrast) on each page? 
-How did you use proximity to organize the visual information on your page? 
-What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? 
-How did you use alignment to organize information and/or increase contrast for particular elements. 
-Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
+As for the Express middleware I used (as seen in **server.js**):
+1) Mongodb for managing user credentials and data.
+2) Cookies for allowing to keep user's sessions.
+3) Additional middleware logic that will redirect a user to the main page if user has not logged out
+4) Additional middleware logic that will redirect a user to the login page if the user is not logged in 
+5) Generic middleware to logging in such as the with the forgot password feature and error messages when a user provides incorrect credentials.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: Utilizing cookies for user convience (5 pts)
+Users who have already logged in will be directed to the main page to save some headache. Also, users who have not logged cannot make it to the main page as there is no user to associate the data with.
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Tech Achievement 2**: Using open-source API (10 pts)
+I used open-source PokeAPI in verify the Pokemon the users were entering into the form were known species (no imaginary Pokemon) and pull the types the Pokemon were. While I could made a plug and chug database, learning to using open-source API effectively to pull information, even for something as simple as a Pokemon's characteristics, is important to learn and how to use it (reading API documents, deserializing the info you are looking for in JSON objects, and actually using that information in your site). The code using PokeAPI can be seen in **script.js**. More specifically in fetchPokemon() and getType() functions.
+
+- **Tech Achievement 3**: Hosted website on Heroku (5 pts)
+
+## Design/Evaluation Achievements
+- **Design Achievement 1**: Using modal boxes (10 pts)
+Each time a user wants to add / edit a Pokemon, remember a password, or signup, a modal box pops up with the appropriate form to fill out to complete the action. While there is some minor bugs, overall the implemententation makes the site feel more dynamic, interactive, and sleek. 
+
+![image info](./pictures/modal.png)
+
+- **Design Achievement 2**: (think about it)

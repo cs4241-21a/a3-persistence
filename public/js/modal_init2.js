@@ -12,6 +12,7 @@ window.addEventListener("click", outsideClick);
 
 function openModal(){
     modal.style.display = "block";
+    document.getElementById("modal-message").innerHTML = "Add a Pokemon:"
 }
 
 function closeModal(){

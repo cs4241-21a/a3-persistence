@@ -1,8 +1,51 @@
 let form = null;
 let pokeNames = null;
 
-const editEntry = function(id){
+function resetForm() {
+    form.reset;
+    document.getElementById("modal").style.display = "none";
+    document.getElementById("secondPart").style.display = "none";
+    form.onsubmit = submitForm;
+}
+
+const editEntry = function(id, pokemon, nickname, gender){
     console.log(id)
+    document.getElementById("pokeID").value = pokemon;
+    document.getElementById("nickname").value = nickname;
+    document.getElementById("gender").value = gender;
+    document.getElementById("modal").style.display = "block"
+    document.getElementById("secondPart").style.display = "block"
+    document.getElementById("modal-message").innerHTML = "Edit Pokemon:"
+    document.getElementById("exitModalBtn").addEventListener("click", resetForm)
+    form.onsubmit = function(e){
+        e.preventDefault()
+        // setup JSON object
+        let json = {"_id": id}
+        // Iterate through data in form
+        let data = new FormData(form);
+        for (let pair of data.entries()){
+            json[pair[0]] = pair[1]
+        }
+
+        // POST /add Request
+        fetch( '/edit', {
+            method:'POST',
+            body: JSON.stringify(json),
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        .then( function( response ) { 
+            console.log( response )
+        }).then( function() { 
+            console.log( "Finished edit request" )
+            updateData()
+            form.reset()
+            form.onsubmit = submitForm
+            document.getElementById("secondPart").style.display = "none"
+            document.getElementById("modal").style.display = "none"
+        })
+        }
 }
 
 const deleteEntry = function(id){
@@ -104,7 +147,11 @@ function updateData(){
 
             // add species related data
             let pokeSpecies = document.createElement('td');
-            pokeSpecies.innerHTML = entry["pokemon"] + "\n(" + entry["nickname"] + ")";
+            let displayName = entry["pokemon"]
+            if(entry["nickname"].length !== 0){
+                displayName += "\n(" + entry["nickname"] + ")"
+            }
+            pokeSpecies.innerHTML = displayName;
             newRow.appendChild(pokeSpecies)
 
             // add gender related data
@@ -124,7 +171,7 @@ function updateData(){
             editIcon.innerHTML = "<span class=\"icon\">&#9998;</span>";
             editIcon.onclick = function(e) {
                 e.preventDefault();
-                editEntry(entry["_id"]);
+                editEntry(entry["_id"], entry["pokemon"], entry["nickname"], entry["gender"]);
             }
             newRow.appendChild(editIcon);
 
@@ -148,7 +195,7 @@ function updateData(){
 
 // populate form data
 function fetchPokemon() {
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=721")
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=1000")
     .then(response => response.json())
     .then(pokes => {
         console.log(pokes)

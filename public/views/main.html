@@ -1,6 +1,7 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <title>PokeTracker</title>
         <link rel="stylesheet" href="./css/normalize.css">
         <link rel="stylesheet" href="./css/modal.css">
         <link rel="stylesheet" href="./css/main.css">
@@ -23,7 +24,7 @@
                   
                   <div class="modal-header">
                     <span id="exitModalBtn" class="closeBtn">&times;</span>
-                    <h2>Add a Pokemon:</h2>
+                    <h2 id="modal-message">Add a Pokemon:</h2>
                   </div>
                   
                   <div class="modal-body">
@@ -31,7 +32,7 @@
                         <div id="firstPart"></div>
                         <div id="secondPart" style="display:none;">
                             <label for="nickname">Nickname?</label><br>
-                            <input type="text" name="nickname"><br>
+                            <input type="text" name="nickname" id="nickname"><br>
                             <label for="gender">Gender?</label><br>
                             <select name="gender" id="gender" required>
                                 <option value="Male">Male</option>
