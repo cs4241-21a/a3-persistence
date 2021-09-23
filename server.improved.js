@@ -88,6 +88,13 @@ app.post( '/update', (req,res) => {
     .then( findResponse => res.json( findResponse))
 })
 
+app.post( '/remove', (req,res) => {
+  console.log(req.body)
+  collection
+    .deleteOne({ _id:mongodb.ObjectId( req.body.id ) })
+    .then( result => res.json( result ) )
+})
+
 const client2 = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let loginCollection = null;
 client2.connect()

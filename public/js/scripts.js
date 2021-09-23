@@ -100,7 +100,6 @@ function buildTable(json) {
   ebutton.style.height = "40px"
 
   ebutton.onclick = function() {
-    //Move row data to edit
     document.querySelector('#plant').value = json.plant
     document.querySelector('#sunlight').value = json.sunlight
     document.querySelector('#water').value = json.water
@@ -111,7 +110,6 @@ function buildTable(json) {
     row.remove()
 
     document.querySelector('#sub').innerHTML = "Update";
-
   }
 
   editCell.appendChild(ebutton);
@@ -122,6 +120,19 @@ function buildTable(json) {
   dbutton.innerHTML = '<img  src="https://icons.veryicon.com/png/o/construction-tools/coca-design/delete-189.png" alt="Delete" margin-right= "40%" class="button2"/>';
   dbutton.style.width = "40px"
   dbutton.style.height = "40px"
+  dbutton.onclick = function() {
+    fetch("/remove", {
+      method: "POST",
+      body: JSON.stringify({ id }),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+      .then(response => response.json())
+      .then(json => {
+        row.remove();
+      });
+  }
   deleteCell.appendChild(dbutton);
 
 
