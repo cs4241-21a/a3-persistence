@@ -4,13 +4,14 @@ const passwordInput = document.querySelector('#password')
 const login = function( ) {
     
     json = { username: usernameInput.value, 
-            password: passwordInput.value 
+            password: passwordInput.value,
+            type: 'credentials' 
         }
     body = JSON.stringify( json )
 
     fetch( '/login', {
         method:'POST',
-        body:JSON.stringify({username:usernameInput.value, password:passwordInput.value}),
+        body:JSON.stringify({username:usernameInput.value, password:passwordInput.value, type: 'credentials'}),
         headers: {
             'Content-Type': 'application/json'
         }

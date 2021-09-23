@@ -11,13 +11,15 @@ const submit = function( ) {
   
         json = { todo: todoInput.value, 
                   day: dayInput.value, 
-                  difficulty: difficultyInput.value, 
+                  difficulty: difficultyInput.value,
+                  type: 'todo',
+                  user: null
                   }
         body = JSON.stringify( json )
 
   fetch( '/submit', {
     method:'POST',
-    body:JSON.stringify({todo:todoInput.value, day:dayInput.value, difficulty:difficultyInput.value}),
+    body:JSON.stringify({todo:todoInput.value, day:dayInput.value, difficulty:difficultyInput.value, type:'todo', user:null}),
     headers: {
         'Content-Type': 'application/json'
     }
@@ -39,13 +41,15 @@ const deleteButton = function(row){
     json = { todo: todoInput.value, 
              day: dayInput.value, 
              difficulty: difficultyInput.value,
-             _id: row._id 
+             type: 'todo' ,
+             _id: row._id,
+             user:null 
      }
      body = JSON.stringify( json )
  
      fetch( '/delete', {
          method:'POST',
-         body:JSON.stringify({todo:row.todo, day:row.day, difficulty: row.difficulty, _id:row._id}),
+         body:JSON.stringify({todo:row.todo, day:row.day, difficulty: row.difficulty, type: 'todo', _id:row._id, user:null}),
          headers: {
              'Content-Type': 'application/json'
          }
@@ -63,13 +67,15 @@ const updateButton = function(row){
     json = { todo: todoInput.value, 
         day: dayInput.value, 
         difficulty: difficultyInput.value,
-        _id: row._id 
+        type: 'todo', 
+        _id: row._id,
+        user:null 
 }
 body = JSON.stringify( json )
 
 fetch( '/update', {
     method:'POST',
-    body:JSON.stringify({todo:todoInput.value, day:dayInput.value, difficulty:difficultyInput.value, _id:row._id}),
+    body:JSON.stringify({todo:todoInput.value, day:dayInput.value, difficulty:difficultyInput.value, type: 'todo', _id:row._id,user:null}),
     headers: {
         'Content-Type': 'application/json'
     }
@@ -95,13 +101,15 @@ const populateTable = function(json){
 
     json = { todo: todoInput.value, 
         day: dayInput.value, 
-        difficulty: difficultyInput.value, 
+        difficulty: difficultyInput.value,
+        type: 'todo',
+        user: null 
         }
         body = JSON.stringify( json )
 
     fetch( '/loadTable', {
         method:'POST',
-        body:JSON.stringify({todo:todoInput.value, day:dayInput.value, difficulty:difficultyInput.value}),
+        body:JSON.stringify({todo:todoInput.value, day:dayInput.value, difficulty:difficultyInput.value, type:'todo', user:null}),
         headers: {
             'Content-Type': 'application/json'
         }
@@ -110,6 +118,15 @@ const populateTable = function(json){
             return response.json()
         })
             .then(function(json){
+
+                let tableItems = []
+
+                for(let count = 1; count < json.length; count++){
+                    if(json[count].type === 'todo' && json[count].user === json[0]){
+                        tableItems.push(json[count])
+                    }
+                }
+
                 tableDeleter('Sunday')
                 tableDeleter('Monday')
                 tableDeleter('Tuesday')
@@ -118,17 +135,17 @@ const populateTable = function(json){
                 tableDeleter('Friday')
                 tableDeleter('Saturday')
                 
-                for(let count = 0; count < json.length; count++){
+                for(let count = 0; count < tableItems.length; count++){
                     let tr = document.createElement('tr')
-                    let day = json[count].day
+                    let day = tableItems[count].day
                     let table = document.getElementById(day)
                     let td = document.createElement('td')
-                    let item = document.createTextNode(json[count].todo)
+                    let item = document.createTextNode(tableItems[count].todo)
                     td.appendChild(item)
                     tr.appendChild(td)
 
                     td = document.createElement('td')
-                    item = document.createTextNode(json[count].difficulty)
+                    item = document.createTextNode(tableItems[count].difficulty)
                     td.appendChild(item)
                     tr.appendChild(td)
 
@@ -138,7 +155,7 @@ const populateTable = function(json){
                     td.appendChild(item)
                     tr.appendChild(td)
 
-                    item.onclick = function() {updateButton(json[count])}
+                    item.onclick = function() {updateButton(tableItems[count])}
 
                     td = document.createElement('td')
                     item = document.createElement('button')
@@ -146,7 +163,7 @@ const populateTable = function(json){
                     td.appendChild(item)
                     tr.appendChild(td)
 
-                    item.onclick = function() {deleteButton(json[count])}
+                    item.onclick = function() {deleteButton(tableItems[count])}
 
                     table.appendChild(tr)
                 }

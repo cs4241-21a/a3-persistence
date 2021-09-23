@@ -55,27 +55,31 @@ app.post( '/login', function(req,res) {
 
   collection.find({'username':req.body.username}).toArray()
     .then(dbresponse => {
-      if(dbresponse.length === 0){
-    // below is *just a simple authentication example* 
-    // for A3, you should check username / password combos in your database
 
-    if( req.body.password.toString() === 'test' ) {
+      let newUser = false
+
+      if(dbresponse.length === 0){
 
         collection.insertOne(req.body)
-          .then( function(){
-              // define a variable that we can check in other middleware
-              // the session object is added to our requests by the cookie-session middleware
-              req.session.login = true
 
-              // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-              // make redirect
-              res.sendFile( __dirname + '/views/index.html' )
-           })
+         newUser = true
+      }
+
+      console.log(req.body.password)
+      console.log(dbresponse.password)
+
+    if( req.body.password === dbresponse[0].password || newUser === true ) {
+      req.session.login = true
+      req.session.user = req.body.username
+
+      // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
+      // make redirect
+      res.sendFile( __dirname + '/views/index.html' )
+
     }else{
         // password incorrect, redirect back to login page
         res.sendFile( __dirname + '/views/login.html' )
       }
-    }
   })
 })
 
@@ -92,48 +96,50 @@ app.get("/", (request, response) => {
 })
 
 app.post('/submit', bodyparser.json(),function(req, res){
- // console.log('aaaaaaa', req.body)
+
   collection.insertOne(req.body)
   .then(dbresponse => {
     return collection.find({'_id':dbresponse.insertedId}).toArray()
   })
     .then(dbresponse =>{
-    res.json(dbresponse)
-    console.log(dbresponse)
+      collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
+      {$set:{ user:req.session.user} })
+        .then( dbresponse=>{
+          res.json(dbresponse)
+         // console.log(dbresponse)
+        })
   })
 })
 
 app.post('/delete', bodyparser.json(),function(req, res){
-   console.log('aaaaaaa', req.body._id)
- collection.deleteOne({'_id':mongodb.ObjectId(req.body._id)}) 
- //collection.deleteOne({'_id':req.body._id})
-     .then(dbresponse =>{
+  
+  console.log(req.body._id)
+  collection.deleteOne({'_id':mongodb.ObjectId(req.body._id)}) 
+  .then(dbresponse =>{
      res.json(dbresponse)
-     //console.log(dbresponse)
    })
  })
 
  app.post('/update', bodyparser.json(),function(req, res){
-  //console.log('aaaaaaa', req.body._id)
-collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
-{$set:{ todo:req.body.todo } })
 
-collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
-{$set:{ day:req.body.day } })
+  collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
+  {$set:{ todo:req.body.todo } })
 
-collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
-{$set:{ difficulty:req.body.difficulty } })
-    .then(dbresponse =>{
-    res.json(dbresponse)
-    //console.log(dbresponse)
-  })
+  collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
+  {$set:{ day:req.body.day } })
+
+  collection.updateOne({'_id':mongodb.ObjectId(req.body._id)},
+  {$set:{ difficulty:req.body.difficulty } })
+      .then(dbresponse =>{
+      res.json(dbresponse)
+    })
 })
 
 app.post('/loadTable', bodyparser.json(),function(req, res){
   collection.find({}).toArray()
   .then(dbresponse =>{
+    dbresponse.unshift(req.session.user)
   res.json(dbresponse)
-  //console.log(dbresponse)
   })
 })
 
