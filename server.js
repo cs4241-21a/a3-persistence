@@ -3,10 +3,14 @@ const express = require( 'express' ),
       mongodb = require( 'mongodb' )
       app = express()
       cookie = require('cookie-session')
+      favicon = require('serve-favicon')
+      path = require('path')
 
 app.use( express.json() )
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
+app.use( express.static('public') )
+app.use(favicon(__dirname + '/public/images/favicon.ico'))
 app.use( express.urlencoded({ extended: true }) )
 
 require('dotenv').config()
@@ -109,8 +113,6 @@ app.use( function( req, res, next ) {
   else
     res.sendFile( __dirname + '/public/views/login.html' )
 })
-
-app.use( express.static('public') )
 
 app.get('/', function(req, res) {
   res.sendFile( __dirname + '/public/views/index.html' )
