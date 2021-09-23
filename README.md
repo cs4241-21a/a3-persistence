@@ -3,7 +3,7 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 
 ## Poketracker
 
-Link: (insert later)
+Link: https://a3-hellofellowkids.herokuapp.com/
 
 Guest Credentials: akumar6 / test1234
 
