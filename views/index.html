@@ -10,33 +10,32 @@
 
     <!-- Importing CSS Stylesheet -->
     <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="css/index.css">
 
     <!-- Importing JS Script -->
     <script src="js/scripts.js"></script>
     <script src="js/alerts.js"></script>
-
-    <!-- Importing Custom Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Glory:wght@100&display=swap" rel="stylesheet">
   </head>
-  <body class="center-container">
-    <div>
-      <a href="/login">Logout</a>
-    </div>
+  <body class="text-center">
+    <header>
+      <nav class="navbar navbar-dark bg-dark justify-content-between fixed-top">
+        <a class="navbar-brand" href="#">Event Itinerary</a>
+        <a class="nav-link text-info" href="/login">Logout</a>
+      </nav>
+    </header>
 
-    <h3>Event Itinerary</h3>
-
-    <div id="investment-table-container" class="center-content">
-      <table>
+    <table class="table table-hover">
+      <thead class="thead-light">
         <tr>
-          <th>Event</th>
-          <th>Date</th>
-          <th>Time</th>
-          <th>Mandatory Attendance</th>
+          <th scope="col">Event</th>
+          <th scope="col">Date</th>
+          <th scope="col">Time</th>
+          <th scope="col">Mandatory Attendance</th>
           <th></th>
         </tr>
+      </thead>
+      <tbody>
         <tr id="empty-row">
           <td>—</td>
           <td>—</td>
@@ -50,33 +49,54 @@
             </div>
           </td>
         </tr>
-      </table>
+      </tbody>
+    </table>
+
+    <div class="row d-flex m-0 justify-content-center text-left">
+      <form class="col-sm-4 m-5 p-5 bg-dark text-light border border-info rounded" hidden>
+        <div class="form-group row">
+          <label for="name" class="col-sm-4 col-form-label">Event Name:</label>
+          <input type="text" id="name" class="col-sm-8 form-control" placeholder="Zoom Meeting" required>
+        </div>
+        <div class="form-group row">
+          <label for="date" class="col-sm-4 col-form-label">Date:</label>
+          <input type="date" id="date" class="col-sm-8 form-control">
+        </div>
+        <div class="form-group row">
+          <label for="time" class="col-sm-4 col-form-label">Time:</label>
+          <input type="time" id="time" class="col-sm-8 form-control">
+        </div>
+        <div class="form-group row">
+          <label class="form-check-label col-sm-4" for="attendance">Mandatory:</label>
+          <div class="col-sm-8">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" id="attendance">
+            </div>
+          </div>
+        </div>
+        <div class="text-center">
+          <button id="submit-button" class="btn btn-info" value="">Save Event</button>
+        </div>
+      </form>
     </div>
 
-    <form class="flex-box" hidden>
-      <div class="flex-item">
-        <label>Event Name:</label>
-        <input type="text" id="name" placeholder="Zoom Meeting" required>
+    <footer class="footer">
+      <div class="bg-dark fixed-bottom">
+        <span class="text-light">
+          Icons made by 
+          <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry" class="text-info">
+            Kiranshastry
+          </a> 
+          from 
+          <a href="https://www.flaticon.com/" title="Flaticon" class="text-info">
+            www.flaticon.com
+          </a>
+        </span>
       </div>
-      <div class="flex-item">
-        <label>Date:</label>
-        <input type="date" id="date">
-      </div>
-      <div class="flex-item">
-        <label>Time:</label>
-        <input type="time" id="time">
-      </div>
-      <div class="flex-item">
-        <label>Attendance Mandatory:</label>
-        <input type="checkbox" id="attendance">
-      </div>
-      <div class="flex-item">
-        <button id="submit-button" value="">Save Event</button>
-      </div>
-    </form>
+    </footer>
 
-    <p>
-      Icons made by <a href="https://www.flaticon.com/authors/kiranshastry" title="Kiranshastry">Kiranshastry</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
-    </p>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
   </body>
 </html>

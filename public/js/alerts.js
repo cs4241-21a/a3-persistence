@@ -1,9 +1,7 @@
-window.onload = () => {
-  let alertMsg = getCookie("alert");
-  if (alertMsg !== "") {
-    alert(decodeURI(alertMsg));
-    resetAlertCookie();
-  }
+let alertMsg = getCookie("alert");
+if (alertMsg !== "") {
+  alert(decodeURI(alertMsg));
+  resetAlertCookie();
 }
 
 function getCookie(cname) {
