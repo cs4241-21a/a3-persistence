@@ -37,7 +37,7 @@ Lighthouse tests also pass at above 90% on mobile & desktop.
 
 ## Technical Achievements
 - **Tech Achievement 1**: Used OAuth via the GitHub strategy.
-- **Tech Achievement 2**: Hosted the application on Heroku App.
+- **Tech Achievement 2**: Hosted the application on Heroku App. Heroku required some extra configuration, like adapting to the dynamic port system it uses, and creating separate GitHub oAuth clients for Glitch/Heroku (different callback URLs).
 - **Tech Achievement 3**: On Desktop, Todoish should get 100% on all four lighthouse tests. On mobile, this metric is either 98/99. Bootstrap is a moderately heavy framework, so that probably drives down the score on mobile.
 
 ## Design/Evaluation Achievements
