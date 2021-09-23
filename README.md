@@ -1,6 +1,5 @@
 ## Event Itinerary
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+https://a3-nicholas-frangie.herokuapp.com/
 
 This application serves as an Event Itinerary for users, storing event information such as the event name, date, time, and whether attendance is mandatory.
 
@@ -18,7 +17,7 @@ Express middleware:
 - A custom middleware responsible for redirecting and authenticating users. This was accomplished by reading the uid cookie passed alongside the request; requests without the relevant cookie will be redirected to the login page, while those which pass the middleware check resume without issue.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Heroku Deployment**: Honestly this was the easiest part of the assignment. Deploying through Heroku toom me less time and hassle then Glitch. I didn't have to spend 10 minutes scouring for the rename project functionality like I do with Glitch. GitHub importing was seamless and quick. The only thing that may be worse about it is the lack of project templates for starting new projects, but I didn't work from Heroku in the beginning, so I can't be sure about that.
 
 ### Design/Evaluation Achievements
 - **100% Lighthouse**: [100% Lighthouse ratings achieved for all 4 categories on desktop mode](meta/lighthouse-report.png), as detailed per this assignment
