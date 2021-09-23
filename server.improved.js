@@ -59,6 +59,12 @@ client.connect()
 //   }
 // })
 
+app.get('/data', (req, res) => {
+  if (collection !== null) {
+    collection.find({username: user}).toArray().then(result => res.json(result));
+  }
+});
+
 app.post( '/add', (req,res) => {
   // assumes only one object to insert
   req.body['username'] = user
@@ -67,11 +73,20 @@ app.post( '/add', (req,res) => {
   .then( findResponse => res.json( findResponse))
 })
 
-app.get('/data', (req, res) => {
-  if (collection !== null) {
-    collection.find({username: user}).toArray().then(result => res.json(result));
-  }
-});
+app.post( '/update', (req,res) => {
+  console.log(res.body)
+  collection
+    .updateOne(
+      { _id:mongodb.ObjectId( req.body.id ) },
+      { $set:{ plant:req.body.plant,
+               sunlight:req.body.sunlight,
+               water: req.body.water,
+               adopt: req.body.adopt,
+               notes:req.body.notes} }
+    )
+    .then( insertResponse => collection.findOne(insertResponse.insertedId) )
+    .then( findResponse => res.json( findResponse))
+})
 
 const client2 = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let loginCollection = null;
