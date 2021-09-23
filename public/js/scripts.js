@@ -1,5 +1,5 @@
 let entryCount = 0;
-let formOpen = -2; // -2 = Not open, -1 = Open for add entry, 0+ = Open for edit index entry
+let activeId; // -1 = Not Open, 0 = New Entry, id = Open for entry w/id
 
 window.onload = () => {
     loadServerData();
@@ -7,7 +7,7 @@ window.onload = () => {
     const addButton = document.querySelector("#add-button")
     addButton.onclick = () => {
         clearForm();
-        switchForm(-1, entryCount);
+        switchForm(0);
     }
 
     const submitButton = document.querySelector("#submit-button");
@@ -15,55 +15,58 @@ window.onload = () => {
 }
 
 const loadServerData = () => {
-    fetch( "/events", {
+    fetch( "/db", {
         method:"GET",
     })
     .then(res => res.json())
     .then(res => { 
-        res.forEach((item, index) => {
-            addTableRow(entryCount);    
-            setEntry(index, item);
+        res.forEach((item) => {
+            setEntry(addTableRow(item._id), item);
             entryCount++;
         });
     })
 }
 
 //#region Table Handling
-    // Sets the table data of a given entry for row identified by index
-    const setEntry = (index, entry) => {
-        const tableRows = document.getElementsByClassName("table-row");
-        const entryRow = tableRows[index];
-
+    // Sets the table data of a given entry for row
+    const setEntry = (entryRow, entry) => {
         const tableDatas = entryRow.querySelectorAll("td");
         tableDatas[0].innerText = entry["name"];
         tableDatas[1].innerText = entry["date"] || "N/A";
         tableDatas[2].innerText = entry["time"] || "N/A";
-        tableDatas[3].innerText = (entry["attendance"]) ? "Yes" : "No";
+        tableDatas[3].innerText = (entry["attendance"]) ? "✓" : "✖";
     }
 
     // Creates a new row on the table
-    const addTableRow = (index) => {
+    const addTableRow = (id) => {
         const emptyRow = document.querySelector("#empty-row");
         const newRow = emptyRow.cloneNode(true);
-        newRow.setAttribute("id", "");
+        newRow.setAttribute("id", id);
         newRow.setAttribute("class", "table-row");
         
         const iconButtonCell = newRow.querySelector(".icon-button-cell");
         iconButtonCell.innerHTML = "";
-        iconButtonCell.appendChild(addOptionButtons(index));
+        iconButtonCell.appendChild(addOptionButtons(newRow, id));
 
         emptyRow.before(newRow);
+
+        return newRow;
+    }
+
+    // Finds a table row by the id of the item it contains
+    const findTableRow = (id) => {
+        return document.getElementById(id);
     }
 
     // Creates the option buttons for an existing row on the table
-    const addOptionButtons = (index) => {
+    const addOptionButtons = (entryRow, id) => {
         const onClickEdit = (e) => {
-            setForm(index);
-            switchForm(index, index);
+            setForm(entryRow);
+            switchForm(id);
         }
 
         const onClickDelete = (e) => {
-            deleteData(index);
+            deleteData(id);
         }
 
         const btnContainer = document.createElement("div");
@@ -97,29 +100,27 @@ const loadServerData = () => {
 //#endregion
 
 //#region Form Handling
-    const switchForm = (formType, index) => {
+    const switchForm = (id) => {
         const form = document.querySelector("form");
-        if (form.hidden || formType != formOpen) {
-            openForm(index);
-            formOpen = formType;
+        if (form.hidden || activeId != id) {
+            openForm(id);
+            activeId = id;
         } else hideForm(); 
     }
 
-    const openForm = (index) => {
+    const openForm = (id) => {
         const form = document.querySelector("form");
-        form["submit-button"].value = index;
+        form["submit-button"].value = id;
         form.hidden = false;
     }
 
     const hideForm = () => {
         const form = document.querySelector("form");
         form.hidden = true;
-        formOpen = -2;
+        formOpen = -1;
     }
 
-    const setForm = (index) => {
-        const tableRows = document.getElementsByClassName("table-row");
-        const entryRow = tableRows[index];
+    const setForm = (entryRow) => {
         const tableDatas = entryRow.querySelectorAll("td");
 
         const form = document.querySelector("form");
@@ -127,7 +128,7 @@ const loadServerData = () => {
         form.name.value = tableDatas[0].innerText;
         form.date.value = tableDatas[1].innerText;
         form.time.value = tableDatas[2].innerText;
-        form.querySelector("#attendance").checked = (tableDatas[3].innerText == "Yes"); 
+        form.querySelector("#attendance").checked = (tableDatas[3].innerText == "✓"); 
     }
 
     const clearForm = () => {
@@ -148,10 +149,10 @@ const loadServerData = () => {
         const time = form["time"].value;
         const attendance = form.querySelector("#attendance").checked;
 
-        const index = e.target.value;
+        let uri = (activeId === 0) ? "/create" : "/update";
 
         const json = {
-            index,
+            id: activeId,
             item: {
                 name, 
                 date,
@@ -160,34 +161,35 @@ const loadServerData = () => {
             }
         };
         const body = JSON.stringify(json);
-        console.log(json);//!!!
 
-        fetch( "/submit", {
+        fetch(uri, {
             method:"POST",
             headers: { 'Content-Type': 'application/json' },
             body 
         })
-        .then(() => {
-            if (index >= entryCount) {
-                addTableRow(entryCount);
-                entryCount++;
-            }
-            setEntry(index, json["item"]);
+        .then(response => response.json())
+        .then(response => {
+            let entryRow;
+            if (activeId === 0) entryRow = addTableRow(response.id);
+            else entryRow = findTableRow(response.id);
+            setEntry(entryRow, json["item"]);
         })
 
         clearForm();
         hideForm();
-    }
+    };
 
-    const deleteData = (index) => {
-        const body = JSON.stringify({index});
+    const deleteData = (id) => {
+        const body = JSON.stringify({id});
+        console.log(body);
 
-        fetch( "/submit", {
+        fetch("/delete", {
             method:"POST",
+            headers: { 'Content-Type': 'application/json' },
             body 
         })
-        .then(() => {
-            window.location.replace(window.location.href);
-        })
+
+        const entryRow = findTableRow(id);
+        entryRow.remove();
     }
 //#endregion
