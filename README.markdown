@@ -6,7 +6,7 @@ Homework Agenda Application
 heroku link: http://a3-charlie-roberts.glitch.me
 glitch link: http://a3-renee-sawka.glitch.me
 
-![alt text](/ManagerSS.png)
+<img width="1783" alt="ManagerSS" src="https://user-images.githubusercontent.com/64321589/134538351-4248226f-95da-4ac8-9d0d-0ee010528539.png">
 
 **Brief Project Summary**
 ---
