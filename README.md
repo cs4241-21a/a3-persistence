@@ -45,4 +45,5 @@ Each time a user wants to add / edit a Pokemon, remember a password, or signup, 
 
 ![image info](./pictures/modal.png)
 
-- **Design Achievement 2**: (think about it)
+- **Design Achievement 2**: Stylish table design (5 pts)
+The table showing the Pokemon you are tracking took quite a bit of time to design to have that sleek, contrasting, look. I also added some nice color changes when hovering over the data when to indicate which Pokemon you are going to edit / delete.
