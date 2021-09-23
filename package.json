@@ -20,5 +20,6 @@
   "homepage": "https://github.com/aamaxaa/a3-persistence#readme",
   "dependencies": {
     "express": "^4.17.1"
-  }
+  },
+  "devDependencies": {}
 }
