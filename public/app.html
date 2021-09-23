@@ -1,15 +1,22 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <link href="/css/main.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Todoish is a web app to keep you organized.">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="/js/magic.js"></script>
         <title>Todoish</title>
     </head>
     <nav class="navbar navbar-light bg-light mb-3">
         <div class="container-fluid">
-            <a class="navbar-brand">Todoish</a>
+            <a class="navbar-brand" href="/">Todoish</a>
             <div class="d-flex mb-lg-0">
-                <span class="navbar-text me-2">Welcome!</span>
+                <span class="navbar-text me-4">Welcome, <span id="usernamedisplay">User</span>!</span>
+                <form>
+                  <butotn type="button" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#helpModal">Help</butotn>
+                </form>
                 <form>
                     <button type="button" class="btn btn-primary me-2" data-bs-toggle="modal" data-bs-target="#newTaskModal">New Task</button>
                 </form>
@@ -29,6 +36,7 @@
             <div class="col">
                 <div class="card">
                     <div class="card-body">
+                        <h5 class="card-title">Tasks you need to do</h5>
                         <table id="main-table" class="table table-striped">
                             <thead>
                                 <tr>
@@ -50,6 +58,28 @@
                 </div>
             </div>
         </div>
+        <div class="row mt-3">
+          <div class="col">
+              <div class="card">
+                  <div class="card-body">
+                      <h5 class="card-title">Tasks you've completed</h5>
+                      <table id="completed-table" class="table table-striped">
+                          <thead>
+                              <tr>
+                              <th>Task</th>
+                              <th>Category</th>
+                              <th>Priority</th>
+                              <th>Due Date</th>
+                              </tr>
+                          </thead>
+                          <tbody id="completed-tbody">
+                              
+                          </tbody>
+                        </table>
+                  </div>
+              </div>
+          </div>
+      </div>
     </div>
 
     <div class="modal fade" id="newTaskModal" tabindex="-1" aria-labelledby="newTaskModalLabel" aria-hidden="true">
@@ -66,6 +96,10 @@
                     <input type="text" class="form-control" id="taskName">
                   </div>
                   <div class="mb-3">
+                    <label for="taskCategory" class="form-label">Task category</label>
+                    <input type="text" class="form-control" id="taskCategory">
+                  </div>
+                  <div class="mb-3">
                     <label for="taskDueDate" class="form-label">Task due date</label>
                     <input type="date" class="form-control" id="taskDueDate">
                 </div>
@@ -77,12 +111,106 @@
                         <div class="float-end">Least important (4)</div>
                     </div>
                   </div>
+                  <span id="taskValidation" style="color: red; display: none"><br>To submit a new task, all the fields must be filled out.</span>
               </form>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Submit</button>
+              <button type="button" class="btn btn-primary" onclick="postItem()">Submit</button>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="editTaskModal" tabindex="-1" aria-labelledby="editTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="editTaskModal-label">Edit a task</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form>
+                  <div class="mb-3">
+                    <label for="edit-taskName" class="form-label">Task name</label>
+                    <input type="text" class="form-control" id="edit-taskName">
+                  </div>
+                  <div class="mb-3">
+                    <label for="edit-taskCategory" class="form-label">Task category</label>
+                    <input type="text" class="form-control" id="edit-taskCategory">
+                  </div>
+                  <div class="mb-3">
+                    <label for="edit-taskDueDate" class="form-label">Task due date</label>
+                    <input type="date" class="form-control" id="edit-taskDueDate">
+                </div>
+                  <div class="mb-3">
+                    <label for="edit-taskPriority" class="form-label">Task priority</label>
+                    <input type="range" class="form-range" min="1" max="4" step="1" value="1" id="edit-taskPriority" aria-describedby="edit-taskPriorityHelp">
+                    <div id="edit-taskPriorityHelp" class="form-text">
+                        <div class="float-start">(1) Most important</div>
+                        <div class="float-end">Least important (4)</div>
+                    </div>
+                  </div>
+                  <span id="editValidation" style="color: red; display: none"><br>To edit a task, all the fields must be filled out.</span>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="edit-submit" onclick="updateItem2()">Submit</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="deleteTaskModal" tabindex="-1" aria-labelledby="deleteTaskModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteTaskModalLabel">Delete this task?</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary" id="delete-submit" onclick="">Delete</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="deleteTaskModalLabel">Todoish Help</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              Todoish is a web app that can help you keep track of your tasks. There are two main tables that show tasks you still need to do, and tasks that are completed. <br><br>
+              To add a new task, click the New Task button in the top right. Fill out some details about the task name, category, due date, and priority (on a scale from 1-4), then click Submit once you're done. That task will show up as a task you need to do. Tasks are assigned a importance rating from 0% to 100% - based on how many days until the task is due, and the priority. Tasks that are overdue will have an importance of "Overdue!"<br><br>
+              To edit a task, click the Edit button next to any task. From here, you'll be able to edit all the details of the task. Click Submit once you're done. <br><br>
+              To delete a task, click the Delete button next to any task. Todoish will confirm you want to delete the task. Deleting a task will <b>not</b> put it in completed tasks. <br><br>
+              To complete a task, check the box on the left side of any task. You'll receive confirmation the task was finished, and the task will move to Tasks completed. <br><br>
+              To log out of Todoish, click the Log Out button in the top right. <br><br>
+              Enjoy using Todoish!
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="toaster" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <strong class="me-auto" id="toaster-header">Todoish</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body" id="toaster-content">
+            Hello, world! This is a toast message.
           </div>
         </div>
       </div>
