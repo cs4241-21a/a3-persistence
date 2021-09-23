@@ -1,10 +1,12 @@
-function removeEntry(month, from, amount, category) {
+async function removeEntry(month, from, amount, category) {
     const queryString = new URLSearchParams(window.location.search);
     const userID = queryString.get('userID');
     console.log(userID);
-    $.post(`/removeEntry?id=${userID}&month=${month}&from=${from}&amount=${amount}&category=${category}`, res => {
-        console.log(res);
-    })
+    await $.post(`/removeEntry?id=${userID}&month=${month}&from=${from}&amount=${amount}&category=${category}`,
+        res => {
+            console.log(res);
+        });
+    return location.reload();
 }
 
 function openAddForm(month) {

@@ -185,15 +185,27 @@ app.post('/removeEntry', async (req, res) => {
         "amount": req.query.amount,
         "category": req.query.category
     };
-    console.log(entry, userEntries, userEntries.indexOf(entry));
-    return res.redirect('/dashboard?userID=' + req.query.id);
+    let index = userEntries.findIndex(e => {
+        return e.month === entry.month
+            &&
+            e.from === entry.from
+            &&
+            e.amount === entry.amount
+            &&
+            e.category === entry.category
+    });
+    userEntries.splice(index, 1);
+    try {
+        collection.updateOne(
+            { "_id": ObjectId(req.query.id) },
+            { $set: { "entries": userEntries } }
+        );
+        res.json('Deleted!')
+        res.end()
+    } catch (e) {
+        alert('Failed to remove an entry: ' + e.message);
+    }
 });
-
-function deleteElementFromArray(array, element) {
-    let index = array.indexOf(element);
-    array.splice(index, 1);
-    return array;
-}
 
 async function checkAuthenticated(req, res, next) {
 
