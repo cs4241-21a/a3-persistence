@@ -1,0 +1,36 @@
+/*Style your own assignment! This is fun! */
+
+body {
+  background-color: #E65A78;
+  font-family: "Kaisei HarunoUmi", serif;
+}
+
+form {
+  padding: 10px;
+}
+
+input {
+  font-family: "Kaisei HarunoUmi", serif;
+}
+
+#complete {
+  font-family: "Kaisei HarunoUmi", serif;
+}
+
+button {
+  font-family: "Kaisei HarunoUmi", serif;
+}
+
+.tablethings {
+  padding: 10px;
+}
+
+td {
+  padding: 10px;
+}
+
+.flex-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

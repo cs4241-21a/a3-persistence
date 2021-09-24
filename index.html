@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/scripts.js"></script>
+  </head>
+
+  <body>
+    <div class="flex-container">
+      <div>
+        <h2>
+          Homework Tracker!
+        </h2>
+      </div>
+      <div>
+        <p>
+          Do you have lots of schoolwork? Use this application to determine how
+          many days you have left to submit your assignment!
+        </p>
+      </div>
+
+      <div>
+        <p>
+          How this works: Type in the class and assignment you want to keep
+          track of, select the drop down for whether or not this assignment is
+          complete, select the due date, and click the submit button. Note: If
+          you do not select a due date, you will not be able to calculate the
+          days left.
+        </p>
+      </div>
+
+      <div>
+        <form>
+          <input type="text" id="yourclass" placeholder="Class" />
+          <input
+            type="text"
+            id="yourassignment"
+            placeholder="Assignment Title"
+          />
+          <label for="complete">Is it Complete?:</label>
+          <select id="complete">
+            <option value="No">No</option>
+            <option value="Yes">Yes</option>
+          </select>
+          <label for="date">Due Date:</label>
+          <input type="date" id="date" />
+          <button>submit</button>
+        </form>
+        <table id="tableID" class="tablethings">
+          <tr>
+            <th class="tablethings">Class</th>
+            <th class="tablethings">Assignment</th>
+            <th class="tablethings">Is it Complete?</th>
+            <th class="tablethings">Due Date</th>
+            <th class="tablethings">Days Left!</th>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
