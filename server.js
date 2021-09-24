@@ -9,6 +9,8 @@ const mongoose = require('mongoose');
 const dotenv =  require('dotenv');
 // importing routes
 const authRoute = require('./routes/authO')
+// const cookie  = require( 'cookie-session' );
+
 
 dotenv.config();
 
@@ -18,6 +20,17 @@ mongoose.connect(
   () => console.log('succefully connected to db!')
 );
 
+// use express.urlencoded to get data sent by defaut form actions
+// or GET requests
+app.use( express.urlencoded({ extended:true }) )
+
+// cookie middleware! The keys are used for encryption and should be
+// changed
+// app.use( cookie({
+//   name: 'session',
+//   keys: ['key1', 'key2']
+// }))
+
 //Middleware
 app.use(express.json());
 
@@ -25,12 +38,12 @@ app.use(express.json());
 //Route Middleware
 app.use('/api/user', authRoute);
 
-// our default array of dreams
-const dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
-];
+// // our default array of dreams
+// const dreams = [
+//   "Find and count some sheep",
+//   "Climb a really tall mountain",
+//   "Wash the dishes"
+// ];
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -41,11 +54,12 @@ app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
-// send the default array of dreams to the webpage
-app.get("/dreams", (request, response) => {
-  // express helps us take JS objects and send them as JSON
-  response.json(dreams);
-});
+
+// // send the default array of dreams to the webpage
+// app.get("/dreams", (request, response) => {
+//   // express helps us take JS objects and send them as JSON
+//   response.json(dreams);
+// });
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {

@@ -1,6 +1,8 @@
 const router = require('express').Router();
 const User = require('../model/User');
-const {regValidation, logValidation} = require('../validation')
+const {regValidation, logValidation} = require('../validation');
+// const cookie  = require( 'cookie-session' );
+
 
 router.post('/register', async (req, res) => {
     //validate user response before user creation
