@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" data-theme="dark">
+<head>
+    <title>pogchat.io | Chat</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="A simple chat app for messaging with your friends and running polls." />
+    <link rel="icon" href="assets/favicon.png">
+
+    <!-- styles -->
+    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+    <link rel="stylesheet" href="styles/theme.css" />
+    <link rel="stylesheet" href="styles/global.css" />
+    <link rel="stylesheet" href="styles/chat.css" />
+
+    <!-- scripts -->
+    <script src="https://unpkg.com/mustache@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
+    <script src="scripts/ApiService.js"></script>
+    <script src="scripts/ClientService.js"></script>
+    <script src="scripts/HelperService.js"></script>
+
+    <script>
+        let username = null;
+        let room = 'Public';
+        let template = null;
+        const duration = 500;
+        let dataCache = {
+            Public: null,
+            Private: null
+        };
+
+        // get username of current session
+        ApiService.getSession().then(session => {
+            if (session) {
+                ClientService.updateUser(session.username);
+                ClientService.updateRoom('Public');
+            }
+            setTimeout(() => document.body.classList.add('loaded'), duration);
+        });
+    </script>
+</head>
+
+<body>
+<div class="texture">
+    <img src="assets/texture.jpg" alt="" />
+</div>
+
+<div class="banner">
+    <h1>pogchat.io</h1>
+    <h2>a chat for all my pogchamps</h2>
+</div>
+
+<div id="actions" class="actions">
+    <button onclick="ClientService.logout()" class="secondary">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><g><path d="M0,0h24v24H0V0z" fill="none"/></g><g><g><path d="M5,5h6c0.55,0,1-0.45,1-1v0c0-0.55-0.45-1-1-1H5C3.9,3,3,3.9,3,5v14c0,1.1,0.9,2,2,2h6c0.55,0,1-0.45,1-1v0 c0-0.55-0.45-1-1-1H5V5z"/><path d="M20.65,11.65l-2.79-2.79C17.54,8.54,17,8.76,17,9.21V11h-7c-0.55,0-1,0.45-1,1v0c0,0.55,0.45,1,1,1h7v1.79 c0,0.45,0.54,0.67,0.85,0.35l2.79-2.79C20.84,12.16,20.84,11.84,20.65,11.65z"/></g></g></svg>
+        <span>Log out</span>
+    </button>
+    <button id="refreshButton" onclick="ClientService.refresh()" class="contrast">
+        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M17.65 6.35c-1.63-1.63-3.94-2.57-6.48-2.31-3.67.37-6.69 3.35-7.1 7.02C3.52 15.91 7.27 20 12 20c3.19 0 5.93-1.87 7.21-4.56.32-.67-.16-1.44-.9-1.44-.37 0-.72.2-.88.53-1.13 2.43-3.84 3.97-6.8 3.31-2.22-.49-4.01-2.3-4.48-4.52C5.31 9.44 8.26 6 12 6c1.66 0 3.14.69 4.22 1.78l-1.51 1.51c-.63.63-.19 1.71.7 1.71H19c.55 0 1-.45 1-1V6.41c0-.89-1.08-1.34-1.71-.71l-.64.65z"/></svg>
+        <span>Refresh</span>
+    </button>
+</div>
+
+<div id="chat" class="chat">
+    <div class="chat__rooms">
+        <button id="chatroomPublic" class="chat__room active" onclick="ClientService.updateRoom('Public')">Public</button>
+        <button id="chatroomPrivate" class="chat__room" onclick="ClientService.updateRoom('Private')">Private</button>
+    </div>
+
+    <article>
+        <div id="messages" class="chat__messages"></div>
+
+        <article class="chat__input message">
+            <form class="input__row" onsubmit="return ClientService.addMessage(event)">
+                <input type="text" id="messageInput" placeholder="Write a reply" required />
+                <button type="submit" id="sendButton">Send</button>
+                <button id="startPollButton" class="icon" onclick="ClientService.startPoll(event)" aria-label="Start poll">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18.5 4c.83 0 1.5.67 1.5 1.5v13c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5v-13c0-.83.67-1.5 1.5-1.5zm-12 10c.83 0 1.5.67 1.5 1.5v3c0 .83-.67 1.5-1.5 1.5S5 19.33 5 18.5v-3c0-.83.67-1.5 1.5-1.5zm6-5c.83 0 1.5.67 1.5 1.5v8c0 .83-.67 1.5-1.5 1.5s-1.5-.67-1.5-1.5v-8c0-.83.67-1.5 1.5-1.5z"/></svg>
+                </button>
+            </form>
+        </article>
+
+        <article  class="chat__input poll">
+            <form onsubmit="return ClientService.addPoll(event)">
+                <textarea id="questionInput" placeholder="Ask a question"></textarea>
+                <input type="text" id="choiceOneInput" placeholder="Choice 1" />
+                <input type="text" id="choiceTwoInput" placeholder="Choice 2" />
+                <input type="text" id="choiceThreeInput" placeholder="Choice 3" />
+                <div class="input__row">
+                    <button type="submit" id="createPollButton">Create poll</button>
+                    <button id="cancelPollButton" class="contrast icon" onclick="ClientService.cancelPoll(event)" aria-label="Cancel poll">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 0 24 24" width="24px"><path d="M0 0h24v24H0V0z" fill="none"/><path d="M18.3 5.71c-.39-.39-1.02-.39-1.41 0L12 10.59 7.11 5.7c-.39-.39-1.02-.39-1.41 0-.39.39-.39 1.02 0 1.41L10.59 12 5.7 16.89c-.39.39-.39 1.02 0 1.41.39.39 1.02.39 1.41 0L12 13.41l4.89 4.89c.39.39 1.02.39 1.41 0 .39-.39.39-1.02 0-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"/></svg>
+                    </button>
+                </div>
+            </form>
+        </article>
+    </article>
+</div>
+
+<script>
+    async function renderChat(data = null, scrollAllowed = true, clearChat = false) {
+        if (clearChat) {
+            const messages = document.getElementById('messages');
+            while (messages.firstChild) {
+                messages.removeChild(messages.firstChild);
+            }
+        }
+        if (!data) {
+            data = await ApiService.fetchData(room);
+        }
+        const scroll = scrollAllowed ? JSON.stringify(data) !== JSON.stringify(dataCache[room]) : false; // auto scroll if data has changed
+        dataCache[room] = data; // update data cache for updating time strings
+        data.forEach(d => {
+            const classes = [d.username === username ? 'owned ': '', d.admin ? 'admin': ''];
+            d.timeString = HelperService.getTimeString(d.submitted);
+            if (d.votes) {
+                classes.push('poll');
+                d.totalVotes = Object.keys(d.votes).length;
+                d.choice1 = d.choices ? d.choices[0] : '';
+                d.choice2 = d.choices ? d.choices[1] : '';
+                d.choice3 = d.choices ? d.choices[2] : '';
+                d.choice3Display = d.choices.length > 2 ? 'flex' : 'none';
+                if (d.votes[username]) {
+                    classes.push('voted');
+                    d.choice1Percentage = `${(Object.values(d.votes).filter(v => v === d.choices[0]).length / d.totalVotes) * 100}%`;
+                    d.choice2Percentage = `${(Object.values(d.votes).filter(v => v === d.choices[1]).length / d.totalVotes) * 100}%`;
+                    d.choice3Percentage = `${(Object.values(d.votes).filter(v => v === d.choices[2]).length / d.totalVotes) * 100}%`;
+                }
+            }
+            d.class = classes.join(' ');
+        });
+
+        if (template) {
+            _renderChat(data, scroll);
+        } else {
+            fetch('templates/message.mustache').then(response => response.text()).then(t => {
+                template = t;
+                _renderChat(data, scroll);
+                document.body.classList.add('rendered');
+            });
+        }
+    }
+
+    function _renderChat(data, scroll) {
+        HelperService.renderTemplate(template, 'messages', data);
+        if (scroll) {
+            document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+        }
+    }
+</script>
+</body>
+</html>

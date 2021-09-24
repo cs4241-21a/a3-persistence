@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" data-theme="dark">
+<head>
+  <title>pogchat.io</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="description" content="A simple chat app for messaging with your friends and running polls." />
+  <link rel="icon" href="assets/favicon.png">
+
+    <!-- styles -->
+  <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+  <link rel="stylesheet" href="styles/theme.css" />
+  <link rel="stylesheet" href="styles/global.css" />
+  <link rel="stylesheet" href="styles/index.css" />
+
+  <!-- scripts -->
+  <script src="https://unpkg.com/mustache@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.2/build/global/luxon.min.js"></script>
+  <script src="scripts/ApiService.js"></script>
+  <script src="scripts/ClientService.js"></script>
+  <script src="scripts/HelperService.js"></script>
+</head>
+
+<body>
+<div class="texture">
+  <img src="assets/texture.jpg" alt="" />
+</div>
+
+<div class="banner">
+  <h1>pogchat.io</h1>
+  <h2>a chat for all my pogchamps</h2>
+</div>
+
+<article id="login" class="login">
+  <h2>Join the chatroom</h2>
+  <div>Login to an existing account or create a new one to begin chatting!</div>
+  <form onsubmit="return ClientService.login(event)">
+    <label for="usernameInput">
+      Username
+      <input type="text" id="usernameInput" placeholder="Enter username" required>
+    </label>
+    <label for="secretInput">
+      Password
+      <input type="password" id="secretInput" placeholder="Enter password" required>
+    </label>
+    <button type="submit">Join</button>
+  </form>
+</article>
+</body>
+</html>

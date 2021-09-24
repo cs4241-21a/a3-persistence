@@ -1,0 +1,126 @@
+/* BANNER */
+.banner h1 {
+    font-size: var(--font-size-xxl);
+    margin: 0;
+}
+
+.banner h2 {
+    font-size: calc(var(--font-size-md) * 0.33);
+    opacity: 0;
+}
+
+/* ACTIONS */
+.actions {
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.actions button span {
+    margin-left: 0.5rem;
+}
+
+/* CHAT */
+.chat {
+    width: 480px;
+    max-width: calc(100% - 40px);
+    height: 100%;
+    z-index: 100;
+    overflow: hidden;
+    padding-top: var(--outline-width);
+    display: flex;
+    flex-direction: column;
+}
+
+.chat .chat__rooms {
+    padding: 0 var(--border-radius);
+    display: flex;
+}
+
+.chat .chat__rooms button {
+    margin: 0;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.chat .chat__rooms button.active {
+    z-index: 101;
+}
+
+.chat .chat__rooms button:not(.active) {
+    opacity: 0.5;
+}
+
+.chat > article {
+    position: relative;
+    height: 100%;
+    overflow: hidden;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 110;
+}
+
+.chat .chat__messages {
+    overflow-y: auto;
+    height: 100%;
+    padding: var(--block-spacing-vertical) var(--block-spacing-horizontal);
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.chat.rendered .chat__messages {
+    scroll-behavior: smooth;
+}
+
+.chat .chat__input {
+    padding: 1rem;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    z-index: 120;
+    transition: margin-bottom var(--transition-duration) var(--transition-timing-function);
+}
+
+.chat .chat__input.message {
+    min-height: 74px;
+}
+
+.chat .chat__input.poll {
+    min-height: 338px;
+    margin-bottom: -338px;
+}
+
+.chat .chat__input .input__row {
+    margin: 0;
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.chat .chat__input .input__row input, .chat .chat__input .input__row button {
+    margin: 0;
+}
+
+.chat .chat__input.poll form {
+    display: flex;
+    flex-direction: column;
+}
+
+.chat .chat__input.message.disabled {
+    margin-bottom: -74px;
+}
+
+.chat .chat__input.poll.enabled {
+    margin-bottom: 0;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 576px) {
+    .actions button span {
+        display: none;
+    }
+}
