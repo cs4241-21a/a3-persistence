@@ -9,7 +9,6 @@ const submit = function (e) {
   // prevent default form action from being carried out
   e.preventDefault();
   let txt = document.getElementById('sub').innerText
-  window.alert(txt)
 
   if(txt == "Submit") {
     const form = document.querySelector("form"),
@@ -95,9 +94,10 @@ function buildTable(json) {
   //Edit Button
   let editCell = row.insertCell(5);
   let ebutton = document.createElement("button");
-  ebutton.innerHTML = '<img  src="https://www.svgrepo.com/show/42233/pencil-edit-button.svg" alt="Edit" margin-right= "40%" class="button2"/>';
-  ebutton.style.width = "40px"
-  ebutton.style.height = "40px"
+  //ebutton.classList.add("button2")
+  ebutton.innerHTML = 'Edit';
+  //ebutton.style.width = "40px"
+  //ebutton.style.height = "40px"
 
   ebutton.onclick = function() {
     document.querySelector('#plant').value = json.plant
@@ -117,9 +117,9 @@ function buildTable(json) {
   //Delete Button
   let deleteCell = row.insertCell(6)
   let dbutton = document.createElement("button")
-  dbutton.innerHTML = '<img  src="https://icons.veryicon.com/png/o/construction-tools/coca-design/delete-189.png" alt="Delete" margin-right= "40%" class="button2"/>';
-  dbutton.style.width = "40px"
-  dbutton.style.height = "40px"
+  dbutton.innerHTML = 'Delete';
+  //dbutton.style.width = "40px"
+  //dbutton.style.height = "40px"
   dbutton.onclick = function() {
     fetch("/remove", {
       method: "POST",

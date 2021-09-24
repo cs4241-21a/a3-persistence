@@ -9,6 +9,10 @@
   "dependencies": {
     "cookie-session": "^1.4.0",
     "express": "^4.17.1",
-    "mongodb": "4.1.2"
+    "milligram": "^1.4.1",
+    "mongodb": "4.1.2",
+    "normalize.css": "^8.0.1",
+    "sanitize.css": "^13.0.0",
+    "spectre.css": "^0.5.9"
   }
 }

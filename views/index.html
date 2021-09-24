@@ -7,19 +7,21 @@
     href="https://fonts.googleapis.com/css2?family=Open+Sans&family=Pacifico&display=swap"
     rel="stylesheet"
   />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/milligram/1.4.1/milligram.css">
   <head>
     <meta charset="utf-8" />
     <meta name="description" content="Plant Parenthood User Page">
     <meta name="keywords" content="HTML, CSS, JavaScript">
     <meta name="author" content="Maddison Caten">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>CS4241 Assignment 3</title>
-    <h1>Plant Parenthood</h1>
+    <h1 style="font-family: 'Pacifico', cursive;">Plant Parenthood</h1>
   </head>
   <body>
-    <div class="flex-container">
-      <div style="width: 60%;">
-        <h3>My Plants</h3>
+    <div class="flex-container" role="navigation">
+      <div style="width: 60%;" >
+        <h2 style="font-size: 24pt;">My Plants</h2>
         <table id="table" style="margin:auto">
           <thead>
             <tr>
@@ -39,7 +41,7 @@
       </div>
       <div style="width: 40%;">
         <form action="" autocomplete="off">
-          <h3>Add Plant</h3>
+          <h2 style="font-size: 24pt;">Add Plant</h2>
           <div><label for="name" class="theLabels">Plant Name: </label><input type='text' id='plant' placeholder="Plant Name" class="theInputs"/></div>
           <div><label for="sunlight" class="theLabels">Sunlight: </label><input type='text' id='sunlight' placeholder="Sunlight" class="theInputs"/></div>
           <div><label for="water" class = "theLabels">Water: </label><input type='text' id='water' placeholder="Water" class="theInputs"/></div>
