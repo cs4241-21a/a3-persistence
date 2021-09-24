@@ -1,0 +1,47 @@
+/* BODY */
+body {
+    height: 100vh;
+    padding: 3rem 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* TEXTURE */
+.texture {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 45%;
+    height: 100%;
+    background: var(--accent-primary);
+}
+
+.texture img {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.2;
+    object-fit: cover;
+    object-position: right;
+}
+
+/* BANNER */
+.banner {
+    z-index: 50;
+    text-align: center;
+}
+
+.banner h1 {
+    font-size: var(--font-size-xxxl);
+    margin-bottom: 1rem;
+}
+
+.banner h2 {
+    font-family: var(--font-family-primary);
+    font-size: var(--font-size-md);
+    margin-bottom: var(--font-size-xxxl);
+}

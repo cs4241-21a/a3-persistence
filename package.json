@@ -1,0 +1,22 @@
+{
+  "name": "a3-iamparadoxdotexe",
+  "version": "1.0.0",
+  "description": "WPI CS4241 Assignment 3",
+  "author": "Nathan Klingensmith",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "compression": "^1.7.4",
+    "cookie-session": "^1.4.0",
+    "crypto": "^1.0.1",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "luxon": "^2.0.2",
+    "mime": "^2.4.4",
+    "mongodb": "^4.1.2",
+    "uuid": "^8.3.2",
+    "view-helpers": "^0.2.0"
+  }
+}

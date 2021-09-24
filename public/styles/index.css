@@ -1,0 +1,23 @@
+/* LOGIN */
+.login {
+    width: 400px;
+    max-width: calc(100% - 40px);
+    z-index: 100;
+    overflow: visible;
+}
+
+.login div {
+    margin-bottom: 2rem;
+}
+
+.login button {
+    font-family: var(--font-family-primary);
+    float: right;
+}
+
+/* MEDIA QUERIES */
+@media (max-width: 576px) {
+    .banner h1 {
+        font-size: calc(var(--font-size-xxxl) * 0.75);
+    }
+}
