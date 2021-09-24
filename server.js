@@ -45,7 +45,6 @@ app.get('/login', checkNotAuthenticated, (req, res) => {
     res.sendFile(__dirname + '/views/login.html');
 });
 
-
 app.get('/dashboard', checkAuthenticated, (req, res) => {
     res.sendFile(__dirname + '/views/index.html');
 });
@@ -81,6 +80,9 @@ let getUserbyId = async id => {
 let getIdByUsername = async username => {
     if (collection !== null) {
         let user = await collection.find({ "username": username }).toArray();
+        if (user[0] === undefined) {
+            return ''
+        }
         return user[0]._id;
     } else {
         null
@@ -101,6 +103,14 @@ app.post('/login', checkNotAuthenticated, async (req, res, next) => {
             failureRedirect: '/login',
             failureFlash: true
         })(req, res, next);
+});
+
+app.get('/loginMessage', (req, res) => {
+    let errorArray = req.flash().error;
+    if (errorArray !== undefined) {
+        res.json(errorArray.pop());
+        res.end();
+    }
 });
 
 app.delete('/logout', (req, res) => {
@@ -208,7 +218,6 @@ app.post('/removeEntry', async (req, res) => {
 });
 
 async function checkAuthenticated(req, res, next) {
-
     if (req.isAuthenticated()) {
         return next();
     }

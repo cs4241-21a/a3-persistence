@@ -9,6 +9,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="./public/loginMessage.js"></script>
     <link rel="stylesheet" href="./public/style.css">
     <title>A3 Persistance</title>
 </head>
@@ -20,22 +23,22 @@
                 <div class="logreg-form">
                     <form action='/login' method='POST'>
                         <div id="login-error"></div>
-                        <div class="form-group">
-                            <label for="username">Username</label>
+                        <div class="form-group form-floating">
                             <input type="text" class="form-control" id="username" name="username"
                                 placeholder="Enter your username" required>
+                            <label for="username">Username</label>
                         </div>
-                        <div class="form-group mt-2">
-                            <label for="password">Password</label>
+                        <div class="form-group form-floating mt-2">
                             <input type="password" class="form-control" id="password" name="password"
                                 placeholder="Enter your password" required>
+                            <label for="password">Password</label>
                         </div>
                         <div class="row justify-content-even align-items-center mt-3">
                             <div class="col-sm-3">
-                                <button type="submit" class="btn btn-primary">Log In</button>
+                                <button type="submit" class="btn btn-lg btn-primary">Log In</button>
                             </div>
                             <div class="col-sm-3">
-                                <a href=" /register">Sign Up</a>
+                                <a style="font-size: larger;" href=" /register">Sign Up</a>
                             </div>
                         </div>
                     </form>
