@@ -39,7 +39,7 @@ I modified parts of this framework to give my website the exact aesthetic I soug
 ##### *Express Middleware*
 I utilize five different middlewares to improve my Express server:
 * `compression` was utilized to compress response data sent to the client.
-* `express.static` was implemented to serve static image files from the `/public` folder.
+* `express.static` was implemented to serve static image, style, and script  files from the `/public` folder.
 * `express.json` was used to parse JSON request bodies in my POST endpoints.
 * `cookie-session` was implemented to store a cookie in the user's browser for persistent authentication.
 * `view-helpers` was used to log information on whether my users are using the app from desktop or mobile.
