@@ -35,7 +35,7 @@ function renderTable() {
             // TODO: Importance NEEDS to get figured out automatically
             if (item.importance == 101) {
                 // Not the best way to do this but I'm lazy
-                row.cells[5].innerHTML = "<span style='color: red'>Overdue!</span>"
+                row.cells[5].innerHTML = "<span style='color: #dc3545'>Overdue!</span>"
             } else {
                 row.cells[5].innerHTML = item.importance + "%"
             }
