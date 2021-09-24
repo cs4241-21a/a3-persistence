@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="/js/login.js"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Todoish is a web app to keep you organized.">
+        <title>Todoish - Log In</title>
+    </head>
+    <nav class="navbar navbar-light bg-light mb-3">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">Todoish</a>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                Welcome to Todoish! Please login with a local username/password, or via GitHub.
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Login w/ username & pass</h5>
+                        <form action="/login" method="POST">
+                            <div class="mb-3">
+                              <label for="username-login" class="form-label">Username</label>
+                              <input type="text" id="username-login" name="username" class="form-control" aria-describedby="usernameHelp">
+                              <div id="usernameHelp" class="form-text">(username for test account is <code>test</code>)</div>
+                            </div>
+                            <div class="mb-3">
+                              <label for="password-login" class="form-label">Password</label>
+                              <input type="password" class="form-control" id="password-login" name="password" aria-describedby="passwordHelp-register">
+                              <div id="passwordHelp-login" class="form-text">(password for test account is <code>password</code>)</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Log In</button>
+                          </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Login with GitHub</h5>
+                        <a class="btn btn-primary" href="/github" role="button">Click here to login with GitHub</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-6 mt-3">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Register for Todoish</h5>
+                        <form action="/register" method="POST">
+                            <div class="mb-3">
+                              <label for="username-register" class="form-label">Username</label>
+                              <input type="text" id="username-register" name="username" class="form-control" aria-describedby="usernameHelp-register">
+                              <div id="usernameHelp-register" class="form-text">(usernames are case-insensitive)</div>
+                            </div>
+                            <div class="mb-3">
+                              <label for="password-register" class="form-label">Password</label>
+                              <input type="password" class="form-control" id="password-register" name="password" aria-describedby="passwordHelp-register">
+                              <div id="passwordHelp-register" class="form-text">(please, please don't use a password you actually use!)</div>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Register</button>
+                          </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 11">
+        <div id="toaster" class="toast hide" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            <strong class="me-auto" id="toaster-header">Todoish</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body" id="toaster-content">
+            
+          </div>
+        </div>
+      </div>
+</html>
