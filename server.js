@@ -46,9 +46,9 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/public/signin.html")
 })
 
-const getappdata =  () => {
+const getappdata =  (username) => {
   const collection = client.db("test").collection("devices");
-  return  collection.findOne({user:req.session.user}).appdata
+  return  collection.findOne({user:username}).appdata
 }
 
 const getUsername = ( username) => {
@@ -157,11 +157,14 @@ app.post( '/signup',    async (req,res) =>{
 
 // add some middleware that always sends unauthenicaetd users to the login page
 app.use( function( req,res,next) {
-  if( req.session.login === true )
-    next()
-  else
-    //res.sendFile( __dirname + '/public/index.html' )
-    res.redirect("/signin")
+  if( req.session.login === true ){
+    next()}
+  else{
+    res.sendFile( __dirname + '/public/signin.html' )
+    console.log("middleware") 
+    //res.redirect("/signin")
+   
+  }
 })
 
 // serve up static files in the directory public
@@ -172,12 +175,21 @@ app.use( express.static('public', {extensions: ["html"]}) )
   
 })*/
 
-app.post("/submit", async (req, res) => {
+app.post("/submit", async function (req, res) {
 
-  appdata = await getappdata()
 
+  const collection = client.db("test").collection("devices");
+  let dbdata = await collection.findOne({user:req.session.user})
+
+  let appdata = dbdata.appdata
+
+  console.log(dbdata.appdata)
   let dataObj =  req.body
 
+  if(appdata == null){
+    console.log("400")
+    res.status(500).end() //sends a json object as response
+  }
   
 
   if(dataObj.id >= appdata.length){
@@ -188,10 +200,11 @@ app.post("/submit", async (req, res) => {
     if(dataObj.id == -1){ //indicates add
       dataObj.id = appdata.length
       appdata.push(dataObj)
+      console.log("add")
     }
     else if(dataObj.load == -1) //indicates deletion
     {
-      
+      console.log("deletion")
       
       newappdata = []
       for(let i = 0; i < dataObj.id; i++){
@@ -252,6 +265,10 @@ app.post("/submit", async (req, res) => {
    
     //res.json(appdata)
   }
+
+  await collection.updateOne({user: "admin", password: "admin", appdata: appdata })
+ 
+
   res.json(appdata)
 })
 

@@ -85,11 +85,11 @@
         
       
         htmlStr = htmlStr + "<tr>" 
-          + "<td>" + JSON.parse(json[i]).id + "</td>"
-          + "<td>" + JSON.parse(json[i]).name + "</td>"
-          + "<td>" + JSON.parse(json[i]).chore + "</td>"
-          + "<td>" + JSON.parse(json[i]).complete + "</td>"
-          + "<td>" + JSON.parse(json[i]).load + "</td>" 
+          + "<td>" + (json[i]).id + "</td>"
+          + "<td>" + (json[i]).name + "</td>"
+          + "<td>" + (json[i]).chore + "</td>"
+          + "<td>" + (json[i]).complete + "</td>"
+          + "<td>" + (json[i]).load + "</td>" 
           + "</tr>"
       }
 
@@ -149,11 +149,11 @@
         
         
         htmlStr = htmlStr + "<tr>" 
-          + "<td>" + JSON.parse(json[i]).id + "</td>"
-          + "<td>" + JSON.parse(json[i]).name + "</td>"
-          + "<td>" + JSON.parse(json[i]).chore + "</td>"
-          + "<td>" + JSON.parse(json[i]).complete + "</td>"
-          + "<td>" + JSON.parse(json[i]).load + "</td>" 
+          + "<td>" + (json[i]).id + "</td>"
+          + "<td>" + (json[i]).name + "</td>"
+          + "<td>" + (json[i]).chore + "</td>"
+          + "<td>" + (json[i]).complete + "</td>"
+          + "<td>" + (json[i]).load + "</td>" 
           + "</tr>"
       }
 
@@ -209,11 +209,11 @@
         
       
         htmlStr = htmlStr + "<tr>" 
-          + "<td>" + JSON.parse(json[i]).id + "</td>"
-          + "<td>" + JSON.parse(json[i]).name + "</td>"
-          + "<td>" + JSON.parse(json[i]).chore + "</td>"
-          + "<td>" + JSON.parse(json[i]).complete + "</td>"
-          + "<td>" + JSON.parse(json[i]).load + "</td>" 
+          + "<td>" + (json[i]).id + "</td>"
+          + "<td>" + (json[i]).name + "</td>"
+          + "<td>" + (json[i]).chore + "</td>"
+          + "<td>" + (json[i]).complete + "</td>"
+          + "<td>" + (json[i]).load + "</td>" 
           + "</tr>"
       }
 
@@ -244,10 +244,11 @@ json = {
       
       
     }).then(res => {
-      console.log("signed up");
       
       
+      console.log("client")
         window.location.href = "/signup"
+        
       
     })
     
