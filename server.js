@@ -60,7 +60,7 @@ client.connect()
   .then( console.log )
 
 app.get("/", ( request, response ) => {
-  response.sendFile( __dirname + "/public/login.html" );
+  response.sendFile( __dirname + "/public/login.html" )
   console.log("cookies:", request.cookies)
 });
 
@@ -78,7 +78,7 @@ app.get("/logout", function(req, res){
   console.log(req.user)
   req.logout()
   console.log(req.user)
-  res.redirect("../public/login.html")
+  res.redirect("/public/login.html")
   console.log('here')
 });
 
