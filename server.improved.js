@@ -8,6 +8,7 @@ const res = require('express/lib/response')
 const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
       cookie = require("cookie-session"),
+      bodyParser = require("body-parser"),
       morgan = require("morgan"),
       app = express()
 
@@ -209,42 +210,41 @@ app.post( '/submit', (req,res) => {
   if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
 
     console.log(req.body.playerscore)
+    let updateScore;
+    let aggregate;
+    let sortData;
+    let updateRank;
 
     //Update the score object of the player
     //updatePlayerScore(req.session.username, req.body.playerscore);
     collection.find(({name: req.session.username})).toArray()
-    .then(foundUsername => {
-      console.log(foundUsername[0])
-      collection.updateOne(
+    .then(async foundUsername => {
+
+      //Update the score of the player object
+      updateScore = await collection.updateOne(
         {_id: foundUsername[0]._id},
         {$set: {score: req.body.playerscore}} 
       )
-    })
-    .then(collection.aggregate(
-      [
-        {$sort: {score: -1}}
-      ]
-    ).toArray().then(sorted_data => {
-      console.log(sorted_data)
-      //update the document in order using ids you got back
-      for(let i = 0; i < sorted_data.length; i++){
+
+      //Sort the collection accordingly
+      aggregate = await collection.aggregate(
+        [
+          {$sort: {score: -1}}
+        ]
+      ).toArray()
+
+      //Update rank based on the sorted collection
+      for(let i = 0; i < aggregate.length; i++){
         collection.updateOne(
-          {_id: sorted_data[i]._id},
+          {_id: aggregate[i]._id},
           {$set: {rank: i+1}}
           
         )
       }
-  
-      collection = sorted_data;
-    }))
-    .then(findResponse => res.json(findResponse.body))
-    .then(console.log)
-    
-    //Sort player data
-    //sortPlayerData();
-
-    //collection.find({ }).sort({rank: 1}).toArray().then( result => res.json( result ) )
-    
+      
+      //Push the sorted array
+      collection.aggregate([{$sort: {rank: 1}}]).toArray().then(result => res.json(result))
+      })
   } else {
     console.log("Invalid parameters!");
   }
@@ -305,6 +305,10 @@ function updatePlayerScore(playerName, playerScore){
 */
 }
 
+async function addDataAndSortLeaderboard(){
+
+}
+
 /**
  * function that deletes the name of the player
  * @param {*} playerName - name of the player whose data is to be deleted
@@ -320,7 +324,7 @@ function deletePlayerScore(playerName){
 
 /**
  * 
- */
+ 
 function sortPlayerData(){
   //sort in order of score
   collection.aggregate(
@@ -343,6 +347,7 @@ function sortPlayerData(){
   })
   .then( result => res.json( result ) )
 }
+*/
 
 /**
  * 
