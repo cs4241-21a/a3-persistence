@@ -20,6 +20,7 @@ router.post('/register', async (req, res) => {
     });
     try{
         const savedUser = await user.save();
+        console.log("User created!");
         res.send(savedUser);
     }catch(err){
         res.status(400).send(err);
@@ -39,7 +40,7 @@ router.post('/login', async (req, res) => {
         //pass is correct
         const passwordCorrect = await User.findOne({username: req.body.username, password: req.body.password})
         if(!passwordCorrect){return res.status(400).send('password is incorrect')} 
-
+        console.log("User logged in!");
         res.send('succesfull login');
 
 

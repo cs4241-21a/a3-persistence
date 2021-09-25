@@ -3,6 +3,31 @@
 
 console.log("hello world :o");
 
+const login = function (e) {
+    //prevent default form action from being carried out
+    e.preventDefault();
+  
+        const input = document.querySelector( '#username' ),
+        input2 = document.querySelector( '#password' ),
+              json = { username: input.value, password: input2.value},
+      body = JSON.stringify(json);
+  
+    fetch('/api/user/register', {
+      method: 'POST',
+      body
+    })
+      .then(function( response ) {
+        return response.json();
+      })
+      .then(function (json) {
+          //returned data in json 
+          console.log(json)
+      });
+      return false;
+  }
+
+  
+
 function edit_row(no)
 {
  document.getElementById("edit_button"+no).style.display="none";
@@ -54,3 +79,8 @@ function add_row()
  document.getElementById("new_country").value="";
  document.getElementById("new_age").value="";
 }
+
+window.onload = function() {
+    const button = document.querySelector( 'login' )
+    button.onclick = login
+  }
