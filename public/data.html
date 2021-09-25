@@ -1,0 +1,295 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Webware Second Assignment">
+    <meta name="keywords" content="HTML, CSS, JavaScript">
+    <meta name="author" content="Yonghua Wang">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&display=swap');
+      body{
+        background-color: #d2dec8;
+        font-family: 'Kaisei HarunoUmi', serif;
+      }
+    </style>
+  </head>
+  <body>
+  <table id="expenseTable" class="center">
+    <caption>Daily Expense</caption>
+    <thead>
+    <tr>
+      <th>Select</th>
+      <th>Entertainment</th>
+      <th>food & drinks</th>
+      <th>other</th>
+      <th>total</th>
+      <th>date</th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+    </table>
+  <div class="center">
+    <p>
+      Use this table to help you be better manage your money
+    </p>
+  </div>
+  <div id="BtnContainer" class="center flex-container">
+    <button id="openBtn" class="open-button" >Add a daily record</button>
+    <button id="clsBtn" class="close-button" >Delete selected </button>
+    <button id="editBtn" class="edit-button" >Modify selected </button>
+  </div>
+
+
+
+
+  <div class="form-popup center" >
+    <form id="addForm" class="form-container">
+      <h1>add a daily record</h1>
+      <div>
+        <label for="entertainment"><b> Entertainment :</b> </label>
+        <input type='text' id='entertainment' placeholder="game, sports equipment, etc" >
+      </div>
+      <div>
+        <label for="food"> <b>food expense :</b>  </label>
+        <input type='text' id='food' placeholder="include drinks" >
+      </div>
+      <div>
+        <label for="other"><b>Other :</b>  </label>
+        <input type='text' id='other' placeholder="commute, online shop, etc">
+      </div>
+
+      <button id="addNewRecord" type="submit" class="btn">Add</button>
+      <button type="button" class="btn cancel" onclick="closeAddForm()">Close</button>
+    </form>
+  </div>
+
+  <div class="form-popup center" >
+    <form id="editForm" class="form-container">
+      <h1>modify a daily record</h1>
+      <div>
+        <label for="entertainments"><b> Entertainment :</b> </label>
+        <input type='text' id='entertainments' >
+      </div>
+      <div>
+        <label for="foods"> <b>food expense :</b>  </label>
+        <input type='text' id='foods' >
+      </div>
+      <div>
+        <label for="others"><b>Other :</b>  </label>
+        <input type='text' id='others'>
+      </div>
+      <button id="ModifyRecord" type="button" class="btn modify" >Modify</button>
+      <button type="button" class="btn cancel" onclick="closeEditForm()">Close</button>
+    </form>
+  </div>
+
+  <script>
+    const openForm = (id) => {
+      document.getElementById(id).style.display = "block";
+    }
+    const closeForm = (id) => {
+      document.getElementById(id).style.display = "none";
+    }
+    const openAddForm = () => {
+      openForm('addForm')
+    }
+
+    const closeAddForm = () => {
+      closeForm('addForm')
+    }
+    const closeEditForm = () => {
+      closeForm('editForm')
+    }
+    const openEditForm = () => {
+      const checked = document.querySelectorAll('input[type=checkbox]:checked')
+      if(checked.length===0 || checked.length>1){
+        alert("please select only one record at a time to modify")
+        return
+      }
+      const tds = checked[0].parentNode.parentNode.childNodes
+      const formFields = document.querySelectorAll('#editForm input[type=text]')
+      for (let i = 0; i < formFields.length; i++) {
+        formFields[i].value = tds[i+1].innerText
+      }
+      openForm('editForm')
+
+    }
+
+    const loadData = function( ) {
+      // prevent default form action from being carried out
+      fetch( '/load', {
+        method:'POST'
+      })
+              .then( function( response ) {
+                // do something with the reponse
+                return response.json()
+              })
+              .then(function(json){
+                const tableInfo = json.records
+                const tbodyRef = document.getElementById('expenseTable').getElementsByTagName('tbody')[0]
+                let i = 0
+                for (const key in tableInfo) {
+                  const row = tbodyRef.insertRow()
+                  const record = {}
+                  record.entertainment = tableInfo[key].entertainment
+                  record.food = tableInfo[key].food
+                  record.other = tableInfo[key].other
+                  record.total = tableInfo[key].entertainment + tableInfo[key].food + tableInfo[key].other
+                  record.date = tableInfo[key].date
+                  generateTableRow(record, tableInfo[key]._id) //index 改为object ID
+                  i++
+                }
+              })
+      return false
+    }
+
+    const generateTableRow = (obj, index)=>{
+
+      const tbodyRef = document.getElementById('expenseTable').getElementsByTagName('tbody')[0]
+      const row = tbodyRef.insertRow()
+      const radioCell = row.insertCell()
+      radioCell.innerHTML = '<input type="checkbox" class="radioSelection" id="'+index +'"'+ '>'
+      for (const key in obj) {
+        let curCell = row.insertCell()
+        curCell.innerHTML=obj[key]
+      }
+    }
+
+    const refresh = ()=>{window.location.reload(false)}
+
+    const querySelected = ()=>{
+      const selected = []
+      const radioBtns = document.getElementsByClassName('radioSelection')
+      for (let i = 0; i < radioBtns.length; i++) {
+        if(radioBtns[i].checked) selected.push(radioBtns[i].id)
+      }
+      return selected;
+
+    }
+
+    const addRecord = (e)=>{
+      e.preventDefault()
+      const inputs = document.querySelectorAll('#addForm input[type=text]')
+      //console.log(inputs)
+      let body = {}
+      for (let i = 0; i < inputs.length; i++) {
+        let input = inputs[i]
+        if(isNaN(input.value)){
+          alert('plz enter an valid number')
+          return
+        }
+        body[input.id] = parseInt(input.value)
+      }
+      console.log(body)
+
+      body = JSON.stringify(body)
+      console.log(body)
+      fetch( '/add', {
+        method:'POST',
+        headers:{"content-type": "application/json"},
+        body
+      })
+              .then( function( response ) {
+                // do something with the reponse
+                return response.json()
+              })
+              .then(function(json){
+                if(json.acknowledged === true){
+                  alert('added successfully!')
+                  setTimeout(refresh,200)
+                }else{
+                  alert('add failed!')
+                }
+              })
+      return false
+    }
+
+    const deleteRecord = ()=>{
+      const checked = querySelected()
+      if(checked.length===0){
+        alert('please check some items before continue!')
+        return
+      }
+      if (!confirm("Are you sure you want to delete that record?")) return
+      let body = {checked: checked}
+      body = JSON.stringify(body)
+      fetch( '/delete', {
+        method:'POST',
+        headers:{"content-type": "application/json"},
+        body
+      }).then( function( response ) {
+        // do something with the response
+        return response.json()
+      }).then(function(json){
+        if(json.acknowledged === true){
+          alert('deleted successfully!')
+          setTimeout(refresh,200)
+        }else{
+          alert('delete failed!')
+        }
+      })
+      return false
+    }
+
+    const modifyRecord = ()=>{
+      const checked = querySelected()
+      let body = {}
+      const inputs = document.querySelectorAll('#editForm input[type=text]')
+      for (let i = 0; i < inputs.length; i++) {
+        let input = inputs[i]
+        if(isNaN(input.value)){
+          alert('plz enter an valid number')
+          return
+        }
+        body[input.id] = parseInt(input.value)
+      }
+      body.index = checked[0]
+      console.log(body)
+      body = JSON.stringify(body)
+      console.log(body)
+      fetch( '/edit', {
+        method:'POST',
+        headers:{"content-type": "application/json"},
+        body
+      })
+              .then( function( response ) {
+                // do something with the response
+                return response.json()
+              })
+              .then(function(json){
+                if(json.acknowledged === true){
+                  alert('edited successfully!')
+                  setTimeout(refresh,200)
+                }else{
+                  alert('edit failed!')
+                }
+              })
+      return false
+    }
+
+    window.onload = function() {
+      closeAddForm()
+      closeEditForm()
+      loadData()
+      const openAddBtn = document.getElementById('openBtn')
+      openAddBtn.addEventListener('click',openAddForm)
+      const openModifyBtn = document.getElementById('editBtn')
+      openModifyBtn.addEventListener('click',openEditForm)
+      const addBtn = document.getElementById('addNewRecord')
+      addBtn.addEventListener('click', addRecord)
+      const deleteBtn = document.getElementById('clsBtn')
+      deleteBtn.addEventListener('click', deleteRecord)
+      const modifyBtn = document.getElementById('ModifyRecord')
+      modifyBtn.addEventListener('click', modifyRecord)
+
+    }
+  </script>
+
+  </body>
+
+
+</html>

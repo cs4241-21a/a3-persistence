@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Register</h1>
+<form id='registerForm' method="post">
+    <div>
+        <label for="username">Username</label>
+        <input type="text"  id="username" name="username" required>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password"  id="password" name="password" required>
+    </div>
+    <div>
+        <label for="birthday">Birthday</label>
+        <input type="date" id="birthday" name="birthday">
+    </div>
+    <div>
+        <button type="submit" id="registerBtn">Register</button>
+    </div>
+</form>
+<div>
+    <span>Have an account?</span><a href="/login"> sign in </a><span>here</span>
+</div>
+<script>
+    const register = (e)=>{
+        e.preventDefault()
+        const username = document.querySelector('#username')
+        const password = document.querySelector('#password')
+        //console.log(inputs)
+        let body = {
+            username : username.value,
+            password : password.value
+        }
+        body = JSON.stringify(body)
+        console.log(body)
+
+        fetch( '/register', {
+            method:'POST',
+            headers:{"content-type": "application/json"},
+            body
+        })
+            .then( function( response ) {
+                // do something with the response
+                return response.json()
+            })
+            .then(function(json){
+                console.log(json)
+                if(json.isSuccessful){
+                    alert('account created successful! ')
+                    window.location.href = '/login'
+                }
+            })
+        return false
+    }
+    const submitBtn = document.querySelector('#registerBtn')
+    submitBtn.addEventListener('click',register)
+
+
+
+</script>
+</body>
+</html>

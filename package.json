@@ -1,0 +1,25 @@
+{
+  "name": "webware_a3",
+  "version": "",
+  "description": "",
+  "author": "Yonghua Wang",
+  "scripts": {
+    "start": "node server.improved.js",
+    "devStart": "nodemon server.improved.js"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-flash": "0.0.2",
+    "express-session": "^1.17.2",
+    "mime": "^2.5.2",
+    "mine": "^0.1.0",
+    "mongodb": "^4.1.2",
+    "nodemon": "^2.0.12",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  }
+}

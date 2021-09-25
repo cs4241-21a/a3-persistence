@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Log in</h1>
+<form method="post">
+    <div>
+        <label for="username">Username</label>
+        <input type="text"  id="username" name="username" required>
+    </div>
+    <div>
+        <label for="password">Password</label>
+        <input type="password"  id="password" name="password" required>
+    </div>
+    <div>
+        <button type="submit" id="logInBtn">sign in</button>
+    </div>
+</form>
+<div>
+    <span>Don't have an account?</span><a href="/register"> sign up </a><span>here</span>
+</div>
+<script>
+    const login = (e)=>{
+        e.preventDefault()
+        const username = document.querySelector('#username')
+        const password = document.querySelector('#password')
+        //console.log(inputs)
+        let body = {
+            username : username.value,
+            password : password.value
+        }
+        body = JSON.stringify(body)
+        console.log(body)
+
+        fetch( '/login', {
+            method:'POST',
+            headers:{"content-type": "application/json"},
+            body
+        })
+            .then( function( response ) {
+                // do something with the response
+                return response.json()
+            })
+            .then(function(json){
+                console.log(json)
+                if(json.isSuccessful){
+                    alert('log in successful! ')
+                    window.location.href = '/data'
+                }else{
+                    alert("account does not exist or password incorrect")
+                }
+            })
+        return false
+    }
+    const submitBtn = document.querySelector('#logInBtn')
+    submitBtn.addEventListener('click',login)
+
+
+
+</script>
+</body>
+</html>

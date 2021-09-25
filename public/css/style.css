@@ -1,0 +1,143 @@
+/*Style your own assignment! This is fun! */
+{box-sizing: border-box;}
+
+p {
+    font-size: 20px;
+    font-style: italic;
+    color: #d4235c;
+}
+#BtnContainer {
+    margin-top: 100px;
+
+}
+
+.flex-container {
+    display: flex;
+    background-color: #dbd98d;
+    flex-wrap: wrap;
+}
+
+.flex-container > div {
+    background-color: #f1f1f1;
+    margin: 10px;
+    padding: 20px;
+}
+.center {
+    margin-left: auto;
+    margin-right: auto;
+    max-width: 450px;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 10px;
+
+}
+th, td {
+    border: 1px solid black;
+    padding: 15px;
+    text-align: center;
+    vertical-align: center;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #f2f2f2;
+}
+
+caption{
+    text-align: center;
+    font-weight: bolder;
+    font-size: larger;
+}
+
+label{
+    cursor: pointer ;
+}
+
+.open-button {
+    background-color: #04AA6D;
+    color: whitesmoke;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    /*position: fixed;*/
+    bottom: 27px;
+    right: 28px;
+    width: 150px;
+}
+#ModifyRecord{
+    background-color: #3f50be;
+
+}
+.close-button {
+    background-color: #de3d3d;
+    color: whitesmoke;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    /*position: fixed;*/
+    bottom: 27px;
+    right: 28px;
+    width: 150px;
+}
+.edit-button {
+    background-color: #3f50be;
+    color: whitesmoke;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    opacity: 0.6;
+    /*position: fixed;*/
+    bottom: 27px;
+    right: 28px;
+    width: 150px;
+}
+
+.form-popup {
+    display: block;
+    /*position: fixed;*/
+    bottom: 0;
+    right: 15px;
+    border: 3px solid #f1f1f1;
+    z-index: 9;
+}
+
+.form-container {
+    max-width: 450px;
+    padding: 10px;
+    background-color: white;
+}
+
+.form-container input[type=text]{
+    width: 90%;
+    padding: 15px;
+    margin: 5px 0 22px 0;
+    border: none;
+    background: #f1f1f1;
+}
+
+.form-container input[type=text]:focus {
+    background-color: #ddd;
+    outline: none;
+}
+
+.form-container .btn {
+    background-color: #04AA6D;
+    color: white;
+    padding: 16px 20px;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    margin-bottom:10px;
+    opacity: 0.8;
+}
+
+.form-container .cancel {
+    background-color: red;
+}
+
+.form-container .btn:hover, .open-button:hover, .close-button:hover , .edit-button:hover{
+    opacity: 1;
+}
