@@ -1,7 +1,3 @@
-// Add some Javascript code here, to run on the front end.
-
-
-
 /*
 This function is called every time you click outside of the "Amount Due" form, and every time a key is pressed inside of it
 
@@ -11,14 +7,12 @@ blur: is a string ("blur") if the function is being called as a result of clicki
 function handle_amount_due(input, blur){
 
     // Which big white box are we talking about here?
-    let parent_container = input.parentElement.parentElement;
+    let parent_container = input.parentElement.parentElement.parentElement;
     
-    //This is the form location for the "Tip" within the same big white box
-    let tip_location = parent_container.children[7];
+    let tip_location = parent_container.querySelector("#tip_amount");
 
-    if(parent_container.children.length === 10){
-        tip_location = parent_container.children[8];
-    }
+
+
   
 
     if (blur === "blur"){
@@ -38,12 +32,12 @@ function handle_amount_due(input, blur){
         formatCurrency(input)
     }
 
-    let tip = tip_location.children[0];
+    // let tip = tip_location.value;
 
 
     // Now that we have an amount, let's make sure that if we already had a tip input, the tip percentage of the total cost
     // will accurately be reflected.
-    calculate_tip_percentage(tip, parent_container);
+    calculate_tip_percentage(tip_location, parent_container);
 
 }
 
@@ -51,7 +45,7 @@ function handle_amount_due(input, blur){
 function handle_tip(input, blur){
     
     // The tip is inside of a form, which is inside of the big white box
-    let parent_container = input.parentElement.parentElement;
+    let parent_container = input.parentElement.parentElement.parentElement;
     
     if (blur === "blur"){
         //Inside if means we clicked outside of the tip form
@@ -72,341 +66,212 @@ function handle_tip(input, blur){
     }
 }
 
-function generateNewForm(id){
+
+function generateNewForm(newContainerID, oldContainerID, json){
+
+    console.log("New box id: ", newContainerID);
+    console.log("Old box id: ", oldContainerID)
+    console.log("json: ", json)
+
 
     
+    let previously_saved_form = document.getElementById(oldContainerID);
 
-    let previously_saved_form = document.body.children[2];
-    
 
     let new_saved_container = document.createElement("div");
-    new_saved_container.setAttribute("id", id);
-    new_saved_container.setAttribute("class", "saved_container");
-
-    let json = getAppropriateJSON(id);
-
-    console.log("updated json: ", json);
-
-
-    //Time Stamp
-    let d = new Date();
-    const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-    let month = months[d.getMonth()]
-    let year = d.getFullYear();
-    let date = d.getDate();
-    let hours = d.getHours();
-    let minutes = d.getMinutes();
-    let tod = "am";
-
-    if(minutes < 10){
-         minutes = "0" + minutes;
-    }
-    if(hours > 12) {
-        hours = hours - 12;
-        tod = "pm";
-    }
-
-    let saved_time = "Saved on " + month + " " + date + ", " + year + " at " + hours + ":" + minutes + tod;
-
-    let new_time_stamp = document.createElement("p");
-    new_time_stamp.setAttribute("id", "time_stamp");
-    new_time_stamp.innerHTML = saved_time;
-
-    new_saved_container.appendChild(new_time_stamp);
-
-
-
-
-    let new_edit_button = document.createElement("span");
-    new_edit_button.setAttribute("id", "edit_button");
-    new_edit_button.setAttribute("class", "material-icons");
-    new_edit_button.setAttribute("onclick", "edit_mode(this)");
-    new_edit_button.innerHTML = "edit";
-
-    new_saved_container.appendChild(new_edit_button);
-
-
-    let new_people_form = document.createElement("form");
-    new_people_form.setAttribute("id", "num_people_container");
-
-    let new_num_people = document.createElement("label");
-    new_num_people.setAttribute("id", "people_input");
-    new_num_people.innerHTML = json.num_of_people;
-
-    let new_people_label = document.createElement("label");
-    new_people_label.innerHTML = " people";
-
-
-
-    new_people_form.appendChild(new_num_people);
-    new_people_form.appendChild(new_people_label);
-    new_saved_container.appendChild(new_people_form);
-
-
-
-    let new_provided_calculation_1 = document.createElement("div");
-    new_provided_calculation_1.setAttribute("id", "provided_calculation_1");
-    new_provided_calculation_1.setAttribute("class", "calculation");
-
-    let new_20_p = document.createElement("p");
-    new_20_p.innerHTML = "20%";
-
-    let new_calculated_20 = document.createElement("p");
-    new_calculated_20.setAttribute("id", "20%_value");
-    new_calculated_20.innerHTML = json.calc_1;
-
-    new_provided_calculation_1.appendChild(new_20_p);
-    new_provided_calculation_1.appendChild(new_calculated_20);
-    new_saved_container.appendChild(new_provided_calculation_1);
-
-
-
-
-    let new_provided_calculation_2 = document.createElement("div");
-    new_provided_calculation_2.setAttribute("id", "provided_calculation_2");
-    new_provided_calculation_2.setAttribute("class", "calculation");
-
-    let new_17_p = document.createElement("p");
-    new_17_p.innerHTML = "17.5%";
-
-    let new_calculated_17 = document.createElement("p");
-    new_calculated_17.setAttribute("id", "17.5%_value");
-    new_calculated_17.innerHTML = json.calc_2;
-
-
-    new_provided_calculation_2.appendChild(new_17_p);
-    new_provided_calculation_2.appendChild(new_calculated_17);
-    new_saved_container.appendChild(new_provided_calculation_2);
-
-
-
-    let new_provided_calculation_3 = document.createElement("div");
-    new_provided_calculation_3.setAttribute("id", "provided_calculation_3");
-    new_provided_calculation_3.setAttribute("class", "calculation");
-
-    let new_15_p = document.createElement("p");
-    new_15_p.innerHTML = "15%";
-
-    let new_calculated_15 = document.createElement("p");
-    new_calculated_15.setAttribute("id", "15%_value");
-    new_calculated_15.innerHTML = json.calc_3;
-    
-    new_provided_calculation_3.appendChild(new_15_p);
-    new_provided_calculation_3.appendChild(new_calculated_15);
-    new_saved_container.appendChild(new_provided_calculation_3);
-
-
-
-
-    let new_amount_due_label = document.createElement("label");
-    new_amount_due_label.setAttribute("id","amount_due");
-    new_amount_due_label.innerHTML = "Amount Due :";
-    new_saved_container.appendChild(new_amount_due_label);
-
-
-
-    let new_form_amount_due = document.createElement("form");
-    new_form_amount_due.setAttribute("id", "form_amount_due");
-    new_form_amount_due.setAttribute("class", "form_container");
-
-    let new_amount_due = document.createElement("p");
-    new_amount_due.setAttribute("id", "given_amount");
-    new_amount_due.innerHTML = json.amount_due;
-    new_form_amount_due.appendChild(new_amount_due);
-
-    new_saved_container.appendChild(new_form_amount_due);
-
-
-
-
-    let new_tip_label = document.createElement("label");
-    new_tip_label.setAttribute("id","tip");
-    new_tip_label.innerHTML = `+ Tip ${json.tip_percentage}`;
-    new_saved_container.appendChild(new_tip_label);
-
-
-
-
-    let new_form_tip = document.createElement("form");
-    new_form_tip.setAttribute("id", "form_tip");
-    new_form_tip.setAttribute("class", "form_container");
-
-    let new_tip = document.createElement("p");
-    new_tip.innerHTML = json.tip;
-    new_form_tip.appendChild(new_tip);
-
-    new_saved_container.appendChild(new_form_tip);
-
-
-
-
-    let new_footer = document.createElement("p");
-    new_footer.setAttribute("id", "footer");
-    new_footer.innerHTML = " = Total / Person:";
-
-    
-    let new_total_cost = document.createElement("p");
-    new_total_cost.setAttribute("id", "final_calculation");
-    new_total_cost.innerHTML = json.price_per_person;
-
-    new_saved_container.appendChild(new_footer);
-    new_saved_container.appendChild(new_total_cost);
-
+    new_saved_container.setAttribute("id", json._id);
+    new_saved_container.setAttribute("class", "shadow p-4 container mt-5");
+    new_saved_container.setAttribute("style", "width: 500px; height: 450px; font-family: Special Elite;");
+
+
+    new_saved_container.innerHTML = `
+        <div class="row fs-4 mb-5">
+            <div class="col-sm">
+                <label for="people_input"> ${json.num_of_people} people </label>
+            </div>
+                <div class="col-sm" style="text-align:right;" onclick="edit_mode(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-pencil" viewBox="0 0 16 16">
+                    <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                </svg>
+            </div>
+        </div>
+        
+        <div class="row fs-4" style="text-align: center;">
+            <div class="col-sm">20%</div>
+            <div class="col-sm">17.5%</div>
+            <div class="col-sm">15%</div>
+        </div>
+        <div class="row fs-4 mb-1" style="text-align: center;">
+            <div class="col-sm"> ${json.calc_1} </div>
+            <div class="col-sm"> ${json.calc_2} </div>
+            <div class="col-sm"> ${json.calc_3} </div>
+        </div>
+
+        <div class="row mt-5">
+            <div class="col-sm-8" style="text-align:right; margin-top: auto; margin-bottom: auto;">
+                <label class="fs-4"> Amount Due : </label>
+            </div>
+            <div class="col-sm-4">
+                <p class="fs-4" style="margin: auto 0; text-align: right; margin-right:12px;"> ${json.amount_due} </p>
+            </div>
+        </div>
+        <div class="row mt-3 mb-2">
+            <div class="col-sm-8" style="text-align:right; margin: auto 0;">
+                <label class="fs-4"> + Tip ${json.tip_percentage} </label>
+            </div>
+            <div class="col-sm-4">
+                <p class="fs-4" style="margin: auto 0; text-align: right; margin-right:12px;"> ${json.tip} </p>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col-sm-8" style="text-align:right; margin: auto 0;">
+                <label class="fs-2">  Total / Person : </label>
+            </div>
+            <div class="col-sm-4">
+                <p class="fs-2" style="margin: auto 0; text-align: right; margin-right:12px;"> ${json.price_per_person} </p>
+            </div>
+        </div>
+    `
 
     //Adds everything to the webpage
-    document.body.insertBefore(new_saved_container, previously_saved_form);
-
-    return new_saved_container;
-
-
-
-
-    
-
-    
-
-
-
-
+    document.body.insertBefore(new_saved_container, previously_saved_form.nextSibling);
 }
 
+
 function delete_form(delete_button){
-    let container = delete_button.parentElement;
+
+    let container = delete_button.parentElement.parentElement;
 
     let id = container.id;
 
-    let json = getAppropriateJSON(id);
+    const data = JSON.stringify({"id" : id})
 
-    let index = appdata.indexOf(json);
-
-    appdata.pop(index);
-    container.remove();
+    // Tell the database to remove the entry
+    fetch('/delete_receipt', {
+        method: 'POST',
+        body: data,
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+    .then(
+        // Removes the big white box and everything in it from the screen
+        container.remove()
+    )
 }
-
-
-
 
 
 function edit_mode(button){
 
-    let container = button.parentElement;
 
-    let previous_time_stamp = container.children[0];
-    let total_calculation = container.children[11];
+    let container = button.parentElement.parentElement;
 
-    total_calculation.remove();
-    
-
-    let people_form = container.children[2];
-    let amount_form = container.children[7];
-    let tip_form = container.children[9];
-    let calculation = container.children[10];
-
-    previous_time_stamp.remove();
-
-    let people_input = people_form.children[0];
-    let amount_input = amount_form.children[0];
-    let tip_input = tip_form.children[0];
+    let query = JSON.stringify({"id" : container.id})
 
 
-
-
-    let num_of_people = people_input.innerHTML;
-    let amount_due = amount_input.innerHTML;
-    let tip = tip_input.innerHTML;
-
-
-
-    
-    amount_input.remove();
-    tip_input.remove();
-    
-
-    let new_people_input = document.createElement("input");
-
-    new_people_input.setAttribute("type", "text");
-    new_people_input.setAttribute("value", num_of_people);
-    new_people_input.setAttribute("class", "people_input");
-    new_people_input.setAttribute("onkeyup", "formatPeople(this)");
-    new_people_input.setAttribute("onblur", "checkForValue(this)");
-
-    people_form.insertBefore(new_people_input, people_input);
-
-    people_input.remove();
-    
-    let new_amount_input = document.createElement("input");
-
-    new_amount_input.setAttribute("type", "text");
-    new_amount_input.setAttribute("id", "given_amount");
-    new_amount_input.setAttribute("value", amount_due);
-    new_amount_input.setAttribute("data", "currency");
-    new_amount_input.setAttribute("placeholder", "$0.00");
-    new_amount_input.setAttribute("onkeyup", "handle_amount_due(this)");
-    new_amount_input.setAttribute("onblur", "handle_amount_due(this, 'blur')");
-
-    amount_form.appendChild(new_amount_input);
-
-
-    let new_tip_input = document.createElement("input");
-
-    
-
-    new_tip_input.setAttribute("type", "text");
-    new_tip_input.setAttribute("id", "tip_amount");
-    new_tip_input.setAttribute("value", tip);
-    new_tip_input.setAttribute("data-type", 'currency');
-    new_tip_input.setAttribute("placeholder", "$0.00");
-    new_tip_input.setAttribute("onkeyup", "handle_tip(this)");
-    new_tip_input.setAttribute("onblur", "handle_tip(this, 'blur')");
-
-    tip_form.appendChild(new_tip_input);
-
-    calculation.remove();
-
-    let new_calculate_button = document.createElement("button");
-    let new_save_icon = document.createElement("span");
-
-    new_save_icon.setAttribute("class", "material-icons");
-    new_save_icon.innerHTML = "save_alt";
-
-    new_calculate_button.setAttribute("id", "footer");
-    new_calculate_button.setAttribute("onclick","submit(this)");
-    new_calculate_button.innerHTML = "Calculate ";
-    new_calculate_button.appendChild(new_save_icon);
-
-    container.appendChild(new_calculate_button);
-
-
-    const get_date = function(){
-        let d = new Date();
-        const months = ["January","February","March","April","May","June","July","August","September","October","November","December"];
-        let month = months[d.getMonth()]
-        let year = d.getFullYear();
-        let date = d.getDate();
-        let hours = d.getHours();
-        let minutes = d.getMinutes();
-        let tod = "am";
-
-        if(minutes < 10){
-             minutes = "0" + minutes;
+    fetch('/find_receipt', {
+        method: 'POST',
+        body: query,
+        headers:{
+            "Content-Type":"application/json"
         }
-        if(hours > 12) {
-            hours = hours - 12;
-            tod = "pm";
-        }
-    
-        let saved_time = "Saved on " + month + " " + date + ", " + year + " at " + hours + ":" + minutes + tod;
-    }
+    })
+    .then(response => response.json())
+    .then(res => {
 
-    button.innerHTML = "delete";
-    button.setAttribute("onclick", "delete_form(this)");
-    
+        const json = res[0];
 
-    
+        console.log("the json: ", json);
 
+        container.innerHTML = `
+            <div class="row fs-4 mb-5">
+                <div class="col-sm-1">
+                    <select id="people_input" class="form-control" value="${json.num_of_people}" style="width:fit-content; text-align: center;">
+                        <option> 1 </option>
+                        <option> 2 </option>
+                        <option> 3 </option>
+                        <option> 4 </option>
+                        <option> 5 </option>
+                        <option> 6 </option>
+                        <option> 7 </option>
+                        <option> 8 </option>
+                        <option> 9 </option>
+                        <option> 10 </option>
+                    </select>
+                </div>
+                <div class="col-sm" style="margin-left: 10px;">
+                    <label for="people_input"> people </label>
+                </div> 
+                <div class="col-sm" style="text-align: right" onclick="delete_form(this)">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
+                        <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6z"/>
+                        <path fill-rule="evenodd" d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1zM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118zM2.5 3V2h11v1h-11z"/>
+                    </svg>
+                </div>
+            </div> 
+            </div>  
+
+            <div class="row fs-2" style="text-align: center;">
+                <div class="col-sm">20%</div>
+                <div class="col-sm">17.5%</div>
+                <div class="col-sm">15%</div>
+            </div>
+            <div class="row fs-4 mb-1" style="text-align: center;">
+                <div class="col-sm" id="tip_twenty"> ${json.calc_1} </div>
+                <div class="col-sm" id="tip_seventeen"> ${json.calc_2} </div>
+                <div class="col-sm" id="tip_fifteen"> ${json.calc_3} </div>
+            </div>
+
+
+            <div class="row mt-5">
+                <div class="col-sm-8" style="text-align:right; margin-top: auto; margin-bottom: auto;">
+                    <label class="fs-3"> Amount Due : </label>
+                </div>
+                <div class="col-sm-4">
+                    <input  class="form-control fs-5"
+                            type="text"
+                            id="given_amount"
+                            style="text-align: right;" 
+                            value="${json.amount_due}" 
+                            data-type='currency' 
+                            placeholder="$0.00"
+                            onkeyup="handle_amount_due(this)"
+                            onblur="handle_amount_due(this, 'blur')">
+                </div>
+            </div>
+
+            <div class="row mt-3">
+                <div class="col-sm-8" style="text-align:right; margin-top: auto; margin-bottom: auto;">
+                    <label class="fs-3" id="tip">  + Tip ${json.tip_percentage} </label>
+                </div>
+                <div class="col-sm-4">
+                    <input  class="form-control fs-5" 
+                            type="text" 
+                            id="tip_amount"
+                            style="text-align: right;"
+                            value="${json.tip}" 
+                            data-type='currency' 
+                            placeholder="$0.00"
+                            onkeyup="handle_tip(this)"
+                            onblur="handle_tip(this, 'blur')">
+                </div>
+            </div>
+            <div class="row mt-5">
+            
+                <button type="button" style="width:250px; margin: 0 auto;" class="btn btn-primary btn-lg fs-4" onclick="update_values(this)">
+                    Calculate 
+                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" fill="currentColor" class="bi bi-download" viewBox="0 0 20 20">
+                        <path d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"/>
+                        <path d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"/>
+                    </svg>
+                </button>
+
+            </div>
+        `
+
+        container.querySelector("#people_input").children[json.num_of_people - 1].setAttribute("selected", "");
+    })
 }
-
-
 
 
 function formatNumber(n) {
@@ -415,11 +280,13 @@ function formatNumber(n) {
   return n.replace(/\D/g, "").replace(/\B(?=(\d{3})+(?!\d))/g, ",")
 }
 
+
 function formatPeople(input_element){
     let input_val = input_element.value;
  
     input_element.value = formatNumber(input_val);
 }
+
 
 function checkForValue(input_element){
     let input_val = input_element.value;
@@ -429,15 +296,8 @@ function checkForValue(input_element){
     }
 }
 
+
 function formatCurrency(input, blur) {
-  // appends $ to value, validates decimal side
-  // and puts cursor back in right position.
-  
-  // get input value
-
-  let input_val;
-
-
   //If there is no input value, the placeholder value will showup again
   if(input.value !== ''){
     input_val = '$' + input.value;
@@ -446,16 +306,12 @@ function formatCurrency(input, blur) {
     input_val = '';
   }
 
-
-  
-  
   // don't validate empty input
   if (input_val === "") { return; }
   
   // original length
   var original_len = input_val.length;
 
-    
   // check for decimal
   if (input_val.indexOf(".") >= 0) {
 
@@ -498,7 +354,6 @@ function formatCurrency(input, blur) {
       input_val += ".00";
     }
   }
-  
 
   // Updates the value that is inside of the form
   input.value = input_val;
@@ -524,16 +379,11 @@ function update_tip_suggestions(input, parent_container) {
     let seventeen_point_five_percent = total_cost * 0.175;
     let fifteen_percent = total_cost * 0.15;
     
+    let twenty_p = parent_container.querySelector("#tip_twenty");
+    let seventeen_p = parent_container.querySelector("#tip_seventeen");
+    let fifteen_p = parent_container.querySelector("#tip_fifteen");
 
-    let twenty_p = parent_container.children[1];
-    let seventeen_p = parent_container.children[2];
-    let fifteen_p = parent_container.children[3];
 
-    if(parent_container.children.length === 10){
-        twenty_p = parent_container.children[2];
-        seventeen_p = parent_container.children[3];
-        fifteen_p = parent_container.children[4];
-    }
 
     let twenty_html = "$" + twenty_percent.toFixed(2);
     let seventeen_html = "$" + seventeen_point_five_percent.toFixed(2);
@@ -546,11 +396,13 @@ function update_tip_suggestions(input, parent_container) {
         fifteen_html = "$_.__";
     }
 
-    twenty_p.children[1].innerHTML = twenty_html;
-    seventeen_p.children[1].innerHTML = seventeen_html;
-    fifteen_p.children[1].innerHTML = fifteen_html;
+
+    twenty_p.innerHTML = twenty_html;
+    seventeen_p.innerHTML = seventeen_html;
+    fifteen_p.innerHTML = fifteen_html;
 
 }
+
 
 /* 
     This function adds the actual percentage of the Amount Due that the user gave
@@ -563,16 +415,11 @@ function calculate_tip_percentage(input, parent_container){
     // Lets get the value the user actually gave for the tip
     let input_val = input.value;
 
-    let num_of_elements = parent_container.children.length;
+    // let num_of_elements = parent_container.children.length;
 
     //This is the element that writes out to the user "+ Tip"
-    let tip_label = parent_container.children[6];
+    let tip_label = parent_container.querySelector("#tip");
 
-    if(num_of_elements === 10){
-        // If the user is editing a calculation, the edit/delete button in the upper right hand corner, messes up which child
-        // we want to grab. Here, we are making up for that.
-        tip_label = parent_container.children[7];
-    }
 
 
     
@@ -589,16 +436,11 @@ function calculate_tip_percentage(input, parent_container){
         
 
         // This gives us the form in which the total cost is located. The value for the cost is in one of it's child elements
-        let amount_form = parent_container.children[5];
+        // let amount_form = parent_container.children[5];
+        let amount_form = parent_container.querySelector("#given_amount");
 
-        if(num_of_elements === 10){
-
-            // If the user is editing a calculation, the edit/delete button in the upper right hand corner, messes up which child
-            // we want to grab. Here, we are making up for that.
-            amount_form = parent_container.children[6];
-        }
-
-        let cost_val = amount_form.children[0].value;
+ 
+        let cost_val = amount_form.value;
 
         //Default (for when the user doesn't give a total amount due value)
         let percentage = 100;
@@ -613,8 +455,14 @@ function calculate_tip_percentage(input, parent_container){
             cost_val = cost_val.replace('$', '');
             let total_cost = parseFloat(cost_val);
 
-            // Lets make it not a decimal percentage
-            percentage = (tip / total_cost) * 100;
+            if(total_cost === 0){
+                percentage = 100;
+            }
+            else{
+                // Lets make it not a decimal percentage
+                percentage = (tip / total_cost) * 100;
+            }
+           
 
         }
 
@@ -634,121 +482,391 @@ function calculate_tip_percentage(input, parent_container){
 }
 
 
-
 function submit(calculate_button) {
 
-    // This is the big white box/form being worked on
-    let parent_container = calculate_button.parentElement;
+    let parent_container = calculate_button.parentElement.parentElement;
 
+    const people_input = document.getElementById("people_input");
+    const calc_1 = document.getElementById("tip_twenty");
+    const calc_2 = document.getElementById("tip_seventeen");
+    const calc_3 = document.getElementById("tip_fifteen");
+    const amount_due_input = document.getElementById("given_amount");
+    const tip_percentage = document.getElementById("tip");
+    const tip_input = document.getElementById("tip_amount");
+
+
+    const fields = [amount_due_input, tip_input]
 
     
 
-    // // console.log(calculate_button);
-    // if(container.className === "container"){
-    //     // console.log("main form");
-    //     new_saved_container = generateNewForm();
-        
-    // } 
-    // else{
-    //     // console.log("sub form");
-    //     new_saved_container = generateNewForm(container);
-    // }   
-
-
-
-
-
-    let people_input = parent_container.children[0].children[0];
-    let calc_1 = parent_container.children[1].children[1];
-    let calc_2 = parent_container.children[2].children[1];
-    let calc_3 = parent_container.children[3].children[1];
-    let amount_due_input = parent_container.children[5].children[0];
-    let tip_percentage = parent_container.children[6];
-    let tip_input = parent_container.children[7].children[0];
-
-    if(parent_container.children.length === 10){
-        people_input = parent_container.children[1].children[0];
-        calc_1 = parent_container.children[2].children[1];
-        calc_2 = parent_container.children[3].children[1];
-        calc_3 = parent_container.children[4].children[1];
-        amount_due_input = parent_container.children[6].children[0];
-        tip_percentage = parent_container.children[7];
-        tip_input = parent_container.children[8].children[0];
+    if(validate_input_fields(fields)){
+        let values = { 
+            "num_of_people": people_input.value, 
+            "amount_due": amount_due_input.value,
+            "tip": tip_input.value,
+            "calc_1": calc_1.innerHTML,
+            "calc_2": calc_2.innerHTML,
+            "calc_3": calc_3.innerHTML,
+            "tip_percentage": tip_percentage.innerHTML.substring(6)
+        };
+    
+        console.log("values: ", values);
+    
+        let data = JSON.stringify(values);
+    
+        fetch('/add', {
+            method: 'POST',
+            body: data,
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+        .then(function( response ){
+            console.log("response: ", response);
+            //do something with the response
+            return response.json();
+        })
+        .then(function(json){
+            //json is the array returned by the server
+            console.log("Client Side:");
+            // console.log("json: ", json);
+            console.log("json.insertedId:", json.insertedId);
+    
+            // the new container that is made will have the ID equal to the ID that data has in the database
+            let newContainerID = json.insertedId
+    
+    
+            // This is the id of the big white box container
+            // We want this so that we we create a new form, we know where to place it on the screen 
+            let parentID = parent_container.id;
+            
+    
+            let query = JSON.stringify({"id" : newContainerID})
+    
+            fetch('/find_receipt', {
+                method: 'POST',
+                body: query,
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(json => {
+                console.log("json", json);
+    
+                generateNewForm(newContainerID, "0", json[0]);
+                if(parent_container.id === "0"){
+                    refresh_form();
+                }
+                else{
+                    parent_container.remove();
+                }
+    
+            })
+        })
     }
-
-    console.log("tip_percentage", tip_percentage);
-    
-    // console.log("calc_1.value = ", calc_1.value);
-    let values = { 
-        "num_of_people": people_input.value, 
-        "amount_due": amount_due_input.value,
-        "tip": tip_input.value,
-        "calc_1": calc_1.innerHTML,
-        "calc_2": calc_2.innerHTML,
-        "calc_3": calc_3.innerHTML,
-        "tip_percentage": tip_percentage.innerHTML.substring(6)
-    };
-    
-    appdata.push(values);
-
-    let data = JSON.stringify(appdata);
-
-    // create array
-    // stringify array
-
-    fetch('/submit', {
-        method: 'POST',
-        "body": data // Same thing as: "body" : body
-    })
-    .then(function( response ){
-        //do something with the response
-        return response.json()
-    })
-    .then(function(json) {
-        //json is the array returned by the server
-        console.log("json", json);
-        appdata = json;
-
-        generateNewForm(json[json.length - 1].id);
-        if(parent_container.id === "0"){
-            refresh_form();
-        }
-        else{
-            parent_container.remove();
-        }
-        // generateNewForm(undefined, json[json.length - 1].id);
-        
-        
-    })
-
-    return false
 }
+
 
 function refresh_form(){
     let container = document.getElementById("0");
 
-    container.children[0].children[0].value = 1;
-    container.children[1].children[1].innerHTML = "$_.__";
-    container.children[2].children[1].innerHTML = "$_.__";
-    container.children[3].children[1].innerHTML = "$_.__";
-    container.children[5].children[0].value = "";
-    container.children[6].innerHTML = "+ Tip :";
-    container.children[7].children[0].value = "";
-    // container.children[3].children[1].innerHTML = "$_.__";
+    container.querySelector("#people_input").value = 1;
+    container.querySelector("#tip_twenty").innerHTML = "$_.__";
+    container.querySelector("#tip_seventeen").innerHTML = "$_.__";
+    container.querySelector("#tip_fifteen").innerHTML = "$_.__";
+    container.querySelector("#given_amount").value = "";
+    container.querySelector("#tip").innerHTML = "+ Tip :";
+    container.querySelector("#tip_amount").value = "";
 
 }
 
 
-function getAppropriateJSON(id){
-    for( i = 0; i < appdata.length; i++){
-        let json = appdata[i];
-        if(json.id === id){
-            return json;
+function update_values(calculate_button){
+
+    let parent_container = calculate_button.parentElement.parentElement;
+
+    let people_input = parent_container.querySelector("#people_input").value;
+    let calc_1 = parent_container.querySelector("#tip_twenty").innerHTML;
+    let calc_2 = parent_container.querySelector("#tip_seventeen").innerHTML;
+    let calc_3 = parent_container.querySelector("#tip_fifteen").innerHTML;
+    let amount_due_input = parent_container.querySelector("#given_amount").value;
+    let tip_percentage = parent_container.querySelector("#tip").innerHTML.substring(6);
+    let tip_input = parent_container.querySelector("#tip_amount").value;
+
+    const json = {"id" : parent_container.id,
+                "num_of_people" : people_input,
+                "amount_due" : amount_due_input,
+                "tip" : tip_input,
+                "calc_1" : calc_1,
+                "calc_2" : calc_2,
+                "calc_3" : calc_3,
+                "tip_percentage" : tip_percentage}
+
+    const data = JSON.stringify(json);
+
+    fetch('/update_receipt', {
+        method: 'POST',
+        body: data,
+        headers:{
+            "Content-Type":"application/json"
         }
-    }
+    })
+    .then(response => response.json())
+    .then(json =>{
 
-    return;
+        let container_before = parent_container.previousElementSibling;
+
+        parent_container.remove();
+
+        generateNewForm(json._id, container_before.id, json);
+
+    })
 }
 
 
-let appdata = [];
+function login(){
+
+    const email_input = document.getElementById('emailAddress');
+    const password_input = document.getElementById('password');
+
+    const email = email_input.value;
+    const password = password_input.value;
+
+    const fields = [email_input, password_input];
+
+    
+
+    if(validate_input_fields(fields)){
+        console.log("ready to log user in");
+
+        const data = JSON.stringify({'email' : email, 'password' : password});
+
+        console.log("data: ", data);
+
+        fetch('/login', {
+            method: 'POST',
+            body: data,
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+
+    }
+}
+
+
+function create_account(){
+    const name_input = document.getElementById('name');
+    const email_input = document.getElementById('emailAddress');
+    const password_1_input = document.getElementById('password_1');
+    const password_2_input = document.getElementById('password_2');
+
+    const name = name_input.value;
+    const email = email_input.value;
+    const password_1 = password_1_input.value;
+    const password_2 = password_2_input.value;
+
+    let input_fields = [name_input, email_input, password_1_input, password_2_input]
+
+
+    
+    if(validate_input_fields(input_fields)){
+
+        //We need to make sure the passwords match
+        if(password_1 === password_2){
+
+            //Inside this if statement means they do and we can therefore create an account with the given info
+            const json = {  'name' : name, 
+            'email' : email, 
+            'password' : password_1}
+
+            const data = JSON.stringify(json);
+
+            console.log("data: ", data);
+
+            fetch('/create_account', {
+            method: 'POST',
+            body: data,
+            headers:{
+                "Content-Type":"application/json"
+            }
+            }).then(() => {
+            window.location.pathname = '/login.html'
+
+            })
+        }
+        else{
+            // The password was not retyped the same so we will flag it and make them repeat it
+
+            // what attributes does it already have. That way we don't need to hard code them all again
+            let styling = password_2_input.getAttribute("class")
+
+            // This means that the input form has already been identified as invalid, so we don't need to 
+            // add another invalid class attribute
+            if (styling.includes(" is-invalid") === false){
+                password_2_input.setAttribute("class", styling + " is-invalid");
+                password_2_input.focus();
+            }
+
+        }
+
+        
+    }
+}
+
+
+function validate_input_fields(input_fields){
+    let first_unfilled = true
+    let num_of_unfilled_inputs = 0
+
+    input_fields.forEach(field => {
+        
+        if(first_unfilled === true && field.value.length === 0){
+            
+            // The first field in the form that hasn't been filled out will be focused on
+            field.focus()
+            first_unfilled = false
+        }
+
+        // what attributes does it already have. That way we don't need to hard code them all again
+        let styling = field.getAttribute("class")
+
+        // If there is no input for the form field
+        if(field.value.length === 0){
+            
+            // This means that the input form has already been identified as invalid, so we don't need to 
+            // add another invalid class attribute
+            if (styling.includes(" is-invalid") === false){
+                field.setAttribute("class", styling + " is-invalid");
+            }
+            
+            num_of_unfilled_inputs += 1;
+        }
+        else{
+            
+            // The form is no longer invalid, so we can remove the attribute if it has it
+            new_styling = styling.replace("is-invalid", "");
+            field.setAttribute("class", new_styling);
+
+        }
+    })
+
+    if(num_of_unfilled_inputs === 0){
+        // Will return true if all of the fields have inputs
+        return true;
+    }
+    else{
+        // Will return false if at least one field does not have an input
+        return false;
+    }
+}
+
+
+function logout(){
+
+    console.log("signing the user out");
+    // Signs the user out which gets rid of the username and email stored in the server.js file
+    fetch('/logout', {
+        method: 'POST',
+        body: JSON.stringify({}),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+
+    console.log("changing the browser page");
+    // Changes the browser to the login page
+    fetch('/login')
+}
+
+
+window.onload = function(){
+
+    
+    fetch('/get_user', {
+        method: 'POST',
+        data: JSON.stringify({}),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+    .then(response => response.json())
+    .then(json => {
+
+        const user = JSON.stringify(json);
+
+        fetch('/find_user_receipts', {
+            method: 'POST',
+            data: user,
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+        .then(response => {
+            console.log("response", response);
+            response.json()
+        })
+        .then(receipts => {
+            console.log(receipts);
+        }).then(() => {
+            
+            let sampleReturnedJsons = [
+                {_id: "614a23a369269a6950412261",
+                num_of_people: '1',
+                amount_due: '$100.00',
+                tip: '$3.00',
+                calc_1: '$20.00',
+                calc_2: '$47.50',
+                calc_3: '$15.20',
+                tip_percentage: '(%30.00) :',
+                price_per_person: '$13.00',
+                email: 'aburke@wpi.edu'
+              },
+              {
+                _id: "614a23d469269a6950412262",
+                num_of_people: '1',
+                amount_due: '$100.00',
+                tip: '$3.00',
+                calc_1: '$22.00',
+                calc_2: '$77.50',
+                calc_3: '$55.00',
+                tip_percentage: '(%99.00) :',
+                price_per_person: '$103.00',
+                email: 'aburke@wpi.edu'
+              },
+              {_id: "614a241769269a6950412263",
+                num_of_people: '1',
+                amount_due: '$1.00',
+                tip: '$1.00',
+                calc_1: '$2.00',
+                calc_2: '$1.50',
+                calc_3: '$1.00',
+                tip_percentage: '(%3.00) :',
+                price_per_person: '$1.00',
+                email: 'aburke@wpi.edu'
+              }]
+
+            let old_container_id = "0";
+
+            let count = 1
+            sampleReturnedJsons.forEach( function(json) {
+                console.log(json);
+
+                
+                generateNewForm(json._id, old_container_id, json);
+                old_container_id = json._id;
+
+                count += 1;
+
+            })
+
+        })
+
+
+
+
+
+    })
+
+}
