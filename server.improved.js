@@ -69,7 +69,7 @@ let records = [
   { entertainment: 30, food: 30, other: 0,  total: 60, date: '2021-09-01'}
 ]
 
-const uri = "mongodb+srv://admin:admin@cluster0.4woyn.mongodb.net/";
+const uri = process.env.URI
 const client = new db.MongoClient( process.env.URI, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null //accounts
 let collection_records = null //records of users
