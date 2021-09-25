@@ -65,8 +65,8 @@ app.post( '/login', function(req,res) {
          newUser = true
       }
 
-      console.log(req.body.password)
-      console.log(dbresponse.password)
+      console.log('aaa', req.body.password)
+      console.log('bbb', dbresponse[0].password)
 
     if( req.body.password === dbresponse[0].password || newUser === true ) {
       req.session.login = true
@@ -113,7 +113,6 @@ app.post('/submit', bodyparser.json(),function(req, res){
 
 app.post('/delete', bodyparser.json(),function(req, res){
   
-  console.log(req.body._id)
   collection.deleteOne({'_id':mongodb.ObjectId(req.body._id)}) 
   .then(dbresponse =>{
      res.json(dbresponse)
