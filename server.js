@@ -38,7 +38,7 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  collection.findOne({_id:id}, function(err, user) {
+  collection.findOne({_id:mongodb.ObjectId(id)}, function(err, user) {
     done(err, user);
   });
 });
@@ -65,7 +65,9 @@ app.get("/", ( request, response ) => {
 });
 
 app.get("/views/index.html", ( request, response ) => {
-  response.sendFile( __dirname + "/views/index.html" );
+  response.sendFile( __dirname + "/views/index.html" )
+  console.log(request.session.passport.user)
+  console.log(request.user)
 });
 
 app.get( "/dreams", ( request, response ) => {
@@ -79,6 +81,19 @@ app.get("/logout", function(req, res){
   res.redirect("../public/login.html")
   console.log('here')
 });
+
+app.get('/getUser', function (req, res) {
+  console.log('getting user...')
+  console.log(req.user)
+  res.send(req.user)
+})
+
+app.get('/getUserData', function (req, res) {
+  console.log('getting user data...')
+  console.log(req.user._id)
+  collection.find({user_id: req.user._id}).toArray()
+  .then(result => res.send(result))
+})
 
 app.post( "/submit", ( request, response ) => {
     return "submitted: ${}"
@@ -116,22 +131,25 @@ app.use( (req,res,next) => {
 app.post( '/add', ( request, response ) => {
   // assumes only one object to insert
   console.log(request.user)
-  response.send(request.user)
-  //request.body.user_id = request.user._id
+  console.log(request.body)
+  request.body.user_id = request.user._id
+  console.log(request.body)
   collection.insertOne( request.body ).then( result => response.json( result ) )
 })
 
 app.post( '/remove', ( request, response ) => {
+  console.log(request.body)
   collection
-    .deleteOne({ _id:request.body._id})
+    .deleteOne({ _id:mongodb.ObjectId(request.body._id)})
     .then( result => response.json( result ) )
 })
 
 app.post( '/update', ( request, response ) => {
+  console.log(request.body)
   collection
     .updateOne(
-      { _id:request.body._id},
-      { $set:{ name:request.body.name } }
+      { _id:mongodb.ObjectId(request.body._id)},
+      { $set:{ score:request.body.score } }
     )
     .then( result => response.json( result ) )
 })

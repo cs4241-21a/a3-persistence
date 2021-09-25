@@ -57,6 +57,7 @@ body {
 
 #previous {
     grid-area: e;
+    font-size: .75em;
 }
 
 #progress {
@@ -65,6 +66,7 @@ body {
 
 #userScores {
     grid-area: g;
+    font-size: .75em;
 }
 
 #inputArea {
