@@ -1,11 +1,8 @@
 // Enable .env file setup
 require('dotenv').config()
 
-// import fetch from 'node-fetch'
-
-const fetch = require("node-fetch"),
-      express = require("express"),
-      cors = require("cors"),
+// Import dependencies for properly running the server
+const express = require("express"),
       cookie = require("cookie-session"),
       bodyparser = require("body-parser"),
       mongodb = require( 'mongodb' ),
@@ -16,12 +13,33 @@ const fetch = require("node-fetch"),
       hwAPIPath = hwPath + "/data",
       port = 80
 
-const githubRedirect = "/login",
-      githubAuth = "/auth/github"
-      githubAuthToken = githubAuth + "/authorized",
-      githubUserScope = [
-        "read:user"
-      ].join(" ")
+// Import dependencies for OAuth2 with GitHub
+const passport = require("passport"),
+      GitHubStrat = require("passport-github2").Strategy
+
+const githubRedirect = "/auth/github",
+      githubCallback = githubRedirect + "/authorized",
+      githubUserScope = [ "read:user" ]
+
+passport.use(new GitHubStrat({
+    passReqToCallback: true,
+    clientID: process.env.GH_OAUTH_ID,
+    clientSecret: process.env.GH_OAUTH_SECRET,
+    callbackURL: staticURL + githubCallback
+  },
+  function(req, accessToken, refreshToken, profile, done) {
+    req.session.access_token = accessToken
+    return done(null, profile)
+  }
+))
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(obj, done) {
+  done(null, obj);
+});
 
 // Key is corresponding to submission date (really just for uniqueness, doesn't matter for the preset values like this)
 const homeworkData = {
@@ -52,9 +70,6 @@ client.connect()
   })
   .then( console.log )
 
-// Middleware for handling CORS headers
-app.use(cors())
-
 // Custom middleware for outputting an error code if the MongoDB server is down
 app.use((req,res,next) => {
   if(collection !== null) {
@@ -64,18 +79,27 @@ app.use((req,res,next) => {
   }
 })
 
+
 /**
  * Middleware for creating and storing cookies
  * Each session stores the following keys:
  * - access_token = used for accessing the GitHub API (obtaining user info)
- */ 
+ */
 app.use(cookie({
   name: 'session',
   keys: ['key1', 'key2']
 }))
 
+// Use body parser to parse JSON when necessary
+app.use(bodyparser.urlencoded({ extended: true }));
+app.use(bodyparser.json())
+
+// Setup middleware for Passport OAuth2
+app.use(passport.initialize())
+
 // Redirect to home page if a user is not logged in and is attempting to view their agenda
 app.use((req, res, next) => {
+  console.log(req.session.access_token)
   if(req.path.startsWith(hwPath) && !req.session.hasOwnProperty("access_token")) {
     res.redirect("/")
   }
@@ -87,9 +111,6 @@ app.use((req, res, next) => {
 
 // Serve static files when necessary
 app.use(express.static(staticDir))
-
-// Use body parser to parse JSON when necessary
-app.use(bodyparser.json())
 
 /**
  * Adds new data to the homework database
@@ -142,56 +163,27 @@ app.get(hwAPIPath, (request, response) => {
 
 // Handles GET request to login location for redirecting to GitHub
 // This will then redirect to GitHub's OAuth page for authorization
-app.get(githubRedirect, (request, response) => {
-  let authParams = {
-    client_id: process.env.GH_OAUTH_ID,
-    redirect_uri: staticURL + githubAuth,
-    scope: githubUserScope,
-    state: process.env.GH_OAUTH_STATE
+app.get(githubRedirect,
+  passport.authenticate("github", { scope: githubUserScope }),
+  function(req, res) {
+    // Do nothing, being redirect to GitHub
+    // The server will need to wait for a response when callback is sent a GET request
   }
-
-  response.redirect("https://github.com/login/oauth/authorize?" + new URLSearchParams(authParams))
-})
+)
 
 // Handles GET request to app's GitHub post-authorization location
 // This obtains the authorization token to be used with the GitHub API
-app.get(githubAuth , (req, res) => {
-  // If state does not match, output error and given bad response
-  if(req.query.state != process.env.GH_OAUTH_STATE) {
-    const errorMsg = "ERROR: Bad state given for GitHub Authentication"
-    console.log(errorMsg)
-    res.status(401).send(errorMsg)
-    return
+app.get(githubCallback,
+  passport.authenticate("github",
+  { failureRedirect: "/?" + new URLSearchParams({
+      error: "Failed to authenticate with GitHub"
+  })}),
+  function(req, res) {
+    console.log(req.user)
+    req.session.access_token = true
+    res.redirect(hwPath)
   }
-
-  let code = req.query.code;
-  let authParams = {
-    client_id: process.env.GH_OAUTH_ID,
-    client_secret: process.env.GH_OAUTH_SECRET,
-    code: code,
-    redirect_uri: staticURL + githubAuthToken
-  }
-
-  app.get
-  fetch("https://github.com/login/oauth/access_token?" + new URLSearchParams(authParams))
-  .then(response => {
-    console.log(response)
-    // return response.json()
-  })
-  // .then(response => {
-  //   console.log(response)
-  //   // console.log(response.body)
-
-  //   // let auth = response
-  //   // console.log(auth)
-  //   // res.session.access_token = auth.access_token
-
-  //   // res.redirect("/")
-  // })
-  .catch(reason => {
-    console.log(reason)
-  })
-});
+)
 
 ////// POST REQUEST ///////
 

@@ -19,9 +19,9 @@ add a little more detail about what it does.
 - Express.static()
 - Body-parser
 - Cookie-session
+- Passport (OAuth2)
 - Custom MongoDB Middleware = determines if mongodb server could not establish a connection, and then outputs a 503 error code if it is
 - Custom Redirect Middleware = Redirect to home page if a user is not logged in (determined by if a cookie exists) and is attempting to view their agenda
-- CORS headers
 
 
 ## Technical Achievements

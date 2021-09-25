@@ -1,4 +1,4 @@
-const loginAPIPath = "/login"
+const loginAPIPath = "/auth/github"
 
 function onLogin(e) {
 
