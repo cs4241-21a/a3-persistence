@@ -94,14 +94,12 @@ const endGame = function () {
     document.getElementById("bar").value = GAMELENGTH
     document.getElementById("bar").className = "nes-progress is-pattern"
     const multiply = document.getElementById("multiply")
-    document.getElementById("multiply").className = "nes-btn"
     multiply.onclick = function() {
         mode = 0
         document.getElementById("start").className = "nes-btn is-primary"
         document.getElementById("mode").innerText = "Multiply"
     }
     const add = document.getElementById("add")
-    document.getElementById("add").className = "nes-btn"
     add.onclick = function() {
         mode = 1
         document.getElementById("start").className = "nes-btn is-primary"
@@ -122,7 +120,7 @@ const endGame = function () {
     setTimeout(saveScore, 250)
 }
 
-const list = ["one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "zero", "equal", "delete", "clear"]
+const list = ["zero", "one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "equal", "delete", "clear"]
 
 const pressButtons = function (color) {
     list.forEach((elt) => document.getElementById(elt).className = "nes-btn " + color)
@@ -156,10 +154,8 @@ const start = function () {
         document.getElementById("bar").value = time
         document.getElementById("running_correct").innerText = "0"
         const mulitply = document.getElementById("multiply")
-        document.getElementById("multiply").className = "nes-btn is-disabled"
         mulitply.onclick = null
         const add = document.getElementById("add")
-        document.getElementById("add").className = "nes-btn is-disabled"
         add.onclick = null
         document.getElementById("running_correct").className = "nes-text"
         document.getElementById("bar").className = "nes-progress is-success"
@@ -208,10 +204,10 @@ const displayPastScores = function () {
     document.getElementById("dblist").innerHTML = str
 }
 
+
 const handleKeys = function ( e ) {
     if (e.key >=0 && e.key <=9) {
         ans += e.key
-        document.getElementById("nine").style.borderStyle = "inset"
         document.getElementById("answer").innerText = ans
     } else if (e.keyCode === 8) {
         ans = ans.slice(0, ans.length-1)
@@ -259,6 +255,10 @@ const getUserData = function () {
         console.log(pastScores)
         displayPastScores()
     })
+}
+
+const handleButtons = function () {
+    list.forEach(item => document.getElementById(item).addEventListener('onclick', handleKeys))
 }
 
 window.onload = function() {

@@ -16,7 +16,8 @@
         "mongodb": "^4.1.2",
         "nes.css": "^2.3.0",
         "passport": "^0.4.1",
-        "passport-local": "^1.0.0"
+        "passport-local": "^1.0.0",
+        "passport-oauth": "^1.0.0"
     },
     "engines": {
         "node": "14.x"
