@@ -15,16 +15,26 @@
         <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
     </head>
     <body>
-        <header>
-            <h1>Log In</h1>
+        <header id="header">
+            <h1>Math Game</h1>
+            <p>How many in a row can you get in one minute?</p>
+            <h1 class="nes-text is-success">Log In</h1>
         </header>
         <form action="/login" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" name="username">
-            <label for="password">Password:</label>
-            <input type="password" name="password">
-            <input type="submit" value="Log In">
+            <div id="loginform" class="nes-container">
+                <div class="nes-field" id="uname">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="nes-input is-success">
+                </div>
+                <div class="nes-field" id="pword">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" class="nes-input is-success">
+                </div>
+                <input type="submit" class="nes-btn is-primary">
+            </div>
         </form>
-        <a href="/public/new.html">Sign Up</a>
+        <div id="signUp">
+            <a class="nes-btn" href="/public/new.html">Sign Up</a>
+        </div>
     </body>
 </html>

@@ -3,3 +3,152 @@
     font-family: 'Press Start 2P', cursive;
 }
 
+body {
+    padding-top: 1em;
+    padding-left: 7em;
+    padding-right: 7em;
+    padding-bottom: 1em;
+    max-height: 100%;
+}
+
+#header {
+    display: grid;
+    padding-bottom: .5em;
+}
+
+#grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1.25em;
+    grid-template-areas: 
+    "a a h g"
+    "b b c g"
+    "f f i g"
+    "d d e g"
+    "d d e g";
+}
+
+#GameMode {
+    grid-area: a;
+}
+
+#prompt {
+    grid-area: b;
+}
+
+#score {
+    grid-area: c;
+}
+
+#startBox {
+    grid-area: i;
+}
+
+#currentMode {
+    grid-area: h;
+}
+
+#calculator {
+    grid-area: d;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 1em;
+}
+
+#previous {
+    grid-area: e;
+}
+
+#progress {
+    grid-area: f;
+}
+
+#userScores {
+    grid-area: g;
+}
+
+#inputArea {
+    display: flex;
+}
+
+#answer {
+    justify-content: right;
+}
+
+#buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 1em;
+    grid-template-areas: 
+    "c b a m"
+    "f e d l"
+    "i h g ."
+    ". j k .";
+}
+
+#nine {
+    grid-area: a;
+}
+
+#eight {
+    grid-area: b;
+}
+
+#seven {
+    grid-area: c;
+}
+
+#six {
+    grid-area: d;
+}
+
+#five {
+    grid-area: e;
+}
+
+#four {
+    grid-area: f;
+}
+
+#three {
+    grid-area: g;
+}
+
+#two {
+    grid-area: h;
+}
+
+#one {
+    grid-area: i;
+}
+
+#zero {
+    grid-area: j;
+}
+
+#equal {
+    grid-area: k;
+}
+
+#delete {
+    grid-area: l;
+}
+
+#clear {
+    grid-area: m;
+}
+
+#loginform {
+    display: grid;
+    grid-gap: 1em;
+}
+
+#signUp {
+    padding-top: 1em;
+}
+
+#bottomHeader {
+    display: grid;
+    grid-gap: .5em;
+    grid-template-columns: 1fr 1fr;
+}

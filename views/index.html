@@ -3,6 +3,8 @@
     <head>
         <title>CS 4241 Assignment 3</title>
         <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="A Math Game to play with all your friends.">
         <!-- minify -->
         <link href="https://unpkg.com/nes.css@2.3.0/css/nes.min.css" rel="stylesheet" />
         <!-- latest -->
@@ -16,75 +18,75 @@
         <script src="/public/script.js"></script>
     </head>
     <body>
-        <header>
+        <header id="header">
             <h1>Math Game</h1>
-            <h2>How many in a row can you get in one minute?</h2>
+            <p>How many in a row can you get in one minute?</p>
+            <div id="bottomHeader">
+                <p>Welcome back, $USER$!</p>
+                <button type="button" class="nes-btn" id="logout">Log Out</button>
+            </div>
         </header>
-        <div id="Game Mode" class="nes-container with-title">
-            <p class="title">Choose your game mode</p>
-            <button type="button" class="nes-btn">Multiplication</button>
-            <button type="button" class="nes-btn">Addition</button>
-        </div>
-        <div class="nes-container" id="Prompt">
-            <h1 class="nes-text is-primary">Primary</h1>
-        </div>
-        <div class="nes-container" id="calculator">
-            <div class="nes-container" id="inputArea">
-                <span class="nes-text is-primary">Primary</span>
+        <div class="nes-container" id="grid-container">
+            <div id="GameMode" class="nes-container with-title">
+                <p class="title">Choose your game mode</p>
+                <button type="button" class="nes-btn" id="multiply">
+                    <p>Multiply</p>
+                </button>
+                <button type="button" class="nes-btn" id="add">
+                    <p>Add</p>
+                </button>
             </div>
-            <div id="buttons">
-                <button type="button" class="nes-btn is-success">9</button>
-                <button type="button" class="nes-btn is-success">8</button>
-                <button type="button" class="nes-btn is-success">7</button>
-                <button type="button" class="nes-btn is-success">6</button>
-                <button type="button" class="nes-btn is-success">5</button>
-                <button type="button" class="nes-btn is-success">4</button>
-                <button type="button" class="nes-btn is-success">3</button>
-                <button type="button" class="nes-btn is-success">2</button>
-                <button type="button" class="nes-btn is-success">1</button>
-                <button type="button" class="nes-btn is-success">0</button>
-                <button type="button" class="nes-btn is-success">=</button>
-                <button type="button" class="nes-btn is-success">DEL</button>
-                <button type="button" class="nes-btn is-success">CLEAR</button>
+            <div class="nes-container with-title" id="prompt">
+                <p class="title">Prompt</p>
+                <h1 class="nes-text is-primary"id="question">Prompt</h1>
+            </div>
+            <div class="nes-container with-title" id="currentMode">
+                <p class="title">Mode</p>
+                <h2 class="nes-text" id="mode">Mode</h2>
+            </div>
+            <div class="nes-container with-title" id="score">
+                <p class="title">Score</p>
+                <h2 class="nes-text" id="running_correct">Score</h2>
+            </div>
+            <div class="nes-container" id="startBox">
+                <button type="button" class="nes-btn is-primary" id="start">Start</button>
+            </div>
+            <div class="nes-container with-title" id="progress">
+                <p class="title">Time</p>
+                <progress class="nes-progress is-success" value="60" max="60" id="bar"></progress>
+            </div>
+            <div class="nes-container" id="calculator">
+                <div class="nes-container" id="inputArea">
+                    <span class="nes-text" id="answer">Answer</span>
+                </div>
+                <div id="buttons">
+                    <button type="button" class="nes-btn is-success" id="nine">9</button>
+                    <button type="button" class="nes-btn is-success" id="eight">8</button>
+                    <button type="button" class="nes-btn is-success" id="seven">7</button>
+                    <button type="button" class="nes-btn is-success" id="six">6</button>
+                    <button type="button" class="nes-btn is-success" id="five">5</button>
+                    <button type="button" class="nes-btn is-success" id="four">4</button>
+                    <button type="button" class="nes-btn is-success" id="three">3</button>
+                    <button type="button" class="nes-btn is-success" id="two">2</button>
+                    <button type="button" class="nes-btn is-success" id="one">1</button>
+                    <button type="button" class="nes-btn is-success" id="zero">0</button>
+                    <button type="button" class="nes-btn is-success" id="equal">=</button>
+                    <button type="button" class="nes-btn is-success" id="delete">DEL</button>
+                    <button type="button" class="nes-btn is-success" id="clear">CLEAR</button>
+                </div>
+            </div>
+            <div class="nes-container with-title" id="previous">
+                <p class="title">History</p>
+                <div class="lists">
+                    <ol class="nes-list" id="prevlist"></ol>
+                </div>
+            </div>
+            <div class="nes-container with-title" id="userScores">
+                <p class="title">Prev Scores</p>
+                <div class="lists">
+                    <ol class="nes-list" id="dblist"></ol>
+                </div>
             </div>
         </div>
-        <div class="nes-container with-title" id="previous">
-            <p class="titel">History</p>
-            <div class="nes-table-responsive">
-                <table class="nes-table is-bordered is-centered">
-                    <thead>
-                    <tr>
-                        <th>Table.is-bordered</th>
-                        <th>Table.is-centered</th>
-                        <th>Table.is-centered</th>
-                        <th>Table.is-centered</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>Thou hast had a good morning</td>
-                        <td>Thou hast had a good afternoon</td>
-                        <td>Thou hast had a good evening</td>
-                        <td>Thou hast had a good night</td>
-                    </tr>
-                    <tr>
-                        <td>Thou hast had a good morning</td>
-                        <td>Thou hast had a good afternoon</td>
-                        <td>Thou hast had a good evening</td>
-                        <td>Thou hast had a good night</td>
-                    </tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="nes-container" id="progress">
-            <progress class="nes-progress is-success" value="20" max="100"></progress>
-        </div>
-        <button id="logout">Log Out</button>
-        <form action="/add" method="POST">
-            <label for="username">Username:</label>
-            <input type="text" name="name">
-            <input type="submit" value="Log In">
-        </form>
     </body>
 </html>
