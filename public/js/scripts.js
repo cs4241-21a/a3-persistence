@@ -62,6 +62,7 @@ function startGame() {
     myGamePiece.gravity = 0.05;
     myScore = document.getElementById('printScore');
     document.getElementById("accelBtn").style.display = "block";
+    document.getElementById("scorePrint").style.display = "block";
     myGameArea.start();
 }
 

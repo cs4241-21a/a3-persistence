@@ -1,9 +1,16 @@
+<!DOCTYPE html>
 <html lang='en'>
+<%- include("./partials/head.ejs")%>
 <body>
-<form action='/signUp' method='POST'>
-    <input type='text' name='username'>
-    <input type='password' name='password'>
-    <input type='submit'>
-</form>
+<div class="row">
+    <div class="col loginDiv">
+        <p class="loginText">Create an Account</p>
+        <form action='/signUp' method='POST'>
+            <input type='text' name='username'>
+            <input type='password' name='password'>
+            <input type='submit'>
+        </form>
+    </div>
+</div>
 </body>
 </html>

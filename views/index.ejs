@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html lang="en">
 <%- include("./partials/head.ejs")%>
 <body>
@@ -10,9 +11,10 @@
     </div>
     <div class="row g-0">
         <div class="col-lg-9 general gameArea">
+
             <h1>Flappy Block</h1>
-            <button id="startBtn" onclick="startGame()">Start Game</button>
-            <p id="scorePrint">Score: <span id="printScore">0</span></p>
+            <button type="button" class="btn btn-dark" id="startBtn" onclick="startGame()">Start Game</button>
+            <p class="hidden" id="scorePrint">Score: <span id="printScore">0</span></p>
             <br>
             <div>
                 <div class="hidden fixPush" id="myfilter"></div>

@@ -1,13 +1,17 @@
+<!DOCTYPE html>
 <html lang='en'>
 <%- include("./partials/head.ejs")%>
-<body >
-    <div>
-        <form action='/login' method='POST'>
-            <input type='text' name='username'>
-            <input type='password' name='password'>
-            <input type='submit'>
-        </form>
-        <p><a href="/signUpPage">Sign Up</a></p>
+<body>
+    <div class="row">
+        <div class="col loginDiv">
+            <p class="loginText">Login to play Flappy Block</p>
+            <form action='/login' method='POST'>
+                <input type='text' name='username'>
+                <input type='password' name='password'>
+                <input type='submit'>
+            </form>
+            <p><a href="/signUpPage" class="nav a">Sign Up</a></p>
+        </div>
     </div>
 </body>
 </html>
