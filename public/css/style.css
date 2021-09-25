@@ -1,0 +1,137 @@
+/*Style your own assignment! This is fun! */
+
+* {
+    font-family: 'Ubuntu', sans-serif;
+    box-sizing: border-box;
+}
+
+h1 {
+    text-align: center;
+}
+
+h3 {
+    text-align: center;
+    margin: 10px;
+    margin-top: 0;
+    font-weight: normal;
+}
+
+#content {
+    display: flex;
+    justify-content: center;
+    align-items: start;
+}
+
+form {
+    width: 200px;
+    height: 400px;
+    padding: 4px;
+
+    border: 2px solid #888;
+    border-radius: 10px;
+    background-color: #ddd;
+    box-shadow: #0008 3px 3px 10px;
+}
+
+#task {
+    width: 100%;
+    margin-top: 4px;
+}
+
+#priority {
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+#dataList {
+    width: calc(100% - 300px);
+    height: auto;
+    margin-left: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+
+    border-collapse: collapse;
+    border: 2px solid #888;
+    border-radius: 10px;
+    background-color: #ddd;
+    box-shadow: #0008 3px 3px 10px;
+}
+
+#dataContent {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: start;
+}
+
+#dataKey {
+    border-top: none;
+}
+
+#dataKey div {
+    border-left: 1px solid #888;
+    border-right: 1px solid #888;
+    background-color: unset;
+    text-align: center;
+}
+
+.dataRow {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: start baseline;
+    padding: 4px;
+    
+    border-top: 1px solid black;
+}
+
+.dataRow div, .dataRow input, .dataRow select {
+    width: 25%;
+    padding: 4px;
+    padding-left: 6px;
+    font-size: 12pt;
+    
+    border-left: 1px solid #888;
+    border-right: 1px solid #888;
+    background-color: #eee;
+}
+
+.dataRow input, .dataRow select {
+    width: 25%;
+    padding: 4px;
+    padding-left: 6px;
+    font-size: 12pt;
+    
+    border-left: 1px solid #888;
+    border-right: 1px solid #888;
+    border-top: none;
+    border-bottom: none;
+    background-color: #ffc;
+}
+
+.dataRow div:nth-last-child(1), .dataRow div:nth-last-child(2) {
+    padding-right: 6px;
+}
+
+.dataRow button {
+    width: 100%;
+
+    border: 1px outset #888;
+    border-radius: 4px;
+}
+
+.dataRow div:nth-last-child(2) button {
+    background-color: #dfd;
+}
+
+.dataRow div:nth-last-child(1) button {
+    background-color: #fcc;
+}
+
+.dataRow button:active {
+    border-style: inset;
+    transform: translate(1px, 1px);
+}

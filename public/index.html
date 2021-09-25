@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>CS4241 Assignment 2</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/scripts.js"></script>
+  </head>
+  <body>
+    <h1>Task List</h1>
+    <div id="content">
+      <form>
+        <h3>Add new task</h3>
+        <label for="task">Task name:</label>
+        <input type='text' id='task' value="task">
+
+        <label for="priority">Priority:</label>
+        <select name="priority" id="priority">
+          <option value="low">Low</option>
+          <option value="medium">Medium</option>
+          <option value="high">High</option>
+        </select><br>
+        <button>Submit</button>
+      </form>
+      <div id="dataList">
+        <div id="dataKey" class="dataRow">
+          <div>Task</div>
+          <div>Priority</div>
+          <div>Creation Date</div>
+          <div>Deadline</div>
+          <div></div>
+          <div></div>
+        </div>
+        <div id="dataContent"></div>
+      </div>
+    </div>
+  </body>
+</html>
