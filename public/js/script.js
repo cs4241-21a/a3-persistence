@@ -26,7 +26,6 @@ const submit = function (e) {
         })
             .then(function (response) {
                 console.log(response);
-                //debugger
                 return response.json();
             }).then(function (data) {
                 console.log(data);
@@ -49,7 +48,6 @@ const deleteRow = function (id) {
     })
         .then(function (response) {
             console.log(response);
-            //debugger;
             return response.json();
         }).then(function (data) {
             if (data.failed === "false") {
@@ -82,12 +80,16 @@ const editRow = function (id, newname, el) {
     })
         .then(function (response) {
             console.log(response);
-            debugger;
             return response.json();
         }).then(function (res) {
-            debugger;
             if (res.failed === "false") {
-                el.textContent = res.num + ": " + newname;
+                if (newname !== ""){
+                    el.textContent = res.num + ": " + newname;
+                }
+                else{
+                    el.style = "white-space: pre;"; //preserve \n
+                    el.textContent = res.num;
+                }
             }
             else {
                 alert("Could not edit name");
@@ -105,7 +107,6 @@ const logout = function () {
 
 const convert = function () {
     let input = document.getElementById("bintext").value.toLowerCase();
-    //SET INPUT TO LOWERCASE
     let output = "";
     for (var i = 0; i < input.length; i++) {
         output += input[i].charCodeAt(0).toString(2) + " ";
@@ -122,7 +123,6 @@ window.onload = function () {
     const button = document.getElementById("compute");
     button.onclick = submit
     document.getElementById("logout").onclick = logout;
-
     document.getElementById("convert").onclick = convert;
 
     body = ""
@@ -135,6 +135,7 @@ window.onload = function () {
             if (contentType && contentType.indexOf("application/json") !== -1) {
                 return response.json().then(data => {
                     loggedInAs = data.shift().un;
+                    document.getElementById("logouttext").innerText = "You are logged in as: " + loggedInAs;
                     addRows(data);
                 })
             }
@@ -165,83 +166,61 @@ function addRows(response) {
         row._id = r[i]._id;
 
         let cell1 = row.insertCell();
-        let el = document.createElement("td");
-        el.style = "border: none";
-
         //if second name specified, show name as name: name2
-        let rowname = r[i].name;
-        if (r[i].name2 !== null && r[i].name2 !== undefined & r[i].name2 !== "") {
-            rowname = rowname + ": " + r[i].name2;
+        cell1.rowname = r[i].name;
+        if (r[i].name2 !== null && r[i].name2 !== undefined && r[i].name2 !== "") {
+            cell1.rowname = cell1.rowname + ": " + r[i].name2;
         }
-        el.innerText = rowname;
-        cell1.appendChild(el);
+        cell1.innerText = cell1.rowname;
 
         let cell2 = row.insertCell();
-        let el2 = document.createElement("td");
-        el2.style = "border: none";
-        el2.innerText = r[i].x;
-        cell2.appendChild(el2);
+        cell2.innerText = r[i].x;
 
         let cell3 = row.insertCell();
-        let el3 = document.createElement("td");
-        el3.style = "border: none";
-        el3.innerText = r[i].y;
-        cell3.appendChild(el3);
+        cell3.innerText = r[i].o;
 
         let cell4 = row.insertCell();
-        let el4 = document.createElement("td");
-        el4.style = "border: none";
-        el4.innerText = r[i].o;
-        cell4.appendChild(el4);
+        cell4.innerText = r[i].y;
 
         let cell5 = row.insertCell();
-        let el5 = document.createElement("td");
-        el5.style = "border: none";
-        el5.innerText = r[i].result;
-        cell5.appendChild(el5);
+        cell5.innerText = r[i].result;
 
+        //if can edit/delete the values in this row, insert buttons
         if (r[i].un === loggedInAs && r[i].un !== null) {
-            let cell6 = row.insertCell();
-            let cell7 = row.insertCell();
 
             let delbut = document.createElement("button");
-            delbut.innerText = "D";
+            delbut.innerHTML = '<i class="fa fa-trash-o fa-lg"></i> <span class="visually-hidden">delete</span>';
             delbut.addEventListener('click', function () {
                 let thisrowid = row._id;
                 deleteRow(thisrowid);
             });
 
             let editbut = document.createElement("button");
-            editbut.innerText = "E";
+            editbut.innerHTML = '<i class="fas fa-edit fa-lg"></i> <span class="visually-hidden">edit</span>';
             editbut.selected = false;
-            editbut.parentrow = row;
-            //editbut.rowel = el;
             editbut.nameinput = document.createElement("input");
             editbut.nameinput.setAttribute('type', 'text');
-            editbut.nameinput.style = "width: 90%";
             editbut.addEventListener('click', function () {
                 let ethisrowid = row._id;
                 if (!editbut.selected) {
-                    editbut.innerText = "C";
-                    el.parentNode.removeChild(el);
+                    editbut.innerHTML = '<i class="fas fa-check fa-lg"></i> <span class="visually-hidden">confirm</span>';
+                    cell1.innerText = "";
                     cell1.appendChild(editbut.nameinput);
+                    editbut.nameinput.focus();
                     editbut.selected = true;
                 }
                 else {
-                    editbut.innerText = "E";
+                    editbut.innerHTML = '<i class="fas fa-edit fa-lg"></i> <span class="visually-hidden">edit</span>';
                     cell1.removeChild(editbut.nameinput);
-                    cell1.appendChild(el);
                     editbut.selected = false;
-                    debugger;
-                    // console.log(editbut.nameinput.value);
-                    editRow(ethisrowid, editbut.nameinput.value, el);
+                    editRow(ethisrowid, editbut.nameinput.value, cell1);
                 }
-
-
-                //nameedit.setAttribute('type')
             });
+
+            let cell6 = row.insertCell();
+            cell6.style ="display: flex; flex-direction: row";
+            cell6.appendChild(delbut);
             cell6.appendChild(editbut);
-            cell7.appendChild(delbut);
         }
     }
 }

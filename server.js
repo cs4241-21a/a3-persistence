@@ -14,8 +14,8 @@ app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 app.use(cookie({
     name: 'session',
-    keys: [process.env.KEY_ONE, process.env.KEY_TWO],
-    sameSite: 'none'
+    keys: [process.env.KEY_ONE, process.env.KEY_TWO]
+   // sameSite: 'none' //chrome doesnt like this but firefox wants it ._.
 }))
 
 const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
@@ -80,7 +80,7 @@ app.post('/add', bodyParser.json(), (req, res) => {
             }
         }
         checkForSecretMessage(newentry.result, newentry, visible)
-        //make sure it says whether or not it is secret
+        //checkForSecretMessage also adds and sets the 'secret' attribute
         collection.insertOne(newentry)
             .then(insertResponse => collection.findOne(insertResponse.insertedId))
             .then(findResponse => {
@@ -119,7 +119,6 @@ app.post('/edit', bodyParser.json(), (req, res) => {
     collection.findOne({ _id: mongodb.ObjectId(req.body._id) }).then(function (data) {
         //Could add something where if try to edit a secret it does an alert
         if (data.un === req.session.user) {
-            debugger;
             collection.updateOne(
                 { _id: mongodb.ObjectId(req.body._id) },
                 { $set: { name2: req.body.name2 } }
@@ -136,12 +135,13 @@ app.post('/edit', bodyParser.json(), (req, res) => {
 
 
 app.get('/logout', (req, res) => {
+    console.log("logged out");
     req.session.login = false;
     req.session.user = null;
-    res.sendFile(__dirname + '/views/index.html')
+    res.sendFile(__dirname + '/views/index.html');
 })
 
-
+//should probably prevent username or password from containing space or : or ; but im lazy
 app.post('/login', (req, res) => {
     console.log(req.body)
     failed = true;
@@ -155,7 +155,8 @@ app.post('/login', (req, res) => {
             if (!failed) {
                 // define a variable that we can check in other middleware
                 // the session object is added to our requests by the cookie-session middleware
-                req.session.login = true
+                console.log("ok");
+                req.session.login = true;
                 req.session.user = req.body.u
 
                 // since login was successful, send the user to the main content
@@ -168,7 +169,6 @@ app.post('/login', (req, res) => {
             } else {
                 // password incorrect, redirect back to login page
                 res.json({ failed: "incorrect" });
-                //there used to be a send file here, is that better to use?
             }
         })
 })
@@ -203,6 +203,8 @@ app.post('/register', bodyParser.json(), (req, res) => {
 
 //add some middleware that always sends unauthenticated users to the login page
 app.use(function (req, res, next) {
+    console.log(req.session);
+    console.log(req.session.login);
     if (req.session.login === true) {
         console.log("logged in, proceeded")
         //req.session.login = false //for testing the login

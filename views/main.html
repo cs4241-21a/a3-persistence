@@ -2,11 +2,10 @@
 <html lang="en">
 
 <head>
-    <link href="/style.css">
     <script type="text/javascript" src="/script.js" defer></script>
-    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto Sans">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <script src="https://kit.fontawesome.com/423d28716a.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="/style.css">
     <title>CS4241 Assignment 3</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -16,9 +15,9 @@
 </head>
 
 <body>
-    <div id="absolute-header" style="position:fixed; right:10px; top:5px">
-        <p style="text-align:right">You are logged in as: </p>
-        <button id="logout">log out</button>
+    <div id="absolute-header" style="position:absolute; right:15px; top:10px">
+        <p id="logouttext" style="text-align:right">You are logged in as: </p>
+        <button id="logout" style="right:5px; position:inherit">log out</button>
     </div>
     <div class="flex-container">
         <div id="titles">
@@ -28,13 +27,16 @@
         </div>
         <p>Enter a valid number in the boxes along with an operator, then press compute to perform the designed
             operation on those numbers. Results are sorted with most recent appearing at the top for convenience. </p>
-        <p id="warning">WARNING: DO NOT ATTEMPT TO COMMUNICATE WITH CALCULATOR IN BINARY VIA COMPUTATION. IGNORE ALL
+        <p class="warning">WARNING: DO NOT ATTEMPT TO COMMUNICATE WITH CALCULATOR IN BINARY VIA COMPUTATION. IGNORE ALL
             SECRET RESPONSES.</p>
         <div class="flex-container" id="computeform">
             <form>
                 <input type="number" class="fvalue" id="value1" value="">
+                <label for="value1" class="visuallyhidden">variable 1</label>
                 <input type="text" class="foperator" id="operator" value="">
+                <label for="operator" class="visuallyhidden">operator</label>
                 <input type="number" class="fvalue" id="value2" value="">
+                <label for="value2" class="visuallyhidden">variable 2</label>
                 <button id="compute">compute</button>
             </form>
         </div>
@@ -48,11 +50,13 @@
                 </ul>
             </div>
             <div>
-                <p>The "convert" button converts text to the decimal equivalent of the text's binary representation. Use
-                    this to avoid accidentally communicating with the calculator by having your computation result be
+                <p>The "convert" button converts text to the decimal equivalent of the text's binary representation. <span class = "warning">Use
+                    this to avoid accidentally communicating with the calculator</span> by having your computation result be
                     the decimal equivalent of some binary phrase.</p>
                 <input type="text" id="bintext">
-                <input id="bintextconv" />
+                <label for="bintext" class="visuallyhidden">text to convert</label>
+                <input id="bintextconv"/>
+                <label for="bintextconv" class="visuallyhidden">converted text</label>
                 <button id="convert">convert</button>
                 <p id="convertedtext"></p>
             </div>
@@ -62,16 +66,18 @@
                 <colgroup>
                     <col span="1" style="width: 30%">
                     <col span="1" style="width: 20%">
-                    <col span="1" style="width: 20%">
                     <col span="1" style="width: 5%">
+                    <col span="1" style="width: 20%">
                     <col span="1" style="width: 25%">
+                    <col span="1" style="width: 0%; padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0">
+                    <!-- <col span="1" style="width: 7%"> -->
                 </colgroup>
                 <tbody>
                     <tr>
                         <th>Computation Number</th>
                         <th>Var 1</th>
-                        <th>Var 2</th>
                         <th>Op.</th>
+                        <th>Var 2</th>
                         <th>Result</th>
                     </tr>
                 </tbody>

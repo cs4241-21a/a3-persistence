@@ -27,7 +27,6 @@ const register = function (e) {
                 alert("The username or password cannot be left empty.")
             }
             else {
-                debugger
                 //WHY DOESNT THIS WORK?
                 //WAIT WHY IS IT SUDDENLY WORKING
                 //nvm it broke again
@@ -35,7 +34,6 @@ const register = function (e) {
                 window.location.href = "main.html";
             }
             console.log(data);
-            //addRows(data);
         })
 }
 
