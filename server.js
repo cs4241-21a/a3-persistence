@@ -19,7 +19,7 @@ const mongodb = require('mongodb');
 const bodyparser = require('body-parser');
 const { env } = require('process');
 
-const morgan = require('mogan');
+const morgan = require('morgan');
 const responseTime = require('response-time')
 const compression = require('compression')
 
