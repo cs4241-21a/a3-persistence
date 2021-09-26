@@ -3,7 +3,10 @@ const express = require('express'),
     mongodb = require('mongodb'),
     cookie = require('cookie-session'),
     app = express(),
-    bodyParser = require('body-parser')
+    bodyParser = require('body-parser'),
+    serveFavicon = require('serve-favicon'), //favicon icon taken from icons8.com
+    path = require('path'),
+    helmet = require("helmet") //middleware that helps with security probably
 
 app.use(express.static('public'))
 app.use(express.static('views'))
@@ -43,6 +46,8 @@ app.use((req, res, next) => {
         res.status(503).send()
     }
 })
+app.use(serveFavicon(path.join(__dirname, 'public', 'favicon.ico')));
+app.use(helmet());
 
 app.post('/add', bodyParser.json(), (req, res) => {
     let x = Number(req.body.x);

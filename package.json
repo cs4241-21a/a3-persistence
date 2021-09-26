@@ -1,0 +1,32 @@
+{
+  "name": "package",
+  "version": "1.0.0",
+  "description": "Due: September 20th, by 11:59 AM.",
+  "main": "server.js",
+  "dependencies": {
+    "body-parser": "^1.19.0",
+    "cookie-session": "^1.4.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "mime": "^2.5.2",
+    "mongodb": "^4.1.2",
+    "path": "^0.12.7",
+    "serve-favicon": "^2.5.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soifferDTEMP1/a3-persistence.git"
+  },
+  "author": "duncan soiffer",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soifferDTEMP1/a3-persistence/issues"
+  },
+  "homepage": "https://github.com/soifferDTEMP1/a3-persistence#readme"
+}
