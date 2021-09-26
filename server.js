@@ -39,13 +39,13 @@ client.connect()
     })
     .then(console.log)
 
-app.use((req, res, next) => {
-    if (collection !== null) {
-        next()
-    } else {
-        res.status(503).send()
-    }
-})
+// app.use((req, res, next) => {
+//     if (collection !== null) {
+//         next()
+//     } else {
+//         res.status(503).send()
+//     }
+// })
 app.use(serveFavicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(helmet());
 
