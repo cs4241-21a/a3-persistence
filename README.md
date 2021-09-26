@@ -14,7 +14,9 @@ The middleware I use in this project are:
 - express.urlencoded to allow the system to connect to mongodb 
 - cookies to allow for users to stay logged in 
 - bodyparser to parse the incoming data from the client. 
-
+Test user information: 
+username: test1
+password: test1 
 Technical Achievements: N/A 
 
 Design/Evaluation achievements: N/A
