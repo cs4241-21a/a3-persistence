@@ -27,7 +27,8 @@ mongoose.connect(
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
 app.use( express.urlencoded({ extended:true }) )
-
+authRoute.use( express.urlencoded({ extended:true }) )
+authRoute.use(express.static('./'))
 //Middleware
 app.use(express.json());
 var bodyParser = require('body-parser')
@@ -48,11 +49,19 @@ app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
+// cookie middleware! The keys are used for encryption and should be
+// changed
+app.use( cookie({
+  name: 'sessionLog',
+  keys: ['key1', 'key2']
+}))
+
 //Route Middleware
 app.use('/api/user', authRoute);
 
+
 // add some middleware that always sends unauthenicaetd users to the login page
-authRoute.use( function( req,res,next) {
+app.use( function( req,res,next) {
   if( req.session.login === true )
     next()
   else
