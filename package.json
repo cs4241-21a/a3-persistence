@@ -1,6 +1,6 @@
 {
   "name": "FlappyBlock",
-  "version": "2.0",
+  "version": "1.0",
   "description": "Simple game with leaderboard showing database",
   "author": "alpecorale",
   "scripts": {
