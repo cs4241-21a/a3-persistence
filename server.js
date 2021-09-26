@@ -9,9 +9,9 @@ const http = require( 'http' ),
       dir  = 'public/',
       port = 3000
 
-const {user, pass} = require('./env.js')
-//const user = process.env.username
-//const pass = process.env.password
+//const {user, pass} = require('./env.js')
+const user = process.env.username
+const pass = process.env.password
 
 const express = require('express');
 const app = express();
@@ -65,8 +65,8 @@ app.post( '/login', function(req,res) {
          newUser = true
       }
 
-      console.log('aaa', req.body.password)
-      console.log('bbb', dbresponse[0].password)
+      //console.log('aaa', req.body.password)
+      //console.log('bbb', dbresponse[0].password)
 
     if( req.body.password === dbresponse[0].password || newUser === true ) {
       req.session.login = true
@@ -163,5 +163,5 @@ const sendFile = function( response, filename ) {
      }
    })
 }
-app.listen(3000)
-//server.listen( process.env.PORT || port )
+//app.listen(3000)
+server.listen( process.env.PORT || port )
