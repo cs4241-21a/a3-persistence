@@ -23,11 +23,6 @@ app.use(express.json());
 
 app.use( express.urlencoded({ extended:true }) )
 
-// listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-})
-
 app.use( cookie({
   name: 'session',
   keys: ['key1','key2']
@@ -164,4 +159,6 @@ const sendFile = function( response, filename ) {
    })
 }
 //app.listen(3000)
-app.listen( process.env.PORT || port )
+app.listen(process.env.PORT, () => {
+  console.log("Your app is listening on port " + listener.address().port);
+})
