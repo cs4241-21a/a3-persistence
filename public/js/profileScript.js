@@ -8,7 +8,7 @@ function updateImage() {
             const thisImg = document.createElement('div');
             const title = document.createElement('input');
             title.type="text"
-            title.name="Title"
+            title.name="title"
             title.placeholder="Title"
             const description = document.createElement('input');
             description.type="text"
