@@ -1,0 +1,43 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+
+    <title>Welcome to Glitch!</title>
+
+    <!-- import the webpage's stylesheet -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/script.js" defer></script>
+  </head>
+  <body class=ms-2>
+    <header>
+      <h1>Please log in or register</h1>
+    </header>
+
+    
+    
+    <main>
+      <form>
+        <label>
+          <input name="username" type="text" maxlength="100" required placeholder="Username">
+          <input name="password" type="text" maxlength="100" required placeholder="Password">
+        </label>
+        
+      </form>
+
+      <button type="submit" id="submit-login">Log in</button>
+      <button type="submit" id="submit-register">Register</button>
+       
+    </main>
+
+    <footer>Made with Glitch! And Bootstrap too!</footer>
+
+  </body>
+</html>
