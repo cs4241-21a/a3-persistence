@@ -1,0 +1,29 @@
+body {
+    text-align: center;
+}
+
+#loadimages {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-column-gap: 5%;
+    grid-row-gap: 2.5%;
+}
+
+div.indivImg {
+    background-color: rgb(100, 100, 100);
+    color:white;
+    border: solid 4px black;
+    border-radius: 6px;
+    overflow:hidden;
+    word-wrap: break-word;
+    padding-bottom: 5px;
+}
+
+input {
+    text-align: center;
+}
+
+img {
+    max-width: 90%;
+    max-height: 74%;
+}

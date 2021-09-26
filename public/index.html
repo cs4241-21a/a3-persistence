@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Image Board</title>
+    <meta charset="utf-8">
+    <meta name="description" content="View images posted by other users">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/scripts.js"></script>
+    <link rel="stylesheet" href="css/sakura.css" type="text/css">
+    <link rel="stylesheet" href="css/style.css" type="text/css">
+  </head>
+  <body>
+    <h1>Image Board</h1>
+    <form id="submitForm">
+      <input type='text' id='title' placeholder="Title for image">
+      <br>
+      <input type='text' id='description' placeholder="Description for image">
+      <br>
+      <input type='text' id='imgLink' placeholder="Link to image">
+      <br>
+      <button onclick="resetForm()">Submit</button>
+    </form>
+    <a href="/myProfile.html">See your posts here</a>
+    <div id="loadimages"></div>
+  </body>
+</html>
