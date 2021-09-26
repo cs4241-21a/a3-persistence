@@ -1,54 +1,22 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Assignment Manager</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="This website will help organize your course assignments">
-    <link rel="preload" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" as="style">
-    <link rel="preload" href="./css/style.css" as="style">
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
-    <link rel="stylesheet" href="./css/style.css" media="print" onload="this.media='all'">
-    <link rel="preload" href="./js/scripts.js" as="script">
-    <script async src="./js/scripts.js"> </script>
-  </head>
-  <body>
-      <div class="grid-table">
-        <div class = "assignmentData">
-          <a href="/logout">Logout</a>
-          <h1 display:inline id="directionHeader">Directions</h1>
-          <p>
-            Use the homework agenda to manage and view a list of your ongoing assignments. Simply enter the relevant fields and the agenda will determine the priority of each assignment based on 
-            how much it is worth (deadline not accounted for). Make sure to still select date from calendar if choosing today's date and that the percentage is a valid non-negative number less than 100.</p>
-          <h1 display:inline id="tableHeader">Assignments To Do</h1>
-          <table id="hwTable">
-            <tr>
-                <th><label for="new_assignment">Assignment</label></th>
-                <th><label for="new_course">Course</label></th>
-                <th><label for="new_percentage">Percentage</label></th>
-                <th><label for="new_priority">Priority</label></th>
-                <th><label for="new_deadline">Deadline</label></th>
-                <th><label> Current Grade</label></th>
-                <th><label for="addRow">Options</label></th>
-            </tr>
-            <tr>
-              <td><input type="text" id="new_assignment" placeholder="Your assignment here"></td>
-              <td><input type="text" id="new_course" placeholder="Your course here"></td>
-              <td><input type="number" id="new_percentage" min="0" max="100" ></td>   
-              <td><input id="new_priority" readonly placeholder="auto calculated" disabled></td> 
-              <td><input type="date" id="new_deadline"></td>   
-              <td>
-                <input type="radio" id="new_grade_A" name="new_grade" value="A">
-                <label for="new_grade_A">A</label>
-                <input type="radio" id="new_grade_B" name="new_grade" value="B">
-                <label for="new_grade_B">B</label>
-                <input type="radio" id="new_grade_C" name="new_grade" value="C">
-                <label for="new_grade_C">C</label>
-            </td>
-              <td><input display: inline type="button" id="addRow" class="add" value="Add Assignment" display: inline></td>
-              </tr>
-          </table>
-        </div>
-      </div>
-  </body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Homework Agenda Login</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="This website will redirect you to the GitHub login page">
+        <link rel="preload" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css" as="style">
+        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+        <link rel="preload" href="./css/style.css" as="style">
+        <link rel="stylesheet" href="./css/style.css" media="print" onload="this.media='all'">
+    </head>
+    <body>
+        <h1>Homework Manager</h1>
+        <a href="/auth/github">Login with GitHub</a>
+        <figure>
+            <img srcset="https://wp-media.petersons.com/blog/wp-content/uploads/2018/09/10123907/diary-614149_1920.jpg 1x" src="https://wp-media.petersons.com/blog/wp-content/uploads/2018/09/10123907/diary-614149_1920.jpg" alt="The online homework manager is structured as a table where each row tracks details specific to an assignment" width="300" height="100" class="center">
+            <caption> Using a homework agenda can keep you more on top of your assignments.</caption>
+        </figure>
+        
+    </body>
 </html>
