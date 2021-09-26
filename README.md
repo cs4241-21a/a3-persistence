@@ -1,13 +1,22 @@
+## League of Legends team sign up 
+Link: https://a3-jasonodell2001.glitch.me/
+This application allows users to input their information into the server to sign up for a league of legends team. 
+The server stores the users information (username,password, name, summoner name, role, rank) 
 
+The main struggle I face while working on this project was getting the system to properly store user information and keep the current user set correctly. I also struggled getting the server to swap between webpages based on the users input. 
 
-## League of Legends Team Sign up
-My Application is a simple sign up form that displays the current sign-ups on the website. I used a flexbox to structure my data table. 
-In order to use my application, you simple fill out the information in the form and click submit, and it will update the sign-up form. The server determines if you are guaranteed to make a team
-by doing some simple calculations based on the number of sign-ups (if the number is a multiple of 5, everyone is eligible to be on a team)
-However you cannot edit or delete prior responses nor does it detect duplicate responses. 
+I used cookies to authenticate because I found it the easiest to implement and didn't have time to implement oauth 
 
-## Technical Achievements
-- **Tech Achievement 1**: 
-My page always shows the server-side data in the sign-ups list below the form. It was difficult for me to implement because I struggled 
-with understanding how to receive a response from the server, and then I was struggling with having it display on my HTML page. 
+I used the modern-normalize CSS framework because I felt it was simple and most appropriate for my simple website. I was originally going to use 98.css because I like the windows 98 style but I felt it didn't fit my website. 
+The middleware I use in this project are: 
+- express.json to allow for JSON parsing. 
+- express.static to serve static files 
+- express.urlencoded to allow the system to connect to mongodb 
+- cookies to allow for users to stay logged in 
+- bodyparser to parse the incoming data from the client. 
+Test user information: 
+username: test1
+password: test1 
+Technical Achievements: N/A 
 
+Design/Evaluation achievements: N/A
