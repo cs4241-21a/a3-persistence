@@ -3,17 +3,19 @@
   <head>
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" href="css/style.css" />
+   
     <link
       href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
   </head>
 
   <body>
     <div class="boxHolder">
       <div class="box">
         <h1>Flight Reminder</h1>
+        <a href="/logout">LOGOUT</a>
         <div id="travels"></div>
       </div>
     </div>
@@ -24,17 +26,17 @@
           <h2>Add New Flight</h2>
 
           <label for="flightNum">Flight Number: </label>
-          <input type="text" id="flightNum" placeholder="Flight Number" required />
+          <input type="text" id="flightNum" placeholder="Flight Number" />
 
           <label for="depAirport">Departure Airprot: </label>
           <input
             type="text"
             id="depAirport"
-            placeholder="Airport name" required 
+            placeholder="City or specific location"
           />
 
           <label for="arrAirport">Arrival Airport: </label>
-          <input type="text" id="arrAirport" placeholder="Airport name" required />
+          <input type="text" id="arrAirport" placeholder="Airport name" />
 
           <label for="date">Date: </label>
           <input type="date" id="date" name="date" required />

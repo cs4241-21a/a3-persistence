@@ -18,6 +18,9 @@ function fetchData() {
     fetch('/getUpcoming')
         .then(response => response.json())
         .then(data => {
+            if (data.code === 403)
+                window.location.href = '/login.html';
+
             let tableData = "";
             for (let i = 0; i < data.length; i++) {
                 tableData += "<tr>";
@@ -25,7 +28,7 @@ function fetchData() {
                 tableData += `<td>${data[i].depAirport}</td>`;
                 tableData += `<td>${data[i].arrAirport}</td>`;
                 tableData += `<td>${data[i].date}</td>`;
-                tableData += `<td><a href="javascript:void(0);" onclick="delFlight('${data[i].id}');">Remove</a></td>`;
+                tableData += `<td><a href="javascript:void(0);" onclick="delFlight('${data[i]._id}');">Remove</a></td>`;
                 tableData += "</tr>";
             }
             document.getElementById("upcomingData").innerHTML = tableData;
@@ -41,7 +44,7 @@ function fetchData() {
                 tableData += `<td>${data[i].depAirport}</td>`;
                 tableData += `<td>${data[i].arrAirport}</td>`;
                 tableData += `<td>${data[i].date}</td>`;
-                tableData += `<td><a href="javascript:void(0);" onclick="delFlight('${data[i].id}');">Remove</a></td>`;
+                tableData += `<td><a href="javascript:void(0);" onclick="delFlight('${data[i]._id}');">Remove</a></td>`;
                 tableData += "</tr>";
             }
             document.getElementById("pastData").innerHTML = tableData;
