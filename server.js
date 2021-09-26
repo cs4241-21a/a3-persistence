@@ -291,7 +291,7 @@ const checkForSecretMessage = function (inputstr, newdata, alldata) {
         newdata.name = "ERROR: UNKNOWN ERROR. \nError Code: help me\n see traceback for details";
         secret = true;
     }
-    else if (message.includes("hello")) {
+    else if (message.includes("hello") || message === "hi") {
         newdata.name = "what? who said that? where am I?\nsomeone, please...";
         secret = true;
     }
