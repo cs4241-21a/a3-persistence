@@ -2,6 +2,8 @@ const router = require('express').Router();
 const User = require('../model/User');
 const {regValidation, logValidation} = require('../validation');
 const cookie  = require( 'cookie-session' );
+const path = require('path');
+
 
 router.post('/register', async (req, res) => {
     //validate user response before user creation
@@ -34,16 +36,18 @@ router.post('/login', async (req, res) => {
         //validate user response before user creation
         const isValid = logValidation(req.body);
         if(isValid.error) {
-            res.sendFile( __dirname + '/views/indexFail.html' )
+            res.sendFile( __dirname + 'views/indexFail.html' )
             console.log("Invalid response!");
             return res.status(400).send(isValid.error.details[0].message);}
 
         //check if username does not exists
         const usernameExists = await User.findOne({username: req.body.username});
         if(!usernameExists){
-        res.sendFile( __dirname + '/views/indexFail.html' )
+        let reqPath = path.join(__dirname, '../');
+        console.log(reqPath  + 'views/indexFail.html')
+        res.sendFile(reqPath + 'views/indexFail.html')
         console.log("Username does not exist!");
-        return res.status(400).send(req.body);}
+        return res.status(400).send(req.body).sendFile( __dirname + '/views/indexFail.html');}
 
         //pass is correct?
         const passwordCorrect = await User.findOne({username: req.body.username, password: req.body.password})

@@ -8,7 +8,7 @@ const app = express();
 const mongoose = require('mongoose');
 const dotenv =  require('dotenv');
 // importing routes
-const authRoute = require('./routes/authO')
+const authRoute = require('./routes/authO');
 const cookie  = require( 'cookie-session' );
 
 
@@ -30,7 +30,6 @@ app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
 }))
-
 
 
 //Middleware
