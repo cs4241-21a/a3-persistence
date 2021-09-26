@@ -1,0 +1,42 @@
+<head>
+    <meta name="signup" content = "sign up here! here you can see the sign up page">
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+</head>
+
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
+            <div class="card card-signin my-5">
+                <div class="card-body">
+                    <h5 class="card-title text-center">Sign Up</h5>
+                    <div id="alert"
+                    <% if(message) { %> class="alert alert-danger"
+                         <% } %>role="alert">
+                        <%= message %>
+                    </div>
+
+                    <form class="form-signin" action="/signup" method="post">
+                        <input type="text" name="username" class="form-control" placeholder="Username"
+                               value="<%= username %>"
+                               required
+                               autofocus>
+                        <br/>
+                        <input type="text" name="displayName" class="form-control" placeholder="Display Name"
+                               value="<%= displayName %>"
+                               required
+                               autofocus>
+                        <br/>
+                        <input type="password" name="password" placeholder="Password" value="<%= password %>"
+                               class="form-control" required>
+                        <br/>
+                        <button class="btn btn-lg btn-success btn-block text-uppercase" type="submit">Sign up</button>
+                        <button class="btn btn-link" type="button" onclick="window.location.href='/login';">Sign In
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
