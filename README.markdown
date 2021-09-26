@@ -2,13 +2,11 @@
 
 Heroku link: https://cs-4241-a3-benstaw.herokuapp.com/
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
 The goal of the application is to provide a simple todo app to organize weekly tasks and grade their difficulty.
 
 While completing the project, naturally some challenges came up. This project really forced me to learn how json objects are passed between the client and server, as progressing without that knowlege was very difficult. I also had to learn how to interface with the Mongo api, and learning how to use their function calls was also critical.
 
-For authentication, I decided to keep a cookie in the browser which used information from a correct login. To check if a username-password combination was valid, I kept valid combinations in the database with a tag indicating that they are credentials and user data. Given the resources available, it seemed the most straightforward way to accomplish the task.
+For authentication, I decided to keep a cookie in the browser which used information from a correct login. To check if a username-password combination was valid, I kept valid combinations in the database with a tag indicating that they are credentials and user data. Given the resources available, it seemed the most straightforward way to accomplish the task. To log out, remove the cookie from the browser and refresh the page.
 
 The CSS framework I chose was called chota. I liked it because it was very lightweight and was easy to set up. In addition to the framework, I also added some inline styling to the main page to make sure that the table came out in a readable order and had separators between important data.
 
