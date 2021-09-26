@@ -1,8 +1,8 @@
 {
-  "name": "",
-  "version": "",
-  "description": "",
-  "author": "",
+  "name": "plant-parenthood",
+  "version": "1.0",
+  "description": "a simple plant tracking app",
+  "author": "Maddison Caten",
   "scripts": {
     "start": "node server.improved.js"
   },
