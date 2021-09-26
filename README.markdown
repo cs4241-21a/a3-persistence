@@ -97,24 +97,24 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 
 ## Your Web Application Title
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+your glitch (or alternative server) link e.g. https://a3-ido-katz.herokuapp.com/
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
+- The goal of this application is to serve as an easy-to-use shopping list. The app also recommends a deadline for the user so that
+  when they log in they can check the date and see if they have to buy anything. 
+- One challenge that I faced was adding an ability to update records. I wasn't sure how I could refer to the same record multiple times between the client and server. I was 
+  able to overcome that challenge by utilizing the object ID. 
+- If the username in the database exists, then the server checks that the password associated with that username is correct. This seemed like the simplest method. 
+- I used Water.css because it was responsive and simple to implement. I did not need a lot of "flash" so I decided to trust professional designers and use their stylesheets. 
+  - No modifications
   
-## 5 Middleware
-1. app.use(express.static('public'));
-2. cookie-session
-3. body-parser
-4. favicon 
-5. app.use(express.json());
+### 5 Middleware
+1. app.use(express.static('public')); - Loads static pages
+2. cookie-session - Allow the users information to be saved everywhere on the website. Use this to only show a user THEIR data
+3. body-parser - Express parses the body and then converts it to JSON
+4. favicon - Loads the favicon icon on each webpage
+5. connect-timeout - Sets a hard timeout for the website. If the app is waiting a long time then it times out so the user doesn't wait forever. 
 
 
 ## Technical Achievements

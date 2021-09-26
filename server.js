@@ -20,7 +20,7 @@ app.use(haltOnTimedout)
 
 app.use( cookie({
     name: 'session',
-    keys: ['key1', 'key2']
+    keys: ['secret', 'keysSsSsSs']
 }))
 app.use(haltOnTimedout)
 
