@@ -4,7 +4,7 @@
 p {
     font-size: 20px;
     font-style: italic;
-    color: #d4235c;
+    color: #c81349;
 }
 #BtnContainer {
     margin-top: 100px;
@@ -55,40 +55,40 @@ label{
 }
 
 .open-button {
-    background-color: #04AA6D;
+    background-color: #056e46;
     color: whitesmoke;
     padding: 16px 20px;
     border: none;
     cursor: pointer;
-    opacity: 0.6;
+    opacity: 0.8;
     /*position: fixed;*/
     bottom: 27px;
     right: 28px;
     width: 150px;
 }
 #ModifyRecord{
-    background-color: #3f50be;
+    background-color: #2538b7;
 
 }
 .close-button {
-    background-color: #de3d3d;
+    background-color: #921818;
     color: whitesmoke;
     padding: 16px 20px;
     border: none;
     cursor: pointer;
-    opacity: 0.6;
+    opacity: 0.8;
     /*position: fixed;*/
     bottom: 27px;
     right: 28px;
     width: 150px;
 }
 .edit-button {
-    background-color: #3f50be;
+    background-color: #2439c3;
     color: whitesmoke;
     padding: 16px 20px;
     border: none;
     cursor: pointer;
-    opacity: 0.6;
+    opacity: 0.8;
     /*position: fixed;*/
     bottom: 27px;
     right: 28px;
@@ -124,18 +124,18 @@ label{
 }
 
 .form-container .btn {
-    background-color: #04AA6D;
+    background-color: #08603f;
     color: white;
     padding: 16px 20px;
     border: none;
     cursor: pointer;
     width: 100%;
     margin-bottom:10px;
-    opacity: 0.8;
+    opacity: 0.95;
 }
 
 .form-container .cancel {
-    background-color: red;
+    background-color: #a21414;
 }
 
 .form-container .btn:hover, .open-button:hover, .close-button:hover , .edit-button:hover{
