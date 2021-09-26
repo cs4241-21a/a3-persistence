@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>CS4241 Assignment 3</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <link rel='stylesheet' href='/css/style.css'>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Login page for the owoifier app developed as a homework project">
+</head>
+
+<body>
+    <form action='/login' method='POST'>
+        <label for='name'>username</label>
+        <input type="text" name='name' id='name'>
+        <label for='pass'>password</label>
+        <input type="password" name='pass' id='pass'>
+        <input type="submit">
+    </form>
+    <div>
+        <p>Welcome to the OwO-ifier! To login, please enter your username and password.</p>
+        <p>If you are a new user, please input your desired username and password, and an account will be created for
+            you!</p>
+    </div>
+    <div>
+        <p>Login failed. This means either your desired username is taken, or your password was incorrect.</p>
+        <p>Please login again. Remember, you can create a new account by inputting a new username and password.</p>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+</body>

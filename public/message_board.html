@@ -1,53 +1,80 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <title>CS4241 Assignment 3</title>
-    <script type='text/javascript' src='/js/message_board.js'></script>
-    <style>@import url('https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap');</style>
-    <link rel='stylesheet' href='/css/style.css'>
-    <meta charset="utf-8">
-  </head>
-  <body>
-    <nav>
-      <a id='table-nav' href='#'>Table View</a> | <a id='sentence-nav' href='#'>Sentence View</a>
-    </nav>
-    <form action="">
-      <input type='text' id='name' value="your name here">
-      <input type='text' id='target-text' value="Type something here!">
-      <button>submit</button>
-    </form>
-    <div id='table-root' class='root'>
-      <div>  
+
+<head>
+  <title>CS4241 Assignment 3</title>
+  <script type='text/javascript' src='/js/message_board.js'></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap');
+  </style>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <link rel='stylesheet' href='/css/style.css'>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Login page for the owoifier app developed as a homework project">
+</head>
+
+<body>
+  <nav>
+    <a id='table-nav' href='#'>Table View</a> | <a id='sentence-nav' href='#'>Sentence View</a> | <a id='sent-nav'
+      href='#'>Sent Messages</a> | <a id='login-return' href='/'>Return to Login</a>
+  </nav>
+  <form action="">
+    <label for='name'>To</label>
+    <input type='text' id='name' value="Who is your message to?">
+    <label for='target-text'>Message</label>
+    <input type='text' id='target-text' value="Type something here!">
+    <label for='fancy-font'>Fancy Font?</label>
+    <input type='checkbox' id='fancy-font'>
+    <label for='text-faces'>Replace '!' With Text Faces</label>
+    <input type='radio' id='text-faces' name='facereplace' value=0 checked>
+    <label for='emojis'>Replace '!' With Emojis</label>
+    <input type='radio' id='emojis' name='facereplace' value=1>
+    <label for='no-replace'>Do Not Replace '!'</label>
+    <input type='radio' id='no-replace' name='facereplace' value=2>
+    <button id='form-submit-btn'>submit</button>
+  </form>
+  <div id='table-root' class='root'>
+    <div>
       <b>Normal Table</b>
-        <table id='normal-table'>
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Message</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
-      <div>
-        <b>OwO-ified Table</b>
-        <table id='owo-table'>
-          <thead>  
-            <tr>
-              <th>Name</th>
-              <th>Message</th>
-            </tr>
-          </thead>
-        </table>
-      </div>
+      <table id='normal-table'>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+      </table>
     </div>
-    <div id='sentence-root' class='root'>
-      <div id='normal-sentence-root'>
-        <b>Normal Sentences</b>
-      </div>
-      <div id='owo-sentence-root'>
-        <b>OwO-ified Sentences</b>
-      </div>
+    <div>
+      <b>OwO-ified Table</b>
+      <table id='owo-table'>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Message</th>
+          </tr>
+        </thead>
+      </table>
     </div>
-    
-  </body>
+  </div>
+  <div id='sentence-root' class='root'>
+    <div id='normal-sentence-root'>
+      <b>Normal Sentences</b>
+    </div>
+    <div id='owo-sentence-root'>
+      <b>OwO-ified Sentences</b>
+    </div>
+  </div>
+  <div id='sent-root' class='root'>
+    <div id='editable-root'>
+      <b>Sent Messages</b>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

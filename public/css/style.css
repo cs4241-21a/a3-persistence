@@ -1,6 +1,5 @@
 /*Style your own assignment! This is fun! */
 th,td,p,b,input,button {
-  font-family: 'Courier Prime', monospace;
   font-size: large;
 }
 
@@ -19,7 +18,20 @@ a {
   align-content: center;
 }
 
-#sentence-root{
+#editable-root {
+  display: flex;
+  flex-direction: column;
+  align-content: flex-start;
+}
+
+#editable-root>div {
+  display:flex;
+  flex-direction: row;
+  align-content:space-between;
+  align-items:center;
+}
+
+#sentence-root,#sent-root{
   display: none;
 }
 
@@ -67,6 +79,11 @@ form {
   margin-bottom: 1em;
 }
 
-input {
+input[type=text] {
   margin-bottom: 1em;
+}
+
+.fancy-font {
+  font-family: 'Dancing Script', cursive!important;
+  font-size: x-large!important;
 }
