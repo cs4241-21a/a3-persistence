@@ -41,13 +41,12 @@ The middleware I used were:
 - helmet
 - body-parser
 - cookie-session
+- favicon-server
 - A custom function for redirecting unverified users (users who have not logged in)
 
 The custom middleware I made was based on the example given to us in the cookie usage tutorial/example.  I initially had tried to get the example given to work, but 
 was unsuccessful - so, I made something similar which, via an alert, tells users who attempt to go to the pets page before logging in that they have not logged in yet,
 and forces them to go back to the login page.
-
-I also attempted to get favicon-server to work, but was unsuccessful.
 
 ## Technical Achievements
 - **Tech Achievement 1**: 5 points - Achieved 100% on all four lighthouse tests.  ![Image of 100% on all four lighthouse tests](https://i.imgur.com/UknlkmV.png)
