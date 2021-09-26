@@ -29,15 +29,15 @@ Index Page:
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative:
-1.) Provide informative, unique page titles - The login page clearly indicates its purpose of being a login page
-2.) Use headings to convey meaning and structure - Key elements in all the webpages use headings to draw more focus to those elements than plain text (ex. the title of the webpage, different login options: login or sign up)
-3.) Keep content clear and concise - I made sure all forms and feedback when the user does something wrong (ex. username taken) is as clear as possible for simplicity
-4.) Provide sufficient contrast between foreground and background - I chose a light beige color for the background of the webpage and a dark green for text and other elements so there is a high contrast between background and foreground.
-5.) Don’t use color alone to convey information - To avoid this, I used alert pop-ups to let the user know if they have done something incorrectly
-6.) Ensure that form elements include clearly associated labels - Both the form to add elements to the database and the login form are clearly labeled with what information goes where
-7.) Provide easily identifiable feedback - Alert pop-ups make feedback easily identifiable to the user
-8.) Use headings and spacing to group related content - The title of the page has the largest heading, and elements that go together are grouped by heading size. For instance the add plant and my plants are the same size heading since they are correlated, but not as large as the title.
-9.) Identify page language and language changes - On every page, the primary language is indicated as English
-10.) Use mark-up to convey meaning and structure - WAI-ARIA roles are included for every table/div element
-11.) Provide clear instructions - The instructions on each page are very intuitive and straighforward on the webpage, by design. Otherwise there are clearly written instructions for the user to follow.
-12.) Ensure that interactive elements are easy to identify - All clickable buttons on the webpage are bright purple and clearly state what they do (ex. "logout" logs the user out of the application)
+- 1.) Provide informative, unique page titles - The login page clearly indicates its purpose of being a login page
+- 2.) Use headings to convey meaning and structure - Key elements in all the webpages use headings to draw more focus to those elements than plain text (ex. the title of the webpage, different login options: login or sign up)
+- 3.) Keep content clear and concise - I made sure all forms and feedback when the user does something wrong (ex. username taken) is as clear as possible for simplicity
+- 4.) Provide sufficient contrast between foreground and background - I chose a light beige color for the background of the webpage and a dark green for text and other elements so there is a high contrast between background and foreground.
+- 5.) Don’t use color alone to convey information - To avoid this, I used alert pop-ups to let the user know if they have done something incorrectly
+- 6.) Ensure that form elements include clearly associated labels - Both the form to add elements to the database and the login form are clearly labeled with what information goes where
+- 7.) Provide easily identifiable feedback - Alert pop-ups make feedback easily identifiable to the user
+- 8.) Use headings and spacing to group related content - The title of the page has the largest heading, and elements that go together are grouped by heading size. For instance the add plant and my plants are the same size heading since they are correlated, but not as large as the title.
+- 9.) Identify page language and language changes - On every page, the primary language is indicated as English
+- 10.) Use mark-up to convey meaning and structure - WAI-ARIA roles are included for every table/div element
+- 11.) Provide clear instructions - The instructions on each page are very intuitive and straighforward on the webpage, by design. Otherwise there are clearly written instructions for the user to follow.
+- 12.) Ensure that interactive elements are easy to identify - All clickable buttons on the webpage are bright purple and clearly state what they do (ex. "logout" logs the user out of the application)
