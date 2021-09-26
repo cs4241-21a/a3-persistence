@@ -1,6 +1,6 @@
 // Add some Javascript code here, to run on the front end.
 
-console.log("Welcome to assignment 2!")
+console.log("Welcome to assignment 3!")
 
 const submit = function( e ) {
     // prevent default form action from being carried out
@@ -33,8 +33,8 @@ const submit = function( e ) {
 }
 
 window.onload = function() {
-    const button = document.querySelector( 'button' );
-    button.onclick = submit;
+    document.querySelector('#logout').onclick = logout;
+    document.querySelector('form button').onclick = submit;
 
     fetch( '/get', {
         method:'GET'
@@ -165,4 +165,12 @@ function updateTable(data) {
     })
 
     // document.querySelector("#dataTable").innerText = JSON.stringify(data);
+}
+
+function logout() {
+    fetch( '/logout', {
+        method: 'POST'
+    }).then(() => {
+        location.reload();
+    });
 }

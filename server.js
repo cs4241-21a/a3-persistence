@@ -2,13 +2,148 @@ const fs   = require( 'fs' ),
       mime = require( 'mime' ),
       express = require('express'),
       body_parser = require('body-parser'),
-      morgan = require('morgan'),
+      morgan  = require('morgan'),
+      mongodb = require('mongodb'),
+      cookie  = require('cookie-session'),
       app     = express(),
       dir  = 'public/',
       port = 3001
 
-app.use(express.static(dir));
+require('dotenv').config();
+
+app.use(express.urlencoded({ extended: true }));
 app.use(morgan(':method :url :status - :response-time ms'));
+
+app.use( cookie({
+  name: 'session',
+  keys: ['key1', 'key2']
+}));
+
+app.post( '/login', body_parser.json(), (req,res)=> {
+  // express.urlencoded will put your key value pairs 
+  // into an object, where the key is the name of each
+  // form field and the value is whatever the user entered
+  console.log( req.body )
+  
+  collection.findOne({ username: req.body.username }).then(result => {
+    if(result !== null) {
+      if(result.password === req.body.password) {
+        // define a variable that we can check in other middleware
+        // the session object is added to our requests by the cookie-session middleware
+        req.session.login = true
+        req.session.username = req.body.username;
+        
+        // since login was successful, send the user to the main content
+        // use redirect to avoid authentication problems when refreshing
+        // the page or using the back button, for details see:
+        // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
+        res.redirect('index.html');
+      }else{
+        res.status(403);
+        res.json({msg: "Incorrect login info."});
+      }
+    }else{
+      res.status(403);
+      res.json({msg: "Incorrect login info."});
+    }
+  });
+});
+
+app.post( '/signup', body_parser.json(), (req,res)=> {
+  // express.urlencoded will put your key value pairs 
+  // into an object, where the key is the name of each
+  // form field and the value is whatever the user entered
+  console.log( req.body )
+
+  let data = {
+    username: req.body.username,
+    password: req.body.password,
+    tasks: []
+  }
+
+  collection.findOne({ username: req.body.username }).then(result => {
+    if(result === null){
+      collection.insertOne(data).then(result => {
+        console.log(result);
+        // this is just a guess on how to check if it was successful
+        if(result.acknowledged && result.insertedId !== null) {
+          req.session.login = true
+          req.session.username = req.body.username;
+
+          res.redirect('index.html');
+        }
+      });
+    }else{
+      res.status(403);
+      res.json({msg: "There is already a user with that username."});
+    }
+  });
+
+  // res.redirect('index.html');
+  
+  // // below is *just a simple authentication example* 
+  // // for A3, you should check username / password combos in your database
+  // if( req.body.password === 'test' ) {
+  //   // define a variable that we can check in other middleware
+  //   // the session object is added to our requests by the cookie-session middleware
+  //   req.session.login = true
+  //   req.session.username = req.body.username;
+    
+  //   // since login was successful, send the user to the main content
+  //   // use redirect to avoid authentication problems when refreshing
+  //   // the page or using the back button, for details see:
+  //   // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
+  //   res.redirect('index.html');
+  // }else{
+  //   // password incorrect, redirect back to login page
+  //   res.status(403);
+  //   res.json({msg: "Incorrect login info."});
+  // }
+});
+
+app.post( '/logout', (req,res)=> {
+  req.session.login = false;
+  res.sendFile(__dirname + '/public/index.html');
+})
+
+// redirect unauthenticated users to login
+app.use( function( req,res,next) {
+  if( req.session.login === true || req.originalUrl === "/js/login.js" )
+    next()
+  else
+    res.sendFile( __dirname + '/public/login.html' )
+});
+
+app.use(express.static(dir));
+
+// Set up MongoDB
+
+const db_uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASS}@${process.env.DB_HOST}`;
+
+const client = new mongodb.MongoClient(db_uri, { useNewUrlParser: true, useUnifiedTopology:true });
+let collection = null;
+
+client.connect()
+  .then( () => {
+    return client.db('datatest1').collection('data');
+  })
+  .then(__collection => {
+    // store reference to collection
+    collection = __collection
+    // blank query returns all documents
+    return collection.find({ }).toArray()
+  })
+  .then(console.log);
+
+app.use( (req,res,next) => {
+  if( collection !== null ) {
+    next();
+  }else{
+    res.status( 503 ).send();
+  }
+});
+
+// Endpoints
 
 app.get('/', function(_req, response) {
   response.sendFile( __dirname + '/views/index.html' )
@@ -16,10 +151,13 @@ app.get('/', function(_req, response) {
 
 let appdata = [];
 
-app.get('/get', function(_req, response) {
-  response.writeHead( 200, "OK", {'Content-Type': 'application/json' });
-  response.write(JSON.stringify(appdata));
-  response.end();
+app.get('/get', function(req, response) {
+
+  collection.findOne({ username: req.session.username }).then(result => response.json(result.tasks));
+
+  // response.writeHead( 200, "OK", {'Content-Type': 'application/json' });
+  // response.write(JSON.stringify(appdata));
+  // response.end();
 });
 
 app.post( '/submit', body_parser.json(), function( request, response ) {
@@ -27,21 +165,57 @@ app.post( '/submit', body_parser.json(), function( request, response ) {
   const data = request.body;
   switch(data.action) {
     case "add":
-      // copying the fields manually is more secure than blindly copying the whole object
-      appdata.push({
-        task: data.payload.task,
-        priority: data.payload.priority,
-        creationDate: data.payload.creationDate,
-        deadline: calcDeadline(data.payload),
+      collection.findOne({ username: request.session.username }).then(result => {
+        let tasks = result.tasks;
+
+        // copying the fields manually is more secure than blindly copying the whole object
+        tasks.push({
+          task: data.payload.task,
+          priority: data.payload.priority,
+          creationDate: data.payload.creationDate,
+          deadline: calcDeadline(data.payload),
+        });
+
+        collection.updateOne(
+          { _id: mongodb.ObjectId( result._id ) },
+          { $set: { tasks } }
+        ).then(res => {
+          console.log(res);
+          collection.findOne({ username: request.session.username }).then(result => response.json(result.tasks));
+        });
       });
       break;
     case "modify":
-      appdata[data.index].task = data.payload.task;
-      appdata[data.index].priority = data.payload.priority;
-      appdata[data.index].deadline = calcDeadline(appdata[data.index]);
+      collection.findOne({ username: request.session.username }).then(result => {
+        let tasks = result.tasks;
+
+        tasks[data.index].task = data.payload.task;
+        tasks[data.index].priority = data.payload.priority;
+        tasks[data.index].deadline = calcDeadline(tasks[data.index]);
+
+        collection.updateOne(
+          { _id: mongodb.ObjectId( result._id ) },
+          { $set: { tasks } }
+        ).then(res => {
+          console.log(res);
+          collection.findOne({ username: request.session.username }).then(result => response.json(result.tasks));
+        });
+      });
       break;
     case "delete":
-      appdata.splice(data.index, 1);
+      collection.findOne({ username: request.session.username }).then(result => {
+        let tasks = result.tasks;
+
+        tasks.splice(data.index, 1);
+
+        collection.updateOne(
+          { _id: mongodb.ObjectId( result._id ) },
+          { $set: { tasks } }
+        ).then(res => {
+          console.log(res);
+          collection.findOne({ username: request.session.username }).then(result => response.json(result.tasks));
+        });
+      });
       break;
     default:
       // invalid POST request
@@ -49,10 +223,6 @@ app.post( '/submit', body_parser.json(), function( request, response ) {
       response.end();
       return;
   }
-
-  response.writeHead( 200, "OK", {'Content-Type': 'application/json' });
-  response.write(JSON.stringify(appdata));
-  response.end();
 })
 
 app.listen(process.env.PORT || port);
@@ -61,26 +231,4 @@ const calcDeadline = function(data) {
   let date = new Date(data.creationDate);
   date.setDate(date.getDate() + { low: 10, medium: 7, high: 4 }[data.priority]);
   return (date.getMonth() + 1) + "/" + date.getDate() + "/" + date.getFullYear();
-}
-
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
 }
