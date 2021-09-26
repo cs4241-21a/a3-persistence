@@ -33,7 +33,7 @@ const isAuth = (req,res, next) => {
   if(req.user) {
     next();
   } else {
-    res.redirect('/login');
+    res.redirect('/index');
   }
 }
 
@@ -44,19 +44,19 @@ app.use('/login', (req, res, next) => {
 
 app.get("/", (request, response) => {
   console.log(request.user);
-  response.sendFile(__dirname + '/public/index.html');
+  response.sendFile(__dirname + '/public/login.html');
 });
 
 app.get("/login", (request, response) => {
   if(request.user) {
-    return response.redirect('/');
+    return response.redirect('/public/login.html');
   }
-  response.sendFile(__dirname + '/public/login.html');
+  response.sendFile(__dirname + '/public/index.html');
 });
 
 app.get("/logout", (request, response) => {
   request.logOut();
-  response.redirect('/login');
+  response.redirect('/index');
 });
 
 // Add middleware to check connection
@@ -112,7 +112,7 @@ app.get('/auth/github', passport.authenticate('github'));
 
 app.get(
   '/auth/github/callback',
-  passport.authenticate('github', {failureRedirect: '/login'}),
+  passport.authenticate('github', {failureRedirect: '/index'}),
   function (req, res) {
     // Successful authentication, redirect home.
     res.redirect('/');

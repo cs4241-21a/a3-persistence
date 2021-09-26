@@ -6,6 +6,9 @@
   "scripts": {
     "start": "node server.js"
   },
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "dependencies": {
     "connect-timeout": "^1.9.0",
     "dotenv": "^10.0.0",
@@ -17,4 +20,5 @@
     "passport": "^0.4.1",
     "passport-github": "^1.1.0"
   }
+  
 }
