@@ -48,6 +48,9 @@ app.post( '/login', async (req, res) => {
   let data = req.body;
   currUser = data.username;
   let test1 = await collection.findOne({"username": currUser});
+  if(currUser === null){
+    res.sendFile(__dirname + '/public/failedlogin.html')
+  }
   if (data.password === test1.password) {
     req.session.login = true
     res.redirect('main.html')

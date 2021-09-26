@@ -3,18 +3,18 @@
 <head>
     <title>LoL Sign up</title>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="https://unpkg.com/98.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="node_modules/modern-normalize/modern-normalize.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Project A3 for Webware 2021 by Jason Odell">
 </head>
 <body>
 <form action='/login' method='POST'>
-    <input type='text' name='username'>
-    <input type='password' name='password'>
+    <label>    username: <input type='text' name='username'></label>
+    <label> password:<input type='password' name='password'> </label>
     <input type='submit'>
 </form>
 <p> Don't have an account? sign up here!
-    <form action='/signup' method = 'POST'><input type='submit'></form>
+<form action='/signup' method = 'POST'><input type='submit'></form>
 </p>
 </body>
 </html>
