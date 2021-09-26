@@ -53,8 +53,6 @@ const login = function (e) {
     })
         .then(function (response) {
             console.log(response);
-            debugger
-            //FIX THIS
             test = response.json()
             return test;
         }).then(function (data) {

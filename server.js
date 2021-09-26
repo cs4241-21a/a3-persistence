@@ -245,7 +245,6 @@ app.get('/load', (req, res) => {
                 }
             }
             visible.unshift({ un: req.session.user });
-            //debugger;
             console.log("/load called");
             return visible;
         })
