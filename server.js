@@ -6,42 +6,23 @@
 
     Middle-ware used in project:
         - body-parser
+        - morgan
+        - cookie-session
+        - noAccess: my own middleware that checks to see if there are cookies showing that 
+                    the user is logged in
 
 */
 const express = require('express')
 const bodyParser = require('body-parser') // body-parser is a middle-ware
-const mongodb = require("mongodb");
+const mongodb = require('mongodb');
+const cookie = require('cookie-session')
+const morgan = require('morgan')
 // const session = require('express-session')
 
 
 const app = express()
 
-// const TWO_HOURS = 1000 * 60 * 60 * 2
 
-// const SESSION_LIFETIME = TWO_HOURS
-// const SESSION_NAME = 'session_id'
-// const SESSION_SECRET = 'thisIsASEEEcret!'
-
-// app.use(session({
-//     name: SESSION_NAME,
-//     resave: false,      //Don't save the session back to the story if they were never modified during request
-//     saveUninitialized: false, // Don't want to save any uninitialized or new sessions that have no data inside of them
-//     secret: SESSION_SECRET,
-//     cookie:{
-//         maxAge: SESSION_LIFETIME,
-//         sameSite: true,
-//         secure: true,
-//     }
-// }))
-
-
-// const users = [{ name : "aburke",
-//                 email : "aburke@wpi.edu",
-//                 password : "Hello" }]
-
-
-
-// let logged_in_user = {'email' : 'aburke@wpi.edu'};
 
 const uri = "mongodb+srv://CS4241:CS4241DatabasePassword@tipcalculator.wbgat.mongodb.net/TipCalculator?retryWrites=true&w=majority";
 
@@ -75,108 +56,138 @@ client.connect()
 // or GET requests
 // app.use( express.urlencoded({ extended:true }) )
 
+
+
+// use express.urlencoded to get data sent by default form actions
+// or GET requests
+app.use( express.urlencoded({ extended:true }) )
+
+// cookie middleware! The keys are used for encryption and should be
+// changed
+app.use( cookie({
+    name: 'session',
+    keys: ['key1', 'key2']
+  }))
+
+app.use(morgan('common'))
+
+
+// add some middleware that always sends unauthenticated users to the login page
+// app.use( function( req,res,next) {
+//     if( req.session.login === true ) {
+//         // console.log("req.session.login === true", req.session.login === true)
+//         res.sendFile(__dirname + "/public/receipts.html");
+//         // next()
+//     }
+//     else {
+//         // console.log("req.session.login === true", req.session.login === true)
+//         // res.sendFile( __dirname + '/public/login.html' )
+//         next()
+//     }
+// })
+
+
+noAccess = function(req, res, next){
+    if( req.session.login === true ) {
+        // console.log("req.session.login === true", req.session.login === true)
+     
+        next()
+    }
+    else {
+        // console.log("req.session.login === true", req.session.login === true)
+        // res.sendFile( __dirname + '/public/login.html' )
+        res.redirect('login.html');
+    }
+}
+
+
+
+
+app.get("/", noAccess, (req, res) => {
+    console.log("main page")
+
+    res.sendFile(__dirname + "/receipts.html");    
+})
+
+app.get('/receipts', noAccess, (req, res) => {
+    res.sendFile(__dirname + "/receipts.html");
+})
+
+app.get('/receipts.html', noAccess, (req, res) => {
+    res.sendFile(__dirname + "/receipts.html");    
+})
+
+
+app.get("/create_account", (req, res) => {
+    res.sendFile(__dirname + "/public/create_account.html");
+})
+
+
+app.post('/login', (req,res)=> {
+    // express.urlencoded will put your key value pairs 
+    // into an object, where the key is the name of each
+    // form field and the value is whatever the user entered
+    
+    // below is *just a simple authentication example* 
+    // for A3, you should check username / password combos in your database
+    accounts_collection.find(req.body).toArray()
+    .then( dbJSON => {
+        if(dbJSON.length > 0){
+            // define a variable that we can check in other middleware
+            // the session object is added to our requests by the cookie-session middleware
+            req.session.login = true
+            res.redirect('receipts.html' )
+        }
+        else{
+            // password incorrect, redirect back to login page
+            res.redirect('login.html')
+        }
+    });
+})
+
+app.get('/login.html', (req, res) => {
+    console.log("In get login");
+
+
+    // console.log("req.session: ", req.session)
+    // res.json()
+    res.sendFile(__dirname + '/public/login.html');
+})
+
+
+app.post('/logout', logOutUser, (req, res) => {
+    console.log("In post method");
+
+
+    // console.log("req.session: ", req.session)
+    // res.json()
+    res.redirect('/login.html');
+})
+
+function logOutUser(req, res, next){
+    console.log("in logOutUser middleware");
+    // req.session.login = false
+    // delete req.session
+    req.session = null
+    next()
+}
+
+
 // Make all the files in 'public' available
-// app.use(express.static('public'))
+app.use(express.static('public'))
 
 
 
-// app.get('/', (req, res) => {
-//     const { userID } = req.session
 
-//     // userID = 1;
-
-//     console.log(userID);
-
-//     if (userID){
-//         res.sendFile(__dirname + "/receipts.html");
-//     }
-//     else{
-//         res.sendFile(__dirname + "/public/login.html");
-//     }
+// app.get("/create_account", (request, response) => {
+//     response.sendFile(__dirname + "/public/create_account.html");
 // })
 
-// app.get('/receipts', (req, res) => {
-//     // res.
+// app.get("/receipts", (request, response) => {
+//     response.sendFile(__dirname + "/receipts.html");
 // })
 
 
-// app.get('/login', (req, res) => {
-//     // req.session.userID
-
-//     res.sendFile(__dirname, '/public/login.html')
-// })
-
-
-// app.get('/create_account', (req, res) => {
-//     res.sendFile(__dirname, '/public/create_account.html')
-// })
-
-
-// app.post('/login', (req, res) => {
-
-// })
-
-// app.post('/register', (req, res) => {
-    
-// })
-
-// app.post('/logout', (req, res) => {
-    
-// })
-
-
-
-
-
-
-
-
-
-app.get("/", (request, response) => {
-    response.sendFile(__dirname + "/public/login.html");
-})
-
-app.get("/create_account", (request, response) => {
-    response.sendFile(__dirname + "/public/create_account.html");
-})
-
-
-// app.get("/login", (request, response) => {
-//     console.log("Trying to change pages");
-
-//     response.redirect("/login.html");
-// })
-
-
-
-
-
-app.get("/create_account", (request, response) => {
-    response.sendFile(__dirname + "/public/create_account.html");
-})
-
-app.get("/receipts", (request, response) => {
-    response.sendFile(__dirname + "/receipts.html");
-})
-
-app.post("/login", bodyParser.json(), (request, response) => {
-
-    
-    json = request.body
-
-    const element = {"email": json.email, "password": json.password};
-
-    accounts_collection.find(element).toArray()
-        .then( dbJSON => {
-            logged_in_user.name = dbJSON[0].name;
-            logged_in_user.email = dbJSON[0].email;
-            response.json(dbJSON[0]);
-
-            console.log(logged_in_user);
-        });
-
-
-})
 
 app.post("/create_account", bodyParser.json(), (request, response) => {
 
@@ -184,9 +195,14 @@ app.post("/create_account", bodyParser.json(), (request, response) => {
 
     accounts_collection.insertOne(json)
     .then( result => {
-        logged_in_user = result;
-        response.json( result) 
+                   
+        request.session.login = true
+
+        // console.log(result)
+        // response.json( result) 
+        response.redirect('receipts.html')
     })
+    
 })
 
 /* 
@@ -277,13 +293,6 @@ app.post('/update_receipt', bodyParser.json(), (request, response) => {
 })
 
 
-app.post('/logout', bodyParser.json(), (request, response, next) => {
-    console.log("Logged someone out!");
-    logged_in_user = {};
-    next();
-
-    // response.redirect("/login.html");
-})
 
 
 

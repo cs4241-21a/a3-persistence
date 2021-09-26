@@ -774,99 +774,103 @@ function logout(){
             "Content-Type":"application/json"
         }
     })
-
-    console.log("changing the browser page");
-    // Changes the browser to the login page
-    fetch('/login')
-}
-
-
-window.onload = function(){
+    // .then(response => {
+    //     // console.log("response", response);
+    //     // window.location.href = 'login.html';
+    // })
 
     
-    fetch('/get_user', {
-        method: 'POST',
-        data: JSON.stringify({}),
-        headers:{
-            "Content-Type":"application/json"
-        }
-    })
-    .then(response => response.json())
-    .then(json => {
+    // Changes the browser to the login page
+    // fetch('/login')
+}
 
-        const user = JSON.stringify(json);
 
-        fetch('/find_user_receipts', {
-            method: 'POST',
-            data: user,
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
-        .then(response => {
-            console.log("response", response);
-            response.json()
-        })
-        .then(receipts => {
-            console.log(receipts);
-        }).then(() => {
+// window.onload = function(){
+
+    
+//     fetch('/get_user', {
+//         method: 'POST',
+//         data: JSON.stringify({}),
+//         headers:{
+//             "Content-Type":"application/json"
+//         }
+//     })
+//     .then(response => response.json())
+//     .then(json => {
+
+//         const user = JSON.stringify(json);
+
+//         fetch('/find_user_receipts', {
+//             method: 'POST',
+//             data: user,
+//             headers:{
+//                 "Content-Type":"application/json"
+//             }
+//         })
+//         .then(response => {
+//             console.log("response", response);
+//             response.json()
+//         })
+//         .then(receipts => {
+//             console.log(receipts);
+//         }).then(() => {
             
-            let sampleReturnedJsons = [
-                {_id: "614a23a369269a6950412261",
-                num_of_people: '1',
-                amount_due: '$100.00',
-                tip: '$3.00',
-                calc_1: '$20.00',
-                calc_2: '$47.50',
-                calc_3: '$15.20',
-                tip_percentage: '(%30.00) :',
-                price_per_person: '$13.00',
-                email: 'aburke@wpi.edu'
-              },
-              {
-                _id: "614a23d469269a6950412262",
-                num_of_people: '1',
-                amount_due: '$100.00',
-                tip: '$3.00',
-                calc_1: '$22.00',
-                calc_2: '$77.50',
-                calc_3: '$55.00',
-                tip_percentage: '(%99.00) :',
-                price_per_person: '$103.00',
-                email: 'aburke@wpi.edu'
-              },
-              {_id: "614a241769269a6950412263",
-                num_of_people: '1',
-                amount_due: '$1.00',
-                tip: '$1.00',
-                calc_1: '$2.00',
-                calc_2: '$1.50',
-                calc_3: '$1.00',
-                tip_percentage: '(%3.00) :',
-                price_per_person: '$1.00',
-                email: 'aburke@wpi.edu'
-              }]
+//             let sampleReturnedJsons = [
+//                 {_id: "614a23a369269a6950412261",
+//                 num_of_people: '1',
+//                 amount_due: '$100.00',
+//                 tip: '$3.00',
+//                 calc_1: '$20.00',
+//                 calc_2: '$47.50',
+//                 calc_3: '$15.20',
+//                 tip_percentage: '(%30.00) :',
+//                 price_per_person: '$13.00',
+//                 email: 'aburke@wpi.edu'
+//               },
+//               {
+//                 _id: "614a23d469269a6950412262",
+//                 num_of_people: '1',
+//                 amount_due: '$100.00',
+//                 tip: '$3.00',
+//                 calc_1: '$22.00',
+//                 calc_2: '$77.50',
+//                 calc_3: '$55.00',
+//                 tip_percentage: '(%99.00) :',
+//                 price_per_person: '$103.00',
+//                 email: 'aburke@wpi.edu'
+//               },
+//               {_id: "614a241769269a6950412263",
+//                 num_of_people: '1',
+//                 amount_due: '$1.00',
+//                 tip: '$1.00',
+//                 calc_1: '$2.00',
+//                 calc_2: '$1.50',
+//                 calc_3: '$1.00',
+//                 tip_percentage: '(%3.00) :',
+//                 price_per_person: '$1.00',
+//                 email: 'aburke@wpi.edu'
+//               }]
 
-            let old_container_id = "0";
+//             let old_container_id = "0";
 
-            let count = 1
-            sampleReturnedJsons.forEach( function(json) {
-                console.log(json);
+//             let count = 1
+//             sampleReturnedJsons.forEach( function(json) {
+//                 console.log(json);
 
                 
-                generateNewForm(json._id, old_container_id, json);
-                old_container_id = json._id;
+//                 generateNewForm(json._id, old_container_id, json);
+//                 old_container_id = json._id;
 
-                count += 1;
+//                 count += 1;
 
-            })
+//             })
 
-        })
-
-
+//         })
 
 
 
-    })
 
-}
+
+//     })
+
+// }
