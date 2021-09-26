@@ -20,7 +20,7 @@ https://the-lame-calculator.herokuapp.com
 
 - **Tech Achievement 2**: My website scores 100% on Lighthouse in all categories for both mobile and desktop.
 
-- **Tech Achievement 3**: (prof suggested I include this) Messages can be embedded in the calculation performed, and are actually parsed (not just hecked against a list of special numbers) to determine whether to send a secret message back and, with a random chance, perform some shenanigans on database entries :)
+- **Tech Achievement 3**: (prof suggested I include this) Messages can be embedded in the calculation performed, and are actually parsed (not just checked against a list of special numbers) to determine whether to send a secret message back and, with a random chance, perform some shenanigans on database entries :)
 
 ### Design/Evaluation Achievements
 
