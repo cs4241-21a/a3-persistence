@@ -59,10 +59,8 @@ app.post( '/login', function(req,res) {
         collection.insertOne(req.body)
 
          newUser = true
-      }
 
-      //console.log('aaa', req.body.password)
-      //console.log('bbb', dbresponse[0].password)
+      }
 
     if( req.body.password === dbresponse[0].password || newUser === true ) {
       req.session.login = true
