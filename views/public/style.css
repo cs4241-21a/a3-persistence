@@ -3,6 +3,12 @@
   max-width: 100vw;
 }
 
+#logout-btn {
+  position: absolute;
+  right: 4%;
+  top: 7%;
+}
+
 #login-error.active {
   text-align: center;
   border: 1px solid;

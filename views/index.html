@@ -61,15 +61,19 @@
             </div>
         </div>
     </div>
+    <div id="logout-btn">
+        <form action="/logout?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-primary">Log Out</button>
+        </form>
+    </div>
     <div class="container">
-        <div class="row">
+        <div class="row mt-5 mb-5 text-center justify-content-center">
             <div class="col-sm-6">
-                <h1>Welcome to GTWFin, <span id="user-name"></span></h1>
-                <form action="/logout?_method=DELETE" method="POST">
-                    <button type="submit" class="btn btn-primary">Log Out</button>
-                </form>
+                <h1>
+                    Welcome to GTWFin,
+                    <span id="user-name"></span>
+                </h1>
             </div>
-            <div class="col-sm-6">Overview</div>
         </div>
         <div class="row">
             <ul class="nav nav-tabs justify-content-center" id="monthsTabs" role="tablist">
@@ -125,7 +129,7 @@
             <div class="tab-content" id="monthsData">
                 <div class="tab-pane fade" id="jan" role="tabpanel" aria-labelledby="jan-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="jan-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -143,11 +147,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="feb" role="tabpanel" aria-labelledby="feb-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="feb-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -165,11 +170,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="mar" role="tabpanel" aria-labelledby="mar-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="mar-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -187,11 +193,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="apr" role="tabpanel" aria-labelledby="apr-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="apr-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -209,11 +216,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="may" role="tabpanel" aria-labelledby="may-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="may-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -230,11 +238,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="jun" role="tabpanel" aria-labelledby="jun-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="jun-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -251,11 +260,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="jul" role="tabpanel" aria-labelledby="jul-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="jul-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -272,11 +282,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="aug" role="tabpanel" aria-labelledby="aug-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="aug-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -294,11 +305,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade show active" id="sep" role="tabpanel" aria-labelledby="sep-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="sep-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -316,11 +328,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="oct" role="tabpanel" aria-labelledby="oct-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="oct-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -338,11 +351,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="nov" role="tabpanel" aria-labelledby="nov-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="nov-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -360,11 +374,12 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
                 <div class="tab-pane fade" id="dec" role="tabpanel" aria-labelledby="dec-tab">
                     <div class="row mt-4 text-center justify-content-center">
-                        <div class="col-sm-8">
+                        <div class="col-sm-7">
                             <table class="table table-sm" id="dec-table">
                                 <thead>
                                     <tr class="table-primary align-middle" height="40px">
@@ -382,6 +397,7 @@
                                 <tbody></tbody>
                             </table>
                         </div>
+                        <!--<div class="col-sm-5"></div>-->
                     </div>
                 </div>
             </div>

@@ -1,4 +1,8 @@
 $(document).ready(() => {
+    let monthClasses = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
+    let currentMonth = monthClasses[(new Date).getMonth()];
+    $(`#${currentMonth}`).addClass('show').addClass('active');
+
     const queryString = new URLSearchParams(window.location.search);
     const userID = queryString.get('userID');
     console.log(userID);
@@ -16,7 +20,7 @@ $(document).ready(() => {
                 `</button>`;
             let newRow = `<tr class="${rowClass} align-middle" height="40px">` +
                 `<td>${entry.from}</td>` +
-                `<td>${entry.amount}</td>` +
+                `<td>${entry.amount}$</td>` +
                 `<td>${entry.category}</td>` +
                 `<td>${deleteBtn}</td>` +
                 `</tr>`;
