@@ -11,6 +11,8 @@ const dotenv =  require('dotenv');
 const authRoute = require('./routes/authO');
 const dataRoute = require('./routes/dataO');
 const cookie  = require( 'cookie-session' );
+// const JWT = require('jsonwebtoken');
+
 // make all the files in 'views' available
 // https://expressjs.com/en/starter/static-files.html
 app.use(express.static("views"));
@@ -37,14 +39,6 @@ app.use(express.json());
 var bodyParser = require('body-parser')
 
 
-
-
-// // our default array of dreams
-// const dreams = [
-//   "Find and count some sheep",
-//   "Climb a really tall mountain",
-//   "Wash the dishes"
-// ];
 
 
 // https://expressjs.com/en/starter/basic-routing.html

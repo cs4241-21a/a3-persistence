@@ -1,11 +1,13 @@
 const router2 = require('express').Router();
 const path = require('path');
 const Data = require('../model/Data');
+const cookie = require('cookie-session')
 
-app.get("/getData", (req, res) => {
+router2.get("/getData", async (req, res) => {
     // express helps us take JS objects and send them as JSON
-    const allUserData = Data.find({username: session.username})
+    const allUserData = await Data.find({username: session.username})
     console.log('all user data')
+    console.log(allUserData)
     res.json(allUserData);
   });
 
@@ -24,13 +26,13 @@ router2.post( '/data', async (req,res)=> {
         const usernameExists = await User.findOne({username: req.body.username});
         //pass is correct?
         const passwordCorrect = await User.findOne({username: req.body.username, password: req.body.password})
-    if( !isValid.error && usernameExists && passwordCorrect ) {
+    if( true ) {
       // define a variable that we can check in other middleware
       // the session object is added to our requests by the cookie-session middleware
       req.session.login = true
       req.session.username = req.body.username
       console.log(req.session.username)
-      console.log("Succefull log in!")
+      console.log("Succefull registration !")
       // since login was successful, send the user to the main content
       // use redirect to avoid authentication problems when refreshing
       // the page or using the back button, for details see:
@@ -38,7 +40,7 @@ router2.post( '/data', async (req,res)=> {
       res.redirect('../../../main.html')
     }else{
       // password incorrect, redirect back to login page
-      console.log("Failed log in!")
+      console.log("Failed registration!")
       res.sendFile( path.join(__dirname, '..', 'views', 'indexFail.html'))
     }  
   })

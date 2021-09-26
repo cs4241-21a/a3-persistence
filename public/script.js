@@ -83,32 +83,39 @@ function add_row()
 //       return false;
 //   }
 
-const login = function (e) {
-    //prevent default form action from being carried out
-    e.preventDefault();
+// const login = function (e) {
+//     //prevent default form action from being carried out
+//     e.preventDefault();
   
-        const input = document.querySelector( '#username' ),
-        input2 = document.querySelector( '#password' ),
-              json = { username: input.value, password: input2.value},
-      body = JSON.stringify(json);
-      console.log(body);
-    fetch('/api/user/login', {
-      method: 'POST',
-      headers: {
-              'Accept': 'application/json, text/plain, */*',
-              'Content-Type': 'application/json'
-            },
-      body: body
-    })
-      .then(function( res ) {
-        return res.json();
-      })
-      .then(function (json) {
-          //returned data in json 
-          console.log(json)
-      });
-      return false;
-  }
+//         const input = document.querySelector( '#username' ),
+//         input2 = document.querySelector( '#password' ),
+//               json = { username: input.value, password: input2.value},
+//       body = JSON.stringify(json);
+//       console.log(body);
+//     fetch('/api/user/login', {
+//       method: 'POST',
+//       headers: {
+//               'Accept': 'application/json, text/plain, */*',
+//               'Content-Type': 'application/json'
+//             },
+//       body: body
+//     })
+//       .then(function( res ) {
+//         return res.json();
+//       })
+//       .then(function (json) {
+//           //returned data in json 
+//           console.log(json)
+//       });
+//       return false;
+//   }
+fetch("/api/user/getData")
+.then(response => response.json()) // parse the JSON from the server
+.then(data => {
+
+  });
+
+
   
 window.onload = function() {
     const button = document.querySelector( 'button' )
