@@ -3,7 +3,7 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 
 ## Plant Parenthood App
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+Heroku: https://a3-maddison-caten.herokuapp.com/
 
 This application keeps track of a user's plants that they own. It allows you to keep track of the type of plant, its care needs such as type of sunlight and watering, the date of plant adoption to keep track of growth, and additional notes about the plant. 
 
