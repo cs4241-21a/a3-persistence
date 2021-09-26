@@ -1,6 +1,6 @@
 # Assignment 3 - Matthew Spofford
 
-<https://a3-MatthewSpofford.glitch.me>
+<https://cs4241-a3-MatthewSpofford.herokuapp.com>
 
 # Homework Agenda
 
@@ -19,11 +19,16 @@ add a little more detail about what it does.
 - Express.static()
 - Body-parser
 - Cookie-session
-- Passport (OAuth2)
+- PassportJS (OAuth2)
+- PassportJS Sessions
+- CORS = Used to remove Same Origin Policy errors when redirecting to GitHub for OAuth.
 - Custom MongoDB Middleware = determines if mongodb server could not establish a connection, and then outputs a 503 error code if it is
 - Custom Redirect Middleware = Redirect to home page if a user is not logged in (determined by if a cookie exists) and is attempting to view their agenda
 
 
 ## Technical Achievements
+
+- **Setup OAuth for Login**:
+- **Using Heroku for Hosting**: Seems to have no downtime for starting 
 
 ### Design Achievements

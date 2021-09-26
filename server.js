@@ -3,11 +3,12 @@ require('dotenv').config()
 
 // Import dependencies for properly running the server
 const express = require("express"),
+      cors = require("cors"),
       cookie = require("cookie-session"),
       bodyparser = require("body-parser"),
       mongodb = require( 'mongodb' ),
       app = express(),
-      staticURL = "http://localhost",
+      staticURL = process.env.STATIC_URL,
       staticDir  = "public",
       hwPath = "/agenda"
       hwAPIPath = hwPath + "/data",
@@ -27,17 +28,19 @@ passport.use(new GitHubStrat({
     clientSecret: process.env.GH_OAUTH_SECRET,
     callbackURL: staticURL + githubCallback
   },
-  function(req, accessToken, refreshToken, profile, done) {
-    req.session.access_token = accessToken
-    return done(null, profile)
+  function(req, accessToken, refreshToken, user, done) {
+    user.accessToken = accessToken
+    return done(null, user)
   }
 ))
 
 passport.serializeUser(function(user, done) {
+  console.log("passport.serializeUser:\t" + user)
   done(null, user);
 });
 
 passport.deserializeUser(function(obj, done) {
+  console.log("passport.deserializeUser:\t"+ obj)
   done(null, obj);
 });
 
@@ -51,28 +54,39 @@ const homeworkData = {
 const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
 console.log(uri)
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
-let collection = null
+let userCollection = null
+let homeworkCollection = null
+
 
 const hwDB = "homeworkDB",
-      collectionUserHW = "userHomeworks"
+      userCollectionLabel = "userData"
+      homeworkCollectionLabel = "userHomeworks"
+
 
 // Connect to MongoDB database
 client.connect()
   .then( () => {
     // will only create collection if it doesn't exist
-    return client.db(hwDB).collection(collectionUserHW)
+    return [
+      client.db(hwDB).collection(userCollectionLabel),
+      client.db(hwDB).collection(homeworkCollectionLabel),
+    ]
   })
-  .then( __collection => {
+  .then(__collection => {
     // store reference to collection
-    collection = __collection
+    userCollection = __collection[0]
+    homeworkCollection = __collection[1]
     // blank query returns all documents
-    return collection.find({ }).toArray()
+    const userData = userCollection.find({ }).toArray()
+    const hwData = homeworkCollection.find({ }).toArray()
+    return Promise.all([userData, hwData])
   })
-  .then( console.log )
+  .then(console.log)
+
 
 // Custom middleware for outputting an error code if the MongoDB server is down
 app.use((req,res,next) => {
-  if(collection !== null) {
+  if(userCollection !== null && homeworkCollection !== null) {
     next()
   }else{
     res.status(503).send()
@@ -90,17 +104,25 @@ app.use(cookie({
   keys: ['key1', 'key2']
 }))
 
+// Use CORS middleware to remove Same Origin Policy Errors
+app.use(cors({
+  origin: '*',
+  methods: "GET, POST, PATCH, DELETE, PUT",
+  allowedHeaders: "Content-Type, Authorization",
+  preflightContinue: true,
+}))
+
 // Use body parser to parse JSON when necessary
-app.use(bodyparser.urlencoded({ extended: true }));
+app.use(bodyparser.urlencoded({ extended: true }))
 app.use(bodyparser.json())
 
 // Setup middleware for Passport OAuth2
 app.use(passport.initialize())
+app.use(passport.session())
 
 // Redirect to home page if a user is not logged in and is attempting to view their agenda
 app.use((req, res, next) => {
-  console.log(req.session.access_token)
-  if(req.path.startsWith(hwPath) && !req.session.hasOwnProperty("access_token")) {
+  if(req.path.startsWith(hwPath) && !req.hasOwnProperty("user")) {
     res.redirect("/")
   }
   else {
@@ -163,14 +185,30 @@ app.get(hwAPIPath, (request, response) => {
 
 // Handles GET request to login location for redirecting to GitHub
 // This will then redirect to GitHub's OAuth page for authorization
+app.options(githubRedirect, cors())
 app.get(githubRedirect,
-  passport.authenticate("github", { scope: githubUserScope }),
+  [
+    // (req, res, next) => {
+    //   req.set({"Access-Control-Allow-Origin": "*"})
+    //   next()
+    // },
+    passport.authenticate("github", { scope: githubUserScope }),
+  ],
   function(req, res) {
     // Do nothing, being redirect to GitHub
     // The server will need to wait for a response when callback is sent a GET request
+    console.log(req)
+    console.log(res)
   }
 )
 
+// Set up a whitelist and check against it:
+var whitelist = [staticURL, 'https://github.com']
+var corsOptions = {
+  origin: (origin, callback) => {
+    callback(null, true)
+  }
+}
 // Handles GET request to app's GitHub post-authorization location
 // This obtains the authorization token to be used with the GitHub API
 app.get(githubCallback,
@@ -180,7 +218,6 @@ app.get(githubCallback,
   })}),
   function(req, res) {
     console.log(req.user)
-    req.session.access_token = true
     res.redirect(hwPath)
   }
 )
