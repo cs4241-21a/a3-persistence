@@ -47,7 +47,7 @@ Node.js:
 
 General:  
 - Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
-using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test).
+using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test, and don't worry about scores for mobile devices).
 Test early and often so that fixing problems doesn't lead to suffering at the end of the assignment. 
 
 Deliverables
