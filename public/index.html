@@ -3,13 +3,24 @@
   <head>
     <title>MyAgenda - CS4241 Assignment 3</title>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="The MyAgenda app allows users to manage their homework assignments seamlessly.
+                   This project was created for WPI's CS4241 Webware course.">
     <script src="index.js"></script>
   </head>
   <body>
     <h1>
       MyAgenda
     </h1>
-
-    <button id="loginBtn">Login to GitHub</button>
+    <button id="loginBtn">
+      <img src="images/GitHub-Mark-120px.png" alt=""
+           srcset="images/GitHub-Mark-120px.png 120w, images/GitHub-Mark-240px.png 240w"
+           sizes="10vw">
+      Login to GitHub
+    </button>
+    <div id="errorPopup" style="display: none;">
+      <em id="errorMsg"></em>
+    </div>
   </body>
 </html>
