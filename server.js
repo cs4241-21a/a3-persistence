@@ -17,6 +17,7 @@ const express = require('express');
 const app = express();
 const mongodb = require('mongodb');
 const bodyparser = require('body-parser');
+const { env } = require('process');
 
 app.use(express.static("public"));
 app.use(express.json());
@@ -160,5 +161,5 @@ const sendFile = function( response, filename ) {
 }
 //app.listen(3000)
 app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+  console.log("Your app is listening on port " + process.env.PORT);
 })
