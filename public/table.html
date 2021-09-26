@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Dice Table - a3-trbouwens</title>
+    <meta name="description" content="A minimalist layout for Login pages. Built with Pico CSS.">
+    <link rel="shortcut icon" href="https://icon-library.com/images/d20-icon/d20-icon-16.jpg">
+
+    <!-- JavaScript -->
+    <script src="js/scripts.js"></script>
+
+    <!-- Pico.css -->
+    <link rel="stylesheet" href="css/pico/css/pico.min.css">
+
+    <!-- Custom styles for this example -->
+    <link rel="stylesheet" href="css/table.css">
+  </head>
+
+  <body onload="updateOnLoad()">
+    <nav class="container-fluid">
+      <ul>
+        <li><strong>Tyler's RPG Dice Roller</strong></li>
+      </ul>
+      <ul>
+        <li><a href="#" class="contrast" onclick="logout(); return false;">Logout</a></li>
+      </ul>
+    </nav>
+
+    <div id="grid" class="container">
+      <article class="grid">
+        <div class="form_box" id="add_box">
+          <form class="forms" id="add" action="">
+            <h3>Add a new roll</h3>
+            <label for="Character">Character</label>
+            <input type="text" id="add_character" placeholder="Character" required />
+            <label for="Dice Type">Dice Type</label>
+            <select name="dice" id="diceType">
+              <option value="4">d4 (4-sided)</option>
+              <option value="6">d6 (6-sided)</option>
+              <option value="8">d8 (8-sided)</option>
+              <option value="10">d10 (10-sided)</option>
+              <option value="12">d12 (12-sided)</option>
+              <option value="20" selected>d20 (20-sided)</option>
+              <option value="100">d100 (100-sided)</option>
+            </select>
+            <label for="quantity">Quantity</label>
+            <input type="text" id="quantity" placeholder="Quantity" required />
+            <label for="Modifier">Modifier</label>
+            <input type="text" id="modifier" placeholder="Modifier" required />
+            <button id = "add_button" class="contrast" type="button" onclick="addRoll()">
+              Add
+            </button>
+          </form>
+        </div>
+
+        <div class="form_box" id="delete_box">
+          <form class="forms" id="delete" actions="">
+            <h3>Delete an existing roll</h3>
+            <label for="ID">ID</label>
+            <input type="text" id="id" placeholder="ID" required/>
+            <label for="Character">Character</label>
+            <input type="text" id="del_character" placeholder="Character" required/>
+            <button class="contrast" type="button" onclick="deleteRoll()">
+              Delete
+            </button>
+            <p>
+              Note: The two boxes are each individual options. Specifying a
+              value for both will result deletion via solely ID.
+            </p>
+          </form>
+        </div>
+
+        <div class="form_box" id="button_box">
+            <form class="forms" id="edit" actions="">
+              <h3>Edit a Roll</h3>
+              <label for="ID">ID</label>
+              <input type="text" id="edit_id" placeholder="ID" required />
+              <button class="contrast" type="button" onclick="editRoll()">
+                Edit
+              </button>
+            </form>
+
+            <h3>Other Options</h3>
+            <button class="contrast" type="button" onclick="clearRolls()">
+              Clear
+            </button>
+        </div>
+    </article>
+
+      <table class="table" id="table_list">
+        <thead>
+          <tr>
+            <th>ID #</th>
+            <th width="50%">Character</th>
+            <th>Dice Type</th>
+            <th>Quantity</th>
+            <th>Modifier</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </body>
+</html>
