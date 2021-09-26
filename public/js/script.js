@@ -25,10 +25,8 @@ const submit = function (e) {
             }
         })
             .then(function (response) {
-                console.log(response);
                 return response.json();
             }).then(function (data) {
-                console.log(data);
                 addRows(data);
             })
     }
@@ -47,7 +45,6 @@ const deleteRow = function (id) {
         }
     })
         .then(function (response) {
-            console.log(response);
             return response.json();
         }).then(function (data) {
             if (data.failed === "false") {
@@ -79,7 +76,6 @@ const editRow = function (id, newname, el) {
         }
     })
         .then(function (response) {
-            console.log(response);
             return response.json();
         }).then(function (res) {
             if (res.failed === "false") {
@@ -115,6 +111,7 @@ const convert = function () {
     //console.log(parseInt(output.split(" ").join(""), 2)); //actual number
     //console.log(parseInt(output.split(" ").join(""), 2).toString(2)); //number in binary
     document.getElementById("bintextconv").value = parseInt(output.split(" ").join(""), 2);
+    document.getElementById("bintextconv").focus();
 }
 
 window.onload = function () {
@@ -130,7 +127,6 @@ window.onload = function () {
     })
         .then(function (response) {
             let contentType = response.headers.get("content-type");
-            console.log(contentType);
             if (contentType && contentType.indexOf("application/json") !== -1) {
                 return response.json().then(data => {
                     loggedInAs = data.shift().un;

@@ -18,11 +18,9 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cookie({
     name: 'session',
     keys: [process.env.KEY_ONE, process.env.KEY_TWO]
-   // sameSite: 'none' //chrome doesnt like this but firefox wants it ._.
 }))
 
 const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
-console.log(uri);
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 let collection = null
 
@@ -77,7 +75,6 @@ app.post('/add', bodyParser.json(), (req, res) => {
         newentry.name = (data.length + 1).toString();
         return data;
     }).then(data => {
-        //MAKE IT CHECK FOR SECRET MESSAGES HERE BEFORE ENTERING THE DATA
         let visible = [];
         for (i = 0; i < data.length; i++) {
             if (data[i].un === req.session.user || data[i].secret === "false") {
@@ -168,8 +165,7 @@ app.post('/login', (req, res) => {
                 // use redirect to avoid authentication problems when refreshing
                 // the page or using the back button, for details see:
                 // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern
-                //WHY DOES THIS NOT WORK? sendFile ALSO DOESNT WORK
-                //debugger
+                //WHY DOES redirect NOT WORK? sendFile ALSO DOESNT WORK
                 res.json({ failed: "false" });
             } else {
                 // password incorrect, redirect back to login page
@@ -250,12 +246,6 @@ app.get('/load', (req, res) => {
         })
         .then(visible => res.json(visible))
 })
-// collection.find({}).toArray().then(function (result) {
-//     result.unshift(req.session.user)
-//     res.json(result)
-// })
-// console.log("load called");
-// })
 
 
 // route to get all docs, needs to be after the unauth middleware? useless atm?
@@ -390,7 +380,4 @@ function corruptAnEntry(alldata) {
             { $set: { y: toString(-666) } } //a mistake, but it fits actually so im keeping it
         )
     }
-
 }
-
-
