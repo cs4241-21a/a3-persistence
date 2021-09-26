@@ -1,6 +1,6 @@
 ## Online Food Orderer Definitive Edition
 
-Jack Campanale http://a3-charlie-roberts.glitch.me
+Jack Campanale https://a3-jcampanale.herokuapp.com/
 
 ## Goal
 This application allows people to order food for delivery from a new and upcoming chain restaurant, Mendy's. Users are required to log in 
