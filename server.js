@@ -22,7 +22,7 @@ app.use(cookie({
 }))
 
 const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
-
+console.log(process.env.USER)
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 let collection = null
 
@@ -34,7 +34,6 @@ client.connect()
     .then(__collection => {
         // store reference to collection
         collection = __collection
-        console.log("FOUND COLLECTION")
         // blank query returns all documents
         return collection.find({}).toArray()
     })
