@@ -93,7 +93,7 @@ app.post('/login', (req, res) => {
 					console.log("Successfully logged in")
 					req.session.login = true
 					console.log("user _id: " + result[0]._id.toString())
-					req.session._id = result[0]._id.toString()
+					req.session.id = result[0]._id.toString()
 					// TODO: This is a temporary implementation of the "Remember me" feature
 					if (req.body.remember !== 'on') {
 						req.sessionOptions.maxAge = 60 * 1000 // 1 Minute
@@ -166,7 +166,14 @@ app.get('/', function (req, res) {
 })
 
 
-// ------ Data Manipulation ------
+// ------ CRUD ------
+
+
+app.get('/read', (req, res) => {
+	if (collection !== null) {
+		collection.find({_id: new mongodb.ObjectId(req.session.id)}).toArray().then(result => res.json(result[0].list))
+	}
+})
 
 
 app.listen(3000)

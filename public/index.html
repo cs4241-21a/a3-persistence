@@ -1,12 +1,35 @@
 <!doctype html>
 <html lang="en">
 <head>
-	<title>CS4241 Assignment 2</title>
-	<meta charset="utf-8">
-	<link rel="stylesheet" href="css/myStyle.css">
+	<title>G3P Expense Tracker</title>
+	<meta charset="UTF-8"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" href="/styles.css">
 	<script src="js/scripts.js" defer></script>
 </head>
-<body>
+<body class="bg-gray-50">
+<!-- Header -->
+<div id="header" class="relative bg-white">
+	<div class="max-w-7xl mx-auto px-4 sm:px-6">
+		<div class="flex justify-between items-center border-b-2 border-gray-100 py-6 md:justify-start md:space-x-10">
+			<div class="flex justify-start lg:w-0 lg:flex-1">
+				<a href="/">
+					<span class="sr-only">G3P Logo</span>
+					<img class="h-8 w-auto sm:h-10 filter drop-shadow-md" src="/assets/G3P-logo.png" alt="G3P Logo">
+				</a>
+			</div>
+			<div class="flex items-center justify-end md:flex-1 lg:w-0">
+				<a href="/logout" class="whitespace-nowrap text-base font-medium text-gray-500 hover:text-gray-900">
+					Sign out </a>
+				<button class="ml-8 whitespace-nowrap inline-flex items-center justify-center px-4 py-2 border border-transparent rounded-md shadow-sm text-base font-medium text-white bg-myGreen-600 hover:bg-myGreen-700">
+					Add Item
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Cards -->
+<br id="foot">
 <div class="cardHolder">
 	<div class="title card">
 		<h1>Expense Tracker</h1>
@@ -50,5 +73,7 @@
 		</form>
 	</div>
 </div>
+<!-- Header adapted from https://tailwindui.com/components/marketing/elements/headers -->
+<!-- Cards adapted from https://tailwindui.com/components/application-ui/data-display/description-lists -->
 </body>
 </html>

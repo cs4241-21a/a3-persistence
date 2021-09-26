@@ -7,6 +7,78 @@ window.onload = function () {
 	document.getElementById('submitEntry').onclick = submitEntry
 	document.getElementById('date').value = new Date().toLocaleDateString('en-CA')
 	refreshData()
+	fetch('/read', {
+		method: 'GET',
+		headers: {
+			"Content-Type": "application/json"
+		}
+	}).then(res => {
+		return res.json()
+	}).then(res => {
+		res.forEach(day => createCard(day))
+	})
+}
+function convertDate(date) {return new Date(Date.parse(date)).toDateString()}
+
+function createCard(json) {
+	let div = document.createElement('div')
+	div.setAttribute('class', 'max-w-7xl mx-auto pt-12 sm:px-6 lg:px-8');
+	let list = ""
+	let color = false
+
+	// Insert list items
+	json.transactions.forEach(transaction => {
+
+		// Change color for alternating rows
+		if (color) list += "<div class='bg-white"
+		else list += "<div class='bg-gray-50"
+		color = !color
+
+		list += " px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6'> <dt class='text-base font-medium text-gray-500'> " +
+			"<div class='w-0 flex-1 flex items-center'> " +
+			"<svg class='flex-shrink-0 h-5 w-5 text-gray-400' " +
+			"xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20' fill='currentColor' " +
+			"aria-hidden='true' x-description='Heroicon name: solid/"
+
+		// Change svg for amount
+		if (transaction.isIn) {
+			list += "plus-sm'> " +
+				"<path fill-rule='evenodd' " +
+				"d='M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z' " +
+				"clip-rule='evenodd'/> </svg> "
+		} else {
+			list += "minus-sm'> " +
+				"<path fill-rule='evenodd' " +
+				"d='M5 10a1 1 0 011-1h8a1 1 0 110 2H6a1 1 0 01-1-1z' " +
+				"clip-rule='evenodd'/> </svg> "
+		}
+
+		// Insert amount
+		list += "<div> $" + transaction.amount / 100 + " </div> </div> </dt> " +
+			"<dd class='mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2'> " +
+			"<li class='flex items-center justify-between text-sm'> " +
+			"<div class='w-0 flex-1 flex items-center'> " +
+			"<span class='flex-1 w-0'>"
+
+		// Insert Note
+		list += transaction.note
+
+		list += "</span> </div> <div class='ml-4 flex-shrink-0'> " +
+			"<button class='font-medium text-myGreen-600 hover:text-myGreen-500' " +
+			"onclick=editItem(" + transaction._id + ", " + transaction.isIn + ", " + transaction.amount + ", " + transaction.note + ")> Edit </button> </div> </li> </dd> </div>"
+	})
+
+	let innerHTML = "<div class='max-w-4xl mx-auto'> " +
+		"<div class='bg-white shadow overflow-hidden sm:rounded-lg'> " +
+		"<div class='px-4 py-5 sm:px-6'> " +
+		"<h3 class='text-lg leading-6 font-medium text-gray-900'> " +
+		convertDate(json.date) +
+		" </h3> <p class='mt-1 max-w-2xl text-sm text-gray-500'> Income: $" +
+		json.I / 100 + ", Expenses: $" + json.O / 100 +
+		" </p> </div> <div class='border-t border-gray-200'> <dl> " +
+		list + "</dl> </div> </div> </div>"
+	div.innerHTML = innerHTML
+	document.body.insertBefore(div, document.getElementById('foot'))
 }
 
 const submitEntry = function (e) {
