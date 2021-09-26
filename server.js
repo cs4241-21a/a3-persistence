@@ -64,7 +64,7 @@ app.post( '/add', express.json(), (request, response) => {
     let minutes;
     if(entry.distance === "Not Far"){
       if(d.getHours() > 12){
-        hours = d.getHours() - 12;
+        hours = d.getHours();
       }
       else{
         hours = d.getHours();
@@ -83,7 +83,7 @@ app.post( '/add', express.json(), (request, response) => {
     }
     if(entry.distance === "Decently Far"){
       if(d.getHours() > 12){
-        hours = d.getHours() - 12;
+        hours = d.getHours();
       }
       else{
         hours = d.getHours();
@@ -102,7 +102,7 @@ app.post( '/add', express.json(), (request, response) => {
     }
     if(entry.distance === "Far"){
       if(d.getHours() > 12){
-        hours = d.getHours() - 12;
+        hours = d.getHours();
       }
       else{
         hours = d.getHours();
