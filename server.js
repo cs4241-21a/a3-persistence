@@ -9,7 +9,7 @@ const mongoose = require('mongoose');
 const dotenv =  require('dotenv');
 // importing routes
 const authRoute = require('./routes/authO')
-// const cookie  = require( 'cookie-session' );
+const cookie  = require( 'cookie-session' );
 
 
 dotenv.config();
@@ -26,16 +26,19 @@ app.use( express.urlencoded({ extended:true }) )
 
 // cookie middleware! The keys are used for encryption and should be
 // changed
-// app.use( cookie({
-//   name: 'session',
-//   keys: ['key1', 'key2']
-// }))
+app.use( cookie({
+  name: 'session',
+  keys: ['key1', 'key2']
+}))
+
+
 
 //Middleware
 app.use(express.json());
 
 //Route Middleware
 app.use('/api/user', authRoute);
+
 
 // // our default array of dreams
 // const dreams = [
@@ -59,6 +62,13 @@ app.get("/", (request, response) => {
 //   // express helps us take JS objects and send them as JSON
 //   response.json(dreams);
 // });
+// add some middleware that always sends unauthenicaetd users to the login page
+app.use( function( req,res,next) {
+  if( req.session.login === true )
+    next()
+  else
+    res.sendFile( __dirname + '/views/index.html' )
+})
 
 // listen for requests :)
 const listener = app.listen(process.env.PORT, () => {
