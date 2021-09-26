@@ -9,7 +9,7 @@ const { nextTick } = require('process');
 
 router.post('/register', async (req, res) => {    
   //validate user response before user creation
-    const isValid = regValidation(json.username);    
+    const isValid = regValidation(req.body);    
   //check if username already exists
     const usernameExists = await User.findOne({username: req.body.username});
   if( !isValid.error && !usernameExists) {
@@ -28,11 +28,15 @@ router.post('/register', async (req, res) => {
   try{
       const savedUser = await user.save();
       console.log("User created!");
-      res.send(savedUser);
+      // res.send(savedUser);    
+      req.session.login = true
+      req.session.username = req.body.username
+      res.redirect('../../../main.html')      
+
   }catch(err){
       res.status(400).send(err);
   }
-    res.redirect(path.join(__dirname, '..', 'views', 'main.html'))
+
   }else{
     // password incorrect, redirect back to login page
     console.log("Failed registration!")
@@ -59,6 +63,8 @@ router.post( '/login', async (req,res)=> {
       // define a variable that we can check in other middleware
       // the session object is added to our requests by the cookie-session middleware
       req.session.login = true
+      req.session.username = req.body.username
+      console.log(req.session.username)
       console.log("Succefull log in!")
       // since login was successful, send the user to the main content
       // use redirect to avoid authentication problems when refreshing

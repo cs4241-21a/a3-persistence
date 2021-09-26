@@ -2,9 +2,6 @@
 // run by the browser each time the page is loaded
 
 console.log("hello world :o");
-
-
-
   
 
 function edit_row(no)
@@ -86,34 +83,34 @@ function add_row()
 //       return false;
 //   }
 
-// const login = function (e) {
-//     //prevent default form action from being carried out
-//     e.preventDefault();
+const login = function (e) {
+    //prevent default form action from being carried out
+    e.preventDefault();
   
-//         const input = document.querySelector( '#username' ),
-//         input2 = document.querySelector( '#password' ),
-//               json = { username: input.value, password: input2.value},
-//       body = JSON.stringify(json);
-//       console.log(body);
-//     fetch('/api/user/login', {
-//       method: 'POST',
-//       headers: {
-//               'Accept': 'application/json, text/plain, */*',
-//               'Content-Type': 'application/json'
-//             },
-//       body: body
-//     })
-//       .then(function( res ) {
-//         return res.json();
-//       })
-//       .then(function (json) {
-//           //returned data in json 
-//           console.log(json)
-//       });
-//       return false;
-//   }
+        const input = document.querySelector( '#username' ),
+        input2 = document.querySelector( '#password' ),
+              json = { username: input.value, password: input2.value},
+      body = JSON.stringify(json);
+      console.log(body);
+    fetch('/api/user/login', {
+      method: 'POST',
+      headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+            },
+      body: body
+    })
+      .then(function( res ) {
+        return res.json();
+      })
+      .then(function (json) {
+          //returned data in json 
+          console.log(json)
+      });
+      return false;
+  }
   
-// window.onload = function() {
-//     const button = document.querySelector( 'button' )
-//     button.onclick = login
-//   }
+window.onload = function() {
+    const button = document.querySelector( 'button' )
+    button.onclick = login
+  }
