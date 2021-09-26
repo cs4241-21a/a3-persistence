@@ -2,12 +2,20 @@ const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
       cookie  = require( 'cookie-session' ),
       bodyParser = require("body-parser"),
+      responseTime = require("response-time"),
+      timeout = require('connect-timeout'),
       app = express()
 
 app.use( express.static('public') )
 app.use( express.json() )
+app.use( responseTime() )
+app.use(timeout('5s'))
+app.use(haltOnTimedout)
 const path = require('path');
 
+function haltOnTimedout (req, res, next) {
+  if (!req.timedout) next()
+}
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
 app.use( express.urlencoded({ extended:true }) )
@@ -109,8 +117,6 @@ client2.connect()
     
   })
   //.then( console.log )
-
-
 let user = null;
 
 app.post("/login", bodyParser.json(), function(req, res) {
@@ -137,6 +143,16 @@ app.post("/create", bodyParser.json(), function(req, res) {
   
 });
 
+app.use( function( req,res,next) {
+  if( req.session.login === true )
+    next()
+  else
+    res.sendFile( __dirname + '/views/login.html' )
+})
+
+app.post("/logout", bodyParser.json(), function(req, res) {
+  user = null;
+});
 
   
 app.listen( 3000 )

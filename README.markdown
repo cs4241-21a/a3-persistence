@@ -1,116 +1,42 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
-Due: September 20th, by 11:59 AM.
-
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
-a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
-
-Baseline Requirements
----
-
-Your application is required to implement the following functionalities:
-
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! One of these five middleware 
-can be a custom function that you write yourself; if you choose to do this, make sure to describe what this function is in your README.  
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). 
-This should do the bulk of your styling/CSS for you and be appropriate to your application. 
-For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
-
-Your application is required to demonstrate the use of the following concepts:  
-
-HTML:  
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two pages for this assignment, one that handles login / authentication, and one that contains the rest of your application.
-For example, when visiting the home page for the assignment, users could be presented with a login form. After submitting the login form, if the login is 
-successful, they are taken to the main application. If they fail, they are sent back to the login to try again. For this assignment, it is acceptable to simply create 
-new user accounts upon login if none exist, however, you must alert your users to this fact.  
-
-CSS:  
-- CSS styling should primarily be provided by your chosen template/framework. 
-Oftentimes a great deal of care has been put into designing CSS templates; 
-don't override their stylesheets unless you are extremely confident in your graphic design capabilities. 
-The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:  
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. 
-See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:  
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-General:  
-- Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
-using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test).
-Test early and often so that fixing problems doesn't lead to suffering at the end of the assignment. 
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the 
-assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. 
-These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README, 
-why it was challenging, and how many points you think the achievement should be worth. 
-ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). 
-*You must either use Github authenticaion or provide a username/password to access a dummy account*. 
-Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. 
-Please contact the course staff if you have any questions about this. THIS IS THE HARDEST ACHEIVEMENT OFFERED IN WEBWARE. You have been warned!  
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-- (5 points) Get 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.  
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. 
-For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively 
-getting it "for free" without having to actively change anything about your site. 
-Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. 
-List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. 
-Which element received the most emphasis (contrast) on each page? 
-How did you use proximity to organize the visual information on your page? 
-What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? 
-How did you use alignment to organize information and/or increase contrast for particular elements. 
-Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
+## Plant Parenthood App
 
 your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+This application keeps track of a user's plants that they own. It allows you to keep track of the type of plant, its care needs such as type of sunlight and watering, the date of plant adoption to keep track of growth, and additional notes about the plant. 
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
+Goals - The goal of this application is to modify assignment 2 and add functionality so that users can modify and delete entries. Also utilize a database such as MongoDB and add a log-in system to the application.
+
+Challenges - Some challenges that I faced in realizing this application were adding functionality to add/modify/delete entries in the database. I had difficulty implementing this in a2, so it took a lot of extra time to get these features fully functional. I also had trouble making it so that two users could not have the same username. During this, I kept running into error-handling issues on the client-side of the program and confusion on how to implement this in a straightforward way. After attending office hours, I got the feature working.
+
+Authentication - The authentication strategy I chose was based on the example using a database with cookies. I chose this strategy because it seemed like the most straightforward for me to implement to my program. 
+
+CSS Framework - The CSS framework I chose was the Milligram CSS framework. I chose this framework because I liked the minimalist style that it was based on. I also thought that the purple based color went nicely with the color scheme of my existing application (neutrals). I made a couple modifications with custom CSS. These included the font for the title of the webpage and the alignment of the elements on the page. I also modified some of the font sizes as I thought those included with the framework were a little small for the page.
+
+Middleware - 1.) body-parser: This middleware parses incoming request bodies before handlers. 2.) cookie-session: used for log-in implementation and stores the user session. 3.) response-time: Records the response time for requests in HTTP servers. The “response time” is elapsed time from when a request enters this middleware to when the headers are written out to the client. 4.) connect-timeout: Times out a request in the Connect/Express application framework. 5.) (custom) /login.html: redirects user to the login page of the application
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I hosted my site on Heroku instead of Glitch. This is because I think they have similar functionality. I like Heroku more since I have previous experience using it for my MQP project and I like how when you push changes to a github repository the changes automatically update in Heroku. 
+
+- **Tech Achievement 2**: I got a 100% in all four lighthouse tests on all webpages for this assignment. 
+Login Page:
+![alt text](Lighthouse_Home.JPG)
+Index Page:
+![alt text](Lighthouse_Index.JPG)
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative:
+1.) Provide informative, unique page titles - The login page clearly indicates its purpose of being a login page
+2.) Use headings to convey meaning and structure - Key elements in all the webpages use headings to draw more focus to those elements than plain text (ex. the title of the webpage, different login options: login or sign up)
+3.) Keep content clear and concise - I made sure all forms and feedback when the user does something wrong (ex. username taken) is as clear as possible for simplicity
+4.) Provide sufficient contrast between foreground and background - I chose a light beige color for the background of the webpage and a dark green for text and other elements so there is a high contrast between background and foreground.
+5.) Don’t use color alone to convey information - To avoid this, I used alert pop-ups to let the user know if they have done something incorrectly
+6.) Ensure that form elements include clearly associated labels - Both the form to add elements to the database and the login form are clearly labeled with what information goes where
+7.) Provide easily identifiable feedback - Alert pop-ups make feedback easily identifiable to the user
+8.) Use headings and spacing to group related content - The title of the page has the largest heading, and elements that go together are grouped by heading size. For instance the add plant and my plants are the same size heading since they are correlated, but not as large as the title.
+9.) Identify page language and language changes - On every page, the primary language is indicated as English
+10.) Use mark-up to convey meaning and structure - WAI-ARIA roles are included for every table/div element
+11.) Provide clear instructions - The instructions on each page are very intuitive and straighforward on the webpage, by design. Otherwise there are clearly written instructions for the user to follow.
+12.) Ensure that interactive elements are easy to identify - All clickable buttons on the webpage are bright purple and clearly state what they do (ex. "logout" logs the user out of the application)

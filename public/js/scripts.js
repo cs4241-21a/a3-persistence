@@ -135,5 +135,16 @@ function buildTable(json) {
   }
   deleteCell.appendChild(dbutton);
 
-
 }
+
+const logoutButton = document.getElementById("logout")
+logoutButton.addEventListener("click", event => {
+  event.preventDefault();
+  fetch("/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  window.location.href = "login.html";
+});
