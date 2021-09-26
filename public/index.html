@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <div class="boxHolder">
+      <div class="box">
+        <h1>Flight Reminder</h1>
+        <div id="travels"></div>
+      </div>
+    </div>
+
+    <div class="boxHolder">
+      <div class="box">
+        <form id="newTrip">
+          <h2>Add New Flight</h2>
+
+          <label for="flightNum">Flight Number: </label>
+          <input type="text" id="flightNum" placeholder="Flight Number" required />
+
+          <label for="depAirport">Departure Airprot: </label>
+          <input
+            type="text"
+            id="depAirport"
+            placeholder="Airport name" required 
+          />
+
+          <label for="arrAirport">Arrival Airport: </label>
+          <input type="text" id="arrAirport" placeholder="Airport name" required />
+
+          <label for="date">Date: </label>
+          <input type="date" id="date" name="date" required />
+
+          <button id="submitAdd">Submit</button>
+        </form>
+      </div>
+    </div>
+    <h2>Upcoming Travel</h2>
+    <div class="boxHolder">
+      <div class="box">
+        <table id="upcomingResult">
+          <thead>
+            <tr>
+              <th>Flight Number</th>
+              <th>Departure Airport</th>
+              <th>Arrival Airport</th>
+              <th>Date</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody id="upcomingData"></tbody>
+        </table>
+      </div>
+    </div>
+
+
+
+    <h2>Past Travel</h2>
+    <div class="boxHolder">
+      <div class="box">
+        <table id="pastResult">
+          <thead>
+            <tr>
+              <th>Flight Number</th>
+              <th>Departure Airport</th>
+              <th>Arrival Airport</th>
+              <th>Date</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody id="pastData"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="js/scripts.js"></script>
+
+  </body>
+</html>
