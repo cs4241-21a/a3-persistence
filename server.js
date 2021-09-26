@@ -19,8 +19,13 @@ const mongodb = require('mongodb');
 const bodyparser = require('body-parser');
 const { env } = require('process');
 
+const morgan = require('mogan');
+const responseTime = require('response-time')
+const compression = require('compression')
+
 app.use(express.static("public"));
 app.use(express.json());
+
 
 app.use( express.urlencoded({ extended:true }) )
 
@@ -28,6 +33,14 @@ app.use( cookie({
   name: 'session',
   keys: ['key1','key2']
 }))
+
+app.use(morgan('combined'))
+app.use(responseTime())
+app.use(compression())
+
+app.get('/', function (req, res) {
+  res.send('hello, world!')
+})
 
 const MongoClient = mongodb.MongoClient;
 const uri =`mongodb+srv://${user}:${pass}@cluster0.kt8ex.mongodb.net/myFirstDatabase?retryWrites=true&w=majority`;
