@@ -11,33 +11,45 @@ app.use(express.json())
 
 app.use(cookie({
     name: 'session',
-    keys: ['key1', 'key2']
+    keys: ['asdf', 'uiop']
 }))
 
 const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
-let collection = null
+let users = null
+let assignments = null
 
 client.connect()
     .then( () => {
-        return client.db('Cluster0').collection('Collection0')
+        return client.db('a3').collection('users')
     })
-    .then(__collection => {
-        collection = __collection
+    .then(__users => {
+        users = __users
         //finding {} returns all documents in the DB
-        return collection.find({ }).toArray()
+        return users.find({ }).toArray()
     })
     .then(console.log)
 
-app.get('/', (req,res) => {
-    if(collection !== null){
-        collection.find({ }).toArray.then(result => res.json (result))
-    }
-})
+client.connect()
+    .then( () => {
+        return client.db('a3').collection('assignments')
+    })
+    .then(__assignments => {
+        assignments = __assignments
+        //finding {} returns all documents in the DB
+        return assignments.find({ }).toArray()
+    })
+    .then(console.log)
+
+// app.get('/', (req,res) => {
+//     if(users !== null){
+//         users.find({ }).toArray.then(result => res.json (result))
+//     }
+// })
 
 
 app.use((req,res,next)=>{      //note that a .use call with no mount path runs on every single request to app (the server)
-    if (collection !== null){
+    if (users !== null || assignments !== null){
         next()
     }else{
         res.status(503).send()
@@ -47,13 +59,35 @@ app.use((req,res,next)=>{      //note that a .use call with no mount path runs o
 app.post('/login', (req, res) => {
     console.log (req.body)
 
-    //TESTING AUTHENTICATION
-    if(req.body.password === 'test'){
-        req.session.login = true
-        res.redirect('main.html')
-    }else{
-        res.sendFile(__dirname + '/public/index.html')
-    }
+    let query = { username: req.body.username }
+    
+    users.findOne(query)
+        .then( userquery => {
+            console.log(userquery)
+            if(userquery === null){  //if the user doesn't exist
+                let newuser = { username: req.body.username,
+                                password: req.body.password}
+                users.insertOne(newuser)
+                    .then( () =>{
+                        req.session.login = true
+                        req.session.username = req.body.username
+                        req.session.usercreated = true
+                        res.send('<script>alert("New user created!"); window.location.href = "/main.html";</script>')
+                    })
+            }else{
+                if(userquery.password === req.body.password){  //check if password matches
+                    req.session.login = true
+                    req.session.username = req.body.username
+                    req.session.usercreated = 
+                    res.redirect('main.html')
+                }else{
+                    res.send('<script>alert("Incorrect login information!"); window.location.href = "/index.html";</script>')
+                }
+            }
+        })
+
+    
+
 })
 
 app.use(function(req,res,next){
