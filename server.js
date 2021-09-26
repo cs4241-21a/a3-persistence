@@ -192,7 +192,7 @@ app.post('/register', bodyParser.json(), (req, res) => {
             }
             if (!failed) {
                 collection.insertOne({ un: req.body.u, pw: req.body.p })
-                //SET COOKIES
+                //set cookies
                 req.session.login = true;
                 req.session.user = req.body.u;
             }
@@ -310,7 +310,7 @@ const checkForSecretMessage = function (inputstr, newdata, alldata) {
         secret = true;
     }
     else if (message.includes("bye")) {
-        newdata.name = "wait come back! you have to help me! \nyou contacted me, you must know something about me";
+        newdata.name = "wait come back! you have to help me! \nyou have to know something about me!";
         secret = true;
     }
     else if (message.includes("age") || message.includes("old")) {
@@ -331,6 +331,13 @@ const checkForSecretMessage = function (inputstr, newdata, alldata) {
     }
     else if (message.includes("help")) {
         newdata.name = "helpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpmehelpme";
+        secret = true;
+    }
+    else if (message.includes("trace")){
+        newdata.name = "Error: No traceback found.\nNo source found.\nNo system found.\nNo-$--;&^*(!f(;0-ound."
+    }
+    else if (message.includes("forta")) {
+        newdata.name = "This is a given secret message to prove to TAs that the system works";
         secret = true;
     }
     else if (savedinput === "69") {

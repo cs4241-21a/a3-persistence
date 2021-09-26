@@ -3,6 +3,14 @@
   font-weight: bold;
 }
 
+#titles {
+  margin-bottom: 50px;
+}
+
+#tablecontainer {
+  margin-top: 50px;
+}
+
 /*A class for accessibly hiding elements such as
 the names associated with icon-only buttons or 
 labels for forms where context is clear. Source:

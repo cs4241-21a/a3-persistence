@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
     <script src="https://kit.fontawesome.com/423d28716a.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="/style.css">
-    <title>CS4241 Assignment 3</title>
+    <title>The Lame Calculator (CS4241 Assignment 3)</title>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -25,10 +25,9 @@
             <h2>Somehow still a better deal than TI calculators™</h2>
             <h3>Collaborative Computing, done wrong©</h3>
         </div>
-        <p>Enter a valid number in the boxes along with an operator, then press compute to perform the designed
-            operation on those numbers. Results are sorted with most recent appearing at the top for convenience. </p>
-        <p class="warning">WARNING: DO NOT ATTEMPT TO COMMUNICATE WITH CALCULATOR IN BINARY VIA COMPUTATION. IGNORE ALL
-            SECRET RESPONSES.</p>
+        <h4>How To Use</h4>
+        <p>Enter a valid number in the first and third boxes along with an operator in the middle, then press compute to perform the designated operation on those numbers. Results are sorted in a table at the bottom of this page, with most recent appearing at the top for convenience. </p>
+        <p class="warning">WARNING: DO NOT ATTEMPT TO COMMUNICATE WITH CALCULATOR IN BINARY VIA COMPUTATION. IGNORE ALL SECRET RESPONSES.</p>
         <div class="flex-container" id="computeform">
             <form>
                 <input type="number" class="fvalue" id="value1" value="">
@@ -41,18 +40,16 @@
             </form>
         </div>
         <div id="notesandconvert" class="flex-container">
-            <div>
-                <p>Notes:</p>
-                <ul>
+            <div style="margin-bottom:40px">
+                <h4 style="margin-bottom:0">Notes</h4>
+                <ul style="margin-top:0">
                     <li>Supported operations are +, -, *, /, and ^.</li>
                     <li>Whitespace is supported within numbers, but NOT by the binary parser.</li>
                     <li>01110100 01110010 01111001 00100000 01110100 01100101 01110011 01110100</li>
                 </ul>
             </div>
             <div>
-                <p>The "convert" button converts text to the decimal equivalent of the text's binary representation. <span class = "warning">Use
-                    this to avoid accidentally communicating with the calculator</span> by having your computation result be
-                    the decimal equivalent of some binary phrase.</p>
+                <p>The "convert" button converts text to the decimal equivalent of the text's binary representation. <span class = "warning">Use this to avoid accidentally communicating with the calculator</span> by having your computation result be the decimal equivalent of some binary phrase.</p>
                 <input type="text" id="bintext">
                 <label for="bintext" class="visuallyhidden">text to convert</label>
                 <input id="bintextconv"/>
@@ -63,6 +60,7 @@
         </div>
         <div class="flex-container" id="tablecontainer">
             <table id="table">
+                <caption class ="visuallyhidden">All computations and results</caption>
                 <colgroup>
                     <col span="1" style="width: 30%">
                     <col span="1" style="width: 20%">
@@ -70,7 +68,7 @@
                     <col span="1" style="width: 20%">
                     <col span="1" style="width: 25%">
                     <col span="1" style="width: 0%; padding-left: 0; padding-right: 0; margin-left: 0; margin-right: 0">
-                    <!-- <col span="1" style="width: 7%"> -->
+                    <!-- this last column is purely to let me easily position the edit/delete buttons -->
                 </colgroup>
                 <tbody>
                     <tr>

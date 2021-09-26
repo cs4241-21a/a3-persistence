@@ -92,7 +92,7 @@ const editRow = function (id, newname, el) {
                 }
             }
             else {
-                alert("Could not edit name");
+                alert("Could not edit row name, likely due to server error");
             }
         })
 }
@@ -114,7 +114,6 @@ const convert = function () {
     //console.log(output); //number in binary, with spaces
     //console.log(parseInt(output.split(" ").join(""), 2)); //actual number
     //console.log(parseInt(output.split(" ").join(""), 2).toString(2)); //number in binary
-
     document.getElementById("bintextconv").value = parseInt(output.split(" ").join(""), 2);
 }
 
@@ -189,28 +188,28 @@ function addRows(response) {
         if (r[i].un === loggedInAs && r[i].un !== null) {
 
             let delbut = document.createElement("button");
-            delbut.innerHTML = '<i class="fa fa-trash-o fa-lg"></i> <span class="visually-hidden">delete</span>';
+            delbut.innerHTML = '<i class="fa fa-trash-o fa-lg"></i> <span class="visuallyhidden">delete</span>';
             delbut.addEventListener('click', function () {
                 let thisrowid = row._id;
                 deleteRow(thisrowid);
             });
 
             let editbut = document.createElement("button");
-            editbut.innerHTML = '<i class="fas fa-edit fa-lg"></i> <span class="visually-hidden">edit</span>';
+            editbut.innerHTML = '<i class="fas fa-edit fa-lg"></i> <span class="visuallyhidden">edit</span>';
             editbut.selected = false;
             editbut.nameinput = document.createElement("input");
             editbut.nameinput.setAttribute('type', 'text');
             editbut.addEventListener('click', function () {
                 let ethisrowid = row._id;
                 if (!editbut.selected) {
-                    editbut.innerHTML = '<i class="fas fa-check fa-lg"></i> <span class="visually-hidden">confirm</span>';
+                    editbut.innerHTML = '<i class="fas fa-check fa-lg"></i> <span class="visuallyhidden">confirm</span>';
                     cell1.innerText = "";
                     cell1.appendChild(editbut.nameinput);
                     editbut.nameinput.focus();
                     editbut.selected = true;
                 }
                 else {
-                    editbut.innerHTML = '<i class="fas fa-edit fa-lg"></i> <span class="visually-hidden">edit</span>';
+                    editbut.innerHTML = '<i class="fas fa-edit fa-lg"></i> <span class="visuallyhidden">edit</span>';
                     cell1.removeChild(editbut.nameinput);
                     editbut.selected = false;
                     editRow(ethisrowid, editbut.nameinput.value, cell1);
