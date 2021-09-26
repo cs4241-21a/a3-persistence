@@ -37,14 +37,14 @@ const isAuth = (req,res, next) => {
   }
 }
 
-app.use('/login', (req, res, next) => {
+app.use('/index', (req, res, next) => {
   req.setTimeout((4 * 60 * 1000) + 1);
   next();
 }, timeout('4m'));
 
 app.get("/", (request, response) => {
   console.log(request.user);
-  response.sendFile(__dirname + '/public/login.html');
+  response.sendFile(__dirname + '/public/index.html');
 });
 
 app.get("/login", (request, response) => {
