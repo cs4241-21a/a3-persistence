@@ -107,4 +107,4 @@ app.use(express.static('./public/'))
 //made icon at https://favicon.io/
 app.use(favicon(__dirname+'/public/favicon.ico'))
 
-app.listen(3000)
+app.listen( process.env.PORT || 3000)
