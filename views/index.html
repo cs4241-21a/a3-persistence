@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Login to your Bucket List</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="description" content="A cool thing made with Glitch" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://unpkg.com/cirrus-ui" />
+    
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,300,400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet">
+    
+    <script src="/public/loginscript.js"></script>
+
+    <link
+      id="favicon"
+      rel="icon"
+      href="https://glitch.com/edit/favicon-app.ico"
+      type="image/x-icon"
+    />
+    <!-- import the webpage's stylesheet -->
+  </head>
+  <body>
+    <h1>
+      Log-in
+    </h1>
+
+    <p>
+      If this is your first time on this app, an account will be created for you
+    </p>
+
+    <form id="loginform" action="/login" method="post">
+      <!-- user input-->
+      Username:<br />
+      <input
+        type="text"
+        name="username"
+        placeholder="Username"
+        required
+      /><br /><br />
+      Password:<br />
+      <input
+        type="password"
+        name="password"
+        placeholder="Password"
+        required
+      /><br /><br />
+      <!-- submit button -->
+      <input type="submit" value="Login" />
+    </form>
+  </body>
+</html>
