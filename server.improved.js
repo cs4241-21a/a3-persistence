@@ -8,7 +8,8 @@ const mime = require( 'mime' ),
     UserEntry = require('./models/login.js'),
     ReviewEntry = require('./models/reviewEntry.js'),
     cookie = require( 'cookie-session'),
-    bodyParser = require("body-parser");
+    bodyParser = require("body-parser"),
+    responseTime = require('response-time');
 require('dotenv').config();
 
 const {response, request} = require("express");
@@ -26,6 +27,7 @@ app.set('view engine', 'ejs');
 // middleware & static files
 app.use(express.urlencoded({extended: true}));
 app.use(morgan('dev'));
+app.use(responseTime());
 
 app.use( cookie({
     name: 'session',

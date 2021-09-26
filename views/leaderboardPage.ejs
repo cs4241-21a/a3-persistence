@@ -2,32 +2,34 @@
 <html lang="en">
 <%- include("./partials/head.ejs") %>
 <body>
-<%- include("./partials/nav.ejs") %>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <%- include("./partials/nav.ejs") %>
+        </div>
+    </div>
 
-<div>
-    <h2>Leaderboard</h2>
-    <table>
-        <% if (leaderboards.length > 0) { %>
-            <th>Name</th>
-            <th>Score</th>
-            <th>Rank</th>
-            <th>Edit</th>
-            <th>Report</th>
-            <% leaderboards.forEach(leaderboard => { %>
-                <tr id=<%=leaderboard._id%>>
-                    <td><%= leaderboard.yourname%></td>
-                    <td><%= leaderboard.score%></td>
-                    <td><%= leaderboard.rank%></td>
-                    <td> Edit </td>
-                    <td> Delete</td>
-                </tr>
-            <% }) %>
-        <% } %>
-
-    </table>
-
+    <div class="row general scoreArea">
+        <div class="col-md-3"></div>
+        <div class="col-6 flex-column align-content-center justify-content-center">
+            <h2 class="text-center">Leaderboard</h2>
+            <table class="table table-sm">
+                <% if (leaderboards.length > 0) { %>
+                    <th>Name</th>
+                    <th>Score</th>
+                    <th>Rank</th>
+                    <% leaderboards.forEach(leaderboard => { %>
+                    <tr id=<%=leaderboard._id%>>
+                        <td><%= leaderboard.yourname%></td>
+                        <td><%= leaderboard.score%></td>
+                        <td><%= leaderboard.rank%></td>
+                    </tr>
+                    <% }) %>
+                <% } %>
+            </table>
+        </div>
+    </div>
 </div>
-
 <%- include("./partials/footer.ejs") %>
 </body>
 </html>

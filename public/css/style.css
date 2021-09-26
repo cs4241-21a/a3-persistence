@@ -1,10 +1,16 @@
+.theme-colors{
+    primary: #0074d9;
+    secondary: green;
+    danger: #ff4136;
+}
+
 p {
     font-size: 20px;
     margin-top: 10px;
     margin-bottom: 10px;
     font-family: "Glory";
 }
-
+/*
 nav{
     display: flex;
     justify-content: left;
@@ -35,41 +41,23 @@ nav p{
     font-size: 2em;
     font-weight: 300;
     text-align: left;
-}
+}*/
 footer{
     color: black;
     text-align: center;
     margin-top: 10px;
 }
 .general {
-    /*alignment: center;
-    top: 0;
-    z-index: 0;
-    height: 100%;
-    overflow-x: hidden;
-    position: fixed;*/
     font-family: "Glory", monospace;
 }
 
 .gameArea {
-    /*display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    left: 0;
-    width: 70%;*/
     align-items: center;
     padding-top: 30px;
     background-color: beige;
 }
 
 .scoreArea {
-    /*display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    right: 0;
-    width: 30%;*/
     align-items: center;
     padding-top: 30px;
     background-color: mediumpurple;
@@ -123,24 +111,12 @@ canvas {
     height:271px;
 }
 
-button {
-    font-family: "ABeeZee";
-    border-radius: 4px;
-    padding: 5px 20px;
-}
-
-button:hover{
-    background-color: blue;
-    color: white;
-}
-
 #myrestartbutton{
     position:absolute;
-    padding-top:110px;
-    width: 75px;
-    margin-top: 20px;
+    width: 100px;
+    margin-top: 130px;
     margin-left: 210px;
-
+    display: none;
 }
 
 input {
@@ -153,20 +129,14 @@ input[type=text]:focus {
     background-color: lightblue;
 }
 
-/*#startBtn{
-    display: block;
-    background-color: red;
-    font-size: 20px;
-    padding: 14px 40px;
-    border-radius: 8px;
-    border: 2px solid white;
-}
-#startBtn:hover{
-    background-color: white;
-    border: 2px solid red;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    color: black;
-}*/
+ #submitBtn{
+     display: none;
+ }
+
+ #accelBtn{
+     display: none;
+     margin-bottom: 20px;
+ }
 
 .hidden{
     display: none;
@@ -182,21 +152,6 @@ h1 {
 h2 {
     font-size: 40px;
 
-}
-
-#accelBtn {
-    padding: 14px 40px;
-}
-#accelBtn:hover{
-    background-color: lightblue;
-    border: 2px solid white;
-    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24), 0 17px 50px 0 rgba(0,0,0,0.19);
-    color: black;
-}
-#accelBtn:active {
-    background-color: lightblue;
-    box-shadow: 0 5px #666;
-    transform: translateY(3px);
 }
 
 #scorePrint{

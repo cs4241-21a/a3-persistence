@@ -10,24 +10,24 @@
         </div>
     </div>
     <div class="row g-0">
-        <div class="col-lg-9 general gameArea">
+        <div class="col-sm-8 flex-column general gameArea">
 
             <h1>Flappy Block</h1>
-            <button type="button" class="btn btn-dark" id="startBtn" onclick="startGame()">Start Game</button>
+            <button type="button" class="btn btn-primary" id="startBtn" onclick="startGame()">Start Game</button>
             <p class="hidden" id="scorePrint">Score: <span id="printScore">0</span></p>
             <br>
             <div>
                 <div class="hidden fixPush" id="myfilter"></div>
-                <div class="hidden" id="myrestartbutton"><button onclick="restartGame()">Restart</button></div>
+                <button class="btn btn-primary" id="myrestartbutton" onclick="restartGame()">Restart</button>
                 <div id="canvascontainer"></div>
             </div>
-            <button class="hidden" id="submitBtn">Submit</button>
+            <button type="button" class="btn btn-warning" id="submitBtn">Submit</button>
             <br>
-            <button class="hidden" id="accelBtn" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">FLAP</button>
+            <button type="button" class="btn btn-primary" id="accelBtn" onmousedown="accelerate(-0.2)" onmouseup="accelerate(0.05)">FLAP</button>
         </div>
-        <div class="col-lg-3 general scoreArea" id="scoreAreaID">
+        <div class="col-sm-4 flex-column general scoreArea" id="scoreAreaID">
             <h2>Top 5 Scores</h2>
-            <table id="Leaderboard">
+            <table class="table table-sm" id="Leaderboard">
                 <% if (leaderboards.length > 0) { %>
                     <th>Name</th>
                     <th>Score</th>

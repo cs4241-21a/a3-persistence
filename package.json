@@ -16,6 +16,8 @@
     "express": "^4.17.1",
     "mime": "^2.5.2",
     "mongoose": "^6.0.6",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "nodemon": "^2.0.13",
+    "response-time": "^2.3.2"
   }
 }

@@ -2,12 +2,14 @@
 <html lang='en'>
 <%- include("./partials/head.ejs")%>
 <body>
-<div class="row">
-    <div class="col loginDiv">
+<div class="row mh-100">
+    <div class="col loginDiv mh-100">
         <p class="loginText">Create an Account</p>
         <form action='/signUp' method='POST'>
-            <input type='text' name='username'>
-            <input type='password' name='password'>
+            <input type='text' name='username' placeholder="Username">
+            <br>
+            <input type='password' name='password' placeholder="Password">
+            <br>
             <input type='submit'>
         </form>
     </div>

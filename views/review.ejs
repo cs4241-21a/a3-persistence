@@ -9,8 +9,9 @@
             <%- include("./partials/nav.ejs") %>
         </div>
     </div>
-    <div class="row">
-        <div class="col-6">
+    <div class="row general">
+        <div class="col-1 scoreArea d-none d-sm-block"></div>
+        <div class="col-4 scoreArea">
             <h2 id="writeReview">Write a Review</h2>
             <form id="reviewForm">
                 <input type="radio" id="oneStar" name="rating" value=1>
@@ -28,7 +29,7 @@
             </form>
             <textarea id="reviewArea" form="reviewForm" name="review"></textarea>
         </div>
-        <div class="col-6">
+        <div class="col-6 gameArea">
             <h2>Reviews</h2>
             <ul>
                 <% if (reviews.length > 0) { %>
@@ -43,12 +44,14 @@
                             <button id='<%=review.rating%>' onclick="myEdit(parentNode.id, this.id)"><i class="bi bi-pencil"></i></button>
                             <button onclick="myDelete(parentNode.id)"><i class="bi bi-trash"></i></button>
                         <% }%>
+                        <hr>
                     </div>
                     <% }) %>
                 <% } %>
 
             </ul>
         </div>
+        <div class="col-1 gameArea d-none d-sm-block"></div>
     </div>
 
 
