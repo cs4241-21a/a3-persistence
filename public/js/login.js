@@ -17,7 +17,6 @@ const register = function (e) {
     })
         .then(function (response) {
             console.log(response);
-            debugger;
             return response.json();
         }).then(function (data) {
             if (data.failed === "exists") {
