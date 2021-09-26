@@ -10,8 +10,12 @@ const dotenv =  require('dotenv');
 // importing routes
 const authRoute = require('./routes/authO');
 const cookie  = require( 'cookie-session' );
-
-
+// make all the files in 'views' available
+// https://expressjs.com/en/starter/static-files.html
+app.use(express.static("views"));
+// make all the files in 'public' available
+// https://expressjs.com/en/starter/static-files.html
+app.use(express.static("public"));
 dotenv.config();
 
 //Connecting to db
@@ -24,19 +28,11 @@ mongoose.connect(
 // or GET requests
 app.use( express.urlencoded({ extended:true }) )
 
-// cookie middleware! The keys are used for encryption and should be
-// changed
-app.use( cookie({
-  name: 'session',
-  keys: ['key1', 'key2']
-}))
-
-
 //Middleware
 app.use(express.json());
+var bodyParser = require('body-parser')
 
-//Route Middleware
-app.use('/api/user', authRoute);
+
 
 
 // // our default array of dreams
@@ -46,30 +42,31 @@ app.use('/api/user', authRoute);
 //   "Wash the dishes"
 // ];
 
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
 
 // https://expressjs.com/en/starter/basic-routing.html
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
+//Route Middleware
+app.use('/api/user', authRoute);
 
-// // send the default array of dreams to the webpage
-// app.get("/dreams", (request, response) => {
-//   // express helps us take JS objects and send them as JSON
-//   response.json(dreams);
-// });
 // add some middleware that always sends unauthenicaetd users to the login page
-app.use( function( req,res,next) {
+authRoute.use( function( req,res,next) {
   if( req.session.login === true )
     next()
   else
     res.sendFile( __dirname + '/views/index.html' )
 })
 
+// // send the default array of dreams to the webpage
+// app.get("/dreams", (request, response) => {
+//   // express helps us take JS objects and send them as JSON
+//   response.json(dreams);
+// });
+
+
+
 // listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+app.listen( 3000 )
+

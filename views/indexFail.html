@@ -14,21 +14,22 @@
 
     <!-- import the webpage's client-side javascript file -->
     <script src="/script.js" defer></script>
+    <title>Log in page</title>
   </head>
   <body>
 
     <h1>Login or registration failed!</h1>
     <h1>Login here!</h1>
-    <form action='/login' method='POST'>
-      <input type='text' id='username' value="your username here">
-      <input type='text' id='password' value="your password here">
+    <form action='/api/user/login' method='POST'>
+      <input type='text' name='username' value="your username here">
+      <input type='text' name='password' value="your password here">
       <button>login</button>
     </form>
 
     <h1>Register here!</h1>
-    <form action='/register' method='POST'>
-      <input type='text' id='username' value="make a password">
-      <input type='text' id='password' value="make a username">
+    <form action='/api/user/register' method='POST'>
+      <input type='text' name='username' value="make a password">
+      <input type='text' name='password' value="make a username">
       <button>register</button>
     </form>
 
