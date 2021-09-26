@@ -60,7 +60,6 @@ function getDatabaseData() {
     });
 }
 
-
 function mark_completed( no ) {
   let assignment_data = document.getElementById("assignment_row"+no).innerHTML;
   let course_data = document.getElementById("course_row"+no).innerHTML;
