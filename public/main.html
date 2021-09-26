@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Order Placement - Mendy's Delivery</title>
+    <link rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700;800&display=swap" rel="preload" as="style" onload="this.onload=null;this.rel='stylesheet'">
+    <script src="js/scripts.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Main Order Page of Food Ordering Site">
+  </head>
+  <body>
+    <center><img src="images/mendys.webp" alt="Mendy's Logo" width="360" height="120"></center>
+    <h1>ORDER DELIVERY ONLINE</h1>
+    <h2>PLEASE FILL OUT ALL FIELDS</h2>
+    <hr style="width: 70%;">
+    <form action="">
+      <center>
+        <h3>Full Name</h3>
+        <input type='text' id='yourname' placeholder='Place Name Here'>
+        <h3>Order</h3>
+        <input type='text' id='order' placeholder='Place Order Here'>
+        <h3>Distance From Restaurant</h3>
+        <div class="container">
+            <div>
+            <select name='distance' id='distance'>
+                <option value='Not Far'>Not Far</option>
+                <option value='Decently Far'>Decently Far</option>
+                <option value='Far'>Far</option>
+            </select>
+            </div>
+            <ul>
+                <p>Not far - 0 to 5 miles away</p>
+                <p>Decently far - 5 to 15 miles away</p>
+                <p>Far - 15 to 30 miles away</p>
+            </ul>
+            </div>
+        <button class="button">Submit</button>
+      </center>
+    </form>
+
+    <center>
+    <button class="update_button" id='update_button' onclick="updateCell()">Update</button>
+    <table id = 'dataTable'>
+      <tr>
+        <th>Name</th>
+        <th>Time Placed</th>
+        <th>Order</th>
+        <th>Distance</th>
+        <th>Expected Dropoff Time</th>
+      </tr>
+    </table>
+  </center>
+  </body>
+</html>
