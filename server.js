@@ -51,19 +51,21 @@ app.get('/dashboard', checkAuthenticated, (req, res) => {
 
 app.get('/register', checkNotAuthenticated, (req, res) => {
     res.sendFile(__dirname + '/views/register.html');
-})
+});
+
+// Make the same message for both and put it to both inputs
 
 const authUser = async (username, password, next) => {
     let user = await collection.find({ "username": username }).toArray();
     user = user[0];
     if (user === undefined) {
-        return next(null, false, { message: 'No user with that username!' });
+        return next(null, false, { message: 'The username and password combination is wrong' });
     }
 
     if (password === user.password) {
         return next(null, user)
     } else {
-        return next(null, false, { message: 'Incorrect password!' })
+        return next(null, false, { message: 'The username and password combination is wrong' })
     }
 
 }
