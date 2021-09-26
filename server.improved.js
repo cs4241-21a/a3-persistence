@@ -49,14 +49,13 @@ app.post( '/login', async (req, res) => {
   currUser = data.username;
   let test1 = await collection.findOne({"username": currUser});
   if(currUser === null){
-    res.sendFile(__dirname + '/public/failedlogin.html')
+    res.redirect('failedlogin.html');
   }
   if (data.password === test1.password) {
     req.session.login = true
-    res.redirect('main.html')
-    res.end();
+    res.redirect('main.html');
   } else {
-    res.sendFile(__dirname + '/public/failedlogin.html')
+    res.redirect('failedlogin.html');
   }
 })
 app.post( '/add', (req,res) => {
@@ -88,9 +87,10 @@ app.post('/update' , (req, res) => {
   })
 })
 app.post('/delete', async (req, res) => {
-  console.log(await collection.findOneAndDelete({"username": currUser}));
-  res.writeHead(200, "OK", {'Content-Type': 'application/json'})
-  res.end();
+  req.session.login = false
+  currUser = null;
+  currPass = null;
+  res.redirect('signup.html');
 })
 app.post('/submit', (req, res)=> {
   let dataString = ''
@@ -112,9 +112,7 @@ app.post('/submit', (req, res)=> {
     collection.insertOne(data);
     appdata.push(data);
     currUser = data.username;
-    console.log(currUser);
     let test1 = await collection.findOne({"username": currUser});
-    console.log(test1);
     req.session.login = true
     res.writeHead(200, "OK", {'Content-Type': 'application/json'})
     res.end(JSON.stringify(test1));

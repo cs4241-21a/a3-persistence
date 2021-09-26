@@ -45,7 +45,7 @@ function displayInfo(info){
 
     const editData = document.createElement("button");
     editData.value = "Edit information";
-    const val = document.createTextNode("Edit")
+    const val = document.createTextNode("Edit User")
     editData.appendChild(val);
     editData.id = "edit";
     editData.onclick = editinfo;
@@ -53,7 +53,7 @@ function displayInfo(info){
     delData.id = "del";
     delData.onclick = delinfo;
     delData.value = "Delete Info";
-    const del = document.createTextNode("Delete")
+    const del = document.createTextNode("Delete User")
     delData.appendChild(del);
     row.appendChild(userData);
     row.appendChild(summonerData);
