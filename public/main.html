@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+  </head>
+  <body>
+    <script src="js/scripts.js"></script>
+    <h1>Enter new assignments here:</h1>
+    <form id='assignmentInfo' action="" class="flex-container">
+      <p>Course Name:</p>
+      <input type='text' id='courseName'>
+      <p>Assignment Name:</p>
+      <input type='text' id='assignmentName'>
+      <p>Due date:</p>
+      <input type='datetime-local' id='dueDate'>
+      <p>Submission type:</p>
+      <select id="submissionType" name="submissionType">
+        <option value="Canvas">Canvas</option>
+        <option value="In-person">In-person</option>
+        <option value="Email">Email</option>
+        <option value="InstructAssist">InstructAssist</option>
+        <option value="GitHub">GitHub</option>
+        <option value="Other">Other</option>
+      </select>
+      <p>Description (optional):</p>
+      <input type='text' id='description'>
+      <button id='formSubmit'>submit</button>
+    </form>
+    <h1>List of assignments:</h1>
+    <table id="assignmentTable">
+      <thead id="assignmentTableHead">
+        <tr>
+          <th>Course Name</th>
+          <th>Assignment Name</th>
+          <th>Due date</th>
+          <th>Days left</th>
+          <th>Submission Type</th>
+          <th>Description</th>
+          <th>Turned In?</th>
+        </tr>
+      </thead>
+      <tbody id="assignmentTableBody"></tbody>
+    </table>
+  </body>
+  
+</html>
