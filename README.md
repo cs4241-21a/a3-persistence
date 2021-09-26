@@ -4,6 +4,7 @@ This application allows users to input their information into the server to sign
 The server stores the users information (username,password, name, summoner name, role, rank) 
 
 The main struggle I face while working on this project was getting the system to properly store user information and keep the current user set correctly. I also struggled getting the server to swap between webpages based on the users input. 
+Current issues: some of the redirection still doesn't work properly. I don't think it redirects to the failedlogin page or returns to the login page when a user deletes their account. 
 
 I used cookies to authenticate because I found it the easiest to implement and didn't have time to implement oauth 
 
