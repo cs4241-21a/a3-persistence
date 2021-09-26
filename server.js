@@ -36,7 +36,7 @@ let userInfo = null;
 
 client.connect()
   .then( () => {
-    return client.db( 'SleepDataset' ).collection( 'SleepData' )
+    return client.db( 'FridgeDataset' ).collection( 'FridgeData' )
   })
   .then( __collection => {
     collection = __collection
@@ -45,19 +45,19 @@ client.connect()
   .then( console.log )
   
 app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/login.html");
+  response.sendFile(__dirname + "/public/login.html");
   console.log("Cookies: ", request.cookies)
 });
 
 app.get("/login.html", (request, response) => {
-  response.sendFile(__dirname + "/views/login.html");
+  response.sendFile(__dirname + "/public/login.html");
 });
 
 app.get("/index.html", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
+  response.sendFile(__dirname + "/public/index.html");
 });
 
-app.get("/sleep", (req, res) => {
+app.get("/fridge", (req, res) => {
   if (collection !== null) {
     collection.find({username:user}).toArray()
       .then(result => res.json(result));
@@ -96,7 +96,7 @@ app.post( '/update', (req,res) => {
 })
 
 client.connect().then(() => {
-  userInfo = client.db("SleepDataset").collection("UserData");
+  userInfo = client.db("FridgeDataset").collection("UserData");
 });
 
 app.post("/login", bodyParser.json(), function (req, res) {
