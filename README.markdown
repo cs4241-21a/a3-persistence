@@ -3,8 +3,7 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 Homework Agenda Application
 ---
 
-heroku link: http://a3-charlie-roberts.glitch.me
-glitch link: http://a3-renee-sawka.glitch.me
+heroku link: https://a3-renee-sawka.herokuapp.com/
 
 <img width="1783" alt="ManagerSS" src="https://user-images.githubusercontent.com/64321589/134538351-4248226f-95da-4ac8-9d0d-0ee010528539.png">
 
