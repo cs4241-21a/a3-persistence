@@ -1,5 +1,4 @@
-const mime = require( 'mime' ),
-    port = 3000,
+const port = 3000,
     express = require('express'),
     morgan = require('morgan'),
     mongoose = require('mongoose'),
@@ -9,7 +8,8 @@ const mime = require( 'mime' ),
     ReviewEntry = require('./models/reviewEntry.js'),
     cookie = require( 'cookie-session'),
     bodyParser = require("body-parser"),
-    responseTime = require('response-time');
+    responseTime = require('response-time'),
+    timeout = require('connect-timeout');
 require('dotenv').config();
 
 const {response, request} = require("express");
@@ -35,7 +35,11 @@ app.use( cookie({
     username: 'username'
 }))
 
-app.post('/signUp', async (req, res) => {
+function haltOnTimedout(req,res,next){
+    if(!req.timedout) next();
+}
+
+app.post('/signUp', timeout('10s'), haltOnTimedout, async (req, res) => {
     const entry = new UserEntry({
         username: req.body.username,
         password: req.body.password
@@ -67,7 +71,7 @@ async function checkUsername(user,){
     return true;
 }
 
-app.post('/login', async (req, res) => {
+app.post('/login', timeout('10s'), haltOnTimedout, async (req, res) => {
     console.log(req.body)
     let validated = await checkUsernamePassword(req.body.username, req.body.password);
     if (validated) {
@@ -113,7 +117,7 @@ app.use((req,res,next) => {
 
 
 
-app.post('/submit', bodyParser.json(), async (req, res) => {
+app.post('/submit', timeout('10s'), haltOnTimedout, bodyParser.json(), async (req, res) => {
     let rankAdd = await findRank(req.body.score);
     const entry = new ScoreEntry({
         yourname: req.session.username,
