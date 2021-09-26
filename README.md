@@ -11,7 +11,7 @@ storage is through MongoDB. All data for the authenticated user is viewable
 after logging in. Javascript is used to connect to the server and send requests
 for adding new users, modifying users, and deleting users mainly, as well as
 updating the page when querying the database. All LightHouse tests recieve at
-least 90%.
+least 90%. The express middleware packages used are: static, body parser, passport, passport-github, and a custom made middleware function for checking if the user is logged in.
 
 ## Technical Achievements
 - **OAuth Authentication through Github/Passport.js**: Users are validated
