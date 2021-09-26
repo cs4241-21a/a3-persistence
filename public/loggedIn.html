@@ -1,10 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&family=Roboto&display=swap"
+            rel="stylesheet"
+    />
 </head>
 <body>
-    <h1>You have logged in</h1>
+<h1 class="title">Car Value Generator</h1>
+<form>
+    <label for="carname"> Car Name: </label>
+    <input type="text" id="carname" value="Car Name" /> <br />
+
+    <label for="purchaseprice"> Purchase Price: </label>
+    <input type="number" id="purchaseprice" value="12000" /> <br />
+
+    <label for="purchaseyear"> Year Purchased: </label>
+    <input type="number" id="purchaseyear" value="2000" /> <br />
+
+    <label for="repairs"> Number of Repairs: </label>
+    <input type="number" id="repairs" value="2" /> <br />
+
+    <label for="miles"> Miles Driven: </label>
+    <input type="number" id="miles" value="50000" /> <br />
+    <button id="car_submit">GENERATE</button>
+</form>
+
+<table id="car_table">
+    <tr>
+        <th>Car Name</th>
+        <th>Purchase Price</th>
+        <th>Car Age</th>
+        <th>Number of Repairs</th>
+        <th>Miles Driven</th>
+        <th>Estimated Value</th>
+        <th>To Be Deleted <br />(1 at a time)</th>
+    </tr>
+
+</table>
+<button id="deleteButton">Delete Entry</button>
 </body>
 </html>

@@ -5,8 +5,9 @@ window.onload = function(){
     console.log("In inside onload")
 }
 
-let login = function(){
+let login = function(e){
 
+    e.preventDefault()
     // Send POST request to server with filled in User Fields
     let username = document.querySelector('#usernameField')
     let password = document.querySelector('#passwordField')
@@ -29,7 +30,10 @@ let login = function(){
         body: jsonBody
     }).then(function(res){
         return res.json();
-    }).then(function(result){
-        console.log("Result", result);
+    }).then(function(response){
+        console.log("Response:", response)
+        if(response.loggedIn === true){
+            window.location.href = '/loggedIn'
+        }
     })
 }
