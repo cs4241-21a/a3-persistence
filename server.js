@@ -34,7 +34,6 @@ app.use( express.urlencoded({ extended:true }) )
 //Middleware
 app.use(express.json());
 
-
 //Route Middleware
 app.use('/api/user', authRoute);
 

@@ -3,28 +3,7 @@
 
 console.log("hello world :o");
 
-const login = function (e) {
-    //prevent default form action from being carried out
-    e.preventDefault();
-  
-        const input = document.querySelector( '#username' ),
-        input2 = document.querySelector( '#password' ),
-              json = { username: input.value, password: input2.value},
-      body = JSON.stringify(json);
-  
-    fetch('/api/user/register', {
-      method: 'POST',
-      body
-    })
-      .then(function( response ) {
-        return response.json();
-      })
-      .then(function (json) {
-          //returned data in json 
-          console.log(json)
-      });
-      return false;
-  }
+
 
   
 
@@ -80,7 +59,34 @@ function add_row()
  document.getElementById("new_age").value="";
 }
 
+const login = function (e) {
+    //prevent default form action from being carried out
+    e.preventDefault();
+  
+        const input = document.querySelector( '#username' ),
+        input2 = document.querySelector( '#password' ),
+              json = { username: input.value, password: input2.value},
+      body = JSON.stringify(json);
+      console.log(body);
+    fetch('/api/user/login', {
+      method: 'POST',
+      headers: {
+              'Accept': 'application/json, text/plain, */*',
+              'Content-Type': 'application/json'
+            },
+      body: body
+    })
+      .then(function( res ) {
+        return res.json();
+      })
+      .then(function (json) {
+          //returned data in json 
+          console.log(json)
+      });
+      return false;
+  }
+  
 window.onload = function() {
-    const button = document.querySelector( 'login' )
+    const button = document.querySelector( 'button' )
     button.onclick = login
   }
