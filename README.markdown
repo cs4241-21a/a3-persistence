@@ -37,6 +37,8 @@ Achievements
 - **Tech Achievement 1**: I used OAuth authentication with passport.js using GitHub authentication.
 - **Tech Achievement 2**: I hosted my site on Heroku. Heroku is a better service than Glitch in that it is a cloud application platform, allowing users to build, deploy, and scale web apps and APIS. I think Heroku has a much cleaner UI than Glitch, making it easier to navigate, but for very simple web app deployment (like we are doing in this class), Glitch is much more user-friendly in terms of ease and clarity.
 - **Tech Achievement 3**: I achieved 100% on all four lighthouse tests for both the login page and main page of my website.
+<img width="1060" alt="Screen Shot 2021-09-26 at 12 46 12 PM" src="https://user-images.githubusercontent.com/64321589/134816642-79c37de4-9c3b-4c3e-977f-cf3da2e7d669.png">
+<img width="1055" alt="Screen Shot 2021-09-26 at 12 46 41 PM" src="https://user-images.githubusercontent.com/64321589/134816643-6d07e2d9-9bf9-4d5f-bf47-2df4420cd508.png">
 
 ## Design/UX Achievements
 - **Design Achievement 1**: Made my site accessible using the resources and hints available from the W3C.
