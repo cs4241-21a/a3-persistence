@@ -44,7 +44,7 @@ app.use('/login', (req, res, next) => {
 
 app.get("/", (request, response) => {
   console.log(request.user);
-  response.sendFile(__dirname + '/public/login.html');
+  response.sendFile(__dirname + '/public/index.html');
 });
 
 app.get("/login", (request, response) => {
