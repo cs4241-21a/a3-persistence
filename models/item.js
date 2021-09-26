@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
+const User = require('./User')
     itemSchema = new mongoose.Schema({
-
         name:{
             type: String,
             require: [true, 'I need a Name']
@@ -17,7 +17,7 @@ const mongoose = require('mongoose')
           default: Date.now()
         },
         by:{
-            type: Object,
+            type: User,
             require: [true, 'Who\'s doing the checking out?']
         },
         ISBN:{

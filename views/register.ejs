@@ -6,32 +6,32 @@
                     <h1 class="card-title text-center mb-5 fw-light fs-5">Register Here</h1>
                     <form action="/register" method="post">
                         <div class="form-floating mb-3">
-                            <input type="email" class="form-control" id="floatingInput"
+                            <input type="email" class="form-control" id="floatingInput" name="floatingInput"
                                    placeholder="name@example.com" required
                                    value="<%=typeof floatingInput != 'undefined' ? floatingInput:''%>">
                             <label for="floatingInput">Email address</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="firstName" placeholder="Jane"
+                            <input type="text" class="form-control" id="firstName" placeholder="Jane" name="firstName"
                                    required
                                    value="<%=typeof firstName != 'undefined' ? firstName:''%>">
                             <label for="firstName" >
                                 First Name</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="lastName" placeholder="Doe"
+                            <input type="text" class="form-control" id="lastName" placeholder="Doe" name="lastName"
                                    required
                                    value="<%=typeof lastName != 'undefined' ? lastName:''%>">
                             <label for="lastName" >
                                 Last Name</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="floatingPassword"
+                            <input type="password" class="form-control" id="floatingPassword" name="floatingPassword"
                                    placeholder="Password" required>
                             <label for="floatingPassword">Password</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input type="password" class="form-control" id="confPassword"
+                            <input type="password" class="form-control" id="confPassword" name="confPassword"
                                    placeholder="Password" required>
                             <label for="confPassword">Confirm Password</label>
                         </div>
