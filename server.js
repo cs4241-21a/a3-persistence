@@ -17,6 +17,7 @@ const express = require( 'express' ),
 
 
 const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
+console.log(uri)
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 client.connect();
 
