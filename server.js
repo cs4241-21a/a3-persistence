@@ -7,6 +7,9 @@ const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://Ashwin:Pai@a3-webware-ashwin.fyarv.mongodb.net/A3-Webware-MongoDB?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
 
+// Instance Variables
+let currentUser = null;
+
 // EXPRESS APP.USE STATEMENTS
 app.use(bodyParser.json());
 app.use(express.static(__dirname + '/public/'));
@@ -17,6 +20,27 @@ app.use( cookieSession({
     numHits: 0
 }))
 
+app.post("/getUserInformation", (req, res) => {
+    let userEntrys = getUserInformation(req.body.userID)
+    respObj = {entry: userEntrys}
+    console.log(userEntrys)
+    res.send(JSON.stringify(respObj))
+})
+
+/**
+ * POST request that will insert the body into mongoDB.
+ */
+app.post("/submit", (req, res) =>{
+    addEntry(req.body)
+})
+
+app.get('/getUser', (req, res) =>{
+    let body = {
+        "user": currentUser
+    }
+    console.log("Current User is ", currentUser);
+    res.send(JSON.stringify(body));
+})
 
 /**
  *  GET request that handles the initial page that unauthenticated users will see.
@@ -29,6 +53,7 @@ app.get('/', (req, res) => {
 /**
  *  POST request that handles the user logging in
  */
+
 app.post('/login', (req, res) =>{
     handlePost(req.body).then(function(validUser){
         if(req.session.login === true){
@@ -36,7 +61,7 @@ app.post('/login', (req, res) =>{
         }
         let resObj;
         if (validUser) {
-
+            currentUser = req.body.username;
             req.session.login = true;
             req.session.authID = req.body.username;
             resObj = {
@@ -91,11 +116,13 @@ async function doesUserExist(username, password){
         return authenticated
     }catch (e) {
         console.error(e);
+    }finally{
+        client.close();
     }
 }
 
 /**
- * connectDatabase is the function that checks to see if a user is authenitcated (they have a user login) stored
+ * connectDatabase is the function that checks to see if a user is authenticated (they have a user login) stored
  * in the MongoDB
  *
  * @param client - MongoDB Client
@@ -103,11 +130,11 @@ async function doesUserExist(username, password){
  * @param password - password (sorry for bad security)
  * @returns {boolean}
  */
-let LOGIN_DATABASE = "A3-Webware-MongoDB"
+let LOGIN_DATABASE_AUTHENTICATION = "A3-Webware-MongoDB"
 let LOGIN_COLLECTION = "User-Login"
 async function checkUser(client, username, password){
     let authenticated = false;
-    let db = client.db(LOGIN_DATABASE)
+    let db = client.db(LOGIN_DATABASE_AUTHENTICATION)
     await db.collection(LOGIN_COLLECTION).find().forEach(function(user){
         if(user.username === username && user.password === password){
             console.log("Found a User with Matching Credentials")
@@ -115,6 +142,43 @@ async function checkUser(client, username, password){
         }
     })
     return authenticated
+}
+
+/**
+ * getUserInformation is a function that returns all car-entrys that are associated with a userID.
+ *
+ * @param userID
+ * @returns {Promise<[]>}
+ */
+async function getUserInformation(userID){
+    let userEntries = []
+
+    await client.connect()
+    let db = client.db(LOGIN_DATABASE_ENTRY)
+    await db.collection(LOGIN_COLLECTION_CAR).find({userID}).forEach(function(entry){
+        userEntries.push(entry)
+    })
+
+    return userEntries;
+}
+
+/**
+ * addEntry adds the entry into the Car-Entry-Holder Database
+ * @type {string}
+ */
+let LOGIN_DATABASE_ENTRY = "A3-Webware-MongoDB"
+let LOGIN_COLLECTION_CAR = "Car-Entry-Holder"
+async function addEntry(body){
+    if(currentUser !== null){
+        body["userID"] = currentUser;
+        await client.connect()
+        let db = client.db(LOGIN_DATABASE_ENTRY)
+        await db.collection(LOGIN_COLLECTION_CAR).insertOne(body, function(err, res){
+            if(err) throw err;
+            console.log("Inserted Successfully")
+        })
+    } else{ console.log("Please Login and Try again.")}
+
 }
 
 /** Establishes that the Express Server will be listening on PORT 3000
