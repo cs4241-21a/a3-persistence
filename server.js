@@ -64,10 +64,10 @@ app.post( '/add', express.json(), (request, response) => {
     let minutes;
     if(entry.distance === "Not Far"){
       if(d.getHours() > 12){
-        hours = d.getHours();
+        hours = d.getHours() - 16;
       }
       else{
-        hours = d.getHours();
+        hours = d.getHours() - 4;
       }
 
       if(d.getMinutes() + 10 > 60){
@@ -83,10 +83,10 @@ app.post( '/add', express.json(), (request, response) => {
     }
     if(entry.distance === "Decently Far"){
       if(d.getHours() > 12){
-        hours = d.getHours();
+        hours = d.getHours() - 16;
       }
       else{
-        hours = d.getHours();
+        hours = d.getHours() - 4;
       }
 
       if(d.getMinutes() + 25 > 60){
@@ -102,10 +102,10 @@ app.post( '/add', express.json(), (request, response) => {
     }
     if(entry.distance === "Far"){
       if(d.getHours() > 12){
-        hours = d.getHours();
+        hours = d.getHours() - 16;
       }
       else{
-        hours = d.getHours();
+        hours = d.getHours() - 4;
       }
 
       if(d.getMinutes() + 40 > 60){
@@ -127,7 +127,12 @@ app.post( '/add', express.json(), (request, response) => {
       dTime = hours + ":" + minutes
     }
 
-    timePlaced = d.getHours() + ":" + d.getMinutes(); 
+    if(d.getHours() > 12){
+      timePlaced = (d.getHours() - 16) + ":" + d.getMinutes(); 
+    }
+    else{
+      timePlaced = (d.getHours() - 4) + ":" + d.getMinutes(); 
+    }
 
     entry.time = timePlaced;
     entry.dropTime = dTime;
