@@ -1,30 +1,22 @@
-# hello-express
+## Fate Servant Generator
 
-A server that serves a webpage, its resources, and some data
+https://a3-jingyu-xie.glitch.me/
 
+- players can use this website to randomly generate their fate servant generator with occupation
+- challenges you faced in realizing the application
+- authentication strategy: Mongo DB, because other strategies are not been taught, and I am not sure I can achieve them
+- CSS framework: Primer
+  - Since Primer is concise and beautiful, and it can automatically modify my website
+  - I put some photos and make some changes to the table in the website
+- 5 Express middleware packages
+  - cookie-session: check whether successfully log in
+  - express-session: I tried both this and cookie to see whether there are any differences between them. I thought cookie is better       so I only keep cookie.
+  - body-parser: to handle json in request
+  - errorhandler: used to find errors
+  - response-time: to see how long did the server take to respond
 
-## Your Project
+## Technical Achievements
+- **Tech Achievement 1**: NO
 
-On the front-end,
-
-- Edit `views/index.html` to change the content of the webpage
-- `public/client.js` is the javacript that runs when you load the webpage
-- `public/style.css` is the styles for `views/index.html`
-- Drag in `assets`, like images or music, to add them to your project
-
-On the back-end,
-
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
-
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy.
-
-
-## Made by [Glitch](https://glitch.com/)
-
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
-
-Find out more [about Glitch](https://glitch.com/about).
-
-( ᵔ ᴥ ᵔ )
+### Design/Evaluation Achievements
+- **Design Achievement 1**: NO
