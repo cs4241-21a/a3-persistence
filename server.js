@@ -3,23 +3,26 @@ const express = require( 'express' ),
       mongodb = require( 'mongodb' ),
       cookie  = require( 'cookie-session' ),
       bodyparser = require( 'body-parser' ),
+      session = require('express-session'),
+      errorhandler = require("errorhandler"),
+      responseTime = require("response-time"),
       app = express()
 
 app.use( express.static('public') )
 app.use( express.json() )
 app.use( express.urlencoded({ extended:true }) )
-app.use( express.static('views') )
+//app.use(errorhandler())
+app.use(responseTime())
 
 app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
 }))
 
-const uri = 'mongodb+srv://manager:manager@homework.prnvk.mongodb.net/'
-
-const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
+const client = new mongodb.MongoClient( process.env.DBuri, { useNewUrlParser: true, useUnifiedTopology:true })
 let user_collection = null
 let collection = null
+let username = null
 
 console.log("get it!")
 
@@ -45,9 +48,18 @@ client.connect()
     return collection.find({ }).toArray()
   })
 
-// app.get('/', (req, res) =>{
+// app.get('/main.html', (req, res) =>{
+//   console.log("real " + req.session.username)
+//   res.sendFile(__dirname + '/public/main.html')
+// })
+
+// app.get('/index.html', (req, res) =>{
 //   res.sendFile(__dirname + '/public/index.html')
 // })
+
+app.get("/", (request, response) => {
+  response.sendFile(__dirname + "/views/index.html");
+});
 
 app.post( '/login', bodyparser.json(), function(req,res){
   console.log("logging in!")
@@ -55,14 +67,15 @@ app.post( '/login', bodyparser.json(), function(req,res){
     "username":req.body.username
   }).toArray().then(dbresponse => {
     if (dbresponse.length === 0){
-      console.log("didnt find uer!")
+      console.log("didnt find user!")
       res.end(JSON.stringify("The account does not exist"))
     }
     else {
-      password = dbresponse[0].password
+      let password = dbresponse[0].password
       const pass = req.body.password
       if (pass === password){
         req.session.username = req.body.username
+        username = req.body.username
         console.log(req.session.username)
         res.redirect('/main.html')
       }
@@ -73,7 +86,16 @@ app.post( '/login', bodyparser.json(), function(req,res){
   })
 })
 
- 
+app.use( function( req,res,next) {
+  if( req.session.login === true || req.method === "POST" ){
+    next()
+  }
+  else{
+    res.sendFile( __dirname + '/public/index.html' )
+  }
+
+})
+
 app.post('/create', bodyparser.json(), function(req,res){
   user_collection.find({
     "username":req.body.username
@@ -90,37 +112,33 @@ app.post('/create', bodyparser.json(), function(req,res){
 })
 
 // add some middleware that always sends unauthenicaetd users to the login page
-app.use( function( req,res,next) {
-  if( req.session.login === true )
-    next()
-  else
-    res.sendFile( __dirname + '/public/index.html' )
-})
-
 app.post( '/getdata', (req,res) => {
   // assumes only one object to insert
   if( collection !== null ) {
     // get array and pass to res.json
-    collection.find({ }).toArray().then( result => res.json( result ) )
+    console.log(req.session.username)
+    collection.find({ "username":req.session.username }).toArray().then( result => {res.json(result)} )
   }
 })
 
 app.post( '/add', (req,res) => {
   // assumes only one object to insert
-  collection.insertOne( req.body ).then( result => res.json( result ) )
+  const json = req.body
+  json.username = username
+  collection.insertOne( json ).then( result => res.json( result ) )
 })
 
-app.post( '/remove', (req,res) => {
+app.post( '/delete', (req,res) => {
   collection
-    .deleteOne({ _id:mongodb.ObjectId( req.body._id ) })
+    .deleteOne({ _id:mongodb.ObjectId( req.body.id ) })
     .then( result => res.json( result ) )
 })
 
 app.post( '/update', (req,res) => {
   collection
     .updateOne(
-      { _id:mongodb.ObjectId( req.body._id ) },
-      { $set:{ name:req.body.name } }
+      { _id:mongodb.ObjectId( req.body.id ) },
+      { $set:{ servantname:req.body.servantname } }
     )
     .then( result => res.json( result ) )
 })

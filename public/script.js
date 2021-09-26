@@ -45,14 +45,3 @@ const create = function(e){
     alert(response)
   })
 }
-
-function updatefromDB(){
-  fetch("/getdata")
-  .then(response => response.json())
-  .then(tasks => {
-    //tasksList.firstElementChild.remove();
-    while(tasksList.firstChild) tasksList.removeChild(tasksList.firstChild);
-    // iterate through every task and add it to our page
-    tasks.forEach(function(task){appendNewTask(task.task, task.priority,task.starttime, task._id)});
-  });
-}

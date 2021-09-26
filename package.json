@@ -11,9 +11,13 @@
   },
   "dependencies": {
     "@primer/css": "^17.11.0",
+    "body-parser": "^1.19.0",
     "cookie-session": "^1.4.0",
+    "errorhandler": "^1.5.1",
     "express": "^4.17.1",
-    "mongodb": "^4.1.2"
+    "express-session": "^1.17.2",
+    "mongodb": "^4.1.2",
+    "response-time": "^2.3.2"
   },
   "engines": {
     "node": "12.x"

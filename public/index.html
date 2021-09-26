@@ -1,24 +1,47 @@
 <!doctype html>
 <html lang='en'>
   <head>
+      <meta charset="utf-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+      <meta name="description" content="A Fate Servant Generator">
+    
+      <title>Sign In to Fate Servant Generator</title>
+    
       <link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet">
+      <link rel="stylesheet" href="style.css">
   </head>
   <body>
+    <div id="loginpage">
     <form>
-      <h1>To Sign In</h1>
-      <p1>username:</p1>
-      <input type='text' name='susername' id='susername'><br><br>
-      <p1>password:</p1>
-      <input type='password' name='spassword' id='spassword'><br><br>
+      <h1>Welcome to Fate Servant Generator!</h1><hr>
+      <h2>To Sign In</h2><br>
+      <label>
+        username: 
+        <input type='text' name='susername' id='susername'>
+      </label><br><br>
+      
+      <label>
+        password: 
+        <input type='password' name='spassword' id='spassword'>
+      </label><br><br>
+      
       <button type='submit' id='loginb'>Log in</button><hr>
       
-      <h1>To Create A New Account</h1>
-      <p1>username:</p1>
-      <input type='text' name='cusername' id='cusername'><br><br>
-      <p1>password:</p1>
-      <input type='password' name='cpassword' id='cpassword'><br><br>
+      <h2>To Create A New Account</h2><br>
+      <label>
+        username: 
+        <input type='text' name='cusername' id='cusername'><br><br>
+      </label>
+      
+      <label>
+        password: 
+        <input type='password' name='cpassword' id='cpassword'>
+      </label><br><br>
+      
       <button type='submit' id='createb'>Create Account</button><br>
     </form>
+    </div>
     <script type="text/javascript" src = "./script.js"> </script>
     <script>
       window.onload = function(){

@@ -1,32 +1,34 @@
 dependencies:
   '@primer/css': 17.11.0
+  body-parser: 1.19.0
   cookie-session: 1.4.0
   express: 4.17.1
+  express-session: 1.17.2
   mongodb: 4.1.2
 packages:
   /@primer/css/17.11.0:
     dependencies:
-      '@primer/primitives': 4.8.0
+      '@primer/primitives': 4.8.1
     dev: false
     engines:
       node: ^12.20.0 || ^14.13.1 || >=16.0.0
     resolution:
       integrity: sha512-BGBVzM/SgMM96Q+FFSZlAyXF4MHaSQB7tvvgwTcPqPoNrW1zLVteWbdeQoLNHGphHXL0AlhpInmNXvlhUinOUw==
-  /@primer/primitives/4.8.0:
+  /@primer/primitives/4.8.1:
     dev: false
     resolution:
-      integrity: sha512-et4Kwt5LRy5YskHYHFJBoqWoqTHsdQHAOV5YvqQco2P7fQ3Xnus6tMQDuoD2cR03S86qKAjNYO9E6grDxVJWZA==
-  /@types/node/16.9.2:
+      integrity: sha512-mgr6+EKpn4DixuhLt3drk7QmNQO8M7RYONWovg1nkV7p56jklhDLfZmp1luLUee37eQGAxx3ToStL6gqINFjnQ==
+  /@types/node/16.10.1:
     dev: false
     resolution:
-      integrity: sha512-ZHty/hKoOLZvSz6BtP1g7tc7nUeJhoCf3flLjh8ZEv1vFKBWHXcnMbJMyN/pftSljNyy0kNW/UqI3DccnBnZ8w==
+      integrity: sha512-4/Z9DMPKFexZj/Gn3LylFgamNKHm4K3QDi0gz9B26Uk0c8izYf97B5fxfpspMNkWlFupblKM/nV8+NA9Ffvr+w==
   /@types/webidl-conversions/6.1.1:
     dev: false
     resolution:
       integrity: sha512-XAahCdThVuCFDQLT7R7Pk/vqeObFNL3YqRyFZg+AqAP/W1/w3xHaIxuW7WszQqTbIBOPRcItYJIou3i/mppu3Q==
   /@types/whatwg-url/8.2.1:
     dependencies:
-      '@types/node': 16.9.2
+      '@types/node': 16.10.1
       '@types/webidl-conversions': 6.1.1
     dev: false
     resolution:
@@ -118,6 +120,12 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-+Hp8fLp57wnUSt0tY0tHEXh4voZRDnoIrZPqlo3DPiI4y9lwg/jqx+1Om94/W6ZaPDOUbnjOt/99w66zk+l1Xg==
+  /cookie/0.4.1:
+    dev: false
+    engines:
+      node: '>= 0.6'
+    resolution:
+      integrity: sha512-ZwrFkGJxUR3EIoXtO+yVE69Eb7KlixbaeAWfBQB9vVsNn/o+Yw69gBWSSDK825hQNdN+wF8zELf3dFNl/kxkUA==
   /cookies/0.8.0:
     dependencies:
       depd: 2.0.0
@@ -175,6 +183,21 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha1-Qa4u62XvpiJorr/qg6x9eSmbCIc=
+  /express-session/1.17.2:
+    dependencies:
+      cookie: 0.4.1
+      cookie-signature: 1.0.6
+      debug: 2.6.9
+      depd: 2.0.0
+      on-headers: 1.0.2
+      parseurl: 1.3.3
+      safe-buffer: 5.2.1
+      uid-safe: 2.1.5
+    dev: false
+    engines:
+      node: '>= 0.8.0'
+    resolution:
+      integrity: sha512-mPcYcLA0lvh7D4Oqr5aNJFMtBMKPLl++OKKxkHzZ0U0oDq1rpKBnkR5f5vCHR26VeArlTOEF9td4x5IjICksRQ==
   /express/4.17.1:
     dependencies:
       accepts: 1.3.7
@@ -338,18 +361,18 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-x0Vn8spI+wuJ1O6S7gnbaQg8Pxh4NNHb7KSINmEWKiPE4RKOplvijn+NkmYmmRgP68mc70j2EbeTFRsrswaQeg==
-  /mongodb-connection-string-url/2.0.0:
+  /mongodb-connection-string-url/2.1.0:
     dependencies:
       '@types/whatwg-url': 8.2.1
       whatwg-url: 9.1.0
     dev: false
     resolution:
-      integrity: sha512-M0I1vyLoq5+HQTuPSJWbt+hIXsMCfE8sS1fS5mvP9R2DOMoi2ZD32yWqgBIITyu0dFu4qtS50erxKjvUeBiyog==
+      integrity: sha512-Qf9Zw7KGiRljWvMrrUFDdVqo46KIEiDuCzvEN97rh/PcKzk2bd6n9KuzEwBwW9xo5glwx69y1mI6s+jFUD/aIQ==
   /mongodb/4.1.2:
     dependencies:
       bson: 4.5.2
       denque: 2.0.1
-      mongodb-connection-string-url: 2.0.0
+      mongodb-connection-string-url: 2.1.0
     dev: false
     engines:
       node: '>=12.9.0'
@@ -416,6 +439,12 @@ packages:
       node: '>=0.6'
     resolution:
       integrity: sha512-VCdBRNFTX1fyE7Nb6FYoURo/SPe62QCaAyzJvUjwRaIsc+NePBEniHlvxFmmX56+HZphIGtV0XeCirBtpDrTyQ==
+  /random-bytes/1.0.0:
+    dev: false
+    engines:
+      node: '>= 0.8'
+    resolution:
+      integrity: sha1-T2ih3Arli9P7lYSMMDJNt11kNgs=
   /range-parser/1.2.1:
     dev: false
     engines:
@@ -437,6 +466,10 @@ packages:
     dev: false
     resolution:
       integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==
+  /safe-buffer/5.2.1:
+    dev: false
+    resolution:
+      integrity: sha512-rp3So07KcdmmKbGvgaNxQSJr7bGVSVk5S9Eq1F+ppbRo70+YeaDxkw5Dd8NPN+GD6bjnYm2VuPuCXmpuYvmCXQ==
   /safer-buffer/2.1.2:
     dev: false
     resolution:
@@ -527,6 +560,14 @@ packages:
       node: '>= 0.6'
     resolution:
       integrity: sha512-TkRKr9sUTxEH8MdfuCSP7VizJyzRNMjj2J2do2Jr3Kym598JVdEksuzPQCnlFPW4ky9Q+iA+ma9BGm06XQBy8g==
+  /uid-safe/2.1.5:
+    dependencies:
+      random-bytes: 1.0.0
+    dev: false
+    engines:
+      node: '>= 0.8'
+    resolution:
+      integrity: sha512-KPHm4VL5dDXKz01UuEd88Df+KzynaohSL9fBh096KWAxSKZQDI2uBrVqtvRM4rwrIrRRKsdLNML/lnaaVSRioA==
   /unpipe/1.0.0:
     dev: false
     engines:
@@ -565,6 +606,8 @@ shrinkwrapMinorVersion: 9
 shrinkwrapVersion: 3
 specifiers:
   '@primer/css': ^17.11.0
+  body-parser: ^1.19.0
   cookie-session: ^1.4.0
   express: ^4.17.1
+  express-session: ^1.17.2
   mongodb: ^4.1.2
