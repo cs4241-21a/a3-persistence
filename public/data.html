@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
+    <title>CS4241 Assignment 3</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Webware Second Assignment">
@@ -11,7 +11,7 @@
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Kaisei+HarunoUmi&display=swap');
       body{
-        background-color: #d9b08c;
+        background-color: antiquewhite;
         font-family: 'Kaisei HarunoUmi', serif;
       }
     </style>
@@ -152,7 +152,7 @@
       const tbodyRef = document.getElementById('expenseTable').getElementsByTagName('tbody')[0]
       const row = tbodyRef.insertRow()
       const radioCell = row.insertCell()
-      radioCell.innerHTML = '<input type="checkbox" class="radioSelection" id="'+index +'"'+ '>'
+      radioCell.innerHTML = '<label for='+index+'>check: </label>'+'<input type="checkbox" class="radioSelection" id="'+index +'"'+ '>'
       for (const key in obj) {
         let curCell = row.insertCell()
         curCell.innerHTML=obj[key]

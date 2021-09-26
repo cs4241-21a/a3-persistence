@@ -4,7 +4,7 @@
 p {
     font-size: 20px;
     font-style: italic;
-    color: #c81349;
+    color: black;
 }
 #BtnContainer {
     margin-top: 100px;
@@ -55,7 +55,7 @@ label{
 }
 
 .open-button {
-    background-color: #056e46;
+    background-color: black;
     color: whitesmoke;
     padding: 16px 20px;
     border: none;
@@ -67,11 +67,11 @@ label{
     width: 150px;
 }
 #ModifyRecord{
-    background-color: #2538b7;
+    background-color: black;
 
 }
 .close-button {
-    background-color: #921818;
+    background-color: #cb4040;
     color: whitesmoke;
     padding: 16px 20px;
     border: none;
@@ -82,8 +82,11 @@ label{
     right: 28px;
     width: 150px;
 }
+#clsBtn{
+    background-color: black;
+}
 .edit-button {
-    background-color: #2439c3;
+    background-color: black;
     color: whitesmoke;
     padding: 16px 20px;
     border: none;
@@ -124,7 +127,7 @@ label{
 }
 
 .form-container .btn {
-    background-color: #08603f;
+    background-color: #12be7e;
     color: white;
     padding: 16px 20px;
     border: none;
