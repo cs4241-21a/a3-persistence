@@ -94,7 +94,6 @@ app.use(bodyparser.json())
 
 // Setup middleware for Passport OAuth2
 app.use(passport.initialize())
-// app.use(passport.session())
 
 /*
  * Middleware for creating and storing cookies
