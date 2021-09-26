@@ -37,26 +37,28 @@ Achievements
 - **Tech Achievement 1**: I used OAuth authentication with passport.js using GitHub authentication.
 - **Tech Achievement 2**: I hosted my site on Heroku. Heroku is a better service than Glitch in that it is a cloud application platform, allowing users to build, deploy, and scale web apps and APIS. I think Heroku has a much cleaner UI than Glitch, making it easier to navigate, but for very simple web app deployment (like we are doing in this class), Glitch is much more user-friendly in terms of ease and clarity.
 - **Tech Achievement 3**: I achieved 100% on all four lighthouse tests for both the login page and main page of my website.
+<img width="1060" alt="Screen Shot 2021-09-26 at 12 46 12 PM" src="https://user-images.githubusercontent.com/64321589/134816642-79c37de4-9c3b-4c3e-977f-cf3da2e7d669.png">
+<img width="1055" alt="Screen Shot 2021-09-26 at 12 46 41 PM" src="https://user-images.githubusercontent.com/64321589/134816643-6d07e2d9-9bf9-4d5f-bf47-2df4420cd508.png">
 
 ## Design/UX Achievements
 - **Design Achievement 1**: Made my site accessible using the resources and hints available from the W3C.
 
 *Tips for Writing*
-1. Provide informative, unique page titles: I changed the title in my HTML file to describe what the application does as opposed to having it generically say CS 4241 Assignment 3.
-2. Use headings to convey meaning and structure: I changed the layout of my page to make it more clear which blocks of HTML elements are related to one another, distinguishing the directions from the form table.
-3. Make link text meaningful: For my logout and login links I described the content of the link target as opposed to using an ambiguous link text such as 'click here'.
-4. Write meaningul text alternatives for images: On my login page I included an image of what a written homework agenda looks like described how the online version works in the alternative text for the image.
-5. Provide clear instructions: In my directions paragraph I clearly described input requirements to ensure that the user inputs valid attributes.
+- 1. Provide informative, unique page titles: I changed the title in my HTML file to describe what the application does as opposed to having it generically say CS 4241 Assignment 3.
+- 2. Use headings to convey meaning and structure: I changed the layout of my page to make it more clear which blocks of HTML elements are related to one another, distinguishing the directions from the form table.
+- 3. Make link text meaningful: For my logout and login links I described the content of the link target as opposed to using an ambiguous link text such as 'click here'.
+- 4. Write meaningul text alternatives for images: On my login page I included an image of what a written homework agenda looks like described how the online version works in the alternative text for the image.
+- 5. Provide clear instructions: In my directions paragraph I clearly described input requirements to ensure that the user inputs valid attributes.
 
 *Tips for Designing*
-6. Provide sufficient contrast between foreground and background: I used colors with lower luminance and ensured that the text as opposed to the backdrop had a stark contrast by using black and white. I changed the CSS framework to use a darker color for the primary color, so that the white text on the buttons contrasted enough to make it easily readable.
-7. Ensure that interactive elements are easy to identify: The logout link and the buttons on my page have very unique/distinct styles compared to the rest of the page, ensuring that they can easily be identified.
-8. Ensure that form elements include clearly associated labels: The way I structured my table ensured that each button and radio button had the label included in the element (buttons) or right adjacent (radio buttons. The other input fields all have their corresponding label as the column header, since the form is structured as a table.
-9. Use headings and spacing to group related content: I changed the padding and margins between my headings  and the elements that correspond to them to make them have a clearer relationship.
-10. Include image and media alternatives in your design: I included a caption below the picture of a generic homework agenda on the login paeg.
+- 6. Provide sufficient contrast between foreground and background: I used colors with lower luminance and ensured that the text as opposed to the backdrop had a stark contrast by using black and white. I changed the CSS framework to use a darker color for the primary color, so that the white text on the buttons contrasted enough to make it easily readable.
+- 7. Ensure that interactive elements are easy to identify: The logout link and the buttons on my page have very unique/distinct styles compared to the rest of the page, ensuring that they can easily be identified.
+- 8. Ensure that form elements include clearly associated labels: The way I structured my table ensured that each button and radio button had the label included in the element (buttons) or right adjacent (radio buttons. The other input fields all have their corresponding label as the column header, since the form is structured as a table.
+- 9. Use headings and spacing to group related content: I changed the padding and margins between my headings  and the elements that correspond to them to make them have a clearer relationship.
+- 10. Include image and media alternatives in your design: I included a caption below the picture of a generic homework agenda on the login paeg.
 
 *Tips for Development*
-11. Associate a label with every form control: For each element within the table, there is an associated label element which is linked to the id attribute of the form element.
-12. Include alternative text for images: Similar to tips for writing #4, I took the image I included on the login page and included alternative text for the image. 
-13. Identify page language and language changes: I used the lang attribute in the html tag to specify the primary language of every page as English. 
-14. Reflect the reading order in the code order: I structured my code in a way that the order of HTML elements in the code matches the logical order of the information presented. The sequence is meaningful because changing my order of content would affect the meaning of the page.
+- 11. Associate a label with every form control: For each element within the table, there is an associated label element which is linked to the id attribute of the form element.
+- 12. Include alternative text for images: Similar to tips for writing #4, I took the image I included on the login page and included alternative text for the image. 
+- 13. Identify page language and language changes: I used the lang attribute in the html tag to specify the primary language of every page as English. 
+- 14. Reflect the reading order in the code order: I structured my code in a way that the order of HTML elements in the code matches the logical order of the information presented. The sequence is meaningful because changing my order of content would affect the meaning of the page.
