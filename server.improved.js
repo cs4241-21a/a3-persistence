@@ -218,6 +218,7 @@ app.post('/edit',(req, res) => {
       }
   ).then(result=>{
     console.log(result)
+      res.json( result )
   })
 
 })
