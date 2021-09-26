@@ -20,7 +20,8 @@ I used Bootstrap for my CSS framework, as I've heard it is popular. There was a 
 
 ## Technical Achievements
 - **Tech Achievement 1**: I hosted my site on Heroku. I found it to be pretty simple for deploying directly through Github, the one thing I liked more with glitch was how you could directly change files after importing. However, deploying with Heroku was nice as it tracked changed commited to my github repository.
-- **Tech Achievement 2**: I got 100% in all four lighthouse tests on both login/home pages  
+- **Tech Achievement 2**: Logout feature: I implemented a feature for users to logout via the button on the main page, which will redirect them back to the login page. The username currently signed in will show up right above the logout button
+- **Tech Achievement 3**: I got 100% in all four lighthouse tests on both login/home pages  
   
 [Here is login page screenshot](https://github.com/jpayvazian/a3-persistence/blob/main/loginpage.JPG)  
 
