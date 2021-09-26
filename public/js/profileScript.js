@@ -41,6 +41,7 @@ function updateImage() {
             idInput.type="hidden"
             idInput.name="id"
             idInput.value=data[i]['_id']
+            thisImg.id=data[i]['_id']
             thisImg.append(imgE)
             form.append(title)
             form.append(idInput)
@@ -61,7 +62,7 @@ function deleteItem(id){
     method:'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({'_id': id})
-  }).then(updateImage())
+  }).then(document.getElementById(id).remove())
 }
 
 
