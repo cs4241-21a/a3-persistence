@@ -338,4 +338,8 @@ window.onload = function() {
         addB.onclick = submit
         refresh()
     }
+    fetch('/', {
+        method: 'GET'
+    })
+    .then(response => response.json())
 }
