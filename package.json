@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Project 3 for CS 4241",
   "main": "server.js",
+  "engines": {
+    "node": ">=12.0.0"
+  },
   "scripts": {
     "start": "node server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
