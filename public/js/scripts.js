@@ -6,6 +6,10 @@ const submit = function( e ) {
     if (document.querySelector('#imgLink').value == "" || !document.querySelector('#imgLink').value.includes('http')) {
       return false;
     }
+    const val = document.querySelector('#imgLink').value
+    if (!val.includes('.jpg') && !val.includes('.gif') && !val.includes('.png') && !val.includes('.jpeg') && !val.includes('.webp')) {
+      return false;
+    }
     if (document.querySelector('#title').value.length > 100) {
       longTitle = true;
       document.querySelector('#title').value = document.querySelector('#title').value.substring(0,100);
