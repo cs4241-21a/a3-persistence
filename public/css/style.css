@@ -5,15 +5,20 @@
     box-sizing: border-box;
 }
 
+body {
+    max-width: unset;
+}
+
 h1 {
     text-align: center;
 }
 
-h3 {
+h2 {
     text-align: center;
     margin: 10px;
     margin-top: 0;
     font-weight: normal;
+    font-size: 16pt;
 }
 
 #content {
@@ -25,11 +30,11 @@ h3 {
 form {
     width: 200px;
     height: 400px;
-    padding: 4px;
+    padding: 8px;
 
-    border: 2px solid #888;
+    border: 2px solid var(--border);
     border-radius: 10px;
-    background-color: #ddd;
+    background-color: var(--background-alt);
     box-shadow: #0008 3px 3px 10px;
 }
 
@@ -53,9 +58,9 @@ form {
     align-items: start;
 
     border-collapse: collapse;
-    border: 2px solid #888;
+    border: 2px solid var(--border);
     border-radius: 10px;
-    background-color: #ddd;
+    background-color: var(--background-alt);
     box-shadow: #0008 3px 3px 10px;
 }
 
@@ -72,8 +77,8 @@ form {
 }
 
 #dataKey div {
-    border-left: 1px solid #888;
-    border-right: 1px solid #888;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
     background-color: unset;
     text-align: center;
 }
@@ -94,9 +99,9 @@ form {
     padding-left: 6px;
     font-size: 12pt;
     
-    border-left: 1px solid #888;
-    border-right: 1px solid #888;
-    background-color: #eee;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
+    background-color: var(--background-alt);
 }
 
 .dataRow input, .dataRow select {
@@ -105,11 +110,11 @@ form {
     padding-left: 6px;
     font-size: 12pt;
     
-    border-left: 1px solid #888;
-    border-right: 1px solid #888;
+    border-left: 1px solid var(--border);
+    border-right: 1px solid var(--border);
     border-top: none;
     border-bottom: none;
-    background-color: #ffc;
+    background-color: #ff02;
 }
 
 .dataRow div:nth-last-child(1), .dataRow div:nth-last-child(2) {
@@ -118,28 +123,23 @@ form {
 
 .dataRow button {
     width: 100%;
-
-    border: 1px outset #888;
-    border-radius: 4px;
 }
 
 .dataRow div:nth-last-child(2) button {
-    background-color: #dfd;
+    background-color: #0f02;
 }
 
 .dataRow div:nth-last-child(1) button {
-    background-color: #fcc;
+    background-color: #f002;
 }
 
-.dataRow button:active {
-    border-style: inset;
-    transform: translate(1px, 1px);
+.dataRow input {
+    margin-right: unset;
 }
 
 #logout {
     position: absolute;
     top: 10px;
     right: 10px;
-    width: 90px;
-    height: 30px;
+    width: 120px;
 }

@@ -111,7 +111,7 @@ app.post( '/logout', (req,res)=> {
 
 // redirect unauthenticated users to login
 app.use( function( req,res,next) {
-  if( req.session.login === true || req.originalUrl === "/js/login.js" )
+  if( req.session.login === true || req.originalUrl === "/js/login.js" || req.originalUrl === "/robots.txt" )
     next()
   else
     res.sendFile( __dirname + '/public/login.html' )
