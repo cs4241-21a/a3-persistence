@@ -12,12 +12,6 @@ body {
   flex-flow: row wrap;
 }
 
-#header {
-  width: 100%;
-  display: block;
-  text-align: center;
-}
-
 #canvas {
   background-color: #CFDBD5;
   outline: 1px dashed #333533;
@@ -52,18 +46,4 @@ hr {
 }
 .split > button {
   margin-left: auto;
-}
-
-@media (min-width: 720px) {
-  .container {
-    display: flex;
-    flex-wrap: wrap;
-  }
-  #sidebar {
-    width: 30%;
-  }
-  #game {
-    width: 70%;
-    text-align: center;
-  }
 }

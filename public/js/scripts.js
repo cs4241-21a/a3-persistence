@@ -110,9 +110,16 @@ const app = Vue.createApp({
       this.results = await response.json()
     },
     async submitScore() {
-      let response = await fetch('/scores', {
+      let requestBody = {
+        username: this.username,
+        score: this.score
+      }
+      let response = await fetch('/score', {
+        headers: {
+          "Content-Type" : "application/json"
+        },
         method: 'POST',
-        body: JSON.stringify({username, score} = this)
+        body: JSON.stringify(requestBody)
       })
       this.results = await response.json()
       this.score = 0
