@@ -26,7 +26,7 @@ const userSchema = new mongoose.Schema({
     rating: [{
       name: String,
       studentYear: String,
-      yearsRemaining: Number,
+      yearsRemaining: String,
       favoriteDorm: String,
       favoriteDining: String,
       favoriteSpot: String,
@@ -73,7 +73,68 @@ app.get('/redirectToEdit', bodyparser.json(), (req, res) => {
 
 app.get('/getUsername', bodyparser.json(), (req, res) => {
   let username = req.session.username;
-  res.json({username: username});
+  res.json({ username: username });
+})
+
+app.post('/getTableData', bodyparser.json(), async (req, res) => {
+  const user = await User.findOne({ username: req.body.username });
+  if (user !== null) {
+    //console.log(user.ratingList);
+    res.json({ rows: user.ratingList });
+  }
+})
+
+app.get('/getFullTableData', bodyparser.json(), async (req, res) => {
+  let ratings = [];
+  let usernames = [];
+  const cursor = User.find().cursor();
+
+  for (let user = await cursor.next(); user != null; user = await cursor.next()) {
+    for (let rating of user.ratingList.rating) {
+      console.log(rating);
+      ratings.push(rating);
+      //console.log(user.username);
+      usernames.push(user.username);
+    }
+  }
+    res.json({ratings: ratings,
+    usernames: usernames});
+})
+
+app.post('/deleteRow', bodyparser.json(), async (req, res) => {
+  console.log("Deleting a row!");
+  const user = await User.findOne({ username: req.body.username });
+  if (user !== null) {
+    console.log("Found the user!");
+    let rowIndex = req.body.deletingItem;
+    user.ratingList.rating.splice(rowIndex, 1);
+    user.save();
+    res.json({ success: true });
+  }
+})
+
+app.post('/editTableData', bodyparser.json(), async (req, res) => {
+  const user = await User.findOne({ username: req.body.username });
+  if (user !== null) {
+    req.body.yearsRemaining = getYearsRemaining(req.body.studentYear, req.body.name);
+    let rowIndex = req.body.index;
+    console.log("splicing at index" + rowIndex);
+    user.ratingList.rating.splice(rowIndex, 1, req.body);
+    console.log(req.body);
+    user.save();
+    res.json({ success: true });
+  }
+})
+
+app.post('/submitTableData', bodyparser.json(), async (req, res) => {
+  const user = await User.findOne({ username: req.body.username });
+  if (user !== null) {
+    req.body.yearsRemaining = getYearsRemaining(req.body.studentYear, req.body.name);
+    //console.log(req.body);
+    user.ratingList.rating.push(req.body);
+    user.save();
+    res.json({ success: true });
+  }
 })
 
 app.post('/login', bodyparser.json(), async (req, res) => {
@@ -91,9 +152,9 @@ app.post('/login', bodyparser.json(), async (req, res) => {
 })
 
 app.put('/signOut', (req, res) => {
-    req.session.login = false;
-    req.session.username = "";
-    res.json({signOutSuccess: true});
+  req.session.login = false;
+  req.session.username = "";
+  res.json({ signOutSuccess: true });
 });
 
 app.post('/register', bodyparser.json(), async (req, res) => {
@@ -106,7 +167,7 @@ app.post('/register', bodyparser.json(), async (req, res) => {
         rating: []
       }
     });
-    newUser.save(); 
+    newUser.save();
 
     req.session.login = true;
     req.session.username = req.body.username;

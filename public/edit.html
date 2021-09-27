@@ -46,7 +46,7 @@
     <table id='ratings' class="table table-striped text-center">
       <thead>
         <tr>
-          <th scope="col">Response ID</th>
+          <th scope="col">Username</th>
           <th scope="col">Name</th>
           <th scope="col">Academic Year</th>
           <th scope="col">Years Till Graduation</th>
@@ -129,7 +129,7 @@
               </form>
             </div>
 
-            <button class="btn btn-danger" onclick='updateTable()'>Add This Rating!</button>
+            <button class="btn btn-danger" onclick='event.preventDefault(); submit();'>Add This Rating!</button>
           </div>
 
           <div class="col editRating">
@@ -138,13 +138,13 @@
             <div class="mb-3">
               <form onSubmit="return false;">
                 <label for='name' class="form-label">What is your name?</label>
-                <input type='text' class="form-control" id='name' value="">
+                <input type='text' class="form-control" id='editName' value="">
               </form>
             </div>
 
             <div class="mb-3">
               <label for='studentYear' class="form-label">Which year are you?</label>
-              <select class="form-select" aria-label="Select a Student Year" id='studentYear'>
+              <select class="form-select" aria-label="Select a Student Year" id='editStudentYear'>
                 <option value='First-Year'>First-Year</option>
                 <option value='Sophomore'>Sophomore</option>
                 <option value='Junior'>Junior</option>
@@ -155,7 +155,7 @@
 
             <div class="mb-3">
               <label for='favoriteDorm' class="form-label">What is your favorite dorm?</label>
-              <select class="form-select" aria-label="Select a Favorite Dorm" id='favoriteDorm'>
+              <select class="form-select" aria-label="Select a Favorite Dorm" id='editFavoriteDorm'>
                 <option value='Daniels Hall'>Daniels Hall</option>
                 <option value='East Hall'>East Hall</option>
                 <option value='Ellsworth Apartments'>Ellsworth Apartments</option>
@@ -175,7 +175,7 @@
 
             <div class="mb-3">
               <label for='favoriteDining' class="form-label">What is your favorite dining hall?</label>
-              <select class="form-select" aria-label="Select a Favorite Dining Hall" id='favoriteDining'>
+              <select class="form-select" aria-label="Select a Favorite Dining Hall" id='editFavoriteDining'>
                 <option value='Campus Center'>Campus Center</option>
                 <option value='DAKA (Morgan)'>DAKA (Morgan)</option>
                 <option value='Dunkin Donuts'>Dunkin Donuts</option>
@@ -187,18 +187,18 @@
             <div class="mb-3">
               <form onSubmit="return false;">
                 <label for='favoriteSpot' class="form-label">What is your favorite spot on campus?</label>
-                <input type='text' class="form-control" id='favoriteSpot' value="">
+                <input type='text' class="form-control" id='editFavoriteSpot' value="">
               </form>
             </div>
 
             <div class="mb-3">
               <form onSubmit="return false;">
                 <label for='notes' class="form-label">Do you have any additional notes?</label>
-                <input type='text' class="form-control" id='notes' value="">
+                <input type='text' class="form-control" id='editNotes' value="">
               </form>
             </div>
-
-            <button class="btn btn-danger" onclick='updateTable()'>Edit This Rating!</button>
+            <input type="hidden" id="hiddenRowIndex">
+            <button class="btn btn-danger" onclick='editRatingClicked()'>Edit This Rating!</button>
           </div>
         </div>
       </div>
