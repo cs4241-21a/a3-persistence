@@ -125,5 +125,19 @@ I used the following middleware in my project:
 ## Technical Achievements
 - **Tech Achievement 1**: I used Heroku to host my website instead of glitch. While it took much more effort to initially setup the webpage to work on heroku compared to glitch, the extra effort made it much easier to apply any changes, as all I needed to do to push changes was `git push heroku main` in my terminal. This also stops the page from going to sleep after 5 minutes like glitch. In addition, it was easy to use .env capabilities securely through the config page of herokus website. Overall, heroku gives you much more control of your projects deployment in comparison to glitch. 
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+
+- **Tech Achievement 2**: 100% on Lighthouse tests
+index.html: 
+![](writeupImages\lighthouseIndex.jpg)
+
+createAccount.html:
+![](writeupImages\lighthouseCreateAcc.jpg)
+
+accountLogin.html:
+![](writeupImages\lighthouseLogin.jpg)
+
+accountLoginFail.html:
+![](writeupImages\lighthouseLoginFailed.jpg)
+
+myProfile.html:
+![](writeupImages\lighthouseProfiles.jpg)
