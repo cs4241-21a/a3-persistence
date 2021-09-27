@@ -144,7 +144,7 @@ app.post('/submit', express.json(), function(request, response) {
 })
 
 // edit data in db
-app.post('/edit', function(request, response) {
+app.post('/edit', express.json(), function(request, response) {
     let urgent = urgency(request.body.time, request.body.date)
     collection
         .updateOne({ _id: mongodb.ObjectId(request.body._id) }, {
@@ -158,14 +158,14 @@ app.post('/edit', function(request, response) {
 })
 
 // delete data in db
-app.post('/delete', (request, response) => {
+app.post('/delete', express.json(), (request, response) => {
     collection
         .deleteOne({ _id: mongodb.ObjectId(request.body._id) })
         .then(result => response.json(result))
 })
 
 // check off data in db
-app.post('/check', function(request, response) {
+app.post('/check', express.json(), function(request, response) {
     collection
         .updateOne({ _id: mongodb.ObjectId(request.body._id) }, { $set: { done: request.body.done } })
 })
