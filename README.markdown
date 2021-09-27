@@ -1,9 +1,9 @@
 ## CS 4241 - A3 - Shape Collection
 Matt Johannesen (m-d-jo on GitHub)
 
-Login page: [a3-m-d-jo.glitch.me](https://a3-m-d-jo.glitch.me)
+Login page: [a3-matt-johannesen.glitch.me](https://a3-matt-johannesen.glitch.me)
 
-Form page: h[a3-m-d-jo.glitch.me/creator.html](https://a3-m-d-jo.glitch.me/creator.html) (please visit manually - I was having trouble with automatic redirection! A valid user/password *would* be ``admin`` and ``a345``.)
+Form page: h[a3-matt-johannesen.glitch.me/creator.html](https://a3-matt-johannesen.glitch.me/creator.html) (please visit manually - I was having trouble with automatic redirection! A valid user/password *would* be ``admin`` and ``a345``.)
 
 The goal of this application *was* to let users define colored cubes and name them - but after reworking too many things and poor prioritization on my part, I was not able to finish.
 
