@@ -13,7 +13,7 @@ Brief summary of project:
 - These are 6 middlware I used, added an extra one I used to be safe
 1. app.use(express.json()); - Returns middleware that only parses json and only looks at requests where the Content-Type header matches the type option.
 2. app.use( cookie({name: 'sessionLog',sameSite: "none",keys: [you will never know :)]})) - Cookie middleware, keys are used for encryption
-3. app.use(express.static("public")); - Creates an Express application. The express() function is a top-level function exported by the express module.
+3. app.use(express.static("public")); - middleware function in Express. It serves static files and is based on serve-static.
 4. app.use( function( req,res,next) {
   if( req.session.login === true )
     next()
