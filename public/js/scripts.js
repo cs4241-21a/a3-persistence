@@ -10,7 +10,7 @@ const createEntry = function (record) {
         table.classList.add("table-striped")
         let header = document.createElement('thead')
         let hrow = document.createElement('tr')
-        hrow.innerHTML = "<th>Name</th><th>Birthday</th><th>Gender</th><th>Life Lived</th><th colspan = \"2\">Actions</th>"
+        hrow.innerHTML = "<th>Name</th><th>Birthday</th><th>Sex</th><th>Life Lived</th><th colspan = \"2\">Actions</th>"
         header.appendChild(hrow)
         table.appendChild(header)
         let body = document.createElement('tbody')

@@ -1,5 +1,5 @@
 const login = function (event) {
-    //event.preventDefault()
+    event.preventDefault()
     //console.log("loggining in")
 
     const username = document.querySelector('#username').value
@@ -21,7 +21,13 @@ const login = function (event) {
         })
         .then(function (response) {
             // do something with the reponse
-            console.log(response)
+            if (response.message === 'Wrong Password') {
+                const wrongPass = document.createElement('p')
+                wrongPass.classList.add('text-danger')
+                wrongPass.classList.add('text-center')
+                wrongPass.innerText = "Wrong Password, please try again"
+                document.querySelector('form').appendChild(wrongPass)
+            }
         })
 
     return false

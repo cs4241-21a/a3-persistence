@@ -3,7 +3,7 @@
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>CS4241 Assignment 3</title>
+    <title>Login|Life Progression</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/signin.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,7 +19,7 @@
             const username = document.querySelector('#username').value
             const pass = document.querySelector('#pass').value
 
-            json = { username: username, pass: pass }
+            json = { username: username, password: pass }
 
             //console.log(json)
 
@@ -35,7 +35,17 @@
                 })
                 .then(function (response) {
                     // do something with the reponse
-                    console.log(response)
+                    if (response.message === 'Wrong Password') {
+                        const wrongPass = document.createElement('p')
+                        wrongPass.classList.add('text-danger')
+                        wrongPass.classList.add('text-center')
+                        wrongPass.innerText = "Wrong Password, please try again"
+                        document.querySelector('form').appendChild(wrongPass)
+                    } else {
+                        if (response.message === 'Login Success') {
+                            window.location.replace('/index.html')
+                        }
+                    }
                 })
 
             return false
@@ -43,7 +53,7 @@
 
         window.onload = function () {
             const addBtn = document.querySelector('#login')
-            //addBtn.onclick = login
+            addBtn.onclick = login
         }
     </script>
 </head>
@@ -57,8 +67,7 @@
         <label class='sr-only' for='pass'>Password:</label>
         <input class='form-control' type='password' id='pass' name='pass' minlength='8' placeholder='Password' required>
         <button class='btn btn-lg btn-primary btn-block' id='login'>Sign in</button>
-        <p class=' text-center'>If you don't have a login enter a username and password to create an account.
-        </p>
+        <p class='text-center'>If you don't have a login enter a username and password to create an account.</p>
     </form>
 </body>
 

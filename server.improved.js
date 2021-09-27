@@ -168,15 +168,19 @@ app.post('/login', function (request, response) {
         console.log('created user')
         return response.redirect('/index.html')
       } else {
-        if (validatePassword(result, request.body.pass)) {
+        if (validatePassword(result, request.body.password)) {
           request.session.login = true
           request.session.username = result.username
           console.log('successful login')
-          return response.redirect('/index.html')
+          return response.send({
+            message: 'Login Success'
+          })
         } else {
           request.session.login = false
           console.log('failed login')
-          return response.sendFile(__dirname + '/public/login.html')
+          return response.status(200).send({
+            message: 'Wrong Password'
+          })
         }
       }
     })
@@ -187,6 +191,8 @@ app.post('/signout', function (request, response) {
   console.log('logging user out')
   response.redirect('/login.html')
 })
+
+app.get('/js/login.js')
 
 app.get('/login.html', function (req, res) {
   res.sendFile(__dirname + '/public/login.html')
