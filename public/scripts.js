@@ -17,6 +17,7 @@ let gameStatus = "none";
 let helpStatus = "hidden";
 let pCardArray = [];
 let cCardArray = [];
+let playedGame = false;
 
 function displayHelp() {
     let help = document.getElementById("helpText")
@@ -30,18 +31,20 @@ function displayHelp() {
 }
 
 function startGame() {
-    fetch('/getUserInfo', {
-        method:'GET'
-    }).then(response => response.json()).then(data => {{
-        if (data === null) {
-            console.log(data)
-        } else {
-            document.getElementById("playerMoney").textContent = "Money: $" + data.money
-            playerMoney = data.money
-            moneyBox.value = data.money
-        }
-        }
-    })
+    if (!playedGame) {
+        fetch('/getUserInfo', {
+            method:'GET'
+        }).then(response => response.json()).then(data => {{
+            if (data === null) {
+                console.log(data)
+            } else {
+                document.getElementById("playerMoney").textContent = "Money: $" + data.money
+                playerMoney = data.money
+                moneyBox.value = data.money
+            }
+            }
+        })
+    }
     gameMessage.textContent = "How much money would you like to bet?"
     playerMoneyText.textContent = "Money: $" + playerMoney;
     gameStatus = "placeBets"
@@ -150,6 +153,7 @@ function holdCards() {
 }
 
 function endGame() {
+    playedGame = true;
     if (gameStatus === "playerWon") {
         playerMoney += (moneyVar * 2);
         playerMoneyText.textContent = "Money: $" + playerMoney;
@@ -195,6 +199,7 @@ document.getElementById("scoreboardButton").onclick = function() {
 }
 
 window.onload = function() {
+    playedGame = false;
     fetch('/getUserInfo', {
         method:'GET'
     }).then(response => response.json()).then(data => {{
