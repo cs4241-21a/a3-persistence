@@ -1,13 +1,13 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
-Due: September 20th, by 11:59 AM.
+Due: September 23th, by 11:59 AM.
 
 
 ## Car Value Generator
 
-
 https://a3-ashwin-pai.glitch.me --> Link to Glitch Hosted Site
+
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
