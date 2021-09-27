@@ -3,20 +3,19 @@ window.onload = async function () {
     // Send a GET request to assign the current user
     // If null (no user associated with request) user will be asked to login again
     CURRENT_USER = await renderUser();
+    renderUserData()
 
-    renderTableForUser()
     // submit function
     let submitButton = document.getElementById("car_submit")
     submitButton.onclick = submitEntry;
 }
 
-function renderTableForUser() {
-    renderUserData()
-}
-
+/**
+ * Responsible for rendering the values into the table.
+ * @param listOfEntries
+ */
 function insertValuesIntoTable(listOfEntries) {
-        listOfEntries.forEach((element) => {
-            console.log("element is", element)
+        listOfEntries.forEach((element, index) => {
             let car_name = element.car_name;
             let purchase_price = element.purchase_price;
             let age = 2021 - element.purchase_year;
@@ -66,8 +65,12 @@ function insertValuesIntoTable(listOfEntries) {
             let newTest_cell = newRow.insertCell(-1);
             let newTest_text = document.createElement("input");
             newTest_text.setAttribute("type", "checkbox");
-            //newTest_text.setAttribute("id", "checkbox" + tableIndexCount);
             newTest_cell.appendChild(newTest_text);
+
+            let newModify_cell = newRow.insertCell(-1);
+            let newModify_text = document.createElement("input");
+            newModify_text.setAttribute("type", "checkbox");
+            newModify_cell.appendChild(newModify_text);
 
             if (document.getElementById("car_table").rows.length === 1) {
                 document.getElementById("deleteButton").style.visibility = "hidden";
@@ -78,7 +81,12 @@ function insertValuesIntoTable(listOfEntries) {
 
 };
 
+/**
+ * Responsible for gathering the fields from the form and passing into server/mongoDB
+ * @param e
+ */
 function submitEntry(e){
+
     e.preventDefault();
     // prevent default form action from being carried out
     const car_name = document.querySelector("#carname");
@@ -87,7 +95,7 @@ function submitEntry(e){
     const repairs = document.querySelector("#repairs");
     const miles = document.querySelector("#miles");
 
-    json = {
+    let json = {
         car_name: car_name.value,
         purchase_price: purchase_price.value,
         purchase_year: purchase_year.value,
@@ -101,31 +109,40 @@ function submitEntry(e){
         headers: {"Content-Type": "application/json"},
         body: reqbody
     })
+
+    renderUserData();
+
 }
 
+/**
+ *  clearTable() --> Responsible for clearing table for rerendering.
+ */
+function clearTable(){
+    let table = document.querySelector("table");
+    table.getElementsByTagName("tbody")[0].innerHTML = table.rows[0].innerHTML;
+}
 /**
  *
  * @returns {Promise<*>}
  */
 async function renderUserData() {
+    // Clear the Table
+    clearTable()
+
     const userData = await fetchUserData()
     insertValuesIntoTable(userData.entries)
 }
 async function fetchUserData() {
     try{
-        console.log("USER: ",CURRENT_USER);
         let reqBody = {
             userID: CURRENT_USER
         }
-
         const response = await fetch("/getUserInformation", {
             method: "POST",
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(reqBody)
         })
         const list = await response.json().then((data) => {return data;});
-        console.log("Code reached here")
-        console.log(list);
         return list;
     } catch(error) {
         console.error(error)
