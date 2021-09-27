@@ -8,8 +8,8 @@ const booksForm = document.querySelector("form");
 
 // a helper function that creates a table item for a given dream
 function appendNewBook(book) {
-  const newTableItem = document.createElement("tr");
-  var tableText = '<tr><th>Title</th><th>Author</th><th>Release Year</th><th>Rating</th><th>Rank</th></tr>'
+  const newTableItem = document.createElement("table");
+  var tableText = '<table><tr><th>Title</th><th>Author</th><th>Release Year</th><th>Rating</th><th>Rank</th></tr>'
   tableText +='<tr><td>'
   tableText += book[0]
   tableText += '</td><td>'
@@ -20,11 +20,11 @@ function appendNewBook(book) {
   tableText += book[3]
   tableText += '</td><td>'
   tableText += book[4]
-  tableText += '</td></tr>'
+  tableText += '</td></tr></table>'
   newTableItem.innerHTML = tableText
-  // document.querySelector('tr').remove()
-  // document.body.appendChild(newTableItem)
-  booksTable.append(newTableItem)
+  // document.querySelector('table').remove()
+  document.body.appendChild(newTableItem)
+  booksTable.appendChild(newTableItem)
 }
 // function appendNewDream(dream) {
 //   const newListItem = document.createElement("li");
@@ -54,7 +54,7 @@ fetch("/books")
         booksForm.elements["rating"],
         booksForm.elements["rank"]];
       books.push(newBook);
-      appendNewBook(newBook);
+      // appendNewBook(newBook);
 
       // reset form
       booksForm.reset();
