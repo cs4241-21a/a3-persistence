@@ -1,16 +1,4 @@
-var flag = "";
-function shortFlag() {
-  flag = "expiration-short";
-  console.log(flag);
-}
-function medFlag() {
-  flag = "expiration-med";
-  console.log(flag);
-}
-function longFlag() {
-  flag = "expiration-long";
-  console.log(flag);
-}
+
 const getUrgency = function (expiraton) {
   let urgency = "";
    
@@ -20,7 +8,7 @@ const getUrgency = function (expiraton) {
     urgency = "Finish it Soon";
   } else if (expiraton === "expiration-short") {
     urgency = "Finish it Now";
-  } else {
+  } else  {
     urgency = "Finish it Soon";
   }
   return urgency;
@@ -43,10 +31,7 @@ const addEntry = (json) => {
   let idElement = json._id;
 
   newItem.innerHTML = json.itemName;
-  json.description = "";
-  if(json.description){
-    newDescription.innerHTML = json.description;
-  }
+  newDescription.innerHTML = json.description;
   newExpiration.innerHTML = json.expiraton;
   newUrgency.innerHTML = json.urgency;
 
@@ -69,7 +54,7 @@ const addEntry = (json) => {
   editButton.onclick = function() {
 
     document.querySelector('#itemName').value = json.itemName
-    document.querySelector('#description').value = json.description
+    document.querySelector('#itemDescription').value = json.description
     document.querySelector('#expiration').value = json.expiration
 
     newRow.remove();
@@ -143,7 +128,7 @@ function loadDatabase(item) {
 
     itemInput.value = newItem.innerHTML;
     descriptionInput.value = newDescription.innerHTML;
-    expiratonInput.value = newExpiration.innerHTML;
+    expirationInput.value = newExpiration.innerHTML;
     urgencyInput.value = urgencyInput.innerHTML;
 
   editButton.onclick = function() {
@@ -199,22 +184,19 @@ const submit = function( e ) {
   e.preventDefault()
 
     const item = document.querySelector( '#itemName' ),
-    description = "";
-  if(document.querySelector('#itemDescription')){
-    description = document.querySelector('#itemDescription');
-  }
-  const expiration = document.flag;
-  const urgency = getUrgency(expiration.value);
+    description = document.querySelector( '#itemDescription' ),
+    expiration = document.querySelector( '#expiration' ),
+    urgency = getUrgency(expiration.value);
 
-    if (item.value === "" || expiration.value === "") {
+    if (item.value === "" || expiration.value === ""||description.value === "") {
         console.log("Crucial fields are empty")
         alert("Item and expiration fields needs to be filled.")
         return false
     } 
 
 
-    if (item.value.length < 2 ) {
-      console.log("Not a valid item")
+    if (item.value.length < 2 ||item.value.length < 2 ) {
+      console.log("Not a valid item or description")
       alert("Enter valid fields only.")
       return false
     }
@@ -226,7 +208,7 @@ const submit = function( e ) {
         return false
     }
   
-    json = { itemName: item.value, itemDescription: description.value, expiraton:expiration.value, urgency: urgency }
+    json = { itemName: item.value, description: description.value, expiraton:expiration.value, urgency: urgency }
     body = JSON.stringify( json )
 
     fetch( '/submit', {
