@@ -103,6 +103,6 @@ app.use( express.static('public') )
 app.use(helmet.noSniff());
 
 // Start up the server
-app.listen(3000, () => {
+app.listen(process.env.PORT || 3000, () => {
    console.log('Server listening on 3000');
 })
