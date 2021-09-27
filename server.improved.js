@@ -29,7 +29,7 @@ app.use(express.json())
 app.use(helmet())
 
 // Record HTTP response time
-app.use(express.responseTime())
+//app.use(express.responseTime())
 
 // passport session
 app.use(session({
