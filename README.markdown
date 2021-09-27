@@ -1,116 +1,37 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+## Tip Calculator
 
-Due: September 20th, by 11:59 AM.
+Glitch Link: https://a3-aburke921.glitch.me/ 
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
-a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+The goal of this application is to allow users to quickly determine how much each person in a group(or individual party) should pay, with a tip added to the total amount due. When constructing this webpage, I had a difficult time trying to properly space the different elements in the form. While there is still room for improvement, using the bootstrap CSS framework was very helpful with aligning things. I chose to use bootstrap because it is one framework that I hear a lot about and want to be able to familiar with widely used concepts and practices in the real world. For this assignment I used four Express middleware packages and a few additional pieces of middleware that I generated myself. 
+1. body-parser: This piece of middleware is helpful in that it automatically parses client-server requests (from within the server). I utilized the body-parser.json() to help parse incoming request into json objects. 
+2. cookie-session: This piece of middleware that stores a user session within a cookie. This was how I was able to implement user authentication and logging in.
+3. morgan: This piece of middleware is a HTTP request logger for node.js. This was very helpful when it came to debugging and how the different post & get methods I created were being called. 
+4. cookie-parser: This middleware will parse Cookie header and populate req.cookies with an object keyed by the cookie names. This is how I was able to retrieve the username of the user that was currently logged in (for adding their saved receipts to the DOM)
+5. noAccess (my own middleware function): This piece of middle ware was used for get requests to the login page or to the receipts page so that unauthenticated users would be forced to login before being able to calculate any tips.
 
-Baseline Requirements
----
-
-Your application is required to implement the following functionalities:
-
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows the entire dataset residing in the server's memory
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! One of these five middleware 
-can be a custom function that you write yourself; if you choose to do this, make sure to describe what this function is in your README.  
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). 
-This should do the bulk of your styling/CSS for you and be appropriate to your application. 
-For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
-
-Your application is required to demonstrate the use of the following concepts:  
-
-HTML:  
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
-
-Note that it might make sense to have two pages for this assignment, one that handles login / authentication, and one that contains the rest of your application.
-For example, when visiting the home page for the assignment, users could be presented with a login form. After submitting the login form, if the login is 
-successful, they are taken to the main application. If they fail, they are sent back to the login to try again. For this assignment, it is acceptable to simply create 
-new user accounts upon login if none exist, however, you must alert your users to this fact.  
-
-CSS:  
-- CSS styling should primarily be provided by your chosen template/framework. 
-Oftentimes a great deal of care has been put into designing CSS templates; 
-don't override their stylesheets unless you are extremely confident in your graphic design capabilities. 
-The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:  
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. 
-See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:  
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-General:  
-- Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
-using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test).
-Test early and often so that fixing problems doesn't lead to suffering at the end of the assignment. 
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the 
-assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. 
-These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README, 
-why it was challenging, and how many points you think the achievement should be worth. 
-ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). 
-*You must either use Github authenticaion or provide a username/password to access a dummy account*. 
-Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. 
-Please contact the course staff if you have any questions about this. THIS IS THE HARDEST ACHEIVEMENT OFFERED IN WEBWARE. You have been warned!  
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-- (5 points) Get 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.  
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. 
-For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively 
-getting it "for free" without having to actively change anything about your site. 
-Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. 
-List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. 
-Which element received the most emphasis (contrast) on each page? 
-How did you use proximity to organize the visual information on your page? 
-What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? 
-How did you use alignment to organize information and/or increase contrast for particular elements. 
-Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I got a 100% in all four lighthouse tests. This can be seen on all the login page, create account page, and the receipts page. 
+
+<img src="/images/Login page Lighthouse">
+
+<img src="/images/Create Account Lighthouse">
+
+<img src="/images/Receipts Page Lighthouse">
+
+- **User Logout (10pts)**: While it was not a given technical achievement, I think it should be considered to be one. Logging the user out and removing any cookies was extremely difficult and required several hours of debugging and multiple sessions of office hours for help. While simply removing cookies was not necessarily the hard part, I have implemented it using redirects in a way that if the user hits the back button, it does not re-log the user in rather continues to ask them to sing in.
+
+
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: I used CRAP principles in the Non-Designer's Design Book readings.
+
+- *Contrast*: The first part of CRAP design rules is **C**ontrast. Contrast allows certain parts of the page to attract the user’s eye. Through my webpage, there were various parts that I increased the contrast in order to allow it to capture the user’s eye. In the login page and the create account page, I was able to add contrast to the form by using the autofocus form attribute to emphasize where a user must begin filling in information. When either of these fields are initially loaded, the first input field of the form is highlighted indicating to the user that it is ready to be filled out. In addition, on every page, the forms have a shadow which elevates them from the page. This allows the form itself to stand out compared to the rest of the page and stick out to the user’s eye.
+
+
+- *Repetition*: The next part of CRAp design rules is **R**epetition. Throughout each page, there were many things that I tried to keep as consistent as possible. One thing was the font of the forms. The purpose of the google font I had chosen was to make the form look like it was a real receipt. By using the same font for all of the saved receipts and editable receipt form, I was able to give a paper-like theme where each individual saved receipt seemed like it was torn off of the original form. Additionally, the font for the rest of the web application remained consistent. All other text that was not in the receipt form had to do with the user logging in or creating an account. By this repetition, I was able to show their relevance to each other.
+
+- *Alignment*: The *A* in CRAP stands for **A**lignment. In all three pages to the application, I centered the main form in the middle of the window. This shows its significance and attracts the user. Additionally, in the receipts page the input fields that had to do with price were aligned with each other. I especially made sure to align the “Amount Due:” and “+ Tip:” labels so that the colons would be vertically in line. This creates a uniform look and is also set up like the traditional receipt one would get at a restaurant. This same alignment technique was used for the saved receipt, additionally adding “= Total / Person:”.
+
+
+- *Proximity*: The final part of the CRAP design rules is **P**roximity. This rule emphasizes that elements that are related should be placed closer together than those that are not. This can be seen very easily on all pages. In the login page, the two input fields are placed close together as are the login button and the create new account link. The two input require user information while the button and link both take the user to a different page and location. Additionally, on the receipts page the pre-calculated tips are positioned closely together, the input fields are positioned closely together with an extra margin in between. This is to help show the user, they do not need to provide any input for the pre-calculated tips.
