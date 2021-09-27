@@ -1,8 +1,33 @@
 <% if (!user) { %>
-	<h2>Welcome! Please log in.</h2>
-	<a href="/login">Log In</a>
+	<head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+	</head>
+	<body>
+		<h2>Welcome! Please log in.</h2>
+		<a href="/login">Log In</a>
+	</body>
 <% } else { %>
+	<head>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+		<script type="module" src="javascripts/clientMain.js"></script>
+	</head>
 	<h2>Hello, <%= user.displayName %></h2>
 	<a href="/account">Account Info</a></br>
 	<a href="/logout">Log Out</a>
+	<body id="main">
+		<header style="order: -1;">
+			<form>
+				<label>Name:</label>
+				<input type="text" id="inputName" style="width: 100%" placeholder="Jane Doe">
+				<br>
+				<label>Message Color:</label>
+				<input type="color" id="inputColor" value="#FF55FF">
+				<br>
+				<label>Message:</label><br>
+				<textarea id="inputMessage" placeholder="Sometimes all you need is a little splash of color"></textarea>
+				<br>
+				<button class="header-btn">Send</button>
+			</form>
+		</header>
+	</body>
 <% } %>

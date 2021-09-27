@@ -1,0 +1,4 @@
+node_modules/
+mongoAccess.pem
+package-lock.json
+.idea/*

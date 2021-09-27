@@ -110,7 +110,7 @@ require('dotenv').config()
 //
 // var app = express()
 //
-// app.use( express.static('public') )
+
 // app.use( express.json() )
 // app.use( function( req, res, next ) {
 //   console.log( 'url:', req.url )
@@ -212,7 +212,6 @@ require('dotenv').config()
 var express = require('express');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
-var methodOverride = require('method-override');
 var passport = require('passport');
 var bunyan = require('bunyan');
 var morgan = require('morgan');
@@ -316,7 +315,7 @@ passport.use(new OIDCStrategy({
           }
           if (!user) {
             // "Auto-registration"
-            users.push(profile);
+            users.push(profile); //TODO: Add database commit here?
             return done(null, profile);
           }
           return done(null, user);
@@ -326,16 +325,16 @@ passport.use(new OIDCStrategy({
 ));
 
 
-//-----------------------------------------------------------------------------
+/**-----------------------------------------------------------------------------
 // Config the app, include middlewares
-//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------*/
 var app = express();
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(morgan('dev'));
-app.use(methodOverride());
 app.use(cookieParser());
+
 
 const credentials = process.env.CERT_PATH
 var options = {
@@ -355,7 +354,7 @@ options.server.sslValidate = false;
 // set up session middleware
 if (config.useMongoDBSessionStore) {
   mongoose.connect(config.databaseUri, options);
-  app.use(expressSession({
+  app.use(expressSession({ //TODO: Extrapolate cookie usage
     secret: 'secret',
     cookie: {maxAge: config.mongoDBSessionMaxAge * 1000},
     store: new MongoStore({
@@ -376,9 +375,9 @@ app.use(express.urlencoded({ extended : true }));
 // persistent login sessions (recommended).
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static(__dirname + '/../../public'));
+app.use( express.static('public') )
 
-//-----------------------------------------------------------------------------
+/**-----------------------------------------------------------------------------
 // Set up the route controller
 //
 // 1. For 'login' route and 'returnURL' route, use `passport.authenticate`.
@@ -388,19 +387,20 @@ app.use(express.static(__dirname + '/../../public'));
 // 2. For the routes you want to check if user is already logged in, use
 // `ensureAuthenticated`. It checks if there is an user stored in session, if not
 // it will call `passport.authenticate` to ask for user to log in.
-//-----------------------------------------------------------------------------
+//-----------------------------------------------------------------------------*/
 function ensureAuthenticated(req, res, next) {
   if (req.isAuthenticated()) { return next(); }
   res.redirect('/login');
 };
 
+function sendMessages(response) {
+    response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
+    response.end(JSON.stringify(appdata))
+}
+
 app.get('/', function(req, res) {
-    if(req.isAuthenticated()){
-        sendFile( res, 'views/logged_in_index.html' )
-    }else {
-        sendFile(res, 'views/index.html')
-    }
-  // res.render('index', { user: req.user });
+    console.log("REQ.USER::::::::::::::", req.user)
+  res.render('index', { user: req.user });
 });
 
 // '/account' is only available to logged in user
@@ -408,6 +408,10 @@ app.get('/account', ensureAuthenticated, function(req, res) {
   console.log(req.user);
   res.render('account', { user: req.user });
 });
+
+app.get('/messages', ensureAuthenticated, function (req, res){
+    sendMessages(res)
+})
 
 app.get('/login',
     function(req, res, next) {
@@ -421,7 +425,7 @@ app.get('/login',
       )(req, res, next);
     },
     function(req, res) {
-      log.info('Login was called in the Sample');
+      log.info('Login was called');
       res.redirect('/');
     });
 
@@ -460,6 +464,19 @@ app.post('/auth/openid/return',
       log.info('We received a return from AzureAD.');
       res.redirect('/');
     });
+
+app.post('/submit'), function (req, res, next) {
+    const json = JSON.parse( dataString )
+    console.log("Received datastring to /submit: " + dataString)
+
+    //Derived field
+    json.message = json.name + " says \"" + json.message + "\""
+
+    appdata.push(json)
+
+    res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+    res.end(JSON.stringify(appdata))
+}
 
 // 'logout' route, logout from passport, and destroy the session with AAD.
 app.get('/logout', function(req, res){
