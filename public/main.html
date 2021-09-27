@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Allows user to input travel locations">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+  </head>
+  <body>
+    <h1 class='text-center'>
+      Locations to Travel to
+    </h1>
+
+
+    <div class="d-flex justify-content-center my-5">
+      <form class="row row-cols-lg-auto g-3 align-items-center">
+        <div class="col-12">
+          <label for="location">Location</label>
+          <input type="text" class="form-control" id="location" placeholder="Location" required/>
+        </div>
+        <div class="col-12">
+          <label for="cost">Cost</label>
+          <input type="number" class="form-control" id="cost"  required/>
+        </div>
+        <div class="col-12">
+          <label for="priority">Priority</label>
+          <input type="number" class="form-control" id="priority"  required/>
+        </div>
+        <div class="col-12">
+          <div class="form-check mt-4">
+            <input class="form-check-input " type="checkbox" id="visited">
+            <label class="form-check-label" for="visited">Visited</label>
+          </div>
+        </div>
+        <div class="col-12">
+          <button id="submit-button" type="submit" class="btn btn-primary mt-4">Submit</button>
+        </div>
+      
+      </form>
+    </div>
+    <div class="text-center d-flex justify-content-center mt-5">
+      <table id="location-table" class="table table-striped  w-50">
+        <thead>
+          <tr>
+            <th scope="col" >Location</th>
+            <th scope="col" >Cost</th>
+            <th scope="col" >Priority</th>
+            <th scope="col" >Rating</th>
+            <th scope="col" >Visited</th>
+            <th scope="col" />
+            <th scope="col" />
+          </tr>
+        </thead>
+        <tbody id='location-body'>
+
+        </tbody>
+      </table>
+    </div>
+    
+
+    
+    
+
+    <script src="js/db-script.js"></script>
+  </body>
+</html>
