@@ -21,11 +21,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 app.use(express.json())
 
-passport.use(new GitHubStrategy({
-    clientID: process.env.GITHUB_CLIENT_ID,
-    clientSecret: process.env.GITHUB_CLIENT_SECRET,
-    callbackURL: "http://localhost:3000/auth"
-},
+passport.use(new GitHubStrategy(
+    {
+        clientID: process.env.GITHUB_CLIENT_ID,
+        clientSecret: process.env.GITHUB_CLIENT_SECRET,
+        callbackURL: "http://localhost:3000/auth"
+    },
 
     function (accessToken, refreshToken, profile, cb) {
         console.log('create the new user or log them in')
@@ -38,16 +39,25 @@ passport.use(new GitHubStrategy({
 ));
 
 passport.serializeUser(function (user, done) {
-    console.log("user", user)
     done(null, user._id);
 });
 
 passport.deserializeUser(function (id, done) {
-    client.db("db").collection("users").findOne({ _id: { $eq: id } }, (err, user) => { done(err, user) })
+    client.db("db").collection("users").findOne({ _id: id }, (err, user) => { done(err, user) })
 });
 
 // login route
 app.get('/login', passport.authenticate('github'))
+
+app.get('/logout', (req, res) => {
+    req.logout()
+    req.session.destroy(function () {
+        console.log("destroying the session")
+        res.clearCookie('connect.sid');
+        res.redirect('/');
+    });
+})
+
 app.get('/auth',
     passport.authenticate('github', {
         successRedirect: '/',
@@ -61,7 +71,7 @@ app.get('/', function (req, res) {
         return
     }
 
-    res.render('Home', {
+    res.render('pages/Home', {
         user: req.user
     })
 })
@@ -76,7 +86,8 @@ app.post('/boards', (req, res) => {
 
     board = {
         owner: req.user._id,
-        content: req.body.content
+        content: req.body.content,
+        createdAt: new Date()
     }
 
     try {
@@ -87,11 +98,23 @@ app.post('/boards', (req, res) => {
     }
 })
 
+// Get all the boards related to the logged in user
+app.get('/boards', (req, res) => {
+    // make sure user is authenticated for this endpoint
+    if (req.user == undefined) {
+        res.sendStatus(403)
+        return
+    }
+
+    console.log("get the board ids that belong to user " + req.user._id)
+    client.db("db").collection("boards").find({ owner: req.user._id }).sort({}).toArray().then((boards) => res.send(boards.map(b => b._id)))
+})
+
 // Get information about a specific board
 app.get('/boards/:boardID', (req, res) => {
     // make sure user is authenticated for this endpoint
     if (req.user == undefined) {
-        res.sendStatus(403)
+        res.redirect('/')
         return
     }
 
@@ -108,20 +131,71 @@ app.get('/boards/:boardID', (req, res) => {
             return
         }
 
-        res.send(board)
+        res.render('pages/Board', {
+            board
+        })
     })
 })
 
-// Get all the boards related to the logged in user
-app.get('/boards', (req, res) => {
+// Update the content of a board
+app.patch('/boards/:boardID', (req, res) => {
     // make sure user is authenticated for this endpoint
     if (req.user == undefined) {
         res.sendStatus(403)
         return
     }
 
-    console.log("get the board ids that belong to user " + req.user._id)
-    client.db("db").collection("boards").find({ owner: { $eq: req.user._id } }).toArray().then((boards) => res.send(boards.map(b => b._id)))
+    client.db('db').collection('boards').updateOne({ _id: new ObjectId(req.params.boardID) }, { $set: { content: req.body.content } }).then(() => res.sendStatus(200)).catch(err => { console.log(err); res.sendStatus(500) })
+})
+
+// Create a new comment
+app.post('/comments', (req, res) => {
+    // make sure user is authenticated for this endpoint
+    if (req.user == undefined) {
+        res.sendStatus(403)
+        return
+    }
+
+    comment = {
+        board: req.body.board,
+        author: req.user._id,
+        content: req.body.content,
+        createdAt: new Date()
+    }
+
+    console.log(comment)
+
+    client.db("db").collection("comments").insertOne(comment).then((comment) => res.send(comment))
+})
+
+// Get all comments related to given board id
+app.get('/boards/:boardID/comments', (req, res) => {
+    // make sure user is authenticated for this endpoint
+    if (req.user == undefined) {
+        res.sendStatus(403)
+        return
+    }
+
+    // get the board from the db
+    client.db("db").collection("boards").findOne({ _id: new ObjectId(req.params.boardID) }, (err, board) => {
+        if (err) {
+            console.log(err)
+            res.sendStatus(500)
+            return
+        }
+
+        console.log("getting the comments")
+        console.log(board, req.user)
+
+        // make sure the user is either the board owner or a valid reviewer
+        if (req.user._id != board.owner || (board.reviewers && !board.reviewers.includes(req.user._id))) {
+            res.sendStatus(403)
+            return
+        }
+
+        // get the list of comments related to the board
+        client.db("db").collection("comments").find({ board: req.params.boardID }).toArray().then((comments) => res.send(comments))
+    })
 })
 
 // Connect to the client

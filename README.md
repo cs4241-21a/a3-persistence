@@ -7,20 +7,20 @@ Object Models:
     - Owner: User
     - Content: string
     - Reviewers: [uuid]
-    - Comments: Comment
 
 - User
     - Id: uuid
     - Name: string
     - Email: string
 
-- Comment
+- Comment (belongs to Board)
     - Id: uuid
+    - Board: BoardId
     - Author: User
     - Content: string
 
 User Flow:
-1.  Login to the application with gmail
+1.  Login to the application with github
 2.  Homepage with options to view recent boards or create a new one
     a. recent boards are all ones that you've created sorted by updated_at
 
