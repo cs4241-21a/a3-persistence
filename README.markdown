@@ -95,11 +95,33 @@ Write a paragraph of at least 125 words *for each of four principles* (four para
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## GenshinDB
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+https://genshin-db.herokuapp.com/
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+Genshin Impact is an open world exploration and gacha video game which can be played on mobile, pc, or Playstation consoles. This database is used to track
+some of the characters you may own. 
+
+There are seven elements in Genshin Impact:
+-Hydro
+-Anemo
+-Pyro
+-Cryo
+-Electro
+-Geo
+-Dendro
+
+The main challenge I faced was getting the OAuth authentication with GitHub strategy for the log-in and also getting familiar with bootstrap.
+
+Speaking of Bootstrap, that is the CSS framework I used because it is one of the most popular, if not, the most popular CSS frameworks. I found it simple to use for 
+someone who was not familiar with it at all. Some custom CSS I added was just for positioning.
+
+The five Express middleware packages I used:
+-BodyParser
+-cookie-parser
+-cookie-session
+-passport
+-timeout
 
 - the goal of the application
 - challenges you faced in realizing the application
