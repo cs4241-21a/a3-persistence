@@ -1,0 +1,31 @@
+.c0 {
+    background-color: #AFC9DE;
+}
+
+.c1 {
+    background-color: #9BB2C4;
+}
+
+.c2 {
+    background-color: #B9D4EB;
+}
+
+.preview {
+    cursor: pointer;
+    max-width: max-content;
+    min-height: 80px;
+    border-radius: .4em;
+    margin-left: 15px;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    text-align: right;
+}
+
+.preview p {
+    margin-top: auto;
+    margin-bottom: 5px;
+}
+
+.divtext {
+    outline: 2px solid black;
+}

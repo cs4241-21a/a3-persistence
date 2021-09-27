@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <%- include('../partials/head'); %>
+    <script type="module" src="/js/home.js"></script>
+    <link rel="stylesheet" href="/css/home.css">
+</head>
+
+<body class="bg-light">
+
+  <%- include('../partials/nav'); %>
+
+    <!-- Get the information from the user into the Grid -->
+    <div id="recent-boards" class="container">
+      <div id="owned-boards" class="row">
+        <p>Boards you own:</p>
+        <div id="create-board" class="preview c2 shadow" data-bs-toggle="modal" data-bs-target="#createBoard">
+          <div class="btn px-0" role="button" aria-label="create board"><i class="fas fa-plus-circle"></i></div>
+          <p>Create New</p>
+        </div>
+      </div>
+
+      <div id="review-boards" class="row">
+        <p>Boards you can review:</p>
+      </div>
+    </div>
+
+    <%- include('../partials/deleteModal') %>
+      <%- include('../partials/boardModal') %>
+
+</body>
+
+</html>

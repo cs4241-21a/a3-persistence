@@ -1,0 +1,36 @@
+.divtext {
+    padding: 15px;
+    min-height: 5em;
+    border-radius: .4em;
+    overflow: auto;
+    outline: none;
+}
+
+.comment-header {
+    display: inline-block;
+    padding-right: 5px;
+}
+
+.comment-section {
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: none;
+}
+
+.speech-bubble {
+	background: #ddd;
+	border-radius: .4em;
+    display: flex;
+    margin-bottom: 25px;
+}
+
+.comment-content {
+    margin: 10px;
+}
+
+.comment-content p {
+    margin: 5px;
+    padding: 0px;
+}
