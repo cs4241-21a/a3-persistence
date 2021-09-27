@@ -3,24 +3,35 @@
   <head>
     <title>MyAgenda - CS4241 Assignment 3</title>
     <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description"
           content="The MyAgenda app allows users to manage their homework assignments seamlessly.
                    This project was created for WPI's CS4241 Webware course.">
-    <script src="index.js"></script>
   </head>
   <body>
-    <h1>
-      MyAgenda
-    </h1>
-    <button id="loginBtn">
-      <img src="images/GitHub-Mark-120px.png" alt=""
-           srcset="images/GitHub-Mark-120px.png 120w, images/GitHub-Mark-240px.png 240w"
-           sizes="10vw">
-      Login to GitHub
-    </button>
-    <div id="errorPopup" style="display: none;">
-      <em id="errorMsg"></em>
+    <header class="mui-appbar mui--text-display3">
+      My-Agenda
+    </header>
+    <div class="mui-container mui--text-center mui--align-middle">
+      <a id="loginBtn" width="33%" class="mui--text-center">
+        <div class="mui-row">
+          <img src="images/GitHub-Mark-120px.png" alt=""
+                srcset="images/GitHub-Mark-120px.png 120w, images/GitHub-Mark-240px.png 240w"
+                sizes="10vw">
+        </div>
+        <label class="mui-row mui-btn mui-btn--large mui--text-title mui-btn--dark" for="loginBtn">
+          Login to GitHub
+        </label>
+      </a>
+
+      
+      <div class="mui--text-danger" id="errorPopup" style="display: none;">
+        <em id="errorMsg"></em>
+      </div>
     </div>
   </body>
+  <link href="https://cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+  <script src="index.js"></script>
 </html>

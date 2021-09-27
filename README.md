@@ -29,6 +29,9 @@ their access token directly, and would instead by going through their session ID
 
 **Selected CSS Framework**:
 
+I used the MUI CSS framework to improve the overall appearance of the webpage. This allowed me to create nicer looking tables and form inputs. I used radio buttons, drop down
+menus, text inputs, and text areas as my form of input for information.
+
 **Express Middleware**:
 
 - Express.static = Provides retrieval of static files whenever a get request for public files is requested.
@@ -52,4 +55,19 @@ downtime for starting the web backend. The major benefit that I really loved was
 updates to the GitHub repository that I linked to it. Some slight cons however is that the logging capabilities seemed to be lacking slightly, and it was less convenient
 trying to run commands directly on the VM that it was using.
 
+- Almost Hit 100 for all Lighthouse Tests: Was unable to achieve a complete 100 for performance due to load times being too long. Due to the way my page is populated dynamically
+upon loading, it takes too long to process for lighthouse.
+
 ### Design Achievements
+
+- **The CRAP Principles**:
+
+  - *Contrast*: My app implemented contrast by adding brighter colors to the various buttons. The purpose of this was to explain different functionality across buttons.
+    For example, on the landing page I provided contrast on the GitHub login button so that it was clearly separate from the heading of the page. On the agenda editor,
+    I added contrast on the "New Homework" and "Delete" buttons. By doing this, and giving them bright and different colors, it becomes clearer to the user that these buttons
+    are for a specific purpose. With the delete button having an orange shade, it is also clearer that this button may have more negative side-effects, such as removing the
+    actual homework assignment from the agenda.
+
+  - *Repetition*:
+
+  - **:

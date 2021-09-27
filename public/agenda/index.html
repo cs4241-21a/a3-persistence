@@ -3,52 +3,88 @@
   <head>
     <title>MyAgenda</title>
     <meta charset="utf-8">
-    <script src="index.js"></script>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description"
+          content="The MyAgenda app allows users to manage their homework assignments seamlessly.
+                   This project was created for WPI's CS4241 Webware course.">
   </head>
   <body>
-    <h1 id="welcomeHeading"></h1>
+    <header class="mui-appbar">
+      <label class="mui--text-display3" id="welcomeHeading"></label>
+    </header>
 
-    <div class="homework-list-group">
-      <button id="addHWBtn">New Homework</button>
-      <table id="assignments">
+    <div class="mui-panel">
+      <button class="mui-btn mui-btn--raised mui-btn mui-btn--accent mui--text-center mui--text-black"
+              id="addHWBtn">
+        New Homework
+      </button>
+      <table class="mui-table mui-table--bordered">
+        <thead id="assignmentLabels">
+          <tr>
+            <th>Homework</th>
+            <th>Priority</th>
+            <th>Course</th>
+            <th>Due Date</th>
+          </tr>
+        </thead>
+        <tbody id="assignments"></tbody>
       </table>
     </div>
 
-    <div id="overlay" style="display: none;">
-      <form class="newHomeworkPrompt">
+    <div class="mui-panel mui-container" id="overlay" style="display: none;">
+      <form class="mui-form">
+        <legend class="mui--text-center">Homework Editor</legend>
         <label for="homeworkName">Homework Name:</label>
-        <input type='text' id='homeworkName' value="">
+        <div class="mui-textfield">
+          <input type='text' id='homeworkName' value="" placeholder="Homework name">
+        </div>
 
         <label for="homeworkCourse">Course Name:</label>
-        <input type='text' id='homeworkCourse' value="">
+        <div class="mui-textfield">
+          <input type='text' id='homeworkCourse' value="" placeholder="Course">
+        </div>
 
-        <label for="homeworkPriority">Priority Level:</label>
-        <select id="homeworkPriority">
-          <option value="None">None</option>
-          <option value="Low">Low</option>
-          <option value="Medium">Medium</option>
-          <option value="High">High</option>
-        </select>
+        <label for="homeworkDue">Due Date:</label>
+        <div class="mui-textfield">
+          <input type='text' id='homeworkDue' value="" placeholder="Due Date">
+        </div>
+
+        <div class="mui-select">
+          <label for="homeworkPriority">Priority Level:</label>
+          <select id="homeworkPriority">
+            <option value="None">None</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+          </select>
+        </div>
+
+        <div class="mui-textfield">
+          <textarea type='text' id='homeworkNotes' value="" placeholder="Notes"></textarea>
+        </div>
         
-        <label>Due Date:</label>
-        <input type='text' id='homeworkDue' value="">
+        <div class="mui--text-center">
+          <form class="mui-radio" >
+            <label>
+              <input type='radio' id='homeworkIncomplete' name="options" value="incomplete" checked="checked">
+              Incomplete
+            </label>
+            <label>
+              <input type='radio' id='homeworkComplete' name="options" value="complete">
+              Complete
+            </label>
+          </form>
+        </div>
 
-        <textarea type='text' id='homeworkNotes' value=""></textarea>
-        
-        <form>
-          <label>
-            <input type='radio' id='homeworkIncomplete' name="options" value="incomplete" checked="checked">
-            Incomplete
-          </label>
-          <label>
-            <input type='radio' id='homeworkComplete' name="options" value="complete">
-            Complete
-          </label>
-        </form>
-
-        <button type="reset" id="newHWCancel">Cancel</button>
-        <button type="submit" id="newHWSubmit">Submit</button>
+        <div class="mui--text-center">
+          <button class="mui-btn" type="reset" id="newHWCancel">Cancel</button>
+          <button class="mui-btn mui-btn--primary mui-btn--raised" type="submit" id="newHWSubmit">Submit</button>
+        </div>
       </form>
     </div>
   </body>
+  <link defer async href="https://cdn.muicss.com/mui-0.10.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+  <script defer async src="https://cdn.muicss.com/mui-0.10.3/js/mui.min.js"></script>
+  <script src="index.js"></script>
 </html>

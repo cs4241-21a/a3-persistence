@@ -32,7 +32,6 @@ function createHWRow(homeworkTable, homework) {
   console.log(homework)
   
   let homeworkRow = document.createElement('tr')
-  const dueDate = new Date(homework.dueDate)
   // Create each data element for the row
   for(const prop of hwProperties) {
     console.log(homework + " ==> " + prop)
@@ -44,6 +43,7 @@ function createHWRow(homeworkTable, homework) {
   const newHWSubmit = document.getElementById('newHWSubmit')
   const editBtn = document.createElement('button')
   editBtn.textContent = "Edit"
+  editBtn.className = "mui-btn"
   editBtn.onclick = function() {
     const nameInput = document.getElementById('homeworkName'),
           courseInput = document.getElementById('homeworkCourse'),
@@ -65,6 +65,7 @@ function createHWRow(homeworkTable, homework) {
 
   const deleteBtn = document.createElement('button')
   deleteBtn.textContent = "Delete"
+  deleteBtn.className = "mui-btn mui-btn mui-btn--raised mui-btn--danger mui--text-black"
   deleteBtn.onclick = function(e) {
     onComplete(homeworkTable, homeworkRow, homework)
   }
@@ -211,17 +212,6 @@ window.onload = function() {
     resetSubmissionUI()
   }
 
-  const homeworkTable = document.getElementById('assignments')
-
-  // Initialize Column Names
-  let labelRow = document.createElement('tr')
-  for(const name of hwPropColNames) {
-    let colLabel = document.createElement('th')
-    colLabel.textContent = name
-    labelRow.appendChild(colLabel)
-  }
-  homeworkTable.appendChild(labelRow)
-
   // Request list of homework stored on server
   fetch(hwAPIPath, {
     method: 'GET',
@@ -230,6 +220,7 @@ window.onload = function() {
     // Convert GET response into JSON to extract homework information
     // Then display homework info on the table
     response.json().then(assignments => {
+      const homeworkTable = document.getElementById('assignments')
       const welcomeHeading = document.getElementById('welcomeHeading')
       welcomeHeading.innerText = assignments.name + "'s Agenda"
 
