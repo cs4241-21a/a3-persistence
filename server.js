@@ -20,6 +20,29 @@ app.use( cookieSession({
     numHits: 0
 }))
 
+app.delete("/deleteEntry", (req, res) =>{
+    handleDelete(req.body);
+})
+
+let DATABASE = "A3-Webware-MongoDB"
+let COLLECTION_NAME = "Car-Entry-Holder"
+async function handleDelete(searchCriteria){
+    console.log( "Attempting to Delete Entry with ", searchCriteria)
+    await client.connect()
+    let db = client.db(DATABASE)
+    await db.collection(COLLECTION_NAME)
+        .deleteOne(
+            {car_name: searchCriteria.car_name,
+                purchase_price: searchCriteria.purchase_price,
+                purchase_year: searchCriteria.purchase_year,
+                miles: searchCriteria.miles,
+                userID: currentUser
+            }, function(err, obj){
+        if(err) throw err;
+        console.log("Document was found")
+    })
+}
+
 /**
  * POST request that is responsible for loading in the entry's that are associated with a userID.
  *
@@ -131,7 +154,6 @@ async function checkUser(client, username, password){
     let authenticated = false;
     let db = client.db(LOGIN_DATABASE_AUTHENTICATION)
     await db.collection(LOGIN_COLLECTION).find().forEach(function(user){
-        console.log("USER:" ,user)
         if(user.username === username && user.password === password){
             console.log("Found a User with Matching Credentials")
             authenticated = true

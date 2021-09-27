@@ -8,8 +8,41 @@ window.onload = async function () {
     // submit function
     let submitButton = document.getElementById("car_submit")
     submitButton.onclick = submitEntry;
+
+    let deleteButton = document.getElementById("deleteButton")
+    deleteButton.onclick = deleteEntry;
+
 }
 
+async function deleteEntry() {
+    let table_element = getCheckedBox(document.getElementById("car_table")).cells;
+    let searchCriteria = {
+        car_name: table_element.item(0).innerHTML,
+        purchase_price: table_element.item(1).innerHTML.substr(1),
+        repairs: table_element.item(3).innerHTML,
+        miles_driven: table_element.item(4).innerHTML
+    }
+
+    await fetch("/deleteEntry", {
+        method: "DELETE",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify(searchCriteria)
+    })
+
+    renderUserData();
+
+
+}
+
+function getCheckedBox(table) {
+    for (let i = 1, row; (row = table.rows[i]); i++) {
+        //iterate through rows
+        if (row.cells[6].querySelector("input").checked) {
+            // Add the index to the listofChecked row
+            return table.rows[i]; // to get true index
+        }
+    }
+}
 /**
  * Responsible for rendering the values into the table.
  * @param listOfEntries
