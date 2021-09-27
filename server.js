@@ -151,5 +151,5 @@ app.use( function( req,res,next) {
 
 // serve up static files in the directory public
 app.use( express.static('public') )
-app.listen( 3000 )
+app.listen(process.env.PORT || 3000)
 
