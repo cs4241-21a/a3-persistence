@@ -7,7 +7,10 @@ const session = require('express-session');
 var GitHubStrategy = require('passport-github').Strategy;
 
 const app = express()
-const port = 3000
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 8000;
+}
 
 const uri = `mongodb+srv://user:${process.env.MONGODB_PASSWORD}@cluster0.2kzj5.mongodb.net/db?retryWrites=true&w=majority`;
 const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
@@ -266,5 +269,5 @@ app.get('/boards/:boardID/comments', (req, res) => {
 client.connect(async err => {
     if (err) throw err
 
-    app.listen(port, () => console.log("listening on http://localhost:3000"))
+    app.listen(port)
 });
