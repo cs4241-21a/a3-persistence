@@ -27,6 +27,9 @@ app.use(express.json())
 // Helps secure your apps by setting various HTTP headers
 app.use(express.helmet())
 
+// Record HTTP response time
+app.use(express.response-time())
+
 // passport session
 app.use(session({
     secret: 'secret',
