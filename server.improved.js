@@ -7,7 +7,8 @@ const express = require('express'),
   mongoose = require('mongoose'),
   GitHubStrategy = require('passport-github2').Strategy,
   passport = require('passport'),
-  dotenv = require('dotenv');
+  dotenv = require('dotenv'),
+  request = require('request');
 
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
