@@ -87,13 +87,13 @@ function(accessToken, refreshToken, profile, done) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.get('/auth/error', (req, res) => res.send("Authentication error!"));
-app.get('/github/logs', passport.authenticate('github', { failureRedirect: '/auth/error'}),
-function (req, res) {
-  res.redirect('/route?id=' + req.user.id);
-});
+app.get('/auth/error', (req, res) => response.send("Unknown Error"))
+app.get('/github/callback', passport.authenticate('github', { failureRedirect: '/auth/error'}),
+function(req, res) {
+  res.redirect('/response?id=' + request.user.id)
+})
 
-app.get('/route', (req, res) => {
+app.get('/response', async (req, res) => {
   const githubUser = new User( {
     username: req.query.id,
     password: "",
@@ -104,7 +104,7 @@ app.get('/route', (req, res) => {
   githubUser.save();
   req.session.login = true;
   req.session.username = req.query.id;
-  window.location.replace("/edit.html");
+  res.redirect("edit.html")
 });
 
 
