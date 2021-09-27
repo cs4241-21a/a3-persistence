@@ -1,89 +1,17 @@
-body {
-  background-color: #ADCBF0;
-  font-family: "ZCOOL KuaiLe";
-  text-align: center;
-  flex-flow: column wrap;
-}
 
-table{
+/*light theme only*/
 
-  width: 100%;
-  border-collapse: collapse
-}
+@media(prefer-color-scheme: light){
+:root{
+  --background-body: rgb(12 124 167 / 20%);
+  --links: #0057d1;
+  --focus: #0096bfcc;
+  --button-base: #4f5687f2f2;
+  --button-hover: #0071d1;
+  --form-placeholder: #6e0404;
+  --form-text: #1d1d1d;
+  }
 
-th{
-  padding: 8px;
-  text-align: center;
-  border-bottom: 1px solid #ddd;
-}
-
-tr:hover 
-{
-  background-color: lightgrey;
-}
-
-select {
-  padding: 0 1em 0 0;
-  margin: 0;
-  font-family: inherit;
-  font-size: inherit;
-  cursor: inherit;
-  line-height: inherit;
-}
-
-label {
-  display: block;
-  line-height:3;
-}
-
-h2{
-  line-height:5;
-}
-.boxHolder {
-    padding: 2% 10%;
-}
-
-.box {
-    padding-top: 5%;
-    padding-bottom: 5%;
-    background: white;
-    border-radius: 10px;
-    box-shadow: 0 0 10px 1px black;
 }
 
 
-
-.title {
-    color: white;
-    background: yellowgreen;
-}
-
-.dayHolder {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-between;
-    background-color: lightgrey;
-}
-
-.detailHolder {
-    padding: 0 3% 0;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-around;
-}
-
-.win {
-    background-color: crimson;
-    color: white;
-}
-
-.lose {
-    background-color: yellowgreen;
-    color: white;
-}
-
-#totals {
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: space-evenly;
-}

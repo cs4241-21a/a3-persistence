@@ -12,7 +12,7 @@ const GitHubStrategy = require('passport-github2').Strategy;
 const config = require('./config');
 
 const app = express();
-const port = process.env.PORT || 3030;
+const port = process.env.PORT || config.port;
 
 const User = require('./models').User;
 const Flight = require('./models').Flight;
@@ -148,6 +148,26 @@ app.post('/add', auth, function (req, res) {
 app.post('/del', auth, function (req, res) {
     Flight.findOneAndRemove({'_id': req.body.id, 'owner': req.session.userId}, function (err, docs) {
         res.json({code: 200, msg: 'success'});
+    });
+});
+
+app.post('/queryFlight', auth, function (req, res) {
+    Flight.findOne({'_id': req.body.id, 'owner': req.session.userId}, function (err, result) {
+        if (result != null) {
+            res.json({code: 200, msg: 'success', result});
+        } else {
+            res.json({code: 400, msg: 'The specific entry does not exist or not belong to the user.'});
+        }
+    });
+});
+
+app.post('/editFlight', auth, function (req, res) {
+    Flight.findOneAndUpdate({'_id': req.body.id, 'owner': req.session.userId}, req.body, function (err, result) {
+        if (result != null) {
+            res.json({code: 200, msg: 'success', result});
+        } else {
+            res.json({code: 400, msg: 'The specific entry does not exist or not belong to the user.'});
+        }
     });
 });
 

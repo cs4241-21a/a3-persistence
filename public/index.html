@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
+    <title>A3_Main Page</title>
     <meta charset="utf-8" />
-   
+
     <link
       href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <link rel="stylesheet" href="css.style.css"/>
   </head>
 
   <body>
@@ -23,12 +24,12 @@
     <div class="boxHolder">
       <div class="box">
         <form id="newTrip">
-          <h2>Add New Flight</h2>
+          <h2 id="boxTitle">Add New Flight</h2>
 
           <label for="flightNum">Flight Number: </label>
           <input type="text" id="flightNum" placeholder="Flight Number" />
 
-          <label for="depAirport">Departure Airport: </label>
+          <label for="depAirport">Departure Airprot: </label>
           <input
             type="text"
             id="depAirport"
@@ -41,7 +42,9 @@
           <label for="date">Date: </label>
           <input type="date" id="date" name="date" required />
 
-          <button id="submitAdd">Submit</button>
+          <input type="hidden" id="idToModify" />
+
+          <button id="submitButton">Submit</button>
         </form>
       </div>
     </div>
@@ -55,6 +58,7 @@
               <th>Departure Airport</th>
               <th>Arrival Airport</th>
               <th>Date</th>
+              <th>Edit</th>
               <th>Remove</th>
             </tr>
           </thead>
@@ -75,6 +79,7 @@
               <th>Departure Airport</th>
               <th>Arrival Airport</th>
               <th>Date</th>
+              <th>Edit</th>
               <th>Remove</th>
             </tr>
           </thead>
