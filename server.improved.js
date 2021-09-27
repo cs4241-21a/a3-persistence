@@ -5,10 +5,13 @@ const express = require( 'express' ),
       cookieParser = require('cookie-parser'),
       GitHubStrategy = require('passport-github2').Strategy,
       passport = require('passport'),
-      mime = require('mime')
+      timeout = require('connect-timeout')
 const { TextEncoder, TextDecoder } = require("util");
 
 app.use( express.static( 'public' ))
+
+var server = app.listen();
+server.setTimeout(500000);
 
 const { response, request } = require('express');
 const { cp } = require('fs');
