@@ -28,5 +28,8 @@
     "mongoose": "^6.0.7",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
+  },
+  "engines": {
+    "node": "14.x"
   }
 }
