@@ -4,6 +4,7 @@ let bodyParser = require('body-parser');
 let cookie_parser=require('cookie-parser')
 let cookie  = require( 'cookie-session' )
 let app = express();
+let mime = require('mime');
 app.use(cookie_parser('1234'))
 app.use( cookie({
   name: 'session',
@@ -11,7 +12,7 @@ app.use( cookie({
 }))
 let currUser = null;
 let currPass = null;
-app.use( express.static('public') )
+app.use( express.static(__dirname + '/public') )
 app.use( express.json() )
 app.use( express.urlencoded({ extended:true }) )
 const appdata = []
