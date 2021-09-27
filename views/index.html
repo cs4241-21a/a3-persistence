@@ -35,8 +35,10 @@
           <option value="4">4</option>
           <option value="5" selected>5</option>
         </select>
+        <label for="fexisting">If editing existing book, eneter its rank number:</label>
+        <input type='number' id='fexisting'>
         </br>
-        <button type="submit" id="submit">Submit Book</button>
+        <button type="submit" id="submit-book">Submit Book</button>
       </form>
       <!-- <form>
         <label>
@@ -48,6 +50,13 @@
 
       <section class="books">
         <h2>All Your Ratings</h2>
+
+        <form action='/delete-book' method='POST'>
+          <label for="fdelete">To delete a book, eneter its rank number:</label>
+          <input type='number' id='fdelete'>
+          </br>
+          <button type="submit" id="delete-button">Delete Book</button>
+        </form>
 
         <table id="books">
           <tr>

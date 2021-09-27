@@ -198,6 +198,29 @@ app.post( '/submit-book', bodyparser.json(), function( request, response ) {
   })
 })
 
+app.post( '/delete-book', bodyparser.json(), function( request, response ) {
+  console.log(`delete-book post request: ${request}`);
+  let dataString = ''
+
+  request.on( 'data', function( data ) {
+      dataString += data 
+  })
+
+  request.on( 'end', function() {
+    const json = JSON.parse( dataString )
+    console.log('app data in delete-book1:')
+    console.log(appdata)
+    appdata.splice(json.delete-1, 1)
+    for(var i = 0; i < appdata.length; i++){
+      appdata[i].rank = i+1
+    }
+    console.log('app data in delete-book2:')
+    console.log(appdata)
+    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+    response.end(JSON.stringify(appdata))
+  })
+})
+
 // send the default array of books to the webpage
 app.get("/books", (request, response) => {
   // express helps us take JS objects and send them as JSON
