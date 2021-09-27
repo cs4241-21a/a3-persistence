@@ -99,21 +99,23 @@ Sample Readme (delete the above when you're ready to submit, and modify the belo
 
 your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
+- The goal of this application is to allow users to save notes to themselves in a colorful way. The color dictates how the message is displayed
+- The primary challenge was getting MS auth set up, as well as time management. 
+- I chose Microsoft's authentication library because I knew everyone had a Microsoft account and I wanted to play around with it
+- I used the water.css framework for everything except the messages
+  - I had to adjust the body alignement
+  - The message formatting is also custom
 - the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
 add a little more detail about what it does.
     - Express static: returns static pages
-    - Cookie Parser: 
-    - 
+    - Cookie Parser: parses the cookies for authentication
+    - morgan: logs access requests for all HTTP requests
+    - passport: for MSAL authentication
+    - Express json: for parsing the JSON
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I used OAuth authentication via the Microsoft Authentication Library with Passport.js
+- **Tech Achievement 2**: I am hosting this website on my own Ubuntu server, with PM2 to manage the processes
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
