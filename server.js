@@ -1,7 +1,7 @@
 const express = require('express')
 const data = require("/public/data")
 const morgan = require('morgan')
-//const favicon = require('serve-favicon')
+const favicon = require('serve-favicon')
 const cors = require('cors')
 
 
