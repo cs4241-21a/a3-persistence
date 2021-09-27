@@ -1,8 +1,6 @@
 window.onload = pageLoad()
 
 function pageLoad() {
-	let jsons = []
-
 	// Fetch data from server to create cards on load
 	fetch('/read', {
 		method: 'GET',
@@ -12,13 +10,18 @@ function pageLoad() {
 	}).then(res => {
 		return res.json()
 	}).then(res => {
+
+		// Handle empty form
 		if (res.length === 0) {
 			document.getElementById('loader').innerHTML =
 				`<p class="m-auto text-lg text-gray-400">wow, such empty</p>`
 			return
 		}
 
+		// Sort data
 		res.sort((a, b) => b.date.localeCompare(a.date))
+
+		let jsons = []
 
 		// Process first transaction
 		jsons[0] = {
@@ -58,8 +61,26 @@ function pageLoad() {
 			})
 		}
 
+		// Add statistics
+		let I = 0;
+		let O = 0;
+
+		jsons.forEach(day => {
+			I += day.I
+			O += day.O
+		})
+
+		let stat = document.createElement('div')
+		stat.setAttribute('class', 'max-w-7xl mx-auto pt-12 sm:px-6 lg:px-8')
+		stat.innerHTML = `<div class="max-w-4xl mx-auto"> <div class="bg-white shadow overflow-hidden sm:rounded-lg"> <div class="px-4 py-5 sm:px-6"> <h3 class="text-lg leading-6 font-medium text-gray-900"> Statistics </h3> <p class="mt-1 max-w-2xl text-sm text-gray-500">
+			Total Income: $${(I / 100).toFixed(2)}, Total Expenses: $${(O / 100).toFixed(2)} </p> </div> </div> </div>`
+
+		document.body.insertBefore(stat, document.getElementById('foot'))
+
+		// Add cards
 		jsons.forEach(day => createCard(day))
 
+		// Remove spinner
 		document.body.removeChild(document.getElementById('loader'))
 	})
 }
