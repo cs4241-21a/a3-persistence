@@ -1,116 +1,49 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
-===
+## Better OwOifier
 
-Due: September 23th, by 11:59 AM.
+For this project, I used Heroku for deployment. Here is the link to my deployed project: https://a3-patrick-lee22.herokuapp.com/
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
-a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+The purpose of this application is simple: it's a very rudimentary message board. A user logs in with credentials that they create, and can create messages to any other possible user (even ones with usernames that haven't been claimed yet).
+Upon logging into the app, a user will be shown all messages sent to them by any user (even God). They can view the messages in two different views:
 
-Baseline Requirements
----
+1. Table view. This shows the message as a table with two columns: the sender and the message, along with the owo-ified versions of those two fields.
+2. Sentence view. This renders the message as a sentence, both normal and owo-ified.
 
-Your application is required to implement the following functionalities:
+Users can also send messages to anyone they like. The user can input the name of the user to send the message to and the message, along with two key visual options:
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows all data associated with a logged in user (except passwords)
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! One of these five middleware 
-can be a custom function that you write yourself; if you choose to do this, make sure to describe what this function is in your README.  
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). 
-This should do the bulk of your styling/CSS for you and be appropriate to your application. 
-For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+1. A fancy text option. This changes the font of the message in all views from the default font to a cursive, swirly font. This option is for those with a flair for the dramatic.
+2. A selection of options to choose what replaces exclaimation points in the text of the message. There are three options: text faces (this is the default), emojis, and no replacement.
 
-Your application is required to demonstrate the use of the following concepts:  
+After sending a message, users can edit their original message in the following ways:
 
-HTML:  
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+1. Users can change the contents of the message.
+2. Users can change the font fanciness.
+3. Users can change the '!' replacement option.
 
-Note that it might make sense to have two pages for this assignment, one that handles login / authentication, and one that contains the rest of your application.
-For example, when visiting the home page for the assignment, users could be presented with a login form. After submitting the login form, if the login is 
-successful, they are taken to the main application. If they fail, they are sent back to the login to try again. For this assignment, it is acceptable to simply create 
-new user accounts upon login if none exist, however, you must alert your users to this fact.  
+It is worth noting that users CANNOT change who the message was sent to. However, if a message was sent in error, the user may instead delete the message and send a new message to the intended recipient.
 
-CSS:  
-- CSS styling should primarily be provided by your chosen template/framework. 
-Oftentimes a great deal of care has been put into designing CSS templates; 
-don't override their stylesheets unless you are extremely confident in your graphic design capabilities. 
-The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
+Authentication in this application is very simple. To create an account, all a new user has to do is input a username and password in the login fields when first entering the application. If the username is taken, there will be a short error message displayed.
+This strategy was chosen both due to its ease of implementation and its ease of use.
 
-JavaScript:  
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. 
-See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
+Much of the visual style of this application comes from the Bootstrap framework, which was used during to give this app a clean look and feel. I chose bootstrap for this application partly due to familiarity with the framework from prior work experience, but also because of the ease of creating interactive animations and clean-looking visuals. Examples of out-of-the-box bootstrap visual effects that enhance this application include:
 
-Node.js:  
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
+- Hovering labels for input fields
+- Table stylings
+- Font choice (non-fancy, of course)
+- Button stylings, including hover-fill animations
+- Navbar stylings
 
-General:  
-- Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
-using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test).
-Test early and often so that fixing problems doesn't lead to suffering at the end of the assignment. 
+Another reason why bootstrap was my framework of choice is its grid system. Using css classes, I was able to align items within the application simply by adding a few classes and wrapping div elements here and there. For examples of this, look to the sent messages view.
 
-Deliverables
----
+There were very few css rules I wrote for this project, and the ones which I did write were largely things like borders and extra padding.
 
-Do the following to complete this assignment:
+Five Express middleware packages were used in creating this application. Here is a list of them, along with what they do.
 
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the 
-assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. 
-These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README, 
-why it was challenging, and how many points you think the achievement should be worth. 
-ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). 
-*You must either use Github authenticaion or provide a username/password to access a dummy account*. 
-Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. 
-Please contact the course staff if you have any questions about this. THIS IS THE HARDEST ACHEIVEMENT OFFERED IN WEBWARE. You have been warned!  
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-- (5 points) Get 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.  
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. 
-For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively 
-getting it "for free" without having to actively change anything about your site. 
-Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. 
-List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. 
-Which element received the most emphasis (contrast) on each page? 
-How did you use proximity to organize the visual information on your page? 
-What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? 
-How did you use alignment to organize information and/or increase contrast for particular elements. 
-Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
+1. serve-static: this middleware package serves static files (like the css and javascript files powering the application).
+2. cookie-session: used to create a cookie to store the username of the currently logged in user.
+3. morgan: this is used to log http request information to the console, for ease of developing the app and monitoring it (plus I like things with my name).
+4. serve-favicon: this is used to easily send the favicon I created for this application.
+5. body-parser: this is used to automatically parse json data from the client.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Tech Achievement 1**: As mentioned previously, I used Heroku as my hosting platform for this assignment. While it had a slightly steeper learning curve than Glitch, there was a distinct advantage to using Heroku: automatic redeployment upon a new commit to the base repository. When using Glitch, if I updated the code base locally and then committed my changes, I had to create a completely new project on Glitch to see those changes reflected in the code. Heroku will automatically redeploy the project whenever a new commit is pushed to the origin.
+- **Tech Achievement 2**: My application scored 100% on all four lighthouse tests, on both the login page and the main message board. I have included screenshots as proof.

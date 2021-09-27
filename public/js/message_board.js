@@ -87,8 +87,8 @@ function addNewElt(element) {
     if (element.fancyFont) {
         messagecell.className = 'fancy-font';
         messageowocell.className = 'fancy-font';
-        normalSentence.className = 'fancy-font';
-        owoSentence.className = 'fancy-font';
+        normalSentence.classList.add('fancy-font');
+        owoSentence.classList.add('fancy-font');
     }
     normalSentenceRoot.append(normalSentence);
     owoSentenceRoot.append(owoSentence);
