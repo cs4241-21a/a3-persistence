@@ -1,39 +1,4 @@
-//flag for the item expiration time
 var flag = "";
-let item = [];
-
-const submit = function() {
-  console.log(flag);
-  const name = document.querySelector("#itemName").value,
-    description = document.querySelector("#itemDescription").value;
-  //itemExpiration = document.querySelector('#item').value
-
-  if (formComplete(name, description)) {
-    const json = {
-        itemName: name,
-        itemDescription: description,
-        itemExpiration: flag
-      },
-      body = JSON.stringify(json);
-
-    fetch("/submit", {
-      method: "POST",
-      body
-    })
-      .then(function(response) {
-        return response.text();
-      })
-
-      .then(function(text) {
-        item.push(JSON.parse(text));
-        updateItem();
-        console.log("Item: " + JSON.stringify(item));
-      });
-  }
-  return false;
-};
-
-//update flag to reflect the accurate expiration
 function shortFlag() {
   flag = "expiration-short";
   console.log(flag);
@@ -46,99 +11,251 @@ function longFlag() {
   flag = "expiration-long";
   console.log(flag);
 }
-
-//check if the form is fully complete
-function formComplete(itemName, itemDescription) {
-  if (itemName === "") {
-    document.getElementById("error").style.display = "block";
-    document.getElementById("error").focus();
-    return false;
+const getUrgency = function (expiraton) {
+  let urgency = "";
+   
+  if (expiraton === "expiration-long") {
+    urgency = "Take Your Time";
+  } else if (expiraton === "expiration-med") {
+    urgency = "Finish it Soon";
+  } else if (expiraton === "expiration-short") {
+    urgency = "Finish it Now";
   } else {
-    document.getElementById("error").style.display = "none";
-    document.getElementById("error").focus();
-    return true;
+    urgency = "Finish it Soon";
+  }
+  return urgency;
+}
+
+const addEntry = (json) => {
+
+  let table = document.getElementById('items')
+  
+  let newRow = table.insertRow(-1),
+  newItem = newRow.insertCell(0),
+  newDescription = newRow.insertCell(1),
+  newExpiration = newRow.insertCell(2),
+  newUrgency = newRow.insertCell(3),
+  editElement = newRow.insertCell(4),
+  editButton = document.createElement('Input'),
+  removeElement = newRow.insertCell(5),
+  removeButton = document.createElement('Input');
+
+  let idElement = json._id;
+
+  newItem.innerHTML = json.itemName;
+  json.description = "";
+  if(json.description){
+    newDescription.innerHTML = json.description;
+  }
+  newExpiration.innerHTML = json.expiraton;
+  newUrgency.innerHTML = json.urgency;
+
+  editButton.setAttribute('type','button')
+  editButton.setAttribute('value', 'Edit')
+  editButton.className = 'editButton';
+  editElement.appendChild(editButton);
+
+  let itemInput = document.createElement('Input'),
+    descriptionInput = document.createElement('Input'),
+    expirationInput = document.createElement('Input'),
+    urgencyInput = document.createElement('Input'),
+    id = idElement;
+
+    itemInput.value = newItem.innerHTML;
+    descriptionInput.value = newDescription.innerHTML;
+    expirationInput.value = newExpiration.innerHTML;
+    urgencyInput.value = urgencyInput.innerHTML;
+
+  editButton.onclick = function() {
+
+    document.querySelector('#itemName').value = json.itemName
+    document.querySelector('#description').value = json.description
+    document.querySelector('#expiration').value = json.expiration
+
+    newRow.remove();
+
+    json = { itemName: itemInput.value, description: descriptionInput.value, expiration: expirationInput.value, urgency: urgencyInput.value, id: id }
+    body = JSON.stringify( json )
+
+    fetch('/update', {
+      method:'POST',
+      body,
+      headers: {"Content-Type": "application/json"} 
+    })
+    .then(response => response.json())
+    .then(json => {
+      
+      itemInput.value = newItem.innerHTML
+      descriptionInput.value = newDescription.innerHTML
+      expirationInput.value = newExpiration.innerHTML
+      urgencyInput.value = newUrgency.innerHTML
+    })
+  }
+
+  removeButton.setAttribute('type','button')
+  removeButton.setAttribute('value', 'Remove')
+  removeButton.classItem = 'removeButton';
+  removeElement.appendChild(removeButton);
+
+  removeButton.onclick = function () {
+
+    fetch( '/remove', {
+      method:'POST',
+      body: JSON.stringify({idElement}),
+      headers: {"Content-Type": "application/json"} 
+    })
+    .then(response => response.json())
+    .then(json => {newRow.remove();
+   })
+  }
+};
+
+function loadDatabase(item) {
+  let table = document.getElementById('items')
+  
+  let newRow = table.insertRow(-1),
+  newItem = newRow.insertCell(0),
+  newDescription = newRow.insertCell(1),
+  newExpiration = newRow.insertCell(2),
+  newUrgency = newRow.insertCell(3),
+  editElement = newRow.insertCell(4),
+  editButton = document.createElement('Input'),
+  removeElement = newRow.insertCell(5),
+  removeButton = document.createElement('Input');
+
+  let idElement = item._id;
+
+  newItem.innerHTML = item.itemName;
+  newDescription.innerHTML = item.description;
+  newExpiration.innerHTML = item.expiraton;
+  newUrgency.innerHTML = item.urgency;
+
+  editButton.setAttribute('type','button')
+  editButton.setAttribute('value', 'Edit')
+  editButton.className = 'editButton';
+  editElement.appendChild(editButton);
+
+  let itemInput = document.createElement('Input'),
+    descriptionInput = document.createElement('Input'),
+    expirationInput = document.createElement('Input'),
+    urgencyInput = document.createElement('Input'),
+    id = idElement;
+
+    itemInput.value = newItem.innerHTML;
+    descriptionInput.value = newDescription.innerHTML;
+    expiratonInput.value = newExpiration.innerHTML;
+    urgencyInput.value = urgencyInput.innerHTML;
+
+  editButton.onclick = function() {
+
+    document.querySelector('#itemName').value = item.itemName
+    document.querySelector('#itemDescription').value = item.description
+    document.querySelector('#expiration').value = item.expiration
+
+    newRow.remove();
+
+    json = { itemName: itemInput.value, description: descriptionInput.value, expiration: expirationInput.value, urgency: urgencyInput.value, id: id }
+    body = JSON.stringify( json )
+
+    fetch( '/update', {
+      method:'POST',
+      body,
+      headers: {"Content-Type": "application/json"} 
+    })
+    .then(response => response.json())
+    .then(json => {
+      
+      itemInput.value = newItem.innerHTML
+      descriptionInput.value = newDescription.innerHTML
+      expirationInput.value = newExpiration.innerHTML
+      urgencyInput.value = newUrgency.innerHTML
+    })
+  }
+
+  removeButton.setAttribute('type','button')
+  removeButton.setAttribute('value', 'Remove')
+  removeButton.className = 'removeButton';
+  removeElement.appendChild(removeButton);
+
+
+  removeButton.onclick = function () {
+
+    fetch( '/remove', {
+      method:'POST',
+      body: JSON.stringify({idElement}),
+      headers: {"Content-Type": "application/json"} 
+    })
+    .then(response => response.json())
+    .then(json => {newRow.remove()})
   }
 }
 
-//edits the row selected
-const edit = function(e) {
-  e.preventDefault();
-  let row = item[Number(e.target.id.substring(4))];
-  document.querySelector("#itemName").value = row.itemName;
-  document.querySelector("#itemDescription").value = row.itemDescription;
-  flag = row.itemExpiration;
-  item.splice(Number(e.target.id.substring(4)), 1);
-  console.log("Current items when editing: " + JSON.stringify(item));
-  updateItem();
-};
+fetch("/fridge")
+.then(response => response.json())
+.then(fridge => {fridge.forEach(loadDatabase);});
 
-const remove = function(e) {
-  e.preventDefault();
-  item.splice(Number(e.target.id.substring(6)), 1);
-  console.log("Current Items after deletion: " + JSON.stringify(item));
-  updateItem();
-};
-//update the item table with any changes
-function updateItem() {
-  let table = document.querySelector("tbody");
-  table.innerHTML = "";
-  for (let index = 0; index < item.length; index++) {
-    let newRow = document.createElement("tr");
-    for (let unit = 0; unit < 6; unit++) {
-      let newUnit = document.createElement("td");
-      let newText;
-      switch (unit) {
-        case 0:
-          //Creates a new unit that contains the itemName value
-          newText = document.createTextNode(item[index].itemName);
-          break;
-        case 1:
-          //Creates a new unit that contains the itemDescription value
-          newText = document.createTextNode(item[index].itemDescription);
-          break;
-        case 2:
-          //Creates a new unit that contains the Expiration value
-          newText = document.createTextNode(item[index].itemExpiration);
-          break;
-        case 3:
-          //Creates a new unit that contains the Urgency value
-          newText = document.createTextNode(item[index].itemUrgency);
-          break;
-        case 4:
-          //Creates a new unit that contains the Edit button
-          newText = document.createElement("Input");
-          newText.setAttribute("type", "button");
-          newText.setAttribute("value", "Edit");
-          newText.className = "editButton";
-          break;
-        case 5:
-          //Creates a new unit that contains the Remove button
-          newText = document.createElement("Input");
-          newText.setAttribute("type", "button");
-          newText.setAttribute("value", "Remove");
-          newText.className = "removeButton";
-          break;
-      }
-      //Adds an event to the Edit button
-      if (unit === 4) {
-        newText.id = "Edit" + index.toString();
-        newText.onclick = edit;
-      }
-      //Adds an event to the Remove button
-      if (unit === 5) {
-        newText.id = "Delete" + index.toString();
-        newText.onclick = remove;
-      }
-      //Placing each text to there appropriate unit and placing each unit to a row
-      newUnit.appendChild(newText);
-      newRow.appendChild(newUnit);
+const submit = function( e ) {
+
+  e.preventDefault()
+
+    const item = document.querySelector( '#itemName' ),
+    description = "";
+  if(document.querySelector('#itemDescription')){
+    description = document.querySelector('#itemDescription');
+  }
+  const expiration = document.flag;
+  const urgency = getUrgency(expiration.value);
+
+    if (item.value === "" || expiration.value === "") {
+        console.log("Crucial fields are empty")
+        alert("Item and expiration fields needs to be filled.")
+        return false
+    } 
+
+
+    if (item.value.length < 2 ) {
+      console.log("Not a valid item")
+      alert("Enter valid fields only.")
+      return false
     }
-    //Placing the row in the table
-    table.appendChild(newRow);
-  }
-}
 
-window.onload = function() {
-  const addButton = document.querySelector("#addItem");
-  addButton.onclick = submit;
-};
+   
+    if (item.value === "Item" ) {
+        console.log("Not valid item")
+        alert("Enter only valid fields for item.")
+        return false
+    }
+  
+    json = { itemName: item.value, itemDescription: description.value, expiraton:expiration.value, urgency: urgency }
+    body = JSON.stringify( json )
+
+    fetch( '/submit', {
+      method:'POST',
+      body: body,
+      headers: {"Content-Type": "application/json"} 
+    })
+    .then(response => response.json())
+    .then(json => {addEntry(json)})
+    return false
+  }
+
+  
+  const logout = function (e) {
+
+      e.preventDefault()
+
+      fetch('logout', {
+          method: 'POST',
+          headers: {"Content-Type":"application/json"}
+      })
+      window.location.href = "login.html"
+  }
+  
+  window.onload = function() {
+    const addButton = document.querySelector("#addItem");
+    addButton.onclick = submit;
+  
+
+    const logoutButton = document.getElementById('logoutBtn')
+    logoutButton.onclick = logout
+  }

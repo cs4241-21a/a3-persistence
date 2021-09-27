@@ -16,15 +16,18 @@
       href="https://fonts.googleapis.com/css2?family=Courier+Prime&display=swap"
       rel="stylesheet"
     />
-    <script src="js/scripts.js"></script>
+    <script src="js/index.js"></script>
   </head>
   <body>
-    <div class="container-fluid">
+    <div class="container-fluid"><button type="button" class="btn btn-primary" id= "logoutBtn">Logout</button>
       <div class="row">
+        
         <div class="col-sm ">
+          
           <div class="row tall">
-            <div class="col-sm">
-              <h1>The Fridge</h1>
+            <div class="col-sm">          
+              <h1>The Fridge</h1> 
+              
               <h2>What's going in?</h2>
               <input
                 type="text"
@@ -39,34 +42,16 @@
                 placeholder="Item Description"
               ></textarea
               ><br /><br />
-              <button
-                type="button"
-                class="btn btn-outline-success"
-                id="expiration-long"
-                onclick="Javascript:longFlag()"
-              >
-                Long Expiration</button
-              >&nbsp
-              <button
-                type="button"
-                class="btn btn-outline-warning"
-                id="expiration-med"
-                onclick="Javascript:medFlag()"
-              >
-                Medium Expiration</button
-              >&nbsp
-              <button
-                type="button"
-                class="btn btn-outline-danger"
-                id="expiration-short"
-                onclick="Javascript:shortFlag()"
-              >
-                Short Expiration</button
-              >&nbsp
+              <select name='hours' onfocus="this.value=''" class= "selectBox" id="hours">
+                <option value="expiration-long">Long Expiration</option>
+                <option value="expiration-med">Medium Expiration</option>
+                <option value="expiration-short">Short Expiration</option>
+            </select>
+              &nbsp
               <button type="button" class="btn btn-primary" id="addItem">
                 Add Item
               </button>
-              <button type="button" class="btn btn-primary" id= "logoutBtn">Logout</button>
+              
               <div id="error">**Please fill out the name of the item**</div>
             </div>
           </div>
@@ -89,8 +74,12 @@
             </thead>
             <tbody></tbody>
           </table>
+          
         </div>
+        
       </div>
+      
     </div>
+    
   </body>
 </html>

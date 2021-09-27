@@ -12,7 +12,9 @@ require('dotenv').config();
 
 app.use(express.static('public'))
 app.use(express.json());
+
 app.use(express.urlencoded({ extended: true }))
+
 app.use(timeout('5s'))
 app.use(logger('tiny'))
 app.use(haltOnTimedout)
@@ -28,7 +30,7 @@ function haltOnTimedout (req, res, next) {
   if (!req.timedout) next()
 }
 
-const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
+const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST;
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null;
 let user = null;
