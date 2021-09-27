@@ -14,7 +14,10 @@ function onComplete(homeworkTable, homeworkRow, homework) {
   const body = JSON.stringify(homework)
   fetch( hwAPIPath, {
     method:'DELETE',
-    body
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body,
   })
   .then( function( response ) {
     // Get DELETE response to confirm success
@@ -34,13 +37,7 @@ function createHWRow(homeworkTable, homework) {
   for(const prop of hwProperties) {
     console.log(homework + " ==> " + prop)
     let homeworkProp = document.createElement('td')
-
-    if(prop === "dueDate") {
-      homeworkProp.textContent = dueDate.toLocaleString('en-US')
-    }
-    else {
-      homeworkProp.textContent = homework[prop]
-    }
+    homeworkProp.textContent = homework[prop]
     homeworkRow.appendChild(homeworkProp)
   }
 
@@ -50,18 +47,24 @@ function createHWRow(homeworkTable, homework) {
   editBtn.onclick = function() {
     const nameInput = document.getElementById('homeworkName'),
           courseInput = document.getElementById('homeworkCourse'),
-          dueDateInput = document.getElementById('homeworkDue')
+          dueDateInput = document.getElementById('homeworkDue'),
+          prioritySelect = document.getElementById('homeworkPriority'),
+          notesText = document.getElementById('homeworkNotes'),
+          completedRadio = document.getElementById('homeworkComplete')
 
     nameInput.value = homework.name
     courseInput.value = homework.course
-    dueDateInput.value = dueDate.toLocaleString('en-US')
+    dueDateInput.value = homework.dueDate
+    prioritySelect.value = homework.priority
+    notesText.value = homework.notes
+    completedRadio.checked = homework.complete ? "Checked" : ""
 
     showOverlay()
     newHWSubmit.onclick = generateSubmitFunc(false, homework, homeworkRow)
   }
 
   const deleteBtn = document.createElement('button')
-  deleteBtn.textContent = "Complete"
+  deleteBtn.textContent = "Delete"
   deleteBtn.onclick = function(e) {
     onComplete(homeworkTable, homeworkRow, homework)
   }
@@ -92,10 +95,22 @@ function showOverlay() {
 }
 
 function clearInputBoxes() {
-  const inputs = document.querySelectorAll('input')
+  const inputs = document.querySelectorAll('input'),
+        prioritySelect = document.getElementById('homeworkPriority'),
+        notesText = document.getElementById('homeworkNotes'),
+        completedRadio = document.getElementById('homeworkComplete'),
+        incompleteRadio = document.getElementById('homeworkIncomplete')
+
   for(const input of inputs) {
     input.value = ""
   }
+
+  prioritySelect.value = "None"
+
+  notesText.value = ""
+
+  completedRadio.checked = ""
+  incompleteRadio.checked = "checked"
 }
 
 function resetSubmissionUI() {
@@ -109,11 +124,21 @@ function submitHWDialog(isNewHomework=true, prevHomework=null) {
   const nameInput = document.getElementById('homeworkName'),
         courseInput = document.getElementById('homeworkCourse'),
         dueDateInput = document.getElementById('homeworkDue'),
-        homework = { name: nameInput.value, course: courseInput.value}
+        prioritySelect = document.getElementById('homeworkPriority'),
+        notesText = document.getElementById('homeworkNotes'),
+        completedRadio = document.getElementById('homeworkComplete'),
+        homework = {
+          name: nameInput.value,
+          course: courseInput.value,
+          dueDate: dueDateInput.value,
+          priority: prioritySelect.value,
+          notes: notesText.value,
+          complete: completedRadio.checked ? true : false,
+        }
 
   try{
-    let dueDate = new Date(dueDateInput.value)
-    homework.dueDate = dueDate
+    // let dueDate = new Date(dueDateInput.value)
+    // homework.dueDate = dueDateInput
 
     if(isNewHomework) {
       // Calculate submission time
@@ -144,6 +169,9 @@ function generateSubmitFunc(isNewHomework=true, prevHomework=null, prevHWRow=nul
     const body = JSON.stringify(homework)
     fetch( hwAPIPath, {
       method: isNewHomework ? 'POST' : 'PUT',
+      headers: {
+          "Content-Type": "application/json"
+      },
       body
     })
     .then( function( response ) {
@@ -195,17 +223,19 @@ window.onload = function() {
   homeworkTable.appendChild(labelRow)
 
   // Request list of homework stored on server
-  fetch('/homework', {
+  fetch(hwAPIPath, {
     method: 'GET',
   })
   .then(function(response) {
     // Convert GET response into JSON to extract homework information
     // Then display homework info on the table
     response.json().then(assignments => {
-      console.log(assignments)
+      const welcomeHeading = document.getElementById('welcomeHeading')
+      welcomeHeading.innerText = assignments.name + "'s Agenda"
+
       // Display given homeworks
-      for(const homeworkID in assignments) {
-        homeworkData[homeworkID] = assignments[homeworkID]
+      for(const homeworkID in assignments.data) {
+        homeworkData[homeworkID] = assignments.data[homeworkID]
         addHWToTable(homeworkTable, homeworkData[homeworkID])
       }
     })

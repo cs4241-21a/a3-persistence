@@ -2,7 +2,8 @@
 require('dotenv').config()
 
 // Import dependencies for properly running the server
-const express = require("express"),
+const fetch = require("node-fetch"),
+      express = require("express"),
       cors = require("cors"),
       cookieParser = require("cookie-parser"),
       bodyparser = require("body-parser"),
@@ -13,13 +14,6 @@ const express = require("express"),
       hwPath = "/agenda",
       hwAPIPath = hwPath + "/data",
       port = 80
-
-// Key is corresponding to submission date (really just for uniqueness, doesn't matter for the preset values like this)
-const homeworkData = {
-  "0": { name: "a2-shortstack", priority: "High", course: "Webware", dueDate:'2021-09-09T11:59:00-0400', subDate: "0",},
-  "1": { name: "CSS Grid Garden", priority: "High", course: "Webware", dueDate:'2021-09-09T11:59:00-0400', subDate: "1",},
-  "2": { name: "Project 2", priority: "Low", course: "Mobile Computing", dueDate:'2021-09-17T23:59:00-0400', subDate: "2",},
-}
 
 
 ///////// Define MongoDB database information //////////
@@ -44,7 +38,7 @@ client.connect()
   })
 
 
-/////// Import dependencies for OAuth2 with GitHub //////
+  /////// Import dependencies for OAuth2 with GitHub //////
 
 const passport = require("passport"),
       GitHubStrat = require("passport-github2").Strategy
@@ -59,8 +53,18 @@ passport.use(new GitHubStrat({
     clientSecret: process.env.GH_OAUTH_SECRET,
     callbackURL: staticURL + githubCallback
   },
-  function(req, accessToken, refreshToken, user, done) {
+  async function(req, accessToken, refreshToken, user, done) {
     user.access_token = accessToken
+
+    const hwData = await homeworkCollection.findOne({_id: user.id})
+    // If the user doesn't exist on the database, add them
+    if(hwData === null) {
+      await homeworkCollection.insertOne({
+        _id: user.id,
+        data: {},
+      })
+    }
+
     return done(null, user)
   }
 ))
@@ -99,8 +103,10 @@ app.use(passport.initialize())
  * Middleware for creating and storing cookies
  * Each session stores the following keys:
  * - access_token = used for grabbing user info
+ * - id = used for storing user ID
  */
 const COOKIE_ACCESS_TOKEN = "access_token"
+const COOKIE_USER_ID = "id"
 app.use(cookieParser())
 
 // Redirect to home page if a user is not logged in and is attempting to view their agenda
@@ -139,14 +145,6 @@ app.get('/', (request,  response) => {
   response.sendFile(staticDir + "/index.html")
 })
 
-// Setup handling for GET requesting homework from API
-app.get(hwAPIPath, 
-  passport.authenticate("github"),
-  (request, response) => {
-  response.writeHeader(200, "OK", {"Content-Type": "application/json"})
-  response.end(JSON.stringify(homeworkData))
-})
-
 // Handles GET request to login location for redirecting to GitHub
 // This will then redirect to GitHub's OAuth page for authorization
 app.get(githubRedirect,
@@ -163,15 +161,35 @@ app.get(githubRedirect,
 // Handles GET request to app's GitHub post-authorization location
 // This obtains the authorization token to be used with the GitHub API
 app.get(githubCallback,
-  passport.authenticate("github",
-  { failureRedirect: "/?" + new URLSearchParams({
-      error: "Failed to authenticate with GitHub"
-  })}),
+  passport.authenticate("github"),
   function(req, res) {
     res.cookie(COOKIE_ACCESS_TOKEN, req.user.access_token)
+    res.cookie(COOKIE_USER_ID, req.user.id)
     res.redirect(hwPath)
   }
 )
+
+// Setup handling for GET requesting homework from API
+app.get(hwAPIPath, 
+  async (req, res) => {
+    const gitUserResponse = await
+    fetch("https://api.github.com/user", {
+      method: "GET",
+      headers: {
+        "Authorization": "token " + req.cookies[COOKIE_ACCESS_TOKEN]
+      },
+    })
+
+    const userData = await gitUserResponse.json()
+    const homeworkData = await homeworkCollection.findOne({_id: req.cookies[COOKIE_USER_ID]})
+    const responseData = {
+      name: userData.name,
+      data: homeworkData.data,
+    }
+
+    res.writeHeader(200, "OK", {"Content-Type": "application/json"})
+    res.end(JSON.stringify(responseData))
+})
 
 ////// POST REQUEST ///////
 
@@ -180,35 +198,20 @@ app.get(githubCallback,
  * @param {*} request 
  * @param {*} response 
  */
- function addNewData(request, response) {
-  let hwData = JSON.parse(request.body.newHW)
+ async function addNewData(req, res) {
+  const userID = {_id: req.cookies[COOKIE_USER_ID]},
+        currUserHWData = await homeworkCollection.findOne(userID),
+        hwData = req.body,
+        subDate = hwData.subDate
 
-  // Calculate priority based on given submission time and deadline
-  const dueDate = new Date(hwData.dueDate)
-  const subDate = new Date(hwData.subDate)
-  const dayDiff = Math.floor((dueDate - subDate) / 86400000)
+  // Update database
+  currUserHWData.data[subDate] = hwData
+  await homeworkCollection.updateOne(userID, {
+    $set: { data: currUserHWData.data }
+  })
 
-  const priorityLevels = [
-    [1, "High"],    // One day ==> High
-    [3, "Medium"],  // Three days ==> Medium
-    [null, "Low"],  // Otherwise == Low
-  ]
-
-  // If difference of time is less or equal to whichever priority level, then assign it
-  for(priorityTimePair of priorityLevels) {
-    const priorityTime = priorityTimePair[0]
-    const priorityLevel = priorityTimePair[1]
-    if(priorityTime === null || dayDiff <= priorityTime) {
-      hwData.priority = priorityLevel
-      break
-    }
-  }
-
-  // Add to internal server data, using the submission date as the key (for uniqueness)
-  homeworkData[hwData.subDate] = hwData
-
-  response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-  response.end(JSON.stringify(hwData)) 
+  res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+  res.end(JSON.stringify(hwData)) 
 }
 
 
@@ -228,10 +231,17 @@ app.put(hwAPIPath, (request, response) => {
 
 // Setup handling for DELETE requesting homework from API
 
-app.delete(hwAPIPath, (request, response) => {
-  let hwData = JSON.parse(dataString)
+app.delete(hwAPIPath, async (request, response) => {
+  const userID = {_id: req.cookies[COOKIE_USER_ID]},
+        currUserHWData = await homeworkCollection.findOne(userID),
+        hwData = req.body,
+        subDate = hwData.subDate
 
-  delete homeworkData[hwData.subDate]
+  // Update database
+  delete currUserHWData.data[subDate]
+  await homeworkCollection.updateOne(userID, {
+    $set: { data: currUserHWData.data }
+  })
 
   response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
   response.end()
