@@ -7,6 +7,13 @@ const login = function (e) {
     let username = document.getElementById("username").value
     let password = document.getElementById("password").value
 
+    if(username === "" || password === "") {
+        alert("Username and/or password can not be blank!")
+        return false
+    }
+
+
+
     json = {
         username: username,
         password: password
@@ -176,6 +183,7 @@ const editSubmission = function (e) {
 
             document.getElementById("editform").reset()
             document.getElementById("hide").style.display = "none"
+            document.getElementById("submit").disabled = false
         })
 }
 
@@ -245,7 +253,7 @@ const fillTable = function () {
         .then(response => response.text())
         .then(function (text) {
             const data = JSON.parse(text)
-            
+
             for (let i = 0; i < data.length; i++) {
                 let table = document.getElementById("cartable")
                 let row = table.insertRow(-1)

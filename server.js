@@ -1,13 +1,31 @@
 const express = require('express'),
   mongodb = require('mongodb'),
   morgan = require('morgan'),
+  responseTime = require('response-time'),
+  timeout = require('connect-timeout'),
+  serveStatic = require('serve-static'),
+  helmet = require('helmet'),
   app = express()
 
 require('dotenv').config()
 
 app.use(express.static('public'))
 app.use(express.json())
+app.use(timeout('5s'))
 app.use(morgan('tiny'))
+app.use(haltOnTimedout)
+app.use(responseTime((req, res, time) => {
+  console.log("Response Time: " + req.method, req.url, time + 'ms');
+}));
+app.use(haltOnTimedout)
+app.use(serveStatic('public'))
+app.use(haltOnTimedout)
+app.use(helmet())
+app.use(haltOnTimedout)
+
+function haltOnTimedout (req, res, next) {
+  if (!req.timedout) next()
+}
 
 const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -40,14 +58,11 @@ client.connect()
   })
 
 app.post('/login', (req, res) => {
-  console.log("req.body.username: " + req.body.username)
-
   let formData = req.body
   let query = { username: req.body.username }
 
   userCollection.findOne(query).then(
     result => {
-      console.log(result)
       if (result != null) {
         if (result.password === req.body.password) {
           formData._id = result._id.toString()
@@ -67,14 +82,11 @@ app.post('/login', (req, res) => {
 })
 
 app.post('/fill', (req, res) => {
-  console.log("req.body.username: " + req.body.username)
-
   let query = { username: req.body.username }
 
   collection.find(query).toArray(function (err, result) {
     if (err) { throw err }
     else {
-      console.log(result)
       res.json(result)
     }
   })
