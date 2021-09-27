@@ -14,4 +14,6 @@ Glitch link: https://a3-victoria-grasso.glitch.me/
 
 ## Technical Achievements
 - **Tech Achievement 1**: I got 100% in all four lighthouse tests required for this assignment.
+![loginLighthouse](https://github.com/vygrasso/a3-persistence/blob/main/loginLighthouse.PNG)
+![indexLighthouse](https://github.com/vygrasso/a3-persistence/blob/main/indexLighthouse.PNG)
 
