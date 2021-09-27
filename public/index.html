@@ -3,13 +3,16 @@
   <head>
     <title>CS4241 Assignment 3 Login</title>
     <meta charset="utf-8">
+    <meta name="description" content="Webware assignment 3: helps you keep track of your upcoming assignments as a student at WPI!">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.5.5.min.css"/>
   </head>
   <body>
     <form action='/login' method='POST'>
-      <p>Username:</p>
-      <input type='text' name='username'>
-      <p>Password:</p>
-      <input type='password' name='password'>
+      <p><label for="username">Username:</label></p>
+      <input type='text' name='username' id='username'>
+      <p><label for="password">Password:</label></p>
+      <input type='password' name='password' id='password'>
       <button id='formSubmit'>submit</button>
     </form>
   </body>

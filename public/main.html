@@ -3,18 +3,30 @@
   <head>
     <title>CS4241 Assignment 3</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.5.5.min.css"/>
+    <meta name="description" content="Webware assignment 3: helps you keep track of your upcoming assignments as a student at WPI!">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
   </head>
   <body>
     <script src="js/scripts.js"></script>
-    <h1>Enter new assignments here:</h1>
-    <form id='assignmentInfo' action="" class="flex-container">
-      <p>Course Name:</p>
+    <h1>Add new assignments or update existing assignments:</h1>
+    <form id='assignmentInfo' action="">
+      <p>Would you like to add a new assignment or edit an existing assignment?</p>
+      <input type="radio" onclick="javascript:radioToggle();" name="newOrEdit" id="newCheck"/>
+      <label for="newCheck">New Assignment</label>
+      <input type="radio" onclick="javascript:radioToggle();" name="newOrEdit" id="editCheck"/>
+      <label for="editCheck">Edit Existing</label>
+      <div id="ifEdit" style="display:none">
+        <br>What is the position of the assignment in the list that would you like to edit?
+        <input type="number" id="assignmentToEdit" min="1"/>
+      </div>
+      <p><label for="courseName">Course Name:</label></p>
       <input type='text' id='courseName'>
-      <p>Assignment Name:</p>
+      <p><label for="assignmentName">Assignment Name:</label></p>
       <input type='text' id='assignmentName'>
-      <p>Due date:</p>
+      <p><label for="dueDate">Due date:</label></p>
       <input type='datetime-local' id='dueDate'>
-      <p>Submission type:</p>
+      <p><label for="submissionType">Submission type:</label></p>
       <select id="submissionType" name="submissionType">
         <option value="Canvas">Canvas</option>
         <option value="In-person">In-person</option>
@@ -23,7 +35,7 @@
         <option value="GitHub">GitHub</option>
         <option value="Other">Other</option>
       </select>
-      <p>Description (optional):</p>
+      <p><label for="description">Description (optional):</label></p>
       <input type='text' id='description'>
       <button id='formSubmit'>submit</button>
     </form>
@@ -31,10 +43,10 @@
     <table id="assignmentTable">
       <thead id="assignmentTableHead">
         <tr>
+          <th>Assignment Number</th>
           <th>Course Name</th>
           <th>Assignment Name</th>
           <th>Due date</th>
-          <th>Days left</th>
           <th>Submission Type</th>
           <th>Description</th>
           <th>Turned In?</th>

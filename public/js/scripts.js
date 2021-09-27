@@ -14,18 +14,51 @@ const submit = function( e ) {
     json["submissionType"] = document.getElementById("submissionType").value
     json["description"] = document.getElementById("description").value
 
-    const body = JSON.stringify( json )
+    if (document.getElementById('editCheck').checked){
+        let givenNum = document.getElementById("assignmentToEdit").value
+        let indexNum = givenNum - 1
+        json["assignmentNumber"] = indexNum;
 
-    fetch( '/submit', {
-        method:'POST',
-        body 
-    })
-    .then( function( response ) {
-        return response.json()
-    }).then(function(data){
-        console.log(data)
-        buildTable(data)
-    })
+        const body = JSON.stringify( json )
+
+        fetch( '/edit', {
+            method:'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body 
+        })
+        .then( function() {
+            fetch( '/refresh', {
+                method:'POST', 
+            })
+            .then( function( response ) {
+                return response.json()
+            }).then(function(data){
+                console.log(data)
+                buildTable(data)
+            })
+        })
+    }else{
+        const body = JSON.stringify( json )
+
+        fetch( '/add', {
+            method:'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body 
+        })
+        .then( function() {
+            fetch( '/refresh', {
+                method:'POST', 
+            })
+            .then( function( response ) {
+                return response.json()
+            }).then(function(data){
+                console.log(data)
+                buildTable(data)
+            })
+        })
+    }
+
+    
 
     
 
@@ -38,15 +71,21 @@ function doneAssignment(num){
 
     const body = JSON.stringify(json)
 
-    fetch( '/submit', {
+    fetch( '/remove', {
         method:'POST',
+        headers: { 'Content-Type': 'application/json'},
         body 
     })
-    .then( function( response ) {
-        return response.json()
-    }).then(function(data){
-        console.log(data)
-        buildTable(data)
+    .then( function() {
+        fetch( '/refresh', {
+            method:'POST', 
+        })
+        .then( function( response ) {
+            return response.json()
+        }).then(function(data){
+            console.log(data)
+            buildTable(data)
+        })
     })
 }
 
@@ -58,8 +97,12 @@ function buildTable(data){
     for(let i = 0; i < data.length; i++){
         let newRow = document.createElement('tr');
 
-        let courseName = document.createTextNode(data[i].courseName)
         let newData = document.createElement('td');
+        newData.append(i+1);
+        newRow.append(newData);
+
+        let courseName = document.createTextNode(data[i].courseName)
+        newData = document.createElement('td');
         newData.append(courseName);
         newRow.append(newData);
 
@@ -75,10 +118,10 @@ function buildTable(data){
         newData.append(dueDate);
         newRow.append(newData);
 
-        let daysLeft = document.createTextNode(data[i].daysLeft) 
-        newData = document.createElement('td');
-        newData.append(daysLeft);
-        newRow.append(newData);
+        // let daysLeft = document.createTextNode(data[i].daysLeft) 
+        // newData = document.createElement('td');
+        // newData.append(daysLeft);
+        // newRow.append(newData);
 
         let submissionType = document.createTextNode(data[i].submissionType) 
         newData = document.createElement('td');
@@ -105,7 +148,25 @@ function buildTable(data){
     }
 }
 
+function radioToggle(){
+    if (document.getElementById('editCheck').checked){
+        document.getElementById('ifEdit').style.display = 'block';
+    }else{
+        document.getElementById('ifEdit').style.display = 'none';
+    }
+}
+
 window.onload = function() {
     const submitButton = document.getElementById( 'formSubmit' )
     submitButton.onclick = submit
+    fetch( '/refresh', {
+        method:'POST', 
+    })
+    .then( function( response ) {
+        return response.json()
+    }).then(function(data){
+        console.log(data)
+        buildTable(data)
+    })
 }
+

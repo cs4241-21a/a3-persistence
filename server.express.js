@@ -28,7 +28,7 @@ client.connect()
         //finding {} returns all documents in the DB
         return users.find({ }).toArray()
     })
-    .then(console.log)
+    //.then(console.log)
 
 client.connect()
     .then( () => {
@@ -39,7 +39,7 @@ client.connect()
         //finding {} returns all documents in the DB
         return assignments.find({ }).toArray()
     })
-    .then(console.log)
+    //.then(console.log)
 
 // app.get('/', (req,res) => {
 //     if(users !== null){
@@ -57,13 +57,13 @@ app.use((req,res,next)=>{      //note that a .use call with no mount path runs o
 })
 
 app.post('/login', (req, res) => {
-    console.log (req.body)
+    //console.log (req.body)
 
     let query = { username: req.body.username }
     
     users.findOne(query)
         .then( userquery => {
-            console.log(userquery)
+            //console.log(userquery)
             if(userquery === null){  //if the user doesn't exist
                 let newuser = { username: req.body.username,
                                 password: req.body.password}
@@ -88,6 +88,72 @@ app.post('/login', (req, res) => {
 
     
 
+})
+
+app.post('/refresh', (req,res) => {
+
+    let query = {username: req.session.username}
+    
+    assignments.findOne(query)
+        .then(assignmentquery => {
+            if(assignmentquery === null){  
+                res.json({})
+            }else{   //else need to update the existing record
+                let assignmentsArr = assignmentquery.assignments
+                res.json(assignmentsArr)
+            }
+        })
+})
+
+app.post('/add', (req,res) => {
+    
+    let query = { username: req.session.username }
+
+    assignments.findOne(query)
+        .then(assignmentquery => {
+            if(assignmentquery === null){  //need to make a new entry for this user
+                let newEntry = { username: req.session.username,
+                                 assignments: [req.body]}
+                assignments.insertOne(newEntry)
+                    .then(result => res.json(result))
+            }else{   //else need to update the existing record
+                assignmentquery.assignments.push(req.body)
+                assignments.updateOne(query, {$set: assignmentquery})
+                    .then(result => res.json(result))
+            }
+        })
+})
+
+app.post('/remove', (req,res) => {
+    let query = { username: req.session.username}
+    //console.log(req.body)
+
+    assignments.findOne(query)
+        .then(assignmentquery => {
+            let currAssignments = assignmentquery.assignments
+            let assignmentToRemove = req.body.removeAssignment;
+            currAssignments.splice(assignmentToRemove, 1);
+            assignments.updateOne(query, {$set: assignmentquery})
+                .then(result => res.json(result))
+        })
+})
+
+app.post('/edit', (req,res) => {
+    let query = { username: req.session.username}
+    //console.log(req.body)
+
+    assignments.findOne(query)
+        .then(assignmentquery => {
+            let currAssignments = assignmentquery.assignments   //assignment array
+            let assignmentNumber = req.body.assignmentNumber;   //assignment number to remove
+            let newAssignmentRequest = req.body;           //specific request from the client
+            delete newAssignmentRequest.assignmentNumber;   //remove assignment number from the request
+            currAssignments[assignmentNumber] = newAssignmentRequest   //place new record into the assignment array, overwriting old one
+            let newRecord = {username: req.session.username,
+                             assignments: currAssignments}
+            assignments.updateOne(query, {$set: newRecord})   //update array in the db
+                .then(result => res.json(result))
+        })
 })
 
 app.use(function(req,res,next){
