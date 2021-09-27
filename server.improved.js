@@ -4,16 +4,20 @@ const express = require('express'),
   bodyparser = require('body-parser'),
   cookieSession = require("cookie-session"),
   cookieParser = require("cookie-parser"),
-  mongoose = require('mongoose');
+  mongoose = require('mongoose'),
+  GitHubStrategy = require('passport-github2').Strategy,
+  passport = require('passport'),
+  dotenv = require('dotenv');
 
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
-app.use(express.urlencoded({ extended: true }))
-
+app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser());
+require('dotenv').config();
 
 app.use(cookieSession({
   name: "session",
-  keys: ["KEY1", "KEY2"]
+  keys: [process.env.ENVKEY, process.env.ENVKEY2]
 }))
 
 mongoose.connect("mongodb+srv://Andrew:S9df0gtiYp5VPzil@cs4241.ijtch.mongodb.net/CS4241?retryWrites=true&w=majority")
@@ -62,6 +66,47 @@ app.use(express.static('public'))
 app.use(bodyparser.json())
 
 app.use(serveStatic('public', { 'index': ['responses.html'] }))
+
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_ID,
+  clientSecret: process.env.GITHUB_SECRET,
+  callbackURL: "https://a3-akerekon.herokuapp.com/github/logs"
+},
+function(accessToken, refreshToken, profile, done) {
+  return done(null, profile);
+}));
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.get('/auth/error', (req, res) => res.send("Authentication error!"));
+app.get('/github/logs', passport.authenticate('github', { failureRedirect: '/auth/error'}),
+function (req, res) {
+  res.redirect('/route?id=' + req.user.id);
+});
+
+app.get('/route', (req, res) => {
+  const githubUser = new User( {
+    username: req.query.id,
+    password: "",
+    ratingList: {
+      rating: []
+    }
+  });
+  githubUser.save();
+  req.session.login = true;
+  req.session.username = req.query.id;
+  window.location.replace("/edit.html");
+});
+
 
 app.get('/redirectToEdit', bodyparser.json(), (req, res) => {
   if (req.session.login === true) {
