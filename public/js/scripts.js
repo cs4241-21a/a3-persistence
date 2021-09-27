@@ -237,8 +237,10 @@ const submit = function( e ) {
         row.childNodes[3].innerText = weight.value
         row.childNodes[4].innerText = calculateBMI()
         row.childNodes[5].innerText = weightStatus()
+        const newbmi = row.childNodes[4].innerText
+        const newstatus = row.childNodes[5].innerText
         const newEntry = {
-          _id: id, yourname: name.value, feet: parseInt(ft.value), inches: parseInt(inc.value), weight: parseInt(weight.value), bmi:a, status: b
+          _id: id, yourname: name.value, feet: parseInt(ft.value), inches: parseInt(inc.value), weight: parseInt(weight.value), bmi:newbmi, status: newstatus
          }
          console.log(newEntry)
       fetch('/update', {
