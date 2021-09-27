@@ -5,7 +5,9 @@ const express = require( 'express' ),
     mongoDatabase = 'hmkfinancetracker',
     mongoCollection = 'users',
     mongoCollection2 = 'userportfolios',
-    cookie = require( 'cookie-session' )
+    cookie = require( 'cookie-session' ),
+    favicon = require( 'serve-favicon' ),
+    path = require('path')
 
 // ********** MongoDB Init ************
 // make sure to substitute your username / password for tester:tester123 below!!! 
@@ -35,6 +37,7 @@ client.connect()
 // ********** MongoDB Init ************
 
 // ********** Express Middlewares *****
+app.use(favicon(path.join(__dirname, 'public', 'money-1-featured-2.png'))) 
 app.use( express.urlencoded({ extended:true }) )
 
 app.use( cookie({
