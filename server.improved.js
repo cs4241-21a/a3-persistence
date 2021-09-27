@@ -67,10 +67,10 @@ passport.use(new GH({
 
 const isAuth = (request, response, next) => {
     if (userId !== '') {
-        console.log(userId)
+       // console.log(userId)
         next()
     } else {
-        console.log(userId)
+        //console.log(userId)
         response.redirect('/login.html')
     }
 }
