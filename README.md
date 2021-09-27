@@ -1,30 +1,22 @@
-# hello-express
-
-A server that serves a webpage, its resources, and some data
+Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 
 
-## Your Project
+## Your Web Application Title
 
-On the front-end,
+your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
 
-- Edit `views/index.html` to change the content of the webpage
-- `public/client.js` is the javacript that runs when you load the webpage
-- `public/style.css` is the styles for `views/index.html`
-- Drag in `assets`, like images or music, to add them to your project
+Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
-On the back-end,
+- the goal of the application
+- challenges you faced in realizing the application
+- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
+- what CSS framework you used and why
+  - include any modifications to the CSS framework you made via custom CSS you authored
+- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
+add a little more detail about what it does.
 
-- your app starts at `server.js`
-- add frameworks and packages in `package.json`
-- safely store app secrets in `.env` (nobody can see this but you and people you invite)
+## Technical Achievements
+- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
 
-Click `Show` in the header to see your app live. Updates to your code will instantly deploy.
-
-
-## Made by [Glitch](https://glitch.com/)
-
-**Glitch** is the friendly community where you'll build the app of your dreams. Glitch lets you instantly create, remix, edit, and host an app, bot or site, and you can invite collaborators or helpers to simultaneously edit code with you.
-
-Find out more [about Glitch](https://glitch.com/about).
-
-( ᵔ ᴥ ᵔ )
+### Design/Evaluation Achievements
+- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
