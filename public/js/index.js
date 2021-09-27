@@ -1,19 +1,4 @@
 
-const getUrgency = function (expiraton) {
-  let urgency = "";
-   
-  if (expiraton === "expiration-long") {
-    urgency = "Take Your Time";
-  } else if (expiraton === "expiration-med") {
-    urgency = "Finish it Soon";
-  } else if (expiraton === "expiration-short") {
-    urgency = "Finish it Now";
-  } else  {
-    urgency = "Finish it Soon";
-  }
-  return urgency;
-}
-
 const addEntry = (json) => {
 
   let table = document.getElementById('items')
@@ -231,6 +216,21 @@ const submit = function( e ) {
           headers: {"Content-Type":"application/json"}
       })
       window.location.href = "login.html"
+  }
+
+  const getUrgency = function (expiraton) {
+    let urgency = "";
+     
+    if (expiraton === "expiration-long") {
+      urgency = "Take Your Time";
+    } else if (expiraton === "expiration-med") {
+      urgency = "Finish it Soon";
+    } else if (expiraton === "expiration-short") {
+      urgency = "Finish it Now";
+    } else  {
+      urgency = "Finish it Soon";
+    }
+    return urgency;
   }
   
   window.onload = function() {
