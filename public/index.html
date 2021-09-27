@@ -2,20 +2,25 @@
 <html lang="en">
    <head>
     <link rel="icon" href="images/bmi.png">
-
-  <!-- <title>Login - CS4241 Assignment 3</title>
+   <title>Login - CS4241 Assignment 3</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Work+Sans">
-    -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
   </head> 
-  <body>
-      <form action='/login' method='POST'>
-        <label for='username'>Username:</label><br>
-        <input type='text' name='username'><br>
-        <label for = 'pass'>Password</label><br>
-        <input type='password' name='password'><br>
+  <body class = 'bg-dark'>
+    <div class = 'd-flex justify-content-center mt-5 bg-dark text-white'>
+    <div class = 'col-sm-3 mt-2'>
+    <div class = 'text-center'><h3>Welcome to BMI Calculator</h3></div>
+      <form action='/login' class ='card p-3 bg-secondary border-light' method='POST'>
+        <label for='username' class='form-label'>Username</label>
+        <input type='text' class='form-control' name='username' placeholder = 'Username'>
+        <label for = 'pass' class='form-label mt-3'>Password</label>
+        <input type='password' class = 'form-control' name='password' placeholder = 'Password'><br>
         <input type= 'submit'>
+        <p id = 'Newuser' class='mt-2'>Note: If you create a new account with a username not already taken, you will be directed to the site on login.</p>
+
       </form>
-    <!-- <script src="js/scripts.js"></script> -->
+    </div>
+    </div>
   </body>
 </html>

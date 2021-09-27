@@ -95,7 +95,7 @@ const submit = function( e ) {
     input2 = document.querySelector('#feet'),
     input3 = document.querySelector('#inches'),
     input4 = document.querySelector('#weight'),
-          json = { yourname: input.value, feet:parseInt(input2.value), inches:parseInt(input3.value), weight:parseInt(input4.value), bmi:parseInt(a), status:b },
+          json = { yourname: input.value, feet:parseInt(input2.value), inches:parseInt(input3.value), weight:parseInt(input4.value), bmi:a, status:b },
           body = JSON.stringify( json )
     fetch( '/add', {
       method:'POST',
@@ -238,7 +238,7 @@ const submit = function( e ) {
         row.childNodes[4].innerText = calculateBMI()
         row.childNodes[5].innerText = weightStatus()
         const newEntry = {
-          _id: id, yourname: name.value, feet: parseInt(ft.value), inches: parseInt(inc.value), weight: parseInt(weight.value), bmi:parseInt(a), status: b
+          _id: id, yourname: name.value, feet: parseInt(ft.value), inches: parseInt(inc.value), weight: parseInt(weight.value), bmi:a, status: b
          }
          console.log(newEntry)
       fetch('/update', {
