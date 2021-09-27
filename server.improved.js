@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }))
 
 app.use(cookieSession({
   name: "session",
-  keys: ["KEY1", "KEY2"]
+  keys: [process.env.ENVKEY, process.env.ENVKEY2]
 }))
 
 mongoose.connect("mongodb+srv://Andrew:S9df0gtiYp5VPzil@cs4241.ijtch.mongodb.net/CS4241?retryWrites=true&w=majority")
