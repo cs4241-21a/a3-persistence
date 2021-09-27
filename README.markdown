@@ -6,6 +6,8 @@ This app is essentially the same as what I created for Assignment 2 in terms of 
 
 Once on the main website, the form at the top of the page can be used to either add a new assignment, or edit an existing assignment in the list. Below the form is a table showing all of the assignments for that user, with all of their attributes. In addition, each assignment has a "Done!" button which the user can use the remove the assignment from the list once they've completed it. 
 
+The challenges associated with this assignment had mostly to do with the authentication strategy. Express middleware, while easy once you get the hang of it, takes some getting used to. I specifically wanted to also design a database strategy that would be as compatible as possible with the JSON data structures I had been using in A2, and came up with a strategy that used two separate collections in MongoDB, one for storing username/password combinations and the other for storing users with their assignment lists. 
+
 This website uses the simple cookie authenticator strategy, simply because I didn't have time to try to do something fancy like OAuth lol.
 
 This website uses the Tacit CSS framework, because I was running low on time, and the description "CSS framework for dummies, without classes." piqued my interest. I have to say I was very impressed and it was by far the least amount of work/thought put into CSS for a website I've built, while still creating something clean/modern looking. 
