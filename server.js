@@ -28,7 +28,9 @@ const dreams = [
 
 var userData = new Map();
 
-var appdata = []
+var userAppData = new Map();
+
+var appdata
 
 // make all the files in 'public' available
 // https://expressjs.com/en/starter/static-files.html
@@ -109,10 +111,13 @@ app.post( '/login', (req,res)=> {
   //user already exists
   if(userData.has(req.body.username) && (userData.get(req.body.username) === req.body.password)){
     req.session.login = true;
+    appdata = userAppData.get(req.body.username)
     res.sendFile( __dirname + '/views/index.html' );
   } else if(!(userData.has(req.body.username))){ // new user
     userData.set(req.body.username, req.body.password);
     req.session.login = true;
+    userAppData.set(req.body.username, [])
+    appdata = userAppData.get(req.body.username)
     res.sendFile( __dirname + '/views/index.html' );
   } else{
     // password incorrect, redirect back to login page
@@ -190,7 +195,6 @@ app.post( '/submit-book', bodyparser.json(), function( request, response ) {
     for(var i = 0; i < appdata.length; i++){
       appdata[i].rank = i+1
     }
-
     console.log('app data in delete-book2:')
     console.log(appdata)
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
