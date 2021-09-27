@@ -16,6 +16,8 @@ Include a very brief summary of your project here. Images are encouraged, along 
 - 4. listen: I used this to listen for the port.
 - 5. custom "app.post( '/submit-book'": I used this to add a new book or edit an exisiting book. It also sorts the books by their rating and adds rankings to them based on this sorting.
 
+The index page for lighthouse has 99 performance, 96 accessibility, 100 best practices, and 100 SEO
+
 ## Technical Achievements
 - **Tech Achievement 1**: I did not complete any.
 
