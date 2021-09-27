@@ -1,2 +1,14 @@
 /* General styling */
 
+.container {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+.row {
+    margin-bottom: 10px;
+}
+
+.form-control-color {
+    height: 100%;
+}
