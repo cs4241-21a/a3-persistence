@@ -6,7 +6,7 @@ const submit = function( e ) {
         fyear = document.querySelector( '#fyear' ),
         frating = document.querySelector( '#frating' ),
         fexisting = document.querySelector( '#fexisting' ),
-        json = { title: ftitle.value, author: fauthor.value, year: fyear.value, rating: frating.value, edit: fexisting.valueg },
+        json = { title: ftitle.value, author: fauthor.value, year: fyear.value, rating: frating.value, edit: fexisting.value },
         body = JSON.stringify( json )
 
   fetch( '/submit-book', {

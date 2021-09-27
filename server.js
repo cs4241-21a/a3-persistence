@@ -118,22 +118,6 @@ app.post( '/login', (req,res)=> {
     // password incorrect, redirect back to login page
     res.sendFile( __dirname + '/views/login.html' )
   }
-  // below is *just a simple authentication example* 
-  // for A3, you should check username / password combos in your database
-  // else if( req.body.password === 'test' ) {
-    // define a variable that we can check in other middleware
-    // the session object is added to our requests by the cookie-session middleware
-    // req.session.login = true
-    
-    // since login was successful, send the user to the main content
-    // use redirect to avoid authentication problems when refreshing
-    // the page or using the back button, for details see:
-    // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
-    // res.redirect( '/views/index.html' )
-  // else{
-  //   // password incorrect, redirect back to login page
-  //   res.sendFile( __dirname + '/views/login.html' )
-  // }
 })
 
 // add some middleware that always sends unauthenicaetd users to the login page
@@ -173,7 +157,21 @@ app.post( '/submit-book', bodyparser.json(), function( request, response ) {
 
   request.on( 'end', function() {
     const json = JSON.parse( dataString )
-    appdata.push(json)
+    console.log(`json.edit: ${json.edit}`)
+    console.log('app data in delete-book1:')
+    console.log(appdata)
+    // if(json.edit===undefined){
+    //   json.edit = 0
+    //   appdata.push(json)
+    // } else{
+    //   appdata[json.edit+1] = json
+    // }
+    if(json.edit){
+      appdata[json.edit-1] = json
+      console.log("in if")
+    } else{
+      appdata.push(json)
+    }
     appdata.sort(function ( a, b ) {
       if ( a.rating < b.rating ){
         return 1;
@@ -193,6 +191,8 @@ app.post( '/submit-book', bodyparser.json(), function( request, response ) {
       appdata[i].rank = i+1
     }
 
+    console.log('app data in delete-book2:')
+    console.log(appdata)
     response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
     response.end(JSON.stringify(appdata))
   })
