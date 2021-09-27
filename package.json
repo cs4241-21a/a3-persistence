@@ -17,7 +17,5 @@
     "passport": "^0.4.1",
     "passport-github": "^1.1.0",
     "response-time": "^2.3.2"
-  },
-  "content_security_policy": "script-src 'self' https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js; object-src 'self'"
-
+  }
 }
