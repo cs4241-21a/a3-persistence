@@ -231,7 +231,7 @@ app.put(hwAPIPath, (request, response) => {
 
 // Setup handling for DELETE requesting homework from API
 
-app.delete(hwAPIPath, async (request, response) => {
+app.delete(hwAPIPath, async (req, res) => {
   const userID = {_id: req.cookies[COOKIE_USER_ID]},
         currUserHWData = await homeworkCollection.findOne(userID),
         hwData = req.body,
@@ -243,8 +243,8 @@ app.delete(hwAPIPath, async (request, response) => {
     $set: { data: currUserHWData.data }
   })
 
-  response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-  response.end()
+  res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
+  res.end()
 })
 
 
