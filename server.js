@@ -181,6 +181,7 @@ function logOutUser(req, res, next){
     // req.session.login = false
     // delete req.session
     req.session = null
+    delete req.user
     next()
 }
 
@@ -355,16 +356,17 @@ app.post('/get_user', bodyParser.json(), (request, response) => {
 app.post('/get_logged_in_user', cookieParser(), (req, res) => {
     
     // console.log('Signed Cookies: ', req.cookies.user)
-    res.json({'user': req.cookies.user})
+    if(req.cookies.session == undefined){
+        console.log("req.cookies.session == undefined", req.cookies.session == undefined)
+        res.json({'user': req.cookies.user})
+    }else{
+        console.log("req.cookies.session == undefined", req.cookies.session == undefined)
+        res.json({'user': req.cookies.user, 'session': req.cookies.session})
+    }
+    
 })
 
 
-app.post('/delete_cookie', (req, res) => {
-    req.session = null
-    // req.user = null
-
-    res.json()
-})
 
 
 // Tells the app to listen on port 3000

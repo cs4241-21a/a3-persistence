@@ -706,6 +706,91 @@ function signIn(){
 }
 
 
+
+
+
+
+
+// Loads the receipts the user has already created in previous sessions
+window.onload = function(){
+    // console.log("window.location.href", window.location.href);
+
+    fetch('/get_logged_in_user', {
+        method: 'POST',
+        body: JSON.stringify({}),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+    .then(cookie => cookie.json())
+    .then(json => {
+        console.log("session: ", json)
+        if(json.session != undefined){
+            console.log("there is something there")
+            fetch('/find_user_receipts', {
+                method: 'POST',
+                data: JSON.stringify({}),
+                headers:{
+                    "Content-Type":"application/json"
+                }
+            })
+            .then(response => response.json())
+            .then(receipts => {
+                // console.log(receipts);
+    
+                let old_container_id = "0";
+    
+                let count = 1
+                receipts.forEach( function(json) {
+                    // console.log(json);
+    
+                    generateNewForm(json._id, old_container_id, json);
+                    old_container_id = json._id;
+    
+                    count += 1;
+    
+                })
+            })
+            
+        }
+        else{
+            console.log("its only user")
+        }
+        
+    })
+
+    // if(window.location.href.includes('/receipts.html') ){
+    //     // console.log("I'm ready to load receipts");
+
+    //     fetch('/find_user_receipts', {
+    //         method: 'POST',
+    //         data: JSON.stringify({}),
+    //         headers:{
+    //             "Content-Type":"application/json"
+    //         }
+    //     })
+    //     .then(response => response.json())
+    //     .then(receipts => {
+    //         // console.log(receipts);
+
+    //         let old_container_id = "0";
+
+    //         let count = 1
+    //         receipts.forEach( function(json) {
+    //             // console.log(json);
+
+    //             generateNewForm(json._id, old_container_id, json);
+    //             old_container_id = json._id;
+
+    //             count += 1;
+
+    //         })
+    //     })
+        
+    // }
+  
+}
+
 function logout(){
 
     // console.log("signing the user out");
@@ -718,54 +803,4 @@ function logout(){
         }
     })
     .then( () => window.location.reload())
-}
-
-
-
-
-// Loads the receipts the user has already created in previous sessions
-window.onload = function(){
-    // console.log("window.location.href", window.location.href);
-
-    if(window.location.href.includes('/receipts.html') ){
-        // console.log("I'm ready to load receipts");
-
-        fetch('/find_user_receipts', {
-            method: 'POST',
-            data: JSON.stringify({}),
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
-        .then(response => response.json())
-        .then(receipts => {
-            // console.log(receipts);
-
-            let old_container_id = "0";
-
-            let count = 1
-            receipts.forEach( function(json) {
-                // console.log(json);
-
-                generateNewForm(json._id, old_container_id, json);
-                old_container_id = json._id;
-
-                count += 1;
-
-            })
-        })
-        
-    }
-  
-}
-
-function del_cookie(){
-    fetch('/delete_cookie', {
-        method: 'POST',
-        body: JSON.stringify({}),
-        headers: {
-            "Content-Type":"application/json"
-        }
-    })
-    
 }
