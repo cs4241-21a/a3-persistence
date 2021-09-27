@@ -213,8 +213,7 @@ collection
     )
     req.session.login = true
     req.session.username = req.body.uname
-    res.sendFile( __dirname + '/protected/home.html' )
-  
+     res.redirect('index.html')  
 })
 
 /*app.post( '/remove', (req,res) => {
