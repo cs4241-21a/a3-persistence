@@ -1,30 +1,28 @@
-# Hello website!
+Summary of the application:
 
-This is a basic HTML starter project you can build on however you like. No need to save. While you develop your site, your changes will happen ✨ immediately in the preview window. On the left you'll see the files that make up your site, including HTML, JavaScript, and CSS. You can upload assets like images or audio in `assets`. The rest is up to you and your imagination. 🦄
+the goal of the application
+challenges you faced in realizing the application
+what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
+what CSS framework you used and why
+include any modifications to the CSS framework you made via custom CSS you authored
+the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for one (and one alone) middleware please add a little more detail about what it does.
+The goal of the application is to create a task management tool to add, modify, and delete tasks. The steps are as follows:
 
-## What's in this project?
+I created a MovieHub where users can input movies they would like to see in the future. There is a countdown feature that will let them know when a certain movie will be releasing based on the date they selected.
+There are 3 forms for this, the name of the movie, if the movie is streamed online or if its in-person, and the final one is the respective date of the movie. 
+If there has been an error when inputting information to the forms and this is prior to submission, please click the edit button to change the availability of the movie. 
+If there has been a serious error when inputting information to the forms and you would like to remove this from MovieHub, please click the delete button.
+I created the server using express because I found using this inconjunction with MongoDB to work really well. There is a login feature that incorporates GitHub as well, I chose this because it has a lot of versatility and wide use. It seemed like an obvious choice but a difficult one to implement, luckily people have had trouble with this in the past as there is a lot of documentation on routes to tackle this. Besides express I decided to include: cookie session, compression, response time, morgan, and body parser.
 
-← `README.md`: That's this file, where you can tell people what your cool website does and how you built it.
 
-← `index.html`: This is the main web page for your site. The HTML defines the structure and content of the page using _elements_. You'll see references in the HTML to the JS and CSS files. Try clicking the image in the center of the page!
+Descriptions of middleware:
+Simple cookie-based session middleware. A user session can be stored in two main ways with cookies: on the server or on the client.
+Returns the compression middleware using the given options. The middleware will attempt to compress response bodies for all request that traverse through the middleware, based on the given options.
+Parse incoming request bodies in a middleware before your handlers, available under the req.body property.
+This module creates a middleware that records the response time for requests in HTTP servers. The "response time" is defined here as the elapsed time from when a request enters this middleware to when the headers are written out to the client.
+Create a new morgan logger middleware function using the given format and options. The format argument may be a string of a predefined name (see below for the names), a string of a format string, or a function that will produce a log entry.
+This middleware will never compress responses that include a Cache-Control header with the no-transform directive, as compressing will transform the body.
 
-← `style.css`: CSS files add styling rules to your content. The CSS applies styles to the elements in your HTML page. The style rules also make the image move when you click it.
+It was my first time using Bootstrap and it took me a while to get the hang of it if you can call it that. Youtube was extremely helpful in that regard for templating and figuring out scheme designs for orienting the layout.
 
-← `script.js`: If you're feeling fancy you can add interactivity to your site with JavaScript. The code in the JavaScript file runs when the page loads, and when the visitor clicks the button you can add below.
-
-Open each file and check out the comments (in gray) for more info.
-
-## Try this next 🏗️
-
-Take a look in `TODO.md` for next steps you can try out in your new site!
-
-___Want a minimal version of this project to build your own website? Check out [Blank Website](https://glitch.com/edit/#!/remix/glitch-blank-website)!___
-
-![Glitch](https://cdn.glitch.com/a9975ea6-8949-4bab-addb-8a95021dc2da%2FLogo_Color.svg?v=1602781328576)
-
-## You built this with Glitch!
-
-[Glitch](https://glitch.com) is a friendly community where millions of people come together to build web apps and websites.
-
-- Need more help? [Check out our Help Center](https://help.glitch.com/) for answers to any common questions.
-- Ready to make it official? [Become a paid Glitch member](https://glitch.com/pricing) to boost your app with private sharing, more storage and memory, domains and more.
+The main challenge of this would be my mental state, it was extremely difficult to be motivated to work on this project. I had known Lorenzo (the second student this year) and interacted a little with the first student who created the Lego Club on campus. I do not think I would be as affected I am now if I had not had my close friend commit suicide last christmas. Having so many in such a short span of time has really gotten to me and its really debilitating. 
