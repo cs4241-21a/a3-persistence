@@ -29,6 +29,7 @@
               </div>
               <div class="split">
                 <h4>Score: <b>\{{score}}</b></h4>
+                <button v-on:click="removeScore" :disabled="username.length === 0" class="btn btn-danger btn-sm ml-auto">Remove</button>
                 <button v-on:click="submitScore" :disabled="username.length === 0" class="btn btn-success btn-sm ml-auto">Submit</button>
               </div>
               <hr>

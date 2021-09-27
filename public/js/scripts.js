@@ -119,6 +119,23 @@ const app = Vue.createApp({
       })
       this.results = await response.json()
     },
+    async removeScore() {
+      let token = this.token
+      let requestBody = {
+        username: this.username
+      }
+      let response = await fetch('/removeScore', {
+        credentials: 'same-origin',
+        headers: {
+          'CSRF-Token': token,
+          'Content-Type' : 'application/json'
+        },
+        method: 'POST',
+        body: JSON.stringify(requestBody)
+      })
+      this.results = await response.json()
+      this.score = 0
+    },
     async submitScore() {
       let token = this.token
       let requestBody = {

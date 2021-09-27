@@ -50,9 +50,17 @@ app.get('/scores', async (req, res) => {
 
 app.post('/score', async (req, res) => {
   const body = req.body
-  console.log(body)
   incrementScore(body.username, body.score)
   scores = await getScores()
+  res.json(scores)
+})
+
+app.post('/removeScore', async (req, res) => {
+  const body = req.body
+  removeScore(body.username)
+  scores = await getScores()
+  delete scores[body.username]
+  console.log(scores)
   res.json(scores)
 })
 
@@ -78,6 +86,12 @@ async function incrementScore(username, score) {
     },
     { upsert: true }
   )
+  await client.close()
+}
+
+async function removeScore(username) {
+  const collection = await getScoresCollection()
+  await collection.deleteOne({username})
   await client.close()
 }
 

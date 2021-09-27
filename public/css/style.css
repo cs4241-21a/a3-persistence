@@ -45,5 +45,5 @@ hr {
   display: flex;
 }
 .split > button {
-  margin-left: auto;
+  margin-left: 1em;
 }
