@@ -1,4 +1,5 @@
 package-lock.json
+secrets.js
 
 # IDE files
 *.iml

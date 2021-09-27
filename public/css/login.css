@@ -1,0 +1,12 @@
+
+body {
+    background-color: #DDD;
+}
+
+body > .grid {
+    height: 100%;
+}
+
+.column {
+    max-width: 500px;
+}

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Login page for A3 webware assignment">
+    <title>A3 Login</title>
+
+    <!--  JQuery form CDN (required by Semantic UI)  -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+            crossorigin="anonymous"></script>
+
+    <!--  Semantic UI from CDN  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/semantic-ui@2.4.2/dist/semantic.min.js"></script>
+
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/login.js"></script>
+</head>
+<body>
+<div class="ui middle aligned center aligned grid">
+    <div class="column">
+        <h2 class="ui teal header">
+            <div class="content">Log in to view your data</div>
+        </h2>
+        <form class="ui large form">
+            <div class="ui stacked segment">
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="user icon"></i>
+                        <input id="username" type="text" placeholder="Username">
+                    </div>
+                </div>
+                <div class="field">
+                    <div class="ui left icon input">
+                        <i class="lock icon"></i>
+                        <input id="password" type="password" placeholder="Password">
+                    </div>
+                </div>
+                <div id="login" class="ui left attached large teal submit button">Login</div>
+                <div id="signup" class="right attached ui large teal submit button">Sign Up</div>
+            </div>
+            <div id="errors" class="ui error message"></div>
+        </form>
+    </div>
+</div>
+
+<script>
+    window.onload = function () {
+        document.querySelector("#login").onclick = performLogin;
+        document.querySelector("#signup").onclick = performSignup;
+    }
+</script>
+</body>
+</html>
