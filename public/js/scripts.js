@@ -251,6 +251,10 @@ function refresh() {
                     timeEdit.name = 'time';
                     dateEdit.name = 'date';
 
+                    taskEdit.className = 'taskItem';
+                    timeEdit.className = 'timeItem';
+                    dateEdit.className = 'dateItem';
+
 
                     taskCol.append(taskEdit)
                     timeCol.append(timeEdit)
