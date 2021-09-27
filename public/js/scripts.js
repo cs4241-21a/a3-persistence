@@ -180,7 +180,6 @@ function refresh() {
         })
         .then(response => response.json())
         .then(function(json) {
-            console.log("getting")
             const toDoList = document.getElementById('toDoList')
 
             while (toDoList.firstChild) {
