@@ -1,0 +1,23 @@
+{
+    "name": "Character List",
+    "version": "1.0",
+    "description": "",
+    "author": "Errica Cheng",
+    "scripts": {
+        "start": "node server.js"
+    },
+    "engines": {
+        "node": ">=12.0.0"
+    },
+    "dependencies": {
+        "body-parser": "^1.19.0",
+        "connect-timeout": "^1.9.0",
+        "cookie-parser": "^1.4.5",
+        "dotenv": "^10.0.0",
+        "express": "^4.17.1",
+        "mime": "^2.5.2",
+        "mongodb": "^4.1.2",
+        "morgan": "^1.10.0",
+        "response-time": "^2.3.2"
+    }
+}
