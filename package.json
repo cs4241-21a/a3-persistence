@@ -1,0 +1,12 @@
+{
+  "name": "CS4241 Assignment 2",
+  "version": "1.0",
+  "description": "Basic two-tiered app",
+  "author": "Mago Sheehy",
+  "scripts": {
+    "start": "node server.improved.js"
+  },
+  "dependencies": {
+    "mime": "^2.4.4"
+  }
+}

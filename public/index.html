@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Urbanist">
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8">
+  <script src="js/scripts.js" defer></script>
+</head>
+
+<body>
+
+  <div class="bar">
+    <img src="assets/WPI.png" alt="WPI logo">
+  </div>
+
+  <div id='grid'>
+
+    <div id='left'>
+      <div class='title'>
+        <h1>Add A Class</h1>
+      </div>
+      <div class="pair">
+        <div>
+          <p>Course Name</p>
+        </div>
+        <form action="">
+          <input type='text' class='rounded' id='name' value="">
+        </form>
+      </div>
+      <div class="pair">
+        <div>
+          <p>Course Code</p>
+        </div>
+        <form action="">
+          <input type='text' class='rounded' id='code' value="">
+        </form>
+      </div>
+      <div class="pair">
+        <div>
+          <p>Professor</p>
+        </div>
+        <form action="">
+          <input type='text' class='rounded' id='prof' value="">
+        </form>
+      </div>
+      <div class="pair">
+        <div>
+          <p>Grade</p>
+        </div>
+        <form action="">
+          <input type='text' class='rounded' id='grade' value="">
+        </form>
+      </div>
+
+      <button class='rounded' id='initButton'>Add Course</button>
+
+      <div class='rounded' id='gpa'></div>
+
+    </div>
+
+    <div id='right'>
+      <div class='title'>
+        <h1>Course List</h1>
+      </div>
+      <table id='mainTable'>
+        <tr>
+          <th>Course Name</th>
+          <th>Course Code</th>
+          <th>Professor</th>
+          <th>Department</th>
+          <th>Grade</th>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</body>
+
+</html>
