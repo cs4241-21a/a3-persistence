@@ -17,7 +17,7 @@ this website allows you to listen to chill lofi rain sounds and lofi beats while
 achievements
 ---
 ### technical achievements
-- **middlewares**: this site uses the cookie-session, serve-static, morgan, cors, serve-favicon, and middlewares.
+- **middlewares**: this site uses the cookie-session, serve-static, morgan, cors, and serve-favicon middlewares.
 - **sounds**: working with sound files was really tough for me since i'd never done it before. i found a javascript library called howler.js that allows you to use sounds on your website and although it wasn't hard to use, there were so many options and methods, i got a little lost. i found it really difficult to play two sounds at once since howler.js creates a new object for each sound and the objects could be hard to manage. for example, when the user wants to switch to a new rain mix (pressed the "play" button), the old audio objects have to be deleted or else the old sounds and the new sounds would overlap.
 - **heroku**: [this site is also hosted on heroku here](https://lofi-pitter-patters.herokuapp.com). heroku seems a lot safer than hosting on glitch since it requires two-factor authentication using an authenticator app. it also doesn't take forever to start up like glitch does when no one has visited the site in a while, which is wicked nice! the heroku admin dashboard also has a *lot* more features than the glitch admin dashboard, though it can be a little much at first - there's a lot going on there.
 - **lighthouse**: this site has a 100% on all four lighthouse tests!
