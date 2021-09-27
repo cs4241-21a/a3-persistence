@@ -135,8 +135,9 @@ app.post('/submit', (req, res) => {
       })
     } else {
       delete entry["_id"]
-      entries.insertOne(entry).then(() => {
+      entries.insertOne(entry).then((res) => {
         client.close();
+        console.log(res)
       })
     }
   });

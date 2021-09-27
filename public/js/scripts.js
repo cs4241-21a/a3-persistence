@@ -34,6 +34,7 @@ const submit = function( e ) {
         major.checked = false
         document.getElementById('highlight').checked = false
         updateTable(data)
+        location.reload()
     })
     return false
 }
