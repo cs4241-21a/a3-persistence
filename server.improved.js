@@ -91,7 +91,7 @@ app.use(passport.session());
 app.get('/auth/error', (req, res) => response.send("Unknown Error"))
 app.get('/github/logs', passport.authenticate('github', { failureRedirect: '/auth/error'}),
 function(req, res) {
-  res.redirect('/response?id=' + request.user.id)
+  res.redirect('/response?id=' + req.user.id)
 })
 
 app.get('/response', async (req, res) => {
