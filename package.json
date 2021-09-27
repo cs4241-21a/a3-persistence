@@ -1,0 +1,25 @@
+{
+  "//1": "describes your app and its dependencies",
+  "//2": "https://docs.npmjs.com/files/package.json",
+  "//3": "updating this file will download and update your packages",
+  "name": "hello-express",
+  "version": "0.0.1",
+  "description": "A  Node app built on Express that saves location to travel to for each login user",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "bootstrap": "^5.1.1",
+    "cookie-session": "^1.4.0",
+    "mongodb": "^4.1.2",
+    "body-parser": "^1.19.0",
+    "serve-favicon": "^2.5.0",
+    "morgan": "^1.10.0",
+    "serve-static": "^1.14.1"
+  },
+  "engines": {
+    "node": "12.x"
+  }
+}
