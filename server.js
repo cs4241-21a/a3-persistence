@@ -97,7 +97,7 @@ app.get('/imageData', (req,res) => {
 
 //redirects unauthenticated users
 app.use(function(req,res,next) {
-  if( req.session.login === true || req.originalUrl === '/createAccount.html' || req.originalUrl.includes('.css') || req.originalUrl === '/accountLoginFail.html' || req.originalUrl === '/favicon.ico')
+  if( req.session.login === true || req.originalUrl === '/createAccount.html' || req.originalUrl.includes('.css') || req.originalUrl === '/accountLoginFail.html' || req.originalUrl === '/favicon.ico' || req.originalUrl === '/robots.txt')
     next()
   else
     res.sendFile(__dirname+'/public/accountLogin.html')
