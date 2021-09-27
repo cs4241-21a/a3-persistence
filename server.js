@@ -65,7 +65,7 @@ passport.use(
     {
       clientID: process.env.GITHUB_CLIENT_ID,
       clientSecret: process.env.GITHUB_CLIENT_SECRET,
-      callbackURL: "http://localhost:3000/auth/github/callback",
+      callbackURL: "https://a3-jhsul.glitch.me/auth/github/callback",
     },
     (accessToken, refreshToken, profile, done) => {
       process.nextTick(() => {
