@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3 by Mike Rossetti</title>
+    <meta charset="utf-8" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Stencil+Text:wght@300&family=Carrois+Gothic+SC&family=Six+Caps&family=Special+Elite&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+    <script src="js/scripts.js"></script>
+  </head>
+  <body>
+    <h1>Licensed Driver Check</h1>
+    <div class="grid-container" id="table">
+      <div class="grid-item-label">Driver Name</div>
+      <div class="grid-item-label">Driver Age</div>
+      <div class="grid-item-label">Type of License</div>
+      <div class="grid-item-label">Legal Driver?</div>
+      <div class="grid-item-label">Edit Driver</div>
+      <div class="grid-item-label">Delete Driver</div>
+    </div>
+    <form action="">
+      <h2>Enter Driver Information</h2>
+      <ul>
+        <li>Driver Name:</li>
+        <li>
+          <input class="input" type="text" id="name" value="" />
+        </li>
+        <li>Driver Age:</li>
+        <li>
+          <input class="input" type="text" id="age" value="" />
+        </li>
+        <li>
+          <label>Type of License:</label>
+          <select id="license" value="None">
+            <option>None</option>
+            <option>Drivers Permit</option>
+            <option>Drivers License</option>
+          </select>
+        </li>
+        <li>
+          <button>Submit Information</button>
+        </li>
+        <li>
+          <button id="logoutButton">Logout</button>
+        </li>
+      </ul>
+    </form>
+  </body>
+</html>
