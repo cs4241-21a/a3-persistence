@@ -2,6 +2,7 @@
 <html lang='en'>
 <%- include("./partials/head.ejs")%>
 <body>
+<script src="./js/signUp.js" defer></script>
 <div class="row mh-100">
     <div class="col loginDiv mh-100">
         <p class="loginText">Create an Account</p>
@@ -10,8 +11,9 @@
             <br>
             <input type='password' name='password' placeholder="Password">
             <br>
-            <input type='submit'>
+            <input onclick="usernameTaken()" type='submit'>
         </form>
+        <p class="hidden text-danger" id="hiddenTxt">It looks like that username may be taken already.</p>
     </div>
 </div>
 </body>

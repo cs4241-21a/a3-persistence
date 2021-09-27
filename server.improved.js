@@ -39,7 +39,7 @@ function haltOnTimedout(req,res,next){
     if(!req.timedout) next();
 }
 
-app.post('/signUp', timeout('10s'), haltOnTimedout, async (req, res) => {
+app.post('/signUp', async (req, res) => {
     const entry = new UserEntry({
         username: req.body.username,
         password: req.body.password
@@ -55,7 +55,8 @@ app.post('/signUp', timeout('10s'), haltOnTimedout, async (req, res) => {
             });
         res.render('login')
     }
-    res.render('signUpPage')
+    return;
+    //res.render('signUpPage')
     //return error warning that username is already taken
 })
 
