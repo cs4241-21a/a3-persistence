@@ -1,0 +1,18 @@
+*{
+  font-size: 110%;
+}
+
+html, body{
+  height: 100%
+}
+
+html{
+  display: table;
+  margin: auto;
+}
+
+body{
+  background-color: #008080;
+  display: table-cell;
+  vertical-align: middle;
+}

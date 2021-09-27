@@ -1,0 +1,91 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing">
+
+    <title>Edit order</title>
+
+    <link rel="preconnect" href="https://unpkg.com/98.css">
+    <link rel="dns-prefetch" href="https://unpkg.com/98.css">
+    <link rel="stylesheet" href="https://unpkg.com/98.css">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="/edit-order/style.css">
+    <script src="/edit-order/script.js" defer></script>
+    <script src="/script.js" defer></script>
+  </head>
+
+  <body>
+    <div class="window centered" style="width:400px">
+      <div class="title-bar">
+        <div class="title-bar-text">Edit Order</div>
+        <div class="title-bar-controls">
+          <button aria-label="Close" onclick="logout()"></button>
+        </div>
+      </div>
+    
+      <div class="window-body">
+        <form action="">
+          <label for="flavor">Flavor: </label>
+          <select name="flavor" id="flavor">
+            <option value="Vanilla">Vanilla</option>
+            <option value="Chocolate">Chocolate</option>
+            <option value="Strawberry">Strawberry</option>
+            <option value="Cookie Dough">Cookie Dough</option>
+            <option value="Mint Chocolate ChipMint Oreo">Mint Chocolate Chip</option>
+            <option value="Mint Oreo">Mint Oreo</option>
+            <option value="Butter Pecan">Butter Pecan</option>
+            <option value="Butter Toffee">Butter Toffee</option>
+            <option value="Moose Tracks">Moose Tracks</option>
+            <option value="Cookies 'n' Cream">Cookies 'n' Cream</option>
+            <option value="Other">Other</option>
+          </select>
+          <br><br>
+
+          <label for="toppings">Toppings: </label><br>
+          <input type="checkbox" name="toppings" value="Rainbow Sprinkles" />
+          <label for="toppings">Rainbow Sprinkles</label>
+          <br>
+          <input type="checkbox" name="toppings" value="Chocolate Sprinkles" />
+          <label for="toppings">Chocolate Sprinkles</label>
+          <br>
+          <input type="checkbox" name="toppings" value="Hot Fudge">
+          <label for="toppings">Hot Fudge</label>
+          <br>
+          <input type="checkbox" name="toppings" value="Chocolate Sauce">
+          <label for="toppings">Chocolate Sauce</label>
+          <br>
+          <input type="checkbox" name="toppings" value="Butterscotch">
+          <label for="toppings">Butterscotch</label>
+          <br>
+          <input type="checkbox" name="toppings" value="Caramel">
+          <label for="toppings">Caramel</label>
+          <br>
+          <input type="checkbox" name="toppings" value="Other">
+          <label for="toppings">Other</label>
+          <br>
+          <br>
+
+          <label for="cone">Cone: </label><br>
+          <input type="radio" name="cone" value="Waffle"><label>Waffle</label><br>
+          <input type="radio" name="cone" value="Sugar"><label>Sugar</label><br>
+          <input type="radio" name="cone" value="Bowl"><label>Bowl</label><br>
+          <input type="radio" name="cone" value="None"><label>None</label><br>
+          <input type="radio" name="cone" value="Other"><label>Other</label><br>
+          <br>
+
+          <label for="notes">Notes: </label><br>
+          <textarea name="notes"></textarea>
+          <br><br>
+          
+          <button type="submit">Save Changes</button>
+          <button type="button" onclick="deleteThisOrder()">Delete Order</button>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

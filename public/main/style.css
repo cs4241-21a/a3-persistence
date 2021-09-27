@@ -1,0 +1,28 @@
+.order-box{
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 10px;
+}
+
+.order{
+    border: 1px solid black;
+    text-align: left;
+    word-wrap: break-word;
+}
+
+h4, p{
+    margin: 12px 1px 12px 1px;
+}
+
+h4{
+    font-size: large;
+}
+
+em{
+    font-style: normal;
+    font-weight: bold;
+}
+
+#add-button{
+    text-align: center;
+}
