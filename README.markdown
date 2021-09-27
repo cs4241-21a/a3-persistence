@@ -47,3 +47,6 @@ Five Express middleware packages were used in creating this application. Here is
 ## Technical Achievements
 - **Tech Achievement 1**: As mentioned previously, I used Heroku as my hosting platform for this assignment. While it had a slightly steeper learning curve than Glitch, there was a distinct advantage to using Heroku: automatic redeployment upon a new commit to the base repository. When using Glitch, if I updated the code base locally and then committed my changes, I had to create a completely new project on Glitch to see those changes reflected in the code. Heroku will automatically redeploy the project whenever a new commit is pushed to the origin.
 - **Tech Achievement 2**: My application scored 100% on all four lighthouse tests, on both the login page and the main message board. I have included screenshots as proof.
+![report-login](https://user-images.githubusercontent.com/65562105/134834946-1b381647-0e65-4510-9cbb-17306f7256e3.PNG)
+![report-messageboard](https://user-images.githubusercontent.com/65562105/134834953-79c5efc7-6764-4fae-b148-f45e4301aff7.PNG)
+
