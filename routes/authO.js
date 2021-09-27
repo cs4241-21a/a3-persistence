@@ -1,11 +1,21 @@
 const router = require('express').Router();
 const User = require('../model/User');
+const Data = require('../model/Data');
 const {regValidation, logValidation} = require('../validation');
 const cookie  = require( 'cookie-session' );
 const path = require('path');
 const { nextTick } = require('process');
 // const reqPath = path.join(__dirname, '..', 'views', 'indexFail.html');
+let userNameOfU = '';
 
+router.get("/getData", async (req, res) => {
+  // express helps us take JS objects and send them as JSON
+  const allUserData = await Data.find({username: userNameOfU})
+  console.log('all user data')
+  console.log(userNameOfU)
+  console.log(allUserData)
+  res.json(allUserData);
+});
 
 router.post('/register', async (req, res) => {    
   //validate user response before user creation
@@ -28,9 +38,9 @@ router.post('/register', async (req, res) => {
   try{
       const savedUser = await user.save();
       console.log("User created!");
-      // res.send(savedUser);    
+      // res.send(savedUser);
+      userNameOfU = req.body.username;    
       req.session.login = true
-      req.session.username = req.body.username
       res.redirect('../../../main.html')      
 
   }catch(err){
@@ -63,7 +73,7 @@ router.post( '/login', async (req,res)=> {
       // define a variable that we can check in other middleware
       // the session object is added to our requests by the cookie-session middleware
       req.session.login = true
-      req.session.username = req.body.username
+      userNameOfU = req.body.username;    
       console.log(req.session.username)
       console.log("Succefull log in!")
       // since login was successful, send the user to the main content

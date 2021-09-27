@@ -9,9 +9,9 @@ const mongoose = require('mongoose');
 const dotenv =  require('dotenv');
 // importing routes
 const authRoute = require('./routes/authO');
-const dataRoute = require('./routes/dataO');
 const cookie  = require( 'cookie-session' );
 // const JWT = require('jsonwebtoken');
+const userNameOfU = '';
 
 // make all the files in 'views' available
 // https://expressjs.com/en/starter/static-files.html
@@ -32,8 +32,7 @@ mongoose.connect(
 app.use( express.urlencoded({ extended:true }) )
 authRoute.use( express.urlencoded({ extended:true }) )
 authRoute.use(express.static('./'))
-dataRoute.use( express.urlencoded({ extended:true }) )
-dataRoute.use(express.static('./'))
+
 //Middleware
 app.use(express.json());
 var bodyParser = require('body-parser')
@@ -55,8 +54,6 @@ app.use( cookie({
 
 //Route Middleware
 app.use('/api/user', authRoute);
-
-app.use('/api/user', dataRoute);
 
 
 // add some middleware that always sends unauthenicaetd users to the login page

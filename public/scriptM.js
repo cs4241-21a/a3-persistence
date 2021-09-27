@@ -56,6 +56,13 @@ function add_row()
  document.getElementById("new_age").value="";
 }
 
+function add_rowFromServer(name, country, age)
+{
+ var table=document.getElementById("data_table");
+ var table_len=(table.rows.length)-1;
+ var row = table.insertRow(table_len).outerHTML="<tr id='row"+table_len+"'><td id='name_row"+table_len+"'>"+name+"</td><td id='country_row"+table_len+"'>"+country+"</td><td id='age_row"+table_len+"'>"+age+"</td><td><input type='button' id='edit_button"+table_len+"' value='Edit' class='edit' onclick='edit_row("+table_len+")'> <input type='button' id='save_button"+table_len+"' value='Save' class='save' onclick='save_row("+table_len+")'> <input type='button' value='Delete' class='delete' onclick='delete_row("+table_len+")'></td></tr>";
+
+}
 // const login = function (e) {
 //     //prevent default form action from being carried out
 //     e.preventDefault();
@@ -111,15 +118,16 @@ function add_row()
 //   }
 
 
-// fetch("/api/user/getData")
-// .then(response => response.json()) // parse the JSON from the server
-// .then(data => {
-//     console.log(data)
-//   });
 
 
 
-// window.onload = function() {
-//     const button = document.querySelector( 'button' )
-//     button.onclick = login
-//   }
+window.onload = function() {
+    fetch("/api/user/getData")
+    .then(response => response.json()) // parse the JSON from the server
+    .then(data => {
+        console.log(data)
+        for (var i = 0; i < data.length; i++) { 
+            add_rowFromServer(data[i].name, data[i].country, data[i].age);
+        }
+      });
+  }
