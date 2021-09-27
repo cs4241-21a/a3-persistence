@@ -1,0 +1,15 @@
+{
+    "scripts": {
+      "start": "node server.js",
+      "tailwind:css": "postcss public/styles/tailwind.css -o public/styles/style.css"
+    },
+    "dependencies": {
+      "body-parser": "^1.19.0",
+      "express": "^4.17.1",
+      "mongodb": "^4.1.2"
+    },
+    "engines": {
+      "node": "14.x"
+    }
+  }
+  
