@@ -2,9 +2,9 @@ const submit = function(e) {
     // prevent default form action from being carried out
     e.preventDefault()
 
-    const taskInput = document.querySelector('#task'),
-        timeInput = document.querySelector('#time'),
-        dateInput = document.querySelector('#date')
+    let taskInput = document.querySelector('#taskForm'),
+        timeInput = document.querySelector('#timeForm'),
+        dateInput = document.querySelector('#dateForm')
 
     if (taskInput.value === '') {
         window.alert('Please input a task!')

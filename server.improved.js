@@ -67,14 +67,14 @@ passport.use(new GH({
 ));
 
 const isAuth = (request, response, next) => {
-    if (request.user) {
+    if (userId !== '') {
         next()
     } else {
         response.redirect('/login.html')
     }
 }
 
-// redirect to index.html
+// redirect to login.html
 app.get("/", isAuth, (request, response) => {
     response.sendFile(__dirname + "/views/login.html")
 });
