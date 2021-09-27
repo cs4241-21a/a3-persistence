@@ -3,12 +3,13 @@ window.onload = async function () {
     // Send a GET request to assign the current user
     // If null (no user associated with request) user will be asked to login again
     CURRENT_USER = await renderUser();
-    renderUserData()
+    await renderUserData()
 
     // submit function
     let submitButton = document.getElementById("car_submit")
     submitButton.onclick = submitEntry;
 
+    // delete function
     let deleteButton = document.getElementById("deleteButton")
     deleteButton.onclick = deleteEntry;
 
@@ -16,20 +17,21 @@ window.onload = async function () {
 
 async function deleteEntry() {
     let table_element = getCheckedBox(document.getElementById("car_table")).cells;
+    getCheckedBox(document.getElementById("car_table")).remove();
+    console.log("Removed Entry from Table")
     let searchCriteria = {
         car_name: table_element.item(0).innerHTML,
         purchase_price: table_element.item(1).innerHTML.substr(1),
         repairs: table_element.item(3).innerHTML,
         miles_driven: table_element.item(4).innerHTML
     }
-
-    await fetch("/deleteEntry", {
+    let response = await fetch("/deleteEntry", {
         method: "DELETE",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify(searchCriteria)
     })
-
-    renderUserData();
+    await console.log(response)
+    await renderUserData();
 
 
 }
@@ -47,7 +49,8 @@ function getCheckedBox(table) {
  * Responsible for rendering the values into the table.
  * @param listOfEntries
  */
-function insertValuesIntoTable(listOfEntries) {
+async function insertValuesIntoTable(listOfEntries) {
+        console.log("Inserting new values into table")
         listOfEntries.forEach((element, index) => {
             let car_name = element.car_name;
             let purchase_price = element.purchase_price;
@@ -98,11 +101,13 @@ function insertValuesIntoTable(listOfEntries) {
             let newTest_cell = newRow.insertCell(-1);
             let newTest_text = document.createElement("input");
             newTest_text.setAttribute("type", "checkbox");
+            newTest_cell.setAttribute("label", "Check Box for True")
             newTest_cell.appendChild(newTest_text);
 
             let newModify_cell = newRow.insertCell(-1);
             let newModify_text = document.createElement("input");
             newModify_text.setAttribute("type", "checkbox");
+            newModify_cell.setAttribute("label", "Check Box for True")
             newModify_cell.appendChild(newModify_text);
 
             if (document.getElementById("car_table").rows.length === 1) {
@@ -118,8 +123,8 @@ function insertValuesIntoTable(listOfEntries) {
  * Responsible for gathering the fields from the form and passing into server/mongoDB
  * @param e
  */
-function submitEntry(e){
-
+async function submitEntry(e){
+    console.log("Inserting new entry")
     e.preventDefault();
     // prevent default form action from being carried out
     const car_name = document.querySelector("#carname");
@@ -142,15 +147,15 @@ function submitEntry(e){
         headers: {"Content-Type": "application/json"},
         body: reqbody
     })
-
-    renderUserData();
+    await console.log("returned from fetch")
+    await renderUserData();
 
 }
 
 /**
  *  clearTable() --> Responsible for clearing table for rerendering.
  */
-function clearTable(){
+async function clearTable(){
     let table = document.querySelector("table");
     table.getElementsByTagName("tbody")[0].innerHTML = table.rows[0].innerHTML;
 }
@@ -159,11 +164,13 @@ function clearTable(){
  * @returns {Promise<*>}
  */
 async function renderUserData() {
+    console.log("Rendering Values into the table")
     // Clear the Table
-    clearTable()
-
+    await clearTable()
+    console.log("Table is cleared")
     const userData = await fetchUserData()
-    insertValuesIntoTable(userData.entries)
+    console.log("User data has been reloaded")
+    await insertValuesIntoTable(userData.entries)
 }
 async function fetchUserData() {
     try{
@@ -176,6 +183,7 @@ async function fetchUserData() {
             body: JSON.stringify(reqBody)
         })
         const list = await response.json().then((data) => {return data;});
+        console.log("found user data")
         return list;
     } catch(error) {
         console.error(error)

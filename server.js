@@ -2,6 +2,10 @@
 const express = require('express')
 const bodyParser = require('body-parser');
 const cookieSession = require("cookie-session");
+const serveStatic = require("serve-static");
+const timeout = require("connect-timeout")
+const path = require("path");
+
 const app = express()
 const { MongoClient } = require('mongodb');
 const uri = "mongodb+srv://Ashwin:Pai@a3-webware-ashwin.fyarv.mongodb.net/A3-Webware-MongoDB?retryWrites=true&w=majority";
@@ -12,34 +16,32 @@ let currentUser = null;
 
 // EXPRESS APP.USE STATEMENTS
 app.use(bodyParser.json());
-app.use(express.static(__dirname + '/public/'));
+app.use(serveStatic(path.join(__dirname, '/public/')));
 app.use( express.urlencoded({ extended:true }) )
 app.use( cookieSession({
     name: 'session',
     keys: ['key1', 'key2'],
     numHits: 0
 }))
+app.use(timeout('1000s'))
 
-app.delete("/deleteEntry", (req, res) =>{
-    handleDelete(req.body);
+app.delete("/deleteEntry", async (req, res) =>{
+    await handleDelete(req.body);
 })
 
 let DATABASE = "A3-Webware-MongoDB"
 let COLLECTION_NAME = "Car-Entry-Holder"
 async function handleDelete(searchCriteria){
+    searchCriteria["userID"] = currentUser
     console.log( "Attempting to Delete Entry with ", searchCriteria)
     await client.connect()
     let db = client.db(DATABASE)
     await db.collection(COLLECTION_NAME)
         .deleteOne(
-            {car_name: searchCriteria.car_name,
-                purchase_price: searchCriteria.purchase_price,
-                purchase_year: searchCriteria.purchase_year,
-                miles: searchCriteria.miles,
-                userID: currentUser
-            }, function(err, obj){
+            {"car_name": searchCriteria.car_name, "userID": searchCriteria.userID}, function(err, obj){
         if(err) throw err;
-        console.log("Document was found")
+        console.log("Document was found");
+        console.log(obj)
     })
 }
 
@@ -57,6 +59,7 @@ app.post("/getUserInformation",  async (req, res) => {
         }
     })
     respObj = {entries: userEntries}
+    if(userEntries.length === 0){console.log("Empty User")}
     res.send(JSON.stringify(respObj))
 })
 
