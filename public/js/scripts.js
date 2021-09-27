@@ -12,9 +12,7 @@ const login = function (e) {
         return false
     }
 
-
-
-    json = {
+    const json = {
         username: username,
         password: password
     },
@@ -51,7 +49,7 @@ const submit = function (e) {
         year = document.querySelector("#year"),
         plateNum = document.querySelector("#platenumber")
 
-    body = checkInput(name, make, model, year, plateNum)
+    const body = checkInput(name, make, model, year, plateNum)
 
     if (body === false) {
         return false
@@ -98,7 +96,7 @@ const remove = function (obj) {
     let id = document.getElementById("cartable").rows[rowNum].cells[8].innerHTML
     document.getElementById("cartable").deleteRow(rowNum)
 
-    json = {
+    const json = {
         _id: id
     },
         body = JSON.stringify(json)
@@ -143,7 +141,7 @@ const editSubmission = function (e) {
         year = document.getElementById("edityear"),
         plateNum = document.getElementById("editplatenumber")
 
-    test = checkInput(name, make, model, year, plateNum)
+    let test = checkInput(name, make, model, year, plateNum)
 
     if (test === false) {
         return false
@@ -152,7 +150,7 @@ const editSubmission = function (e) {
     let d = new Date()
     let age = d.getFullYear() - year.value
 
-    json = {
+    const json = {
         yourname: name.value,
         make: make.value,
         model: model.value,
@@ -222,7 +220,7 @@ const checkInput = function (name, make, model, year, plateNum) {
 
     plateNum.value = plateNum.value.toUpperCase()
 
-    json = {
+    const json = {
         yourname: name.value,
         make: make.value,
         model: model.value,
@@ -236,9 +234,7 @@ const checkInput = function (name, make, model, year, plateNum) {
 }
 
 const fillTable = function () {
-    let table = document.getElementById("cartable")
-
-    json = {
+    const json = {
         username: localStorage.getItem("global_username")
     },
         body = JSON.stringify(json)
