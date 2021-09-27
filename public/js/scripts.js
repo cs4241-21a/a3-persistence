@@ -1,7 +1,41 @@
 let rowNum = 0
+let _id = ""
+
+const login = function (e) {
+    e.preventDefault()
+
+    let username = document.getElementById("username").value
+    let password = document.getElementById("password").value
+
+    json = {
+        username: username,
+        password: password
+    },
+        body = JSON.stringify(json)
+
+    fetch('/login', {
+        method: 'POST',
+        body,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => response.text())
+        .then(function (text) {
+            const data = JSON.parse(text)
+            
+            if (data.status === "Bad") {
+                alert("Password is invalid: Try again")
+                document.getElementById("password").value = ""
+            }
+            else {
+                localStorage.setItem("global_username", data.username)
+                window.location.href = 'registry.html'
+            }
+        })
+}
 
 const submit = function (e) {
-    // prevent default form action from being carried out
     e.preventDefault()
 
     const name = document.querySelector('#yourname'),
@@ -11,8 +45,8 @@ const submit = function (e) {
         plateNum = document.querySelector("#platenumber")
 
     body = checkInput(name, make, model, year, plateNum)
-    
-    if(body === false) {
+
+    if (body === false) {
         return false
     }
 
@@ -72,6 +106,9 @@ const remove = function (obj) {
         .then(response => response.text())
         .then(function (text) {
             console.log("Deleted row from database.")
+            document.getElementById("editform").reset()
+            document.getElementById("hide").style.display = "none"
+            document.getElementById("submit").disabled = false
         })
 }
 
@@ -82,12 +119,12 @@ const update = function (obj) {
     document.getElementById("editmodel").value = document.getElementById("cartable").rows[rowNum].cells[2].innerHTML
     document.getElementById("edityear").value = document.getElementById("cartable").rows[rowNum].cells[3].innerHTML
     document.getElementById("editplatenumber").value = document.getElementById("cartable").rows[rowNum].cells[4].innerHTML
-    localStorage.setItem("_id", document.getElementById("cartable").rows[rowNum].cells[8].innerHTML)
+    _id = document.getElementById("cartable").rows[rowNum].cells[8].innerHTML
 
-    
+
     document.getElementById("hide").style.display = "block"
-    console.log("Here")
     document.getElementById("edityourname").focus()
+    document.getElementById("submit").disabled = true
 }
 
 const editSubmission = function (e) {
@@ -101,7 +138,7 @@ const editSubmission = function (e) {
 
     test = checkInput(name, make, model, year, plateNum)
 
-    if(test === false) {
+    if (test === false) {
         return false
     }
 
@@ -115,10 +152,10 @@ const editSubmission = function (e) {
         year: year.value,
         plateNum: plateNum.value,
         age: String(age),
-        _id: localStorage.getItem("_id")
+        _id: _id
     },
         body = JSON.stringify(json)
-    
+
     fetch('/edit', {
         method: 'POST',
         body,
@@ -132,11 +169,11 @@ const editSubmission = function (e) {
 
             document.getElementById("cartable").rows[rowNum].cells[0].innerHTML = name.value
             document.getElementById("cartable").rows[rowNum].cells[1].innerHTML = make.value
-            document.getElementById("cartable").rows[rowNum].cells[2].innerHTML = model.value 
-            document.getElementById("cartable").rows[rowNum].cells[3].innerHTML = year.value 
+            document.getElementById("cartable").rows[rowNum].cells[2].innerHTML = model.value
+            document.getElementById("cartable").rows[rowNum].cells[3].innerHTML = year.value
             document.getElementById("cartable").rows[rowNum].cells[4].innerHTML = plateNum.value
             document.getElementById("cartable").rows[rowNum].cells[5].innerHTML = age
-            
+
             document.getElementById("editform").reset()
             document.getElementById("hide").style.display = "none"
         })
@@ -182,29 +219,71 @@ const checkInput = function (name, make, model, year, plateNum) {
         make: make.value,
         model: model.value,
         year: year.value,
-        plateNum: plateNum.value
+        plateNum: plateNum.value,
+        username: localStorage.getItem("global_username")
     },
         body = JSON.stringify(json)
 
     return body
 }
 
-const resetTable = function (username) {
-    //Delete everything and then read database to recreate table?
-    //Username makes this easier or harder?
+const fillTable = function () {
     let table = document.getElementById("cartable")
-    for(let i = 1; i < table.rows.length; i++) {
-        table.deleteRow(i);
-    }
+
+    json = {
+        username: localStorage.getItem("global_username")
+    },
+        body = JSON.stringify(json)
+
+    fetch('/fill', {
+        method: 'POST',
+        body,
+        headers: {
+            "Content-Type": "application/json"
+        }
+    })
+        .then(response => response.text())
+        .then(function (text) {
+            const data = JSON.parse(text)
+            
+            for (let i = 0; i < data.length; i++) {
+                let table = document.getElementById("cartable")
+                let row = table.insertRow(-1)
+                let c0 = row.insertCell(0)
+                let c1 = row.insertCell(1)
+                let c2 = row.insertCell(2)
+                let c3 = row.insertCell(3)
+                let c4 = row.insertCell(4)
+                let c5 = row.insertCell(5)
+                let c6 = row.insertCell(6)
+                let c7 = row.insertCell(7)
+                let c8 = row.insertCell(8)
+                c0.innerHTML = data[i].yourname
+                c1.innerHTML = data[i].make
+                c2.innerHTML = data[i].model
+                c3.innerHTML = data[i].year
+                c4.innerHTML = data[i].plateNum
+                c5.innerHTML = data[i].age
+                c6.innerHTML = '<button onclick="update(this)">Edit</button>'
+                c7.innerHTML = '<button onclick="remove(this)">Delete</button>'
+                c8.innerHTML = data[i]._id
+            }
+            console.log("Pulled rows from database.")
+        })
 }
 
 window.onload = function () {
-    const button = document.querySelector('button')
-    button.onclick = submit
+    if (window.location.href.match('http://127.0.0.1:3000/registry.html') != null) {
+        const button = document.getElementById('submit')
+        button.onclick = submit
 
-    const submitChanges = document.getElementById('submitChanges')
-    submitChanges.onclick = editSubmission
+        const submitChanges = document.getElementById('submitChanges')
+        submitChanges.onclick = editSubmission
 
-    //resetTable will be called here
-    //Need to know username
+        fillTable()
+    }
+    else if (window.location.href.match('http://127.0.0.1:3000/') != null) {
+        const loginBtn = document.getElementById('loginBtn')
+        loginBtn.onclick = login
+    }
 }

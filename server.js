@@ -10,7 +10,6 @@ app.use(express.json())
 app.use(morgan('tiny'))
 
 const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
-
 const client = new mongodb.MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 let collection = null
@@ -39,6 +38,47 @@ client.connect()
     // blank query returns all documents
     return userCollection.find({}).toArray()
   })
+
+app.post('/login', (req, res) => {
+  console.log("req.body.username: " + req.body.username)
+
+  let formData = req.body
+  let query = { username: req.body.username }
+
+  userCollection.findOne(query).then(
+    result => {
+      console.log(result)
+      if (result != null) {
+        if (result.password === req.body.password) {
+          formData._id = result._id.toString()
+        }
+        else {
+          formData.status = "Bad"
+        }
+      }
+      else {
+        userCollection.insertOne(req.body).then(
+          result => {
+            formData._id = result.insertedId.toString()
+          })
+      }
+      res.json(formData)
+    })
+})
+
+app.post('/fill', (req, res) => {
+  console.log("req.body.username: " + req.body.username)
+
+  let query = { username: req.body.username }
+
+  collection.find(query).toArray(function (err, result) {
+    if (err) { throw err }
+    else {
+      console.log(result)
+      res.json(result)
+    }
+  })
+})
 
 app.post('/submit', (req, res) => {
   let year = req.body.year
