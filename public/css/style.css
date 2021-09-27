@@ -1,0 +1,132 @@
+/* COLORS */
+
+:root {
+    --ff-titles: 'Comfortaa', cursive;
+    --ff-body: 'Open Sans', sans-serif;
+    --c-bkgd: #f5e7e0;
+    --c-listBkgd: #bb9777;
+    --c-accent: #c28a82;
+    --c-buttonPrimary: #745654;
+    --c-buttonSecondary: #a16852;
+    --c-shadow: #8d6b6983;
+}
+
+
+/* GENERAL */
+
+input {
+    border-radius: 0.5rem;
+    border-color: var(--c-accent);
+    padding: 0.4rem 0.4rem;
+    font-family: var(--ff-body);
+}
+
+button,
+#logoutB,
+#loginB {
+    border: none;
+    background-color: var(--c-buttonPrimary);
+    font-family: var(--ff-body);
+    color: rgb(235, 227, 212);
+    padding: 0.5rem 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 2px 4px var(--c-shadow);
+    cursor: pointer;
+}
+
+button:hover,
+#logoutB:hover,
+#loginB:hover {
+    background-color: var(--c-buttonSecondary);
+}
+
+button:active,
+#logoutB:active,
+#loginB:active {
+    background-color: var(--c-buttonSecondary);
+    box-shadow: 2px 4px var(--c-shadow);
+    transform: translateY(4px);
+}
+
+button:focus,
+#logoutB:focus,
+#loginB:focus {
+    outline: 0;
+}
+
+
+/* TOP AREA  */
+
+#header {
+    display: table;
+    width: 70%;
+    margin: auto;
+}
+
+form {
+    margin: auto;
+    width: 90%;
+    text-align: center;
+}
+
+form>* {
+    font-size: 1.05rem;
+    margin: 0.2rem;
+    display: inline-block;
+}
+
+h1 {
+    font-size: 3.5rem;
+    letter-spacing: 0.75rem;
+    text-align: center;
+    font-family: var(--ff-titles);
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+#addB {
+    padding-right: 1rem;
+    padding-left: 1rem;
+}
+
+
+/** LIST SECTION **/
+
+#toDoList {
+    margin: 3rem auto;
+    width: 70%;
+    padding: 2rem;
+    background-color: var(--c-listBkgd);
+    border-radius: 0.5rem;
+    box-shadow: 5px 8px var(--c-shadow);
+}
+
+li,
+p {
+    list-style-type: none;
+    width: 100%
+}
+
+li[done='true']>.row>*>input,
+li[done='true']>.row>*>p {
+    text-decoration: line-through;
+    color: #c4baba;
+}
+
+li>input {
+    border: 0;
+}
+
+.taskItem:read-only,
+.timeItem:read-only,
+.dateItem:read-only {
+    border: 0;
+}
+
+*:focus {
+    outline: none;
+}
+
+.saveB {
+    width: 6.7rem;
+}
