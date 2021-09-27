@@ -1,6 +1,6 @@
 ## Celeste Speedrunning Tracker
 
-http://a3-alan-healy.glitch.me
+https://a3-alan-healy.glitch.me
 
 The goal of this application is to provide a persistent database for users to store information about their Celeste speedruns. When completing a speedrun, the user can enter information such as the final in-game timer, death count, strawberry count, and platform, and save this information in a mongodb database.
 
