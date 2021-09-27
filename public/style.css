@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400&display=swap');
+
+:root {
+--purple-dark: #564494;
+--purple-med: #827EE0;
+--purple-light: #ACA8FF;
+--yellow-dark: #D1BB62;
+--yelllow-light: #E0D7A8;
+}
+
+* {font-family: 'Montserrat', sans-serif}
+
+body {
+    background-color: var(--yelllow-light);
+    display: flex;
+    flex-flow: column wrap;
+    align-content: center;
+}
+h1 {
+  line-height: 1.1;
+  color: var(--purple-dark);
+  justify-content: center;
+}
+
+h2 {
+    color: var(--purple-med);
+    justify-content: center;
+}
+
+label, input {
+    display: block;
+}
+
+label {
+    color: var(--purple-dark);
+}
+
+table, th, td {
+    border: 0.5px solid var(--purple-med);
+}
+
+table {
+    background-color: var(--purple-med);
+}
+
+th, td {
+    margin: -10px;
+}
+
+th {
+    background-color: var(--yellow-dark);
+    color: var(--purple-dark);
+}
+
+td {
+    background-color: var(--yelllow-light);
+    color: var(--purple-dark);
+}
+
+.enterForm {
+    align-content: center;
+}
+
+#submit {
+    background-color: var(--purple-light);
+    color: var(--purple-dark);
+    margin-top: 10px;
+}
+
+form button {
+  background-color: #bbbbf2;
+  border: 2px solid currentColor;
+  border-radius: .25em;
+  cursor: pointer;
+  font-size: inherit;
+  line-height: 1.4em;
+  padding: 0.25em 1em;
+  max-width: 20ch;
+}
+
+form button:hover {
+  background-color: lavender;
+}
+
+form {
+  background-color: #eee;
+  display: grid;
+  grid-gap: 1em;
+  padding: 1em;
+  max-width: 60ch;
+}
+
+input {
+  border: 1px solid silver;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+}
+
+/* this file is loaded by index.html and styles the page
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: sans-serif;
+  margin: 2em 1em;
+  line-height: 1.5em;
+}
+
+h1 {
+  font-style: italic;
+  color: #373fff;
+  max-width: calc(100% - 5rem);
+  line-height: 1.1;
+}
+
+form {
+  background-color: #eee;
+  display: grid;
+  grid-gap: 1em;
+  padding: 1em;
+  max-width: 40ch;
+}
+
+input {
+  border: 1px solid silver;
+  display: block;
+  font-size: 16px;
+  margin-bottom: 10px;
+  padding: 5px;
+  width: 100%;
+}
+
+form button {
+  background-color: #bbbbf2;
+  border: 2px solid currentColor;
+  border-radius: .25em;
+  cursor: pointer;
+  font-size: inherit;
+  line-height: 1.4em;
+  padding: 0.25em 1em;
+  max-width: 20ch;
+}
+
+form button:hover {
+  background-color: lavender;
+}
+
+footer {
+  margin-top: 3em;
+  padding-top: 1.5em;
+  border-top: 1px solid lightgrey;
+} */
