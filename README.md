@@ -1,6 +1,7 @@
 ## Short Stack Securities Portfolio
 
 Adam Grabowski
+https://a3-adam-grabowski.herokuapp.com/
 
 **Summary/Goal**: My application is a stock, ETF, or index fund financial portfolio creator and manager. The goal of this application is to allow users to create and
 manage their own financial securities portfolio. The site gathers information from the user about a security to produce a portfolio listing and attaches that item to
@@ -18,8 +19,8 @@ whether or not the user can access a certain portfolio listing which is attached
 **CSS Framework**: The CSS framework that I used was Bootstrap because it is very flexible and easy to work with. Also, Bootstrap is one of the most popular front-end
 frameworks and provides a solid foundation for my application through its convinient grid system.
 
-**Express Middleware Packages**: The express middleware packages that I used for this application were body-parser, timeout, errorhandler, compression, morgan, and cookie-session which
-are described below.
+**Express Middleware Packages**: The express middleware packages that I used for this application were body-parser, timeout, errorhandler, compression, morgan, and
+cookie-session which are described below.
 
 - **body-parser**: Parses incoming request bodies to json in a middleware before handlers, available under the req.body property.
 - **timeout**: Times out a request after five seconds in the Express application framework.
@@ -31,9 +32,12 @@ are described below.
 
 ### Technical Achievements
 
-**Tech Achievement 1**: I hosted my application on Heroku instead of Glitch and found that it required more of a learning curve to use than Glitch but was faster.
+**Tech Achievement 1**: I hosted my application on Heroku instead of Glitch and found that it required more of a learning curve to use than Glitch but was faster. Also,
+Heroku supports automatic deployments from GitHub which means that every push to the main branch of this application will deploy a new version. This is extremely convinient
+compared to Glitch because it removes the need for re-deploying the app after developing locally.
 
-**Tech Achievement 2**: I earned 100% in all four lighthouse tests required for this assignment including Performance, Best Practices, Accessibility, and SEO.
+**Tech Achievement 2**: As shown in the images below, I earned 100% in all four lighthouse tests required for this assignment including Performance, Best Practices, Accessibility,
+and SEO for both the main (lighthouse-main.jpg) and login (lighthouse-login.jpg) pages.
 
 ### Design/Evaluation Achievements
 
