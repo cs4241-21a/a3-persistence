@@ -33,7 +33,7 @@ const updateInfo = async () => {
   if (user.username)
     document.getElementById("username").innerText = user.username;
 
-  if (user.photos && users.photos.length > 0)
+  if (user.photos && user.photos.length > 0)
     document.getElementById(
       "photo"
     ).innerHTML = `<img src=${user.photos[0].value} width=100 height=100>`;
