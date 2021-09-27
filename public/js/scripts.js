@@ -81,7 +81,7 @@ function addBook(event) {
         getBookData();
         const addBookModal = bootstrap.Modal.getInstance(document.getElementById('add-book-modal'));
         addBookModal.hide();
-    });
+    }).catch(err => console.log(err));
 }
 
 
@@ -95,6 +95,7 @@ async function apiAddBook(json) {
             'Content-Type': 'application/json'
         },
     });
+    console.log(res);
 }
 
 function deleteBook(event) {
@@ -232,7 +233,7 @@ function getBookData() {
                 }
             }
         });
-    });
+    }).catch(err => console.log(err));
 }
 
 function getUserData() {

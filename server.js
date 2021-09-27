@@ -87,18 +87,12 @@ async function handleUserLogin(profile) {
 
     if (matching_user === null) {
 
-        console.log("No existing user found!");
-        console.log("profile:");
-        console.log(profile);
         const user_entry = {
             github_id: profile.id,
             name: profile.username,
             avatar_url: profile._json.avatar_url,
         }
-        console.log(user_entry);
         const insert_result = await usersCollection.insertOne(user_entry)
-        console.log("insert result:");
-        console.log(insert_result);
         const user_entry_with_id = {
             ...user_entry,
             _id: insert_result.insertedId,
@@ -106,8 +100,6 @@ async function handleUserLogin(profile) {
         return user_entry_with_id;
 
     } else {
-        console.log("this user already exists");
-        console.log(matching_user);
         return matching_user;
     }
 }
@@ -118,7 +110,7 @@ app.use(express.static('public', { index: false }));
 
 // get json when appropriate
 app.use(bodyparser.json());
-// app.use(methodOverride());
+app.use(methodOverride());
 
 app.use(session({ secret: 'dreadlockanyonewhackydeviator', resave: false, saveUninitialized: false }));
 // Initialize Passport!  Also use passport.session() middleware, to support
