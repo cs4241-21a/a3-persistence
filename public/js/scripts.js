@@ -65,6 +65,10 @@ function checkISBN(isbn) {
 
 function addBook(event) {
     let form = document.getElementById("add-book-form");
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
     let formValues = {};
     form.querySelectorAll("input").forEach(input => {
         const realId = input.id.split('-')[2];
@@ -119,6 +123,11 @@ function deleteBook(event) {
 
 function modifyBookEntry(entry_id) {
     let form = document.getElementById("modify-book-form");
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+    });
+    no
     let formValues = { _id: entry_id };
 
     form.querySelectorAll("input").forEach(input => {
