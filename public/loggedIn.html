@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+    <meta name="description" content="Car value generator">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic&family=Roboto&display=swap"
+            rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma-rtl.min.css">
+    <script src="login.js"></script>
+    <script src="loggedIn.js"></script>
+</head>
+<body class="has-background-link has-text-centered">
+<h1 class="title has-text-warning">Car Value Generator</h1>
+<form>
+    <div class="has-text-warning is-size-2">
+        <label for="carname"> Car Name: </label>
+        <input type="text" id="carname" value="Car Name" /> <br />
+
+        <label for="purchaseprice"> Purchase Price: </label>
+        <input type="number" id="purchaseprice" value="12000" /> <br />
+
+        <label for="purchaseyear"> Year Purchased: </label>
+        <input type="number" id="purchaseyear" value="2000" /> <br />
+
+        <label for="repairs"> Number of Repairs: </label>
+        <input type="number" id="repairs" value="2" /> <br />
+
+        <label for="miles"> Miles Driven: </label>
+        <input type="number" id="miles" value="50000" /> <br />
+        <button id="car_submit">GENERATE</button>
+    </div>
+</form>
+<div class="columns is-centered has-text-centered m-5
+table is-bordered is-striped is-hoverable">
+    <table id="car_table">
+        <div class="is-8 has-weight-bold">
+            <tr>
+                <th>Car Name</th>
+                <th>Purchase Price</th>
+                <th>Car Age</th>
+                <th>Number of Repairs</th>
+                <th>Miles Driven</th>
+                <th>Estimated Value</th>
+                <th>To Be Deleted <br />(1 at a time)</th>
+                <th>To Be Modified <br /> (1 at a time) </th>
+            </tr>
+        </div>
+    </table>
+</div>
+
+<button id="deleteButton">Delete Entry</button>
+</body>
+</html>
