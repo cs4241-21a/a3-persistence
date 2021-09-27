@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Log in to keep your tasks seperate, secure and private from other users">
+    <title>Character Manager</title>
+  </head>
+
+  <body>
+    <h1>Character Manager</h1>
+
+    <p>Create and manage characters for table top role playing games</p>
+    <p>Log in or create a new account to view and edit your characters</p>
+    <form id="login-form" action="/login" method="POST" class="row">
+      <div>
+        <input id="username" name="username" type="text" class="validate">
+        <label for="username" class=>Username</label>                
+      </div>
+      <div>
+        <input id="password" name="password" type="password" class="validate">
+        <label for="password" class=>Password</label>
+      </div>
+      <div>
+        <button type="submit">Log in or Register
+<!--                 <i title="Logging in with a username that doesn't exist will create a new account and log you in as that account."></i> -->
+        </button>
+      </div>
+    </form>
+  </body>
+</html>

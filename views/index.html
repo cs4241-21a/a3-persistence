@@ -4,13 +4,11 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A cool thing made with Glitch">
+    <title>Welcome to Characters</title>
 
-    <title>Welcome to Glitch!</title>
 
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
     <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
 
@@ -35,18 +33,84 @@
         <button type="submit" id="submit-dream">Add Dream</button>
       </form>
 
-      <section class="dreams">
-        <ul id="dreams">
-          <em>loading dreams&hellip;</em>
-        </ul>
-      </section>
+
+      
+      
+      <div id="content" class="white container col s12 m10 push-m1">
+      <h1>Procrast-inator</h1>
+
+      <p>Add tasks with a deadline and a time to complete in hours, and Procrast-inator will calculate the latest time you can start doing each task!</p>
+      
+      <div class="divider"></div>
+
+      <div class="section row">
+        <div class="col s12 m6 push-m1">
+          <p>Please log in or register a new account to view and edit your tasks</p>
+          <form id="login-form" action="/login" method="POST" class="row">
+            <div class="input-field col s12">
+              <input id="username" name="username" type="text" class="validate">
+              <label for="username" class=>Username</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="password" name="password" type="password" class="validate">
+              <label for="password" class=>Password</label>
+            </div>
+            <div class="col s12">
+              <button class="indigo btn waves-effect waves-light" type="submit">Log in or Register
+                <i class="fas fa-question-circle fa-xs" title="Logging in with a username that doesn't exist will create a new account and log you in as that account."></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+      
+      
     </main>
 
-    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
 
-    <!-- include the Glitch button to show what the webpage is about and
-          to make it easier for folks to view source and remix -->
-    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
-    <script src="https://button.glitch.me/button.js" defer></script>
   </body>
 </html>
+
+<!--  <!doctype html>
+<html lang="en">
+  <head>
+    <title>Procrast-inator Login</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Log in to keep your tasks seperate, secure and private from other users">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css" defer>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js" defer></script>
+  </head>
+
+  <body class="row deep-purple">
+    <div id="content" class="white container col s12 m10 push-m1">
+      <h1>Procrast-inator</h1>
+
+      <p>Add tasks with a deadline and a time to complete in hours, and Procrast-inator will calculate the latest time you can start doing each task!</p>
+      
+      <div class="divider"></div>
+
+      <div class="section row">
+        <div class="col s12 m6 push-m1">
+          <p>Please log in or register a new account to view and edit your tasks</p>
+          <form id="login-form" action="/login" method="POST" class="row">
+            <div class="input-field col s12">
+              <input id="username" name="username" type="text" class="validate">
+              <label for="username" class=>Username</label>
+            </div>
+            <div class="input-field col s12">
+              <input id="password" name="password" type="password" class="validate">
+              <label for="password" class=>Password</label>
+            </div>
+            <div class="col s12">
+              <button class="indigo btn waves-effect waves-light" type="submit">Log in or Register
+                <i class="fas fa-question-circle fa-xs" title="Logging in with a username that doesn't exist will create a new account and log you in as that account."></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>-->
