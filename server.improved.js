@@ -79,7 +79,7 @@ passport.use(new GH({
 
 // redirect to index.html
 app.get("/", isAuth, (request, response) => {
-    if (!request.user) {
+    if (request.user===null) {
         return response.redirect('/login')
     }
     response.sendFile(__dirname + "/views/index.html")
