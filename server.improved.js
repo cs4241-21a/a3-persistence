@@ -75,17 +75,14 @@ const isAuth = (request, response, next) => {
 }
 
 // redirect to index.html
-app.get("/", isAuth, (request, response) => {
+app.get("/", (request, response) => {
     
     response.sendFile(__dirname + "/public/login.html")
 });
 
 // redirect to login.html
-app.get("/login", (request, response) => {
-    if (request.user) {
-        return response.redirect('/')
-    }
-    response.sendFile(__dirname + "/public/login.html")
+app.get("/todo", isAuth, (request, response) => {
+    response.sendFile(__dirname + "/public/index.html")
 });
 
 // redirect to login.html
