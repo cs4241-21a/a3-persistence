@@ -117,6 +117,8 @@ const edit = function editTask(e) {
     deleteB.style.display = 'none'
     saveB.style.display = 'table-cell'
 
+    console.log(taskInput.readOnly)
+
     taskInput.readOnly = false;
     timeInput.readOnly = false;
     dateInput.readOnly = false;
