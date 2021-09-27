@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Track detailed punting statistics to improve your skills!">
+    <title>Punt Tracker</title>
+    <script src="script.js"></script>
+    <script src="mainScript.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="mini-nord.css">
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">PuntTracker</a>
+        <a href="main.html" class="button">Home</a>
+        <a id="logoutButton" class="button">Sign out</a>
+    </header>
+    <div class="row">
+        <form class="col-sm-12 col-md-3 col-lg-3" id="profile">
+            <fieldset>
+            <legend class="doc"></legend>
+            <h1 id="user-profile">First Last <small>@username</small> <small>Organization</small> <small>Joined: N/A</small></h1>
+            <div class="row responsive-label">
+                <label for="modal-control" class="col-lg-5 button inverse">Edit Profile</label>
+                <label for="delete-confirm" class="button inverse col-lg-4">Delete Profile</label>
+                <input type="checkbox" id="delete-confirm" class="modal">
+                <div>
+                    <div class="card">
+                        <label for="delete-confirm" class="modal-close" ></label>
+                        <h3 class="section">Delete Account</h3>
+                        <p class="section">Are you sure you want to delete your account?</p>
+                        <button class="secondary" id="deleteButton">Delete</button>
+                    </div>
+                </div>
+            </div>
+            </fieldset>
+        </form>
+        <input type="checkbox" id="modal-control" class="modal">
+        <div>
+            <div class="card">
+                <label for="modal-control" class="modal-close" id="editModal"></label>
+                <h3 class="section">Edit Profile</h3>
+                <form class="col-sm-12" id="signUpForm">
+                    <fieldset>
+                    <div class="row responsive-label input-group fluid">
+                        <div class="col-sm-12 col-md-5">
+                            <label for="e1-text" class="doc">First Name</label>
+                        </div>
+                        <div class="col-sm-12 col-md">
+                            <input type="text" placeholder="First Name" class="doc" id="e1-text">
+                        </div>
+                    </div>
+                    <div class="row responsive-label input-group fluid">
+                        <div class="col-sm-12 col-md-5">
+                            <label for="e2-text" class="doc">Last Name</label>
+                        </div>
+                        <div class="col-sm-12 col-md">
+                            <input type="text" placeholder="Last Name" class="doc" id="e2-text">
+                        </div>
+                    </div>
+                    <div class="row responsive-label input-group fluid">
+                        <div class="col-sm-12 col-md-5">
+                            <label for="e3-text" class="doc">Username</label>
+                        </div>
+                        <div class="col-sm-12 col-md">
+                            <input type="text" placeholder="Username" class="doc" id="e3-text">
+                        </div>
+                    </div>
+                    <div class="row responsive-label input-group fluid">
+                        <div class="col-sm-12 col-md-5">
+                            <label for="e6-text" class="doc">School/Organization</label>
+                        </div>
+                        <div class="col-sm-12 col-md">
+                            <input type="text" placeholder="Organization" class="doc" id="e6-text">
+                        </div>
+                    </div>
+                    <div class="row responsive-label input-group fluid">
+                        <div class="col-sm-12 col-md-5">
+                            <label for="e4-text" class="doc">Password</label>
+                        </div>
+                        <div class="col-sm-12 col-md">
+                            <input type="password" placeholder="Password" class="doc" id="e4-text">
+                        </div>
+                    </div>
+                    <div class="row responsive-label input-group fluid">
+                        <div class="col-sm-12 col-md-5">
+                            <label for="e5-text" class="doc">Confirm Password</label>
+                        </div>
+                        <div class="col-sm-12 col-md">
+                            <input type="password" placeholder="Password" class="doc" id="e5-text">
+                        </div>
+                    </div>
+                    <div class="row responsive-label">
+                        <button class="tertiary" id="editButton" type="button">Submit</button>
+                    </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <form class="col-sm-12 col-md col-lg">
+            <fieldset>
+            <legend class="doc"></legend>
+            <h1>Stats</h1>
+            <table>
+                <thead>
+                  <tr>
+                    <th>Punts</th>
+                    <th>Yards</th>
+                    <th>Average Yards</th>
+                    <th>Average Hangtime</th>
+                    <th>Fair Catches</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td data-label="Punts" id="sPunts">0</td>
+                    <td data-label="Yards" id="sYards">0</td>
+                    <td data-label="AverageYards" id="sAverageYards">0.0</td>
+                    <td data-label="AverageHangtime" id="sAverageHangtime">0.0</td>
+                    <td data-label="Fair Catches" id="sFairCatches">0</td>
+                  </tr>
+                </tbody>
+              </table>
+            </fieldset>
+        </form>
+    </div>
+    <div class="row">
+        <form class="col-sm col-md-3 col-lg-3">
+            <fieldset>
+                <h1>Personal Records</h1>
+                <br>
+                <h2 style="text-align: center;" id="highYards"><strong>Yards: 0</strong></h3>
+                <br>
+                <h2 style="text-align: center;" id="highHangtime"><strong>Hangtime: 0.0</strong></h3>
+                <br>
+                <h2 style="text-align: center;" id="highCatchToKick"><strong>Catch to Kick: 0.0</strong></h3>
+            </fieldset>
+        </form>
+        <form class="col-sm col-md col-lg" id="puntForm">
+            <fieldset>
+            <h1>Add Punt</h1>
+            <div class="row">
+                <div class="row responsive-label input-group fluid col-sm col-md-6 col-lg-6">
+                    <div>
+                        <label for="p1-text" class="doc">Date</label>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="mm/dd/yyyy" class="doc" id="p1-text">
+                    </div>
+                </div>
+                <div class="row responsive-label input-group fluid col-sm col-md col-lg">
+                    <div>
+                        <label for="p2-text" class="doc">Setting</label>
+                    </div>
+                    <div>
+                        <select name="setting" id="p2-text">
+                            <option value="Game">Game</option>
+                            <option value="Practice">Practice</option>
+                            <option value="Individual">Indiviudual</option>
+                          </select>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row responsive-label input-group fluid col-sm col-md-6 col-lg-6">
+                    <div>
+                        <label for="p3-text" class="doc">Yards</label>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Yards" class="doc" id="p3-text">
+                    </div>
+                </div>
+                <div class="row responsive-label input-group fluid col-sm col-md col-lg">
+                    <div>
+                        <label for="p4-text" class="doc">Hangtime</label>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Hangtime" class="doc" id="p4-text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row responsive-label input-group fluid col-sm col-md-6 col-lg-6">
+                    <div>
+                        <label for="p5-text" class="doc">Return Yards</label>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Return Yards" class="doc" id="p5-text">
+                    </div>
+                </div>
+                <div class="row responsive-label input-group fluid col-sm col-md col-lg">
+                    <div>
+                        <label for="p6-text" class="doc">Catch to Kick</label>
+                    </div>
+                    <div>
+                        <input type="text" placeholder="Catch to Kick" class="doc" id="p6-text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row responsive-label input-group fluid col-sm col-md-6 col-lg-6">
+                    <div>
+                        <label for="p7-text" class="doc">Fair Catch</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="doc" id="p7-text">
+                    </div>
+                </div>
+                <div class="row responsive-label input-group fluid col-sm col-md col-lg">
+                    <div>
+                        <label for="p8-text" class="doc">Touchback</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="doc" id="p8-text">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="row responsive-label input-group fluid col-sm col-md-6 col-lg-6">
+                    <div>
+                        <label for="p9-text" class="doc">Inside 20</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="doc" id="p9-text">
+                    </div>
+                </div>
+                <div class="row responsive-label input-group fluid col-sm col-md col-lg">
+                    <div>
+                        <label for="p10-text" class="doc">Inside 10</label>
+                    </div>
+                    <div>
+                        <input type="checkbox" class="doc" id="p10-text">
+                    </div>
+                </div>
+            </div>
+            <div class="row responsive-label">
+                <button class="tertiary" id="addPuntButton" type="button">Submit</button>
+            </div>
+            <p id="puntError" style=" color:red"></p>
+            </fieldset>
+        </form>
+    </div>
+    <input type="checkbox" id="edit-punt" class="modal">
+        <div>
+            <div class="card">
+                <label for="edit-punt" class="modal-close" id="editModalPunt"></label>
+                <h3 class="section">Edit Punt</h3>
+                <form class="col-sm-12" id="editPuntForm">
+                    <fieldset>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp1-text" class="doc">Date</label>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="mm/dd/yyyy" class="doc" id="edp1-text">
+                            </div>
+                        </div>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp2-text" class="doc">Setting</label>
+                            </div>
+                            <div>
+                                <select name="setting" id="edp2-text">
+                                    <option value="Game">Game</option>
+                                    <option value="Practice">Practice</option>
+                                    <option value="Individual">Indiviudual</option>
+                                    </select>
+                            </div>
+                        </div>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp3-text" class="doc">Yards</label>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Yards" class="doc" id="edp3-text">
+                            </div>
+                        </div>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp4-text" class="doc">Hangtime</label>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Hangtime" class="doc" id="edp4-text">
+                            </div>
+                        </div>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp5-text" class="doc">Return Yards</label>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Return Yards" class="doc" id="edp5-text">
+                            </div>
+                        </div>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp6-text" class="doc">Catch to Kick</label>
+                            </div>
+                            <div>
+                                <input type="text" placeholder="Snap to Kick" class="doc" id="edp6-text">
+                            </div>
+                        </div>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp7-text" class="doc">Fair Catch</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="doc" id="edp7-text">
+                            </div>
+                        </div>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp8-text" class="doc">Touchback</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="doc" id="edp8-text">
+                            </div>
+                        </div>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp9-text" class="doc">Inside 20</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="doc" id="edp9-text">
+                            </div>
+                        </div>
+                        <div class="row responsive-label input-group fluid">
+                            <div>
+                                <label for="edp10-text" class="doc">Inside 10</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" class="doc" id="edp10-text">
+                            </div>
+                        </div>
+                        <div class="row responsive-label">
+                            <button class="tertiary" id="editPuntButton" type="button">Submit</button>
+                        </div>
+                        <p id="puntErrorEdit" style=" color:red"></p>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    <div class="row">
+        <form class="col-sm-12 col-md col-lg" id="stats">
+            <fieldset>
+            <legend class="doc"></legend>
+            <div class="row">
+                <div>
+                    <h1>All Punts</h1>
+                </div>
+                <div class="col-md-offset-8 col-lg-offset-8">
+                    <label for="edit-punt" class="col-lg-5 button inverse">Edit Punt</label>
+                    <label for="delete-punt-confirm" class="button inverse col-lg-5">Delete Punt</label>
+                    <input type="checkbox" id="delete-punt-confirm" class="modal">
+                    <div>
+                        <div class="card">
+                            <label for="delete-punt-confirm" class="modal-close" ></label>
+                            <h3 class="section">Delete Punt</h3>
+                            <p class="section">Are you sure you want to delete this punt?</p>
+                            <button class="secondary" id="deleteButtonPunt">Delete</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <table>
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Setting</th>
+                    <th>Yards</th>
+                    <th>Net Yards</th>
+                    <th>Hangtime</th>
+                    <th>Catch to Kick</th>
+                    <th>Return Yards</th>
+                    <th>Fair Catch</th>
+                    <th>Touchback</th>
+                    <th>Inside 20</th>
+                    <th>Inside 10</th>
+                  </tr>
+                </thead>
+                <tbody id="puntTable">
+                </tbody>
+              </table>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>

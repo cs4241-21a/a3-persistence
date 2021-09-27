@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="Track detailed punting statistics to improve your skills!">
+    <title>Punt Tracker</title>
+    <script src="script.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <link rel="stylesheet" type="text/css" href="mini-nord.css">
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">PuntTracker</a>
+        <a href="index.html" class="button">Sign in/Sign up</a>
+    </header>
+    <div class="row">
+        <form class="col-sm-12 col-md-4 col-lg-4 col-md-offset-2 col-lg-offset-2" id="loginForm" action="/login" method="POST">
+            <fieldset>
+            <legend class="doc">Login</legend>
+            <div class="row responsive-label input-group fluid">
+                <div class="col-sm-12 col-md-3">
+                    <label for="sf1-text" class="doc">Username</label>
+                </div>
+                <div class="col-sm-12 col-md">
+                    <input type="text" placeholder="Username" class="doc" id="sf1-text" name="username">
+                </div>
+            </div>
+            <div class="row responsive-label input-group fluid">
+                <div class="col-sm-12 col-md-3">
+                    <label for="sf2-text" class="doc">Password</label>
+                </div>
+                <div class="col-sm-12 col-md">
+                    <input type="password" placeholder="Password" class="doc" id="sf2-text" name="password">
+                </div>
+            </div>
+            <div class="row responsive-label">
+                <button class="tertiary" type="submit">Sign In</button>
+            </div>
+            </fieldset>
+        </form>
+        <form class="col-sm-12 col-md-4 col-lg-4" id="signUpForm">
+            <fieldset>
+            <legend class="doc">Sign Up</legend>
+            <div class="row responsive-label input-group fluid">
+                <div class="col-sm-12 col-md-5">
+                    <label for="su1-text" class="doc">First Name</label>
+                </div>
+                <div class="col-sm-12 col-md">
+                    <input type="text" placeholder="First Name" class="doc" id="su1-text">
+                </div>
+            </div>
+            <div class="row responsive-label input-group fluid">
+                <div class="col-sm-12 col-md-5">
+                    <label for="su2-text" class="doc">Last Name</label>
+                </div>
+                <div class="col-sm-12 col-md">
+                    <input type="text" placeholder="Last Name" class="doc" id="su2-text">
+                </div>
+            </div>
+            <div class="row responsive-label input-group fluid">
+                <div class="col-sm-12 col-md-5">
+                    <label for="su3-text" class="doc">Username</label>
+                </div>
+                <div class="col-sm-12 col-md">
+                    <input type="text" placeholder="Username" class="doc" id="su3-text">
+                </div>
+            </div>
+            <div class="row responsive-label input-group fluid">
+                <div class="col-sm-12 col-md-5">
+                    <label for="su6-text" class="doc">School/Organization</label>
+                </div>
+                <div class="col-sm-12 col-md">
+                    <input type="text" placeholder="Organization" class="doc" id="su6-text">
+                </div>
+            </div>
+            <div class="row responsive-label input-group fluid">
+                <div class="col-sm-12 col-md-5">
+                    <label for="su4-text" class="doc">Password</label>
+                </div>
+                <div class="col-sm-12 col-md">
+                    <input type="password" placeholder="Password" class="doc" id="su4-text">
+                </div>
+            </div>
+            <div class="row responsive-label input-group fluid">
+                <div class="col-sm-12 col-md-5">
+                    <label for="su5-text" class="doc">Confirm Password</label>
+                </div>
+                <div class="col-sm-12 col-md">
+                    <input type="password" placeholder="Password" class="doc" id="su5-text">
+                </div>
+            </div>
+            <div class="row responsive-label">
+                <button class="tertiary" id="signUpButton" type="button">Sign Up</button>
+            </div>
+            <p id="signUpErrorText" style="color: red;"></p>
+            </fieldset>
+        </form>
+    </div>
+</body>
+</html>
