@@ -4,6 +4,7 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 ## Homework Tracker
 
 Glitch link: https://a3-victoria-grasso.glitch.me/
+Heroku link: https://cs4241-homework-tracker.herokuapp.com/login.html
 
 - The goal of the application was to keep track of Homework Assignments. To add an assignment, the user would fill out the class and assignment fields, select if the assignment was completed, select a due date, and click the submit button. To delete an assignment, the user would type in the class and assignment fields and click the delete button. Note: I assumed the user would only enter a unique class and assignment.
 - The challenges I faced included learning the syntax for mongodb and how to query from the database. I set up my database to be One-to-Few which proved challenging to create the modify function.
@@ -13,7 +14,8 @@ Glitch link: https://a3-victoria-grasso.glitch.me/
 - The middleware I used were: *cookie-session* which establishes cookie-based sessions (I used this for login), *body-parser* which parses HTTP request body, *express-slash* which handles routes with and without trailing slashes, *response-time* which records HTTP response time, and *compression* which compresses HTTP responses. https://expressjs.com/en/resources/middleware.html
 
 ## Technical Achievements
-- **Tech Achievement 1**: I got 100% in all four lighthouse tests required for this assignment.
+- **Tech Achievement 1**: I deployed my application to Heroku. I connected to Github and the process was very smooth to deploy to Heroku.
+- **Tech Achievement 2**: I got 100% in all four lighthouse tests required for this assignment.
 ![loginLighthouse](https://github.com/vygrasso/a3-persistence/blob/main/loginLighthouse.PNG)
 ![indexLighthouse](https://github.com/vygrasso/a3-persistence/blob/main/indexLighthouse.PNG)
 
