@@ -338,6 +338,5 @@ window.onload = function() {
     if (addB !== null) {
         addB.onclick = submit
         refresh()
-
     }
 }
