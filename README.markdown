@@ -21,11 +21,11 @@ add a little more detail about what it does.
 The goal of the application is to create a task management tool to add, modify, and delete tasks. The steps are as follows:
 1. To add a task, fill in all three fields and submit.
 
-2. To modify a task, click on the modfiy button for the specific row you want to change. Then, type in the existing task name and change the priority or due date and then click submit.
+2. To modify a task, click on the modfiy button for the specific row you want to change. Then, type in the new priority or due date and then click submit.
 
 3. To delete a task, click the delete button on the desired row you want to move.
 
-In addition, I connected my website where it uses the Express middlewhere to connect to the MongoDB where it collects data for a task list and the associated GitHub user. Each user can only see their own list of tasks.
+In addition, I connected my website where it uses the Express middlewhere to connect to the MongoDB where it collects data for the associated tasks and the associated GitHub user. Each user can only see their own list of tasks.
 Here is the link: https://cloud.mongodb.com/v2/5eac7e59f386911f8233df59#metrics/replicaSet/6141599a37a2a33e19bf88f8/explorer/Assignment3.
 There is also a screenshot of the MongoDB site in my assets as well.
 
