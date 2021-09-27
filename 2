@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A layout example that shows off a responsive product landing page.">
+    <title>Landing Page &ndash; Layout Examples &ndash; Pure</title>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+table {
+    border-collapse: collapse;
+    margin: 25px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    width: 100%;
+    text-align: center;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
+}
+
+th{
+  background-color: #AC2B37;
+  color: #ffffff;
+}
+tr:nth-child(odd) {
+  background-color: #f5f5f5;
+}
+
+tr:nth-child(even) {
+  background-color: #ffffff;
+}
+    .center{
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 100px; 
+    }
+
+
+    </style>
+</head>
+ <body>
+
+
+
+<div class="splash-container">
+    <div class="splash">
+        <h1 class="splash-head">Jacob Feiss - A3</h1>
+ 
+        <div class="pure-g">
+            
+        <!-- <h2 class="content-head is-center" style="color:white;">Create an account </h2>--!>
+
+<div class="l-box-lrg pure-u-1 pure-u-md-2-5">
+<a href="logout" style="color: #FFFFFF">Logout</a> 
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="content-wrapper">
+
+    <div class="content">
+        <h2 class="content-head is-center">Database </h2>
+
+        <div class="pure-g">
+            <div class="l-box-lrg pure-u-1 pure-u-md-2-5">
+        <!-- <table name="table">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Sport</th>
+            <th>Major</th>
+            <th>Resume</th>
+            </table>--!>
+<form class="pure-form pure-form-stacked">
+<fieldset>
+      <input type='text' id='firstname' placeholder="first name">
+      <input type='text' id='lastname' placeholder="last name">
+      <input type='text' id='sport' placeholder="sport">
+      <input type='text' id='major' placeholder="major">
+      <input type='text' id='resume' placeholder="resume">
+
+      <button id ="submit" type="button">submit</button>
+      </fieldset>
+      </form>
+        <table id="table"  class="pure-table">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Sport</th>
+          <th>Major</th>
+          <th>Resume</th>
+          <th>Edit</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+    <!--  <tbody>
+        <tr class="pure-table-odd">
+          <td>1</td>
+          <td>CodeRepublics</td>
+          <td>Free Web Tutorials Educations</td>
+          <td>Free</td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Facebook</td>
+          <td>Social Service</td>
+          <td>Free</td>
+        </tr>
+        <tr class="pure-table-odd">
+          <td>3</td>
+          <td>YouTube</td>
+          <td>Entertainment</td>
+          <td>Free</td>
+        </tr>
+        </tbody>--!>
+    </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+</div>
+  <script>
+ let mod=-1
+ var nestArr = null
+var nest = null
+
+
+const save = function( e ) {
+    let fName = document.querySelector( '#firstname' )
+    let lName = document.querySelector( '#lastname' )
+    let sport = document.querySelector( '#sport' )
+    let major = document.querySelector( '#major' )
+    let resume = document.querySelector( '#resume' )
+
+
+    if (fName.value ==="" ||  lName.value ==="" || sport.value ==="" || major.value ==="" || resume.value ==="" ) {
+        alert("Fields not filled in")
+        return false
+    } 
+
+          
+          json = { first : fName.value, last : lName.value, sport : sport.value, major : major.value, resume : resume.value, mod: mod }
+          body = JSON.stringify( json )
+          console.log(body)
+    fetch( '/save', {
+      method:'POST',
+      headers:{'Content-type':'application/json'},
+      body 
+    })
+    .then( function( response ) {
+      return response.text()
+    })
+
+    .then( function ( text ) {
+    //WE HAVE NEW NEST NOW
+       //console.log(text)
+         nest = text.substring(text.indexOf('nest')+6)
+        console.log(nest)
+        nestArr = nest.split('},{')
+        console.log(nestArr.length)
+        //CHANGE TO TYPE ARRAY
+        mod = -1
+        updateTable()
+    })
+
+   return false
+  }
+
+const remove = function (e) {
+    e.preventDefault()
+      
+    body = e.target.id.toString().substring(6)
+     
+    json = { mod: body}
+    body = JSON.stringify( json )
+   
+    console.log(body)
+    fetch( '/remove', {
+      method:'POST',
+       headers:{'Content-type':'application/json'},
+      body 
+    }) 
+    .then( function( response ) {
+      return response.text()
+    })
+
+    .then( function ( text ) {
+          nest = text.substring(text.indexOf('nest')+6)
+        console.log(nest)
+        nestArr = nest.split('},{')
+        console.log(nestArr.length)
+        updateTable();
+    })
+ 
+      
+  }
+
+const modify = function (e) {
+    console.log('in modify') 
+    e.target.setAttribute('value','save')
+      console.log(mod)
+
+mod = Number(e.target.id.substring(4))
+      let entry = nestArr[Number(e.target.id.substring(4))]
+    
+
+      document.querySelector('#firstname').value = entry.substring(entry.indexOf("first")+8,entry.indexOf("last")-3)
+      document.querySelector('#lastname').value =  entry.substring(entry.indexOf("last")+7,entry.indexOf("sport")-3)
+      document.querySelector('#sport').value =  entry.substring(entry.indexOf("sport")+8,entry.indexOf("major")-3)
+      document.querySelector('#major').value = entry.substring(entry.indexOf("major")+8,entry.indexOf("resume")-3)
+      document.querySelector('#resume').value =  entry.substring(entry.indexOf("resume")+9, entry.length-1)
+
+    //console.log(entry)
+    body = e.target.id.toString()
+    console.log(body)
+      updateTable();
+    }
+
+  window.onload = function() {
+ const button = document.querySelector( '#submit' )
+    button.onclick = submit
+    
+    fetch( '/home', {
+      method:'GET',   
+    })
+
+      fetch( '/load', {
+      method:'POST',
+      
+    })
+    .then( function( response ) {
+ //       console.log(response)
+        //response.then(console.log)
+        return response.text()
+    })
+    .then( function ( text ) {
+        //console.log('got back here')
+        nest = text.substring(text.indexOf('nest')+6)
+        console.log(nest)
+        nestArr = nest.split('},{')
+        console.log(nestArr.length)
+        //CHANGE TO TYPE ARRAY
+        updateTable()
+     //  dataArr = (JSON.parse(text));
+      //  updateTable();
+      //  console.log("dataArr: " + JSON.stringify(dataArr));
+    })
+      
+  }
+const submit = function( e ) {
+    
+    let fName = document.querySelector( '#firstname' )
+    let lName = document.querySelector( '#lastname' )
+    let sport = document.querySelector( '#sport' )
+    let major = document.querySelector( '#major' )
+    let resume = document.querySelector( '#resume' )
+
+
+
+
+
+
+    if (fName.value ==="" ||  lName.value ==="" || sport.value ==="" || major.value ==="" || resume.value ==="" ) {
+        alert("Fields not filled in")
+        return false
+    } 
+
+          
+          json = { first : fName.value, last : lName.value, sport : sport.value, major : major.value, resume : resume.value }
+          body = JSON.stringify( json )
+          console.log(body)
+    fetch( '/submit', {
+      method:'POST',
+      headers:{'Content-type':'application/json'},
+      body 
+    })
+    .then( function( response ) {
+      return response.text()
+    })
+
+    .then( function ( text ) {
+    //WE HAVE NEW NEST NOW
+        //console.log(text)
+         nest = text.substring(text.indexOf('nest')+6)
+        console.log(nest)
+        nestArr = nest.split('},{')
+        console.log(nestArr.length)
+        //CHANGE TO TYPE ARRAY
+        updateTable()
+
+   //console.log(text)
+    })
+
+    return false
+  }
+function deleteTable(){
+   var table = document.querySelector( '#table' )
+    while(table.firstChild){
+       table.removeChild(table.lastChild)
+   }
+ 
+}
+function updateTable() {
+  const button = document.querySelector( '#submit' )
+    button.onclick = submit
+    console.log(mod) 
+    button.disabled = false
+      if(mod>=0){
+    button.disabled = true
+    } 
+  var table = document.querySelector( '#table' )
+ var row = document.createElement('thead')
+      for(var i=0; i<8; i++){
+     var cell = document.createElement('th')
+      
+     switch(i) {
+               case 0:
+                 newText = document.createTextNode('#')
+                break;
+               case 1:
+                 newText = document.createTextNode('First Name')
+                break;
+               case 2:
+                 newText = document.createTextNode('Last Name') 
+                break;
+               case 3:
+                 newText = document.createTextNode('Sport')
+                break;
+               case 4:
+                 newText = document.createTextNode('Major')
+                break;
+               case 5:
+                 newText = document.createTextNode('Resume')
+                break;
+               case 6:
+                 newText = document.createTextNode('Edit')
+                break;
+               case 7:
+                 newText = document.createTextNode('Delete')
+                break;
+     }
+        cell.appendChild(newText)
+      row.appendChild(cell)
+      }
+    table.appendChild(row)
+      
+
+    for(var j=0; j<nestArr.length;  j++){
+  var row = document.createElement('tr')
+      for(var i=0; i<8; i++){
+          if(i<6 && i>0){
+        var newText = document.createTextNode(rowArr[i-1].substring(rowArr[i-1].indexOf(':')+2,rowArr[i-1].length-1))
+ 
+
+          }
+              var cell = document.createElement('td')
+          //console.log(nestArr[j])
+          var rowArr = nestArr[j].split(',')
+          //console.log(rowArr)
+            switch(i) {
+               case 0:
+                var newText = document.createTextNode(j)
+                break;
+            
+               case 5:
+                    if(rowArr[i-1].indexOf('}')>=0)
+                     newText = document.createTextNode(rowArr[i-1].substring(rowArr[i-1].indexOf(':')+2,rowArr[i-1].indexOf('}')-1))
+                    break;
+                case 6:
+                    newText = document.createElement('Input')
+                    newText.setAttribute('type','button')
+                    newText.setAttribute('value', 'Edit')
+                    if(mod>=0 && j!=mod){
+                    newText.disabled=true
+                    }else if(mod>=0 && j==mod){
+                    newText.setAttribute('value', 'Save')
+                    }
+                    
+                    break;
+                case 7:
+                    newText = document.createElement('Input')
+                    newText.setAttribute('type','button')
+                    newText.setAttribute('value', 'Delete')
+                    if(mod>=0 || nestArr.length<=1){
+                    newText.disabled=true
+                    }
+                  
+                    break;
+            }
+
+            if (i === 6) {
+                newText.id = "Edit" + j.toString()
+                newText.onclick = modify;
+                if(mod>=0){
+                    newText.onclick = save;
+                }
+            }
+            if (i === 7) {
+                newText.id = "Delete" + j.toString()
+                newText.onclick = remove;
+            }
+      cell.appendChild(newText)
+      row.appendChild(cell)
+      }
+    table.appendChild(row)
+      }
+}
+    </script>
+ 
+</body>
+</html>
+
+
+
+
+
+
+<!--<html>
+ <head>
+     <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">
+ </head>
+ <body>
+    <div horizontal layout class="center">
+        <h1>Hello World<h1>
+        <div><a href="index.html"><button type="submit">Logout</button></a></div> 
+        <table name="table">
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Sport</th>
+            <th>Major</th>
+            <th>Resume</th>
+        </table>
+    </div>
+    <script>
+  window.onload = function() {
+    fetch( '/load', {
+      method:'POST',
+      
+    })
+    .then( function( response ) {
+ //       console.log(response)
+        //response.then(console.log)
+        return response.text()
+    })
+    .then( function ( text ) {
+        //console.log('got back here')
+        console.log(text)
+      //  dataArr = (JSON.parse(text));
+      //  updateTable();
+      //  console.log("dataArr: " + JSON.stringify(dataArr));
+    })
+  }
+    </script>
+ </body>
+</html>--!>
+
