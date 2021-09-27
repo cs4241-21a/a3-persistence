@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>CS4241 Assignment 3</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <form action="">
+        <label for="yourname">Your name here: </label>
+        <input type="text" id="yourname" value="">
+        <br>
+        <label for="year">Year of Gradutation: </label>
+        <select id="year" name="Grad Year" size=1>
+        <option value=2022>2022</option>
+        <option value=2023>2023</option>
+        <option value=2024>2024</option>
+        <option value=2025>2025</option>
+        <option value=2026>2026</option>
+      </select>
+        <br>
+        <label for="major1">Your Major: </label>
+        <select id="major1" name="Major" size=1>
+        <option value="IMGD-Art">IMGD-Art</option>
+        <option value="IMGD-Tech">IMGD-Tech</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Robotics Engineering">Robotics Engineering</option>
+        <option value="Aerospace Engineering">Aerospace Engineering</option>
+        <option value="Mechanical Engineering">Mechanical Engineering</option>
+        <option value="Chemical Engineering">Chemical Engineering</option>
+        <option value="Biochemical Engineering">Biochemical Engineering</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Physics">Physics</option>
+        <option value="Business">Business</option>
+        <option value="Civil Engineering">Civil Engineering</option>
+        <option value="Electrical Engineering">Electrical Engineering</option>
+        <option value="Psychology">Psychology</option>
+        <option value="Other">Other</option>
+      </select>
+        <br>
+        <label for="major2">Second Major: </label>
+        <select id="major2" name="Second Major" size=1>
+        <option value="None">No Second Major</option>
+        <option value="IMGD-Art">IMGD-Art</option>
+        <option value="IMGD-Tech">IMGD-Tech</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Robotics Engineering">Robotics Engineering</option>
+        <option value="Aerospace Engineering">Aerospace Engineering</option>
+        <option value="Mechanical Engineering">Mechanical Engineering</option>
+        <option value="Chemical Engineering">Chemical Engineering</option>
+        <option value="Biochemical Engineering">Biochemical Engineering</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Physics">Physics</option>
+        <option value="Business">Business</option>
+        <option value="Civil Engineering">Civil Engineering</option>
+        <option value="Electrical Engineering">Electrical Engineering</option>
+        <option value="Psychology">Psychology</option>
+        <option value="Other">Other</option>
+      </select>
+        <br>
+        <label for="minors">Your Minors: </label>
+        <select multiple="multiple" id="minors" name="Minors" size=5>
+        <option value="None">No Minors</option>
+        <option value="IMGD">IMGD</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Robotics Engineering">Robotics Engineering</option>
+        <option value="Aerospace Engineering">Aerospace Engineering</option>
+        <option value="Mechanical Engineering">Mechanical Engineering</option>
+        <option value="Chemical Engineering">Chemical Engineering</option>
+        <option value="Biochemical Engineering">Biochemical Engineering</option>
+        <option value="Chemistry">Chemistry</option>
+        <option value="Biology">Biology</option>
+        <option value="Physics">Physics</option>
+        <option value="Business">Business</option>
+        <option value="Civil Engineering">Civil Engineering</option>
+        <option value="Electrical Engineering">Electrical Engineering</option>
+        <option value="Psychology">Psychology</option>
+        <option value="Other">Other</option>
+      </select>
+        <br>
+        <label for="hobbies">Your Hobbies: </label>
+        <select multiple="multiple" id="hobbies" name="Hobbies" size=7>
+        <option value="None">None</option>
+        <optgroup label="Sports">
+          <option value="Football">Football</option>
+          <option value="Baseball">Baseball</option>
+          <option value="Soccer">Soccer</option>
+          <option value="Basketball">Basketball</option>
+          <option value="Tennis">Tennis</option>
+          <option value="Running">Running</option>
+          <option value="Hiking">Hiking</option>
+          <option value="Skiing">Skiing</option>
+          <option value="Swimming">Swimming</option>
+          
+        </optgroup>
+        <optgroup label="Arts">
+          <option value="Singing">Singing</option>
+          <option value="Writing">Writing</option>
+          <option value="Playing an Instrument">Playing an Instrument</option>
+          <option value="Photography">Photography</option>
+          <option value="Painting">Painting</option>
+          <option value="Drawing">Drawing</option>
+          <option value="3D Modelling">3D Modelling</option>
+          <option value="Game Development">Game Development</option>
+          <option value="Filming">Filming</option>
+          <option value="Video Editing">Video Editing</option>
+          <option value="Photoshop">Photshop</option>
+          <option value="Acting">Acting</option>
+        </optgroup>
+        <optgroup label="Entertainment">
+          <option value="Concerts">Concerts</option>
+          <option value="Video Games">Video Games</option>
+          <option value="Food">Food</option>
+          <option value="Driving">Driving</option>
+          <option value="Movies">Movies</option>
+          <option value="Memes">Memes</option>  
+        </optgroup>
+        <option value="Animals">Animals</option>
+        <option value="Other">Other</option>
+      </select>
+        <br>
+        <button>submit</button>
+    </form>
+    <br><br><br>
+    <p>Note: Table sorted based on # of shared interests with the person at the top</p>
+    <table id="displayinfo">
+        <tr>
+            <th>Name</th>
+            <th>Grad Year</th>
+            <th>Primary Major</th>
+            <th>Secondary Major</th>
+            <th>Minors</th>
+            <th>Hobbies</th>
+        </tr>
+    </table>
+</body>
+<script src="js/scripts.js"></script>
+<script>
+    const submit = function(e) {
+        // prevent default form action from being carried out
+        e.preventDefault()
+
+        const input = document.querySelector("#yourname"), // gets the input field and values
+            yearinput = document.getElementById("year"),
+            majorinput = document.getElementById("major1"),
+            secondmajorinput = document.getElementById("major2"),
+            minorsinput = document.getElementById("minors"),
+            hobbiesinput = document.getElementById("hobbies")
+
+        let selectedminors = minorsinput.selectedOptions,
+            selectedhobbies = hobbiesinput.selectedOptions
+
+        let minorslist = []
+        for (let i = 0; i < selectedminors.length; i++) {
+            minorslist.push(selectedminors[i].value)
+        }
+
+        let hobbieslist = []
+        for (let i = 0; i < selectedhobbies.length; i++) {
+            hobbieslist.push(selectedhobbies[i].value)
+        }
+
+        json = {
+                name: input.value,
+                year: yearinput.value,
+                major1: majorinput.selectedOptions[0].value,
+                major2: secondmajorinput.selectedOptions[0].value,
+                minors: minorslist,
+                hobbies: hobbieslist
+            },
+            body = JSON.stringify(json) //turns the JSON into a string to be read
+
+        fetch("/submit", {
+                method: "POST",
+                body
+            })
+            .then(function(response) {
+                response.text().then(function(textdata) {
+                        //console.log(textdata);
+                        console.log(JSON.parse(textdata)); // print out the parsed textdata
+                        let newAppdata = JSON.parse(textdata);
+
+                        console.log(newAppdata);
+
+                        constructTable(newAppdata);
+                    })
+                    // do something with the reponse 
+                console.log("response is: ")
+                console.log(response)
+
+            })
+
+        return false
+    }
+
+    window.onload = function() {
+        const button = document.querySelector("button")
+        button.onclick = submit
+    }
+</script>
+
+</html>

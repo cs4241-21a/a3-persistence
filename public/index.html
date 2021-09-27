@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>CS4241 Assignment 3</title>
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+
+    <meta charset="utf-8">
+</head>
+
+<body>
+    <form action="/login" method="post">
+        <label for="username">Enter username here</label>
+        <input type="text" id="username" name="username" required>
+        <label for="password">Enter password here</label>
+        <input type="password" id="password" name="password" required>
+        <input type="submit" id="loginsubmit" name="loginsubmit">
+    </form>
+</body>
+<script>
+    function redirect() {
+        window.redirect("main.html");
+    }
+</script>
+
+</html>

@@ -1,0 +1,14 @@
+{
+    "name": "a2-shortstack",
+    "version": "1.0",
+    "description": "Assignment 3 for CS4241 Webware",
+    "author": "Geoffrey Garsson",
+    "scripts": {
+        "start": "node server.improved.js"
+    },
+    "dependencies": {
+        "express": "^4.17.1",
+        "mime": "^2.5.2",
+        "mongodb": "^4.1.2"
+    }
+}
