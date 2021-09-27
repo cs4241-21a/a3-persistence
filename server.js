@@ -165,7 +165,7 @@ app.post( '/submit', (req, res) => {
 })
 
 app.use(function(req,res,next) {
-  if(req.session.login === true ) {
+  if(req.session.login === true || req.originalUrl === "/index.js") {
     next()
   }
   else {
