@@ -39,6 +39,8 @@ window.onload = function() {
     updateImage();
     const button = document.querySelector( 'button' )
     button.onclick = submit
+    const toggleUpdate = document.querySelector('#toggleUpdate')
+    toggleUpdate.onclick = autoUpdate
   }
 
 
@@ -82,5 +84,13 @@ function resetForm() {
   document.getElementById('submitForm').reset();
 }
 
-setInterval(updateImage, 2000);
+let update = setInterval(updateImage, 2000);
 
+const autoUpdate = function (e) {
+  if (document.getElementById('toggleUpdate').checked === true) {
+    update = setInterval(updateImage, 2000);
+  }
+  else {
+    clearInterval(update)
+  }
+}
