@@ -55,6 +55,24 @@ app.get("/portfolio", (req, res) => {
     }
 })
 
+app.get("/userData", async (req, res) => {
+    let userData = await portfolioCollection.findOne({'userID':mongodb.ObjectId(req.session.userID)})
+    console.log(userData._id)
+
+    res.json(userData)
+})
+
+app.post("/removeAsset", (req, res) => {
+    let toRemove = req.body
+
+    portfolioCollection.update(
+        { userID:mongodb.ObjectId(req.session.userID) },
+        { $pull : { portfolio : toRemove } },
+        { multi : false })
+    .then(console.log)
+    res.status(200).end()
+})
+
 app.post( "/createaccount", async (req, res) => {
     console.log(req.body)
     
@@ -77,43 +95,70 @@ app.post( "/createaccount", async (req, res) => {
             data[el.name] = el.value
     })
 
-    userCollection.insertOne( data )
-        .then( console.log )
+    let response = await userCollection.insertOne( data )
+    
+    portfolioCollection.insertOne( {
+        userID : response.insertedId,
+        portfolio : []
+    } )
+
+    req.session.login = true
+    req.session.userID = response.insertedId
+    res.redirect("/portfolio")
+
 })
 
 app.post( "/login", async (req, res) => { 
     console.log(req.body)
-    
+
     let uName = req.body.find(elm=>elm.name==='username').value
     let pWord = req.body.find(elm=>elm.name==='password').value
 
-    let arr = await userCollection.find({'username':uName}).toArray()
-    
-    if (arr.length !== 1) {
+    let arr = await userCollection.findOne({'username':uName})
+    console.log(arr)
+
+    if (arr === undefined) {
         //incorect username/password
         req.session.login= false
+        req.session.userID = null
         res.status(401).end()
-    } else if (arr[0].username === uName && arr[0].password === pWord) { 
+    } else if (arr.username === uName && arr.password === pWord) { 
         // correct user/pass
         req.session.login = true
+        req.session.userID = arr._id
 
         res.redirect("/portfolio")
     } else {
         // incorrect user/pass
         req.session.login= false
+        req.session.userID = null
         res.status(401).end()
     }
 
-    })
+})
 
 app.get("/logout", (req, res) => {
     req.session.login = false
+    req.session.userID = null
     res.redirect("index.html")
 })
 
-app.get('/add', function (req, res) {
-    collection
-        .insertOne(req.body)
+app.post("/addAsset", async (req, res) => {
+    console.log(req.session.userID)
+    console.log(req.body)
+    await portfolioCollection
+        .updateOne(
+            {userID:mongodb.ObjectId(req.session.userID)},
+            {
+                $push : { 
+                    portfolio : {
+                        ticker : req.body.ticker,
+                        amount : req.body.amount,
+                        purchase : req.body.purchase
+                    }
+                }
+            })
+    res.status(200).end()
 })
 
 app.listen(port, () => {

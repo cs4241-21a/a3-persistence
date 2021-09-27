@@ -77,6 +77,8 @@ const submitNewAcct = function(e) {
             if (!res.ok) {
                 createError("Duplicate username", $('#createAcctForm'))
 
+            } else {
+                window.location.href = res.url
             }
         })
     }
@@ -108,15 +110,175 @@ function addRow() {
     
     // TODO: submit to database, check input
 
+    $(".errorDialog").remove()
+    
     let loc = '#addNewRow'
     let data = {
         ticker : $('input#ticker').val(),
         amount : $('input#amount').val(),
         purchase : $('input#purchase').val()
     }
+    let blank = false
+    for (let e in data) {
+        if (data[e] === "") {
+            blank = true
+        }
+    }
+
+    if (blank) {
+        createError("All fields must be filled.", $('main>section'))
+        return
+    }
+   
+
+    createRow(data, $('#addNewRow'))
+    $('input#ticker').val('')
+    $('input#amount').val('')
+    $('input#purchase').val('')
+    //let htmlStr = `<tr><td>${data.ticker}</td><td>${data.amount}</td><td>${data.purchase}</td></tr>`
+    //let row = $(loc).before(htmlStr)        
+    
+    fetch('/addAsset', {
+        method: 'POST',
+        headers: {
+            'Content-Type' : 'application/json'
+        },
+        body : JSON.stringify(data)
+    })
+    .then(res => res.text())
+    .then(text => {
+        console.log(text)
+        row[0].objID = text
+    })
 
 
-    let htmlStr = `<tr><td>${data.ticker}</td><td>${data.amount}</td><td>${data.purchase}</td></tr>`
-    $(loc).before(htmlStr)        
+}
+
+function refreshTable() {
+    window.location.reload() 
+}
+
+function removeRow(row) {
+    let arr = row.children()
+    let toRemove = {}
+    toRemove.ticker = arr[0].innerHTML
+    toRemove.amount = arr[1].innerHTML
+    toRemove.purchase = arr[2].innerHTML
+
+    fetch('/removeAsset', {
+        method : "POST",
+        headers : {
+            'Content-Type' : 'application/json',
+        },
+        body : JSON.stringify(toRemove)
+    }).then(res => {
+        if (res.ok) {
+            refreshTable()
+        } else {
+            console.log("ERROR: removeRow")
+        }
+    })
+
+}
+
+function editRow(row) {
+
+    let arr = row.children()
+    let t = arr[0].innerHTML
+    let a = arr[1].innerHTML
+    let p = arr[2].innerHTML
+    $(arr[0]).html($(document.createElement('input')).val(t).attr('id', 'tickEdit'))
+    $(arr[1]).html($(document.createElement('input')).val(a).attr('id', 'amtEdit'))
+    $(arr[2]).html($(document.createElement('input')).val(p).attr('id', 'purchEdit'))
+
+    $(arr[3]).html($('<button>Submit</button>')
+        .click(async (e) => {
+
+            $(".errorDialog").remove()
+
+            let loc = '#addNewRow'
+            let data = {
+                ticker : $('input#tickEdit').val(),
+                amount : $('input#amtEdit').val(),
+                purchase : $('input#purchEdit').val()
+            }
+            let blank = false
+            for (let e in data) {
+                if (data[e] === "") {
+                    blank = true
+                }
+            }
+
+            if (blank) {
+                createError("All fields must be filled.", $('main>section'))
+                return
+            }
+
+
+            createRow(data, $('#addNewRow'))
+
+            let toRemove = {}
+            toRemove.ticker = t 
+            toRemove.amount = a
+            toRemove.purchase = p
+
+            fetch('/removeAsset', {
+                method : "POST",
+                headers : {
+                    'Content-Type' : 'application/json',
+                },
+                body : JSON.stringify(toRemove)
+            }).then(res => {
+                if (res.ok) {
+                    refreshTable()
+                } else {
+                    console.log("ERROR: removeRow")
+                }
+            })
+            await fetch('/addAsset', {
+                method: 'POST',
+                headers: {
+                    'Content-Type' : 'application/json'
+                },
+                body : JSON.stringify(data)
+            })
+            refreshTable()
+        })).append($('<button>Cancel</button>')
+            .click((e) => {
+                refreshTable()    
+            }))
+
+}
+
+function createRow(data, loc) {
+
+    $(loc).before(
+        $(document.createElement('tr'))
+        .append(`<td>${data.ticker}</td>`,
+            `<td>${data.amount}</td>`,
+            `<td>${data.purchase}</td>`)
+        .append($(document.createElement('td'))
+            .append($('<button>Remove</button>')
+                .click((e) => {
+                    removeRow($(e.target).closest("tr"))
+                }),
+                $('<button>Edit</button>')
+                .click((e) => {
+
+                    editRow($(e.target).closest("tr"))
+
+                }))))
+
+}
+
+function populateUserTable(data) {
+
+    let loc = $('#addNewRow')
+
+    let portfolio = data.portfolio
+
+    portfolio.forEach(elm => {
+        createRow(elm, loc)
+    })
 
 }

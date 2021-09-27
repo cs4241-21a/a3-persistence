@@ -1,17 +1,33 @@
 <!doctype html>
 <html lang="en">
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="a3-persistence by Harrison Kyriacou">
         <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+        <link rel="stylesheet" href="styleColors.css">
         <title>CS4241 Assignment 3</title>
         <meta charset="utf-8">
         <script src="script.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script>
+
+            window.onload = function() {
+
+                            fetch('/userData', {
+                                            method: "GET"
+                                        })
+                                .then(res => res.json())
+                                .then(json => populateUserTable(json))
+
+                        }
+        
+        </script>
     </head>
     
     <body>
         <header>
             <nav>
-                <img src="./money-1-featured-2.png" width=100 height=auto>
+                <img alt="logo" src="./money-1-featured-2.png" width=100 height=auto>
                 <ul>
                     <li><a href="index.html">Home</a></li>
                     <li>Portfolio</li>
