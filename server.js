@@ -74,5 +74,5 @@ app.use( function( req,res,next) {
 
 
 // listen for requests :)
-app.listen( 3000 )
+app.listen(process.env.port || 3000)
 
