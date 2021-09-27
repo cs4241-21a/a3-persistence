@@ -26,3 +26,5 @@ This middleware will never compress responses that include a Cache-Control heade
 It was my first time using Bootstrap and it took me a while to get the hang of it if you can call it that. Youtube was extremely helpful in that regard for templating and figuring out scheme designs for orienting the layout.
 
 The main challenge of this would be my mental state, it was extremely difficult to be motivated to work on this project. I had known Lorenzo (the second student this year) and interacted a little with the first student who created the Lego Club on campus. I do not think I would be as affected I am now if I had not had my close friend commit suicide last christmas. Having so many in such a short span of time has really gotten to me and its really debilitating. 
+
+https://a3-lplopez-wpi.glitch.me
