@@ -68,7 +68,7 @@ passport.use(new GH({
 ));
 
 const isAuth = (request, response, next) => {
-    if (request.user !== null) {
+    if (request.user) {
         console.log(userId)
         next()
     } else {
