@@ -6,7 +6,7 @@ your glitch (or alternative server) link e.g. https://glitch.com/edit/#!/a3-laur
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
 - To allow users to rate their books and have them ranked according to their ratings.
-- I had challenges getting the database to connect.
+- I had challenges getting the database to connect. My server code for the database has been commented out, but it still there.
 - I used cookies and a hashmap in the server to store the usernames and associated passwords since my database was not working. (choosing one because it seemed the easiest to implement is perfectly acceptable)
 - Normalize.css since it seemed nice and modern.
   - All custom CSS is in style.css
