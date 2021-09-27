@@ -16,8 +16,8 @@ The middleware I use in this project are:
 - cookies to allow for users to stay logged in 
 - bodyparser to parse the incoming data from the client. 
 Test user information: 
-username: test1
-password: test1 
+username: uginghostdragon
+password: password 
 Technical Achievements:
 ![image](https://user-images.githubusercontent.com/73271208/134933074-91652d0f-e20e-4221-8aae-0e695236f7b6.png)
 ^ Lighthouse tests passes all with 100 
