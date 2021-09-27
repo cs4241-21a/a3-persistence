@@ -206,4 +206,4 @@ router.get('/home', function (req, res) {
   res.redirect('index.html' )
 });
 
-app.listen( 3000 )
+app.listen(process.env.PORT || 3000 )
