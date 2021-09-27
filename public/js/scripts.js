@@ -102,7 +102,7 @@ function checked(box) {
 }
 
 const edit = function editTask(e) {
-    const col = e.target.parentNode,
+    let col = e.target.parentNode,
         row = col.parentNode,
         toDoItemID = row.parentNode.id,
         toDoItem = document.getElementById(toDoItemID),
@@ -127,12 +127,12 @@ const edit = function editTask(e) {
 const save = function saveTask(e) {
     e.preventDefault()
 
-    const col = e.target.parentNode,
+    let col = e.target.parentNode,
         row = col.parentNode,
         toDoItem = row.parentNode
-    const toDoItemID = toDoItem.id
+    let toDoItemID = toDoItem.id
 
-    const taskInput = toDoItem.querySelector('.taskItem'),
+    let taskInput = toDoItem.querySelector('.taskItem'),
         timeInput = toDoItem.querySelector('.timeItem'),
         dateInput = toDoItem.querySelector('.dateItem'),
         editB = toDoItem.querySelector('.editB'),
