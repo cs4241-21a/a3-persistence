@@ -36,8 +36,8 @@ add a little more detail about what it does.
 
 **Tech Achievement 2**: I was able to get 100s on all four lighthouse tests. It took some moving around, but it worked out in the end.
 
-Here is a picture of the full lighthouse:
-![lighthouse_proof](./lighthouse_proof.png?raw=true)
+Here is a picture of the passed lighthouse tests:
+![lighthouse_proof](/lighthouse_proof.png?raw=true)
 
 
 
