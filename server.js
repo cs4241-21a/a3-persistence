@@ -53,8 +53,6 @@ app.get('/register', checkNotAuthenticated, (req, res) => {
     res.sendFile(__dirname + '/views/register.html');
 });
 
-// Make the same message for both and put it to both inputs
-
 const authUser = async (username, password, next) => {
     let user = await collection.find({ "username": username }).toArray();
     user = user[0];
