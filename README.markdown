@@ -1,7 +1,7 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
-Due: September 20th, by 11:59 AM.
+Due: September 23th, by 11:59 AM.
 
 This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
 a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
@@ -47,7 +47,7 @@ Node.js:
 
 General:  
 - Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
-using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test).
+using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test, and don't worry about scores for mobile devices).
 Test early and often so that fixing problems doesn't lead to suffering at the end of the assignment. 
 
 Deliverables
