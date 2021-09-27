@@ -1,0 +1,168 @@
+body {
+    font-family: "Gill Sans Extrabold", sans-serif;
+    font-size: 12pt;
+    background-color: blue;
+    color: black;
+    text-align: center;
+    display: grid;
+    grid-template-columns: 2;
+    grid-auto-rows: auto;
+  }
+  
+  header {
+    grid-column: span 2;
+  }
+  
+  h1 {
+    margin: 2px;
+    color: white;
+  }
+  
+  h2 {
+    margin: 2px;
+    color: white;
+  }
+  
+  section {
+    grid-column: span 1;
+    background-color: red;
+    color: pink;
+    margin: 10px;
+    padding: 10px;
+    --border: 2px solid black;
+  }
+  
+  .big_section {
+    grid-column: 2;
+    grid-row: 2 / 100;
+  }
+  
+  .small_section {
+    grid-column: 1;
+  }
+  
+  #message_box {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .label {
+    font-family: 'body' ;
+    {
+      font-family: "Gill Sans Extrabold", sans-serif;
+      font-size: 12pt;
+      background-color: white;
+      color: red;
+      text-align:center;
+      display: grid;
+      grid-template-columns: 2;
+      grid-auto-rows: auto;
+  }
+  
+  header {
+      grid-column: span 2;
+  }
+  
+  h1 {
+    margin: 2px;
+    color: blue;
+  }
+  
+  h2 {
+    margin: 2px;
+    color: blue
+  }
+  
+  section {
+      grid-column: span 1;
+      background-color: white;
+      color:blue;
+      margin: 10px;
+      padding: 10px;
+      --border: 2px solid blue;
+  }
+  
+  .big_section {
+      grid-column: 2;
+      grid-row: 2 / 100;
+  }
+  
+  .small_section {
+      grid-column: 1
+  }
+  
+  #message_box {
+    margin-top: 10px;
+    margin-bottom: 10px;
+  }
+  
+  .label {
+      font-family: "Gill Sans Extrabold", sans-serif;
+      font-size: 9pt;
+      color: black;
+      text-align:center;
+  }
+  
+  table {
+      margin-top: 10px;
+      align: center;
+      border-collapse: collapse;
+  }
+  .center {
+    margin-left: auto; 
+    margin-right: auto;
+  }
+  
+  th,td {
+    border: 1px solid black;
+    padding: 8px;
+    color: black;
+  }
+  
+  .loginimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  
+  .position {
+     position: fixed;
+     right: 12px;
+     bottom: 0;
+  };
+    font-size: 9pt;
+    color: black;
+    text-align: center;
+  }
+  
+  table {
+    margin-top: 10px;
+    align: center;
+    border-collapse: collapse;
+  }
+  .center {
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  th,
+  td {
+    border: 1px solid black;
+    padding: 8px;
+    color: black;
+  }
+  
+  .loginimg {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+  }
+  
+  .position {
+    position: fixed;
+    right: 12px;
+    bottom: 0;
+  }
+  
