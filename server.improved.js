@@ -58,7 +58,7 @@ passport.deserializeUser(function(id, cb) {
 passport.use(new GH({
         clientID: 'Iv1.6ea6fadfd0adfbbb',
         clientSecret: "5889095decfb1cf5746017f5a61993f98ce5aa61",
-        callbackURL: 'http://127.0.0.1:3000/auth/github/callback'
+        callbackURL: 'https://a3-evelyntrvn.herokuapp.com/auth/github/callback'
     },
     function(accessToken, refreshToken, profile, cb) {
         userId = profile.username
