@@ -4,7 +4,7 @@
     --ff-titles: 'Comfortaa', cursive;
     --ff-body: 'Open Sans', sans-serif;
     --c-bkgd: #f5e7e0;
-    --c-listBkgd: #faf0e7;
+    --c-listBkgd: #bb9777;
     --c-accent: #c28a82;
     --c-buttonPrimary: #745654;
     --c-buttonSecondary: #a16852;
@@ -14,10 +14,6 @@
 
 /* GENERAL */
 
-body {
-    background-color: var(--c-bkgd);
-}
-
 input {
     border-radius: 0.5rem;
     border-color: var(--c-accent);
@@ -25,7 +21,9 @@ input {
     font-family: var(--ff-body);
 }
 
-button {
+button,
+#logoutB,
+#loginB {
     border: none;
     background-color: var(--c-buttonPrimary);
     font-family: var(--ff-body);
@@ -36,17 +34,23 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+button:hover,
+#logoutB:hover,
+#loginB:hover {
     background-color: var(--c-buttonSecondary);
 }
 
-button:active {
+button:active,
+#logoutB:active,
+#loginB:active {
     background-color: var(--c-buttonSecondary);
     box-shadow: 2px 4px var(--c-shadow);
     transform: translateY(4px);
 }
 
-button:focus {
+button:focus,
+#logoutB:focus,
+#loginB:focus {
     outline: 0;
 }
 
@@ -100,43 +104,13 @@ h1 {
 li,
 p {
     list-style-type: none;
-    display: table;
-    background-color: var(--c-listBkgd);
     width: 100%
 }
 
-li>* {
-    vertical-align: middle;
-    display: table-cell;
-    margin: 0.2rem;
-}
-
-li[done='true']>input,
-li[done='true']>p {
+li[done='true']>.row>*>input,
+li[done='true']>.row>*>p {
     text-decoration: line-through;
     color: #c4baba;
-}
-
-.urgItem {
-    width: 5rem;
-    display: inline;
-    margin: none;
-}
-
-.taskItem {
-    width: 35%;
-}
-
-.timeItem {
-    width: 20%;
-    position: relative;
-    float: right;
-}
-
-.dateItem {
-    width: 20%;
-    position: relative;
-    float: right;
 }
 
 li>input {
@@ -147,16 +121,10 @@ li>input {
 .timeItem:read-only,
 .dateItem:read-only {
     border: 0;
-    background-color: var(--c-listBkgd);
 }
 
 *:focus {
     outline: none;
-}
-
-li>button {
-    position: relative;
-    float: right;
 }
 
 .saveB {
