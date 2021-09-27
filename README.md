@@ -25,3 +25,19 @@ The goal of the project is to store lost & found items in the database, and prov
 - **Tech Achievement 3**: I got 100% in all Lighthouse tests.
 
 ### Design/Evaluation Achievements
+- **Design Achievement 1**: I followed the W3C Web Accessibility Initiative suggestions
+    - Use headings to convey meaning and structure: I used headings for the tables and website title. The headings on the tables help to clearly split the content in lost/found. I also used this for the edit/create form to divide the two.
+    - Provide informative, unique page titles: Both the login and home page have the title in the suggested format "Title • Website Name"
+    - Associate a label with every form control: Every input element for both the edit and create forms have a <label> element linked to the id attribute of the input element.
+    - Include alternative text for images: On the Octocat user logo and login button.
+    - Identify page language and language changes: I included the <html lang="en"> tag on each page.
+    - Help users avoid and correct mistakes: I included an error box that provides an error message from the backend regarding the issue that was encountered. The error box only appears when an error arises and uses the usggested CSS from Primer CSS with a red background.
+    - Ensure that all interactive elements are keyboard accessible: All Submit buttons autofocus when the user presses the enter key to confirm the submission.
+    - Provide sufficient contrast between foreground and background: I used black/white contrast for most elemnts, or inverted white/black/gray.
+    - Don’t use color alone to convey information: All input element labels have a * to indicate that it is a mandatory field and cannot be skipped - as suggested by W3C.
+    - Ensure that interactive elements are easy to identify: I used the buttons and interactive elements with default CSS from Primer CSS. I reused the components throughout the UI to ensure the user understands easily what is what and making the navigation easier.
+    - Ensure that form elements include clearly associated labels: All the labels are clearly associated with an input element below it. The radio buttons are in the same square bordered box as their label.
+    - Provide easily identifiable feedback: If the user does not fill out a field, an alert pops up letting them know the fields are not optional.
+
+
+
