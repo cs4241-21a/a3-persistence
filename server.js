@@ -9,7 +9,7 @@ const path              = require('path')
 const localStrategy		= require('passport-local').Strategy;
 const bcrypt			= require('bcrypt');
 const app				= express();
-const uri = "mongodb+srv://carlosavp23:CAVPadmin@cluster0.j8unn.mongodb.net/a3_persistence?retryWrites=true&w=majority";
+const uri = 'mongodb+srv://carlosavp23:CAVPadmin@cluster0.j8unn.mongodb.net/a3_persistence?retryWrites=true&w=majority';
 const client = new MongoClient(uri, { useNewUrlParser: true });
 var port = process.env.PORT || 5000;
 
