@@ -70,11 +70,11 @@ const isAuth = (request, response, next) => {
     if (request.user ) {
         next()
     } else {
-        response.redirect('/login.html')
+        response.redirect('/')
     }
 }
 
-// redirect to index.html
+// redirect to login.html
 app.get("/", (request, response) => {
     
     response.sendFile(__dirname + "/public/login.html")
