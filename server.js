@@ -75,6 +75,7 @@ app.get('/homePage', (req, res) => {
 })
 app.get('/loginPage', (req, res) => res.sendFile(__dirname + '/public/index.html'))
 
+// Middleware that sends the user back to the login page when they are not authenticated
 app.use( function( req,res,next) {
   if( req.session.login === true )
     next()

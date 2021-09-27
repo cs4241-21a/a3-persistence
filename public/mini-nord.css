@@ -986,7 +986,7 @@ button.primary:hover, button.primary:focus, [type="button"].primary:hover, [type
 }
 
 button.secondary, [type="button"].secondary, [type="submit"].secondary, [type="reset"].secondary, .button.secondary, [role="button"].secondary {
-  --button-back-color: #ca4855;
+  --button-back-color: #e6152a;
   --button-fore-color: #eceff4;
 }
 
