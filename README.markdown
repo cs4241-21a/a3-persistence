@@ -1,6 +1,7 @@
 ## Punting Tracker - Detailed Statistic Tracker For Football Punters
 
 Glitch server: https://a3-lorendiloreto.glitch.me/
+Heroku server: https://punttracker.herokuapp.com/
 
 The goal of the application was to create a full stack web application that I could use in the future as a punting stat tracker to get better at punting. Some of the major challenged that I faced involved Express as well as the MongoDB database. The Express bugs seemed quite annoying because they were very small errors, however, the MongoDB errors made sense because of the basic idea behind databases. I chose to implement cookies as authentication because it was easier, and didn't want to waste precious time on OAuth. I used Mini.css as my CSS framework because it was very lightweight and I liked the compatibility with mobile devices. I barely had to modify the css framework at all. Most of the changes I had to do were changes a couple variables in the framework css code to change various background colors.
 Five middleware packages:
@@ -12,6 +13,7 @@ Five middleware packages:
 
 ## Technical Achievements
 - **lighthouse tests**: I got 100% in the 4 lighthouse test categories for my application
+- **Heroku Deployment**: I used Heroku in addition to Glitch to deploy my app
 
 ### Design/Evaluation Achievements
 - **12 W3C tips**: I followed the following 12 tips from the W3C Web Accessibility Initiative:
