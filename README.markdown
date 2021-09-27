@@ -1,8 +1,11 @@
-## Shape Collection
+## CS 4241 - A3 - Shape Collection
+Matt Johannesen (m-d-jo on GitHub)
 
-https://a3-m-d-jo.glitch.me (please see creator.html for the creation page - I was having trouble with automatic redirection!)
+Login page: [a3-m-d-jo.glitch.me](https://a3-m-d-jo.glitch.me)
 
-THe goal of this application *was* to let users define colored cubes and name them - but after reworking too many things and poor prioritization on my part, I was not able to finish.
+Form page: h[a3-m-d-jo.glitch.me/creator.html](https://a3-m-d-jo.glitch.me/creator.html) (please visit manually - I was having trouble with automatic redirection! A valid user/password *would* be ``admin`` and ``a345``.)
+
+The goal of this application *was* to let users define colored cubes and name them - but after reworking too many things and poor prioritization on my part, I was not able to finish.
 
 The most significant challenge I ran into, of course, was the breadth of this assignment.  It was very hard to focus on one component at a time, and I often found myself needing to make more validation checks/callbacks than I previously thought.  I definitely would have benefitted from planning out the entire thing beforehand and forcing myself to tackle it in smaller pieces.
 
