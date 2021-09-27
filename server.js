@@ -4,6 +4,8 @@ const express = require('express'),
       bodyParser = require('body-parser'),
       logger = require('morgan'),
       responseTime = require('response-time'),
+      //passport = require("passport"),
+      //GitHubStrategy = require("passport-github2").Strategy,
       timeout = require('connect-timeout'),
       cookieParser = require('cookie-parser');
       
@@ -29,7 +31,19 @@ app.use(cookieParser())
 function haltOnTimedout (req, res, next) {
   if (!req.timedout) next()
 }
-
+//attempt at OAuth
+//app.get("/auth/github", passport.authenticate("github"));
+/* passport.use(new GitHubStrategy({
+    clientID: config.GithubClientID,
+    clientSecret: config.GithubClientSecret,
+    callbackURL: config.GithubCallbackURL
+},
+function(accessToken, refreshToken, profile, done) {
+    User.findOrCreate({ githubId: profile.id }, function (err, user) {
+        return done(err, user._id);
+    });
+}
+)); */
 const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST;
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null;
@@ -120,7 +134,7 @@ app.post('/signin', bodyParser.json(), function(req, res) {
 })
 
 const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
+  console.log("Listening on port " + listener.address().port);
 });
 
 app.listen(process.env.PORT || 3000)

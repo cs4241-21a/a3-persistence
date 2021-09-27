@@ -11,7 +11,9 @@
     "type": "git",
     "url": "git+https://github.com/aamaxaa/a3-persistence.git"
   },
-  "author": "Maxine Shi",
+  "keywords": [],
+  "author": "Maxine",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/aamaxaa/a3-persistence/issues"
   },

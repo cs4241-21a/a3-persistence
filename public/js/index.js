@@ -1,4 +1,14 @@
 
+ const logout = function (e) {
+
+  e.preventDefault()
+
+  fetch('logout', {
+      method: 'POST',
+      headers: {"Content-Type":"application/json"}
+  })
+  window.location.href = "login.html"
+}
 const addEntry = (json) => {
 
   let table = document.getElementById('items')
@@ -204,18 +214,6 @@ const submit = function( e ) {
     .then(response => response.json())
     .then(json => {addEntry(json)})
     return false
-  }
-
-  
-  const logout = function (e) {
-
-      e.preventDefault()
-
-      fetch('logout', {
-          method: 'POST',
-          headers: {"Content-Type":"application/json"}
-      })
-      window.location.href = "login.html"
   }
 
   const getUrgency = function (expiraton) {
