@@ -26,7 +26,29 @@ function displaySpeedrunRow(speedrun) {
     databaseId = newRow.insertCell(7);
     databaseId.innerHTML = speedrun.dbid;
 
-    editDeleteCell = newRow.insertCell(7);
+    editDeleteCell = newRow.insertCell(8);
     editDeleteCell.innerHTML = `<a onClick="onEdit(this)">Edit</a>
                                 <a onClick="onDelete(this)">Delete</a>`;
+}
+
+function onDelete(td) {
+    row = td.parentElement.parentElement;
+    deleteId = row.cells[7].innerHTML;
+    fetch ("/removeSpeedrun", {
+        method:'DELETE',
+        headers: {
+          'Content-Type':'application/json',
+        },
+        body: JSON.stringify({dbid: deleteId})
+        }).then( function (response) {
+            response.json().then ((data) => {
+                createResultsTable(data)
+            });
+        });
+}
+
+const createResultsTable = function (resultsData) {
+    for (let i = 0; i < resultsData.length; i++) {
+        
+    }
 }
