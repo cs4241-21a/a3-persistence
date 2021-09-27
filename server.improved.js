@@ -8,7 +8,8 @@ const http = require('http'),
     express = require("express"),
     mongodb = require('mongodb'),
     passport = require('passport'),
-    helmet = require("helmet");
+    helmet = require("helmet"),
+    responseTime = require('response-time'),
     session = require('express-session'),
     dotenv = require('dotenv').config(),
     app = express(),
@@ -29,7 +30,7 @@ app.use(express.json())
 app.use(helmet())
 
 // Record HTTP response time
-//app.use(express.responseTime())
+app.use(responseTime())
 
 // passport session
 app.use(session({
