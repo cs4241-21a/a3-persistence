@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/A-healy/a3-persistence#readme",
   "dependencies": {
+    "cookie-session": "^1.4.0",
     "express": "^4.17.1",
     "mongoose": "^6.0.7"
   }
