@@ -8,6 +8,7 @@ const http = require('http'),
     express = require("express"),
     mongodb = require('mongodb'),
     passport = require('passport'),
+    helmet = require("helmet");
     session = require('express-session'),
     dotenv = require('dotenv').config(),
     app = express(),
@@ -25,7 +26,7 @@ app.use(express.static("public"))
 app.use(express.json())
 
 // Helps secure your apps by setting various HTTP headers
-app.use(express.helmet())
+app.use(helmet())
 
 // Record HTTP response time
 app.use(express.responseTime())
@@ -67,10 +68,10 @@ passport.use(new GH({
 
 const isAuth = (request, response, next) => {
     if (userId !== '') {
-       // console.log(userId)
+        console.log(userId)
         next()
     } else {
-        //console.log(userId)
+        console.log(userId)
         response.redirect('/login.html')
     }
 }
