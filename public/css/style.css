@@ -10,38 +10,7 @@ p {
     margin-bottom: 10px;
     font-family: "Glory";
 }
-/*
-nav{
-    display: flex;
-    justify-content: left;
-    padding-bottom: 10px;
-    border-bottom: 1px solid #ddd;
-    text-transform: uppercase;
-}
-nav ul{
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-nav li{
-    list-style-type: none;
-    margin-left: 20px;
-}
-nav h1{
-    font-size: 3em;
-    font-family:"ABeeZee";
-}
-nav a {
-    font-weight: 300;
-    color: #777;
-}
 
-nav p{
-    color: #777;
-    font-size: 2em;
-    font-weight: 300;
-    text-align: left;
-}*/
 footer{
     color: black;
     text-align: center;
