@@ -17,6 +17,10 @@ app.use( cookie({
   keys: ['key1', 'key2']
 }))
 
+app.get('/', function(request, response) {
+  response.sendFile( __dirname + '/views/index.html' )
+})
+
 app.post( '/handle', function( request, response ) {
     dreams.push(request.body)
     response.writeHead( 200, { 'Content-Type': 'application/json'})
