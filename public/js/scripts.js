@@ -39,7 +39,9 @@ const submit = function(e) {
 }
 
 const del = function del(e) {
-    const toDoItemID = e.target.parentNode.id
+    const col = e.target.parentNode,
+    row = col.parentNode,
+    toDoItemID = row.parentNode.id,
 
     body = {
         '_id': toDoItemID

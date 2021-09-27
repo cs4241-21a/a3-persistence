@@ -16,5 +16,5 @@ I chose to use Bootstrap because I've never used a CSS framework before and Boot
 For the five Express middleware packages, I used body-parser, express.static, express.ResponseTime, express.session, and passport. the body-parser was used to parse the request body data so that I didn't have to stringify and make to a json. The express-static allowed for all the static files be served, particularly in the public directory. The express.responseTime is used to record HTTP response time. The express.server was used to establish server-based sessions. Finally the passport middleware was used to authenticate users to login to their accounts.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy.
-- **Tech Achievement 2**: I hosted my site on Heroku.
+- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy. This was not as hard as I expected, however I did have some difficulty. I had an issue with setting up the server and being able to filter out the user after logging in. 
+- **Tech Achievement 2**: I hosted my site on Heroku. It does seem a lot more professional than Glitch, however I had a lot of difficulty setting this up. I do enjoy the logs that it has and that it will build the application automatically, but overall I feel like I could have set up my server much quicker on Glitch. 

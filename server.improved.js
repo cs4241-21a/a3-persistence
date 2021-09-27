@@ -160,7 +160,7 @@ app.post('/edit', express.json(), function(request, response) {
 // delete data in db
 app.post('/delete', express.json(), (request, response) => {
     collection
-        .deleteOne({ _id: request.body._id })
+        .deleteOne({  _id: mongodb.ObjectId(request.body._id)  })
         .then(result => response.json(result))
 })
 
