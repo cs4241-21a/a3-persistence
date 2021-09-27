@@ -25,7 +25,7 @@ app.use(express.static("public"))
 app.use(express.json())
 
 // Helps secure your apps by setting various HTTP headers
-app.use(express.helmet())
+//app.use(express.helmet())
 
 // Record HTTP response time
 app.use(express.response-time())
