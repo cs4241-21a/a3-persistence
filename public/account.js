@@ -60,6 +60,8 @@ const updateInfo = async () => {
 };
 
 const submitForm = async () => {
+  console.log("Submitting form");
+
   const name = document.getElementById("formName").value;
   const phone = document.getElementById("formPhone").value;
   const country = document.getElementById("formCountry").value;
@@ -96,10 +98,15 @@ const editContact = async (_uuid) => {
 };
 
 const cancelEdit = () => {
+  console.log("Cancelling edit mode");
   uuid = null;
 
-  document.getElementById("cancelEditButton").hidden - true;
+  document.getElementById("cancelEditButton").hidden = true;
   document.getElementById("submitButton").innerText = "Add Contact";
+
+  document.getElementById("formName").value = null;
+  document.getElementById("formPhone").value = null;
+  document.getElementById("formCountry").value = null;
 };
 
 const deleteContact = async (uuid) => {
