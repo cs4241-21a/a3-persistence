@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+    <script src="js/scripts.js"></script>
+
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@200&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+
+  <body>
+    <header>
+      <h1>
+        High Score Leaderboard
+      </h1>
+    </header>
+
+    <section class="leaderboard">
+      <h2>
+        Please Enter Your Username and High Score
+      </h2>
+      <form action="">
+        <input type="text" id="yourname" value="Username" />
+        <input type="number" id="yourscore" value="0" />
+        <button id="submitButton">Submit</button>
+      </form>
+
+      <table id="data_table" class="center">
+        <tr>
+          <th>Place</th>
+          <th>Username</th>
+          <th>High Score</th>
+          <th>Points from 1st</th>
+          <th>Edit</th>
+          <th>Remove</th>
+        </tr>
+      </table>
+    </section>
+  </body>
+</html>
