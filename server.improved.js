@@ -68,26 +68,31 @@ passport.use(new GH({
 
 const isAuth = (request, response, next) => {
     if (request.user ) {
+        console.log(userId)
         next()
     } else {
-        response.redirect('/')
+        console.log(userId)
+        response.redirect('/login')
     }
 }
 
-// redirect to login.html
-app.get("/", (request, response) => {
-    response.sendFile(__dirname + "/public/login.html")
+// redirect to index.html
+app.get("/", isAuth, (request, response) => {
+    response.sendFile(__dirname + "/public/index.html")
 });
 
-// redirect to login.html or go to login if not autheticated
-app.get("/todo", isAuth, (request, response) => {
+// redirect to login.html
+app.get("/login", (request, response) => {
+    if (request.user) {
+        return response.redirect('/')
+    }
     response.sendFile(__dirname + "/public/login.html")
 });
 
 // redirect to login.html
 app.get("/logout", (request, response) => {
     request.logOut()
-    response.redirect('/')
+    response.redirect('/login')
 });
 
 
