@@ -25,7 +25,12 @@ The goal of the application is to create a task management tool to add, modify, 
 
 3. To delete a task, click the delete button on the desired row you want to move.
 
-In addition, I connected my website where it uses the Express middlewhere to connect to the MongoDB where it collects data for the associated tasks and the associated GitHub user. Each user can only see their own list of tasks.
+The application also has a server where it was created using Express. There is also a results functionality which shows all data associated with a logged in GitHub user.
+In addition, annother feature is the form/entry function that allows users to add, modify, and dlete data with their associateed GitHub account.
+Another feature are the Express middleware packages where five of the packages were implemented. Another feature of the website is that there is persistent data storage in between server sessions using MongoDB.
+Lastly, the web application uses the Bootstrap CSS frameowrk to style my application. 
+
+In addition, I connected my website where it uses the Express middlewhere to connect to the MongoDB where it collects data for the associated tasks and the associated GitHub user. Each user can only see their own list of tasks and add, modify, and delete their own tasks.
 Here is the link: https://cloud.mongodb.com/v2/5eac7e59f386911f8233df59#metrics/replicaSet/6141599a37a2a33e19bf88f8/explorer/Assignment3.
 There is also a screenshot of the MongoDB site in my assets as well.
 
@@ -33,7 +38,9 @@ The five expressions I used are as follows. The first is cookie session where it
 The second is body parser where it passes HTTP request bodies. The third is compression where it compresses HTTP responses.
 The fourth is morgan where it deals with the HTTP request logger. The fifth is response time where it handles the HTTP response time.
 
-The CSS framework I used was the Boostrap framework because I wanted to use horizontal form for the buttons. I used three classes that were form-horizontal, form-group, and form-control.
+The web application also uses HTML input tags and selection lists in the HTML files. 
+
+The CSS framework I used was the Bootstrap framework because I wanted to use horizontal form for the buttons. I used three classes that were form-horizontal, form-group, and form-control.
 
 The authentication strategy I used was the GitHub authentication. The reason I chose this strategy
 was because there was enough documentation to study and learn.  Also there were many examples and tutorials that made it easier and clearer to follow. 
