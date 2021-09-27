@@ -248,7 +248,9 @@ function updateHistory() {
       // update table with new data from json
       for (let i = 1; i < 7; i++) {
         let cell = row.insertCell(i-1)
+        console.log('hi', object[json_keys[i]])
         if (i === 5) {i = 6}
+        console.log('bye', object[json_keys[i]])
         cell.innerHTML = object[json_keys[i]].replace('_', ' ')
       }
 
