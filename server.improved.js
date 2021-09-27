@@ -88,7 +88,7 @@ app.post('/login', (req,res)=>{
     collection.find({username: req.body.username}).toArray()
     .then(result => {
       if(result.length === 0){
-        collection.insertOne(req.body).then(result => res.json(result))
+        collection.insertOne(req.body)
         const query = {'username': req.body.username}
         const update = {
         "$push": {
@@ -112,11 +112,12 @@ app.post('/login', (req,res)=>{
         else{
           req.session.login = false
           res.sendFile( __dirname + '/public/index.html' )
+          
           currentid = result[0].userid[0]
         }
       }
     })
-    .catch(err => console.log(err))
+    //.catch(err => console.log(err))
   }
   /* if( req.body.password ===  'test') {
     // define a variable that we can check in other middleware
@@ -161,15 +162,19 @@ app.post( '/entries', bodyParser.json(), (req,res) => {
 
 app.post( '/add', (req,res) => {
   // assumes only one object to insert
-  collection.insertOne( req.body ).then( result => res.json( result ) )
-  const query = req.body
-  const update = {
-    "$push": {
-      "docid": currentid
+  collection.insertOne( req.body ).then( 
+    result => {
+    const query = req.body
+    const update = {
+      "$push": {
+        "docid": currentid
+      }
     }
-  }
-  const options = {"upsert": false}
-  collection.updateOne(query, update, options)
+    const options = {"upsert": false}
+    collection.updateOne(query, update, options)
+    res.json( result )
+  })
+  
 })
 
 // assumes req.body takes form { _id:5d91fb30f3f81b282d7be0dd } etc.
@@ -183,7 +188,7 @@ app.post( '/update', (req,res) => {
   collection
     .updateOne(
       { _id:mongodb.ObjectId( req.body._id ) },
-      { $set:{ docid: currentid, yourname:req.body.yourname, feet: req.body.feet, inches: req.body.inches, bmi: req.body.bmi, status: req.body.status} 
+      { $set:{ docid: currentid, yourname:req.body.yourname, feet: req.body.feet, inches: req.body.inches, weight: req.body.weight, bmi: req.body.bmi, status: req.body.status} 
     }
     )
     .then( result => res.json( result ) )
