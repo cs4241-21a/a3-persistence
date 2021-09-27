@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+  <head>
+    <title>Welcome to Blackjack!</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A full Blackjack game with currency, account information, leaderboards, and more!">
+    <link rel="stylesheet" href="pico.css">
+  </head>
+  <body>
+    <div>
+      <div style="text-align: center">
+        <h1 id="message">Welcome to Blackjack! Press the Start Game button to begin!</h1>
+        <div class="grid">
+          <div class="playerCards">
+            <p id="pCardText" class="cardText">Your Cards </p>
+            <p id="pCards">Cards: </p>
+            <p id="pCardTotal">Total Card Value: </p>
+          </div>
+          <div class="cpuCards">
+            <p id="cCardText" class="cardText">Computer's Cards </p>
+            <p id="cCards">Cards: </p>
+            <p id="cCardTotal">Total Card Value: </p>
+          </div>
+        </div>
+        <p id="playerMoney">Money: $100</p>
+        <a role="button" class="button" class="secondary" id="gameButton" onclick="startGame()" data-tooltip="Starts the Game. Required every time the game resets.">Start Game</a>
+        <a role="button" class="button" id="gameButtonLower" onclick="placeBet()" data-tooltip="Places your bet. You cannot bet values less than or equal to 0 or values greater than your current balance.">Place Bet</a>
+        <br>
+        <form id="betForm" style="text-align: center;"></form>
+          <label for="betAmount">Bet Amount:</label>
+          <input id="betAmount" type=number>
+        </form>
+        <br>
+        <a role="button" class="button" id="helpButton" onclick="displayHelp()" data-tooltip="Displays info on how to play.">Show/Hide Help</a>
+        <p id="helpText" style="visibility: hidden">Welcome to Blackjack! The goal is to get as close to a card total of 21 points without going over.
+          To start, press the Start Game button. Then, you must input however much money you want to bet.
+          Finally, you must press the Place Bet button, and the game will start. Once the game has started,
+          You can see your cards and card total as well as the computer's cards and card total.
+          You can choose to either draw a card or hold your cards. Drawing a card will force both you and the computer.
+          to draw a card. Holding your cards will cause you to stop playing and the computer to draw one more card.
+          If you or the computer reach exactly 21 points, that player will instantly win.
+          If you or the computer reach over 21 points, that player will instantly lose.
+          If you hold your cards and the computer has more points than you after it draws, then you will lose.
+          If you win, you will receive twice the amount of money you bet as a reward.
+          After a player has won, the game will reset.
+        </p>
+      </div>
+    </div>
+    <div style="text-align: center">
+      <form id="addForm" action='/add' method='POST'> 
+        <div class="grid">
+          <label for="nameBox">Name:</label>
+          <input readonly id="nameBox" name='name' placeholder="Username" type=text>
+          <br><br>
+          <label for="genderBox">Gender:</label>
+          <select id="genderBox" name='gender' required>
+            <option value="none">Gender</option>
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+            <option value="other">Other</option>
+          </select>
+          <br><br>
+          <label for="moneyBox">Money: </label>
+          <input readonly type='number' id="moneyBox" name='money' placeholder="Total Money" required>
+        </div>
+        <a role="button" type='submit' value="Add Data" id="addScore" data-tooltip="This will submit your current balance. If you've already submitted before, it will update your balance.">Add Score</a>
+      </form>
+      <br>
+      <label style="text-decoration: underline;">Other Fun Stuff</label>
+      <div class="grid">
+        <form id="accountManage" action='/accountManage' method='POST'>
+          <a role="button" id="accButton" type='submit' value="Account Management" data-tooltip="Brings you to an account management page.">Account Management</a>
+        </form>
+        <form id="viewScoreboard" action='/viewScores' method='POST'>
+          <a role="button" id="scoreboardButton" data-tooltip="Allows you to view the global leaderboards.">View Leaderboards</a>
+        </form>
+      </div>
+    </div>
+    <script src="scripts.js"></script>
+  </body>
+</html>

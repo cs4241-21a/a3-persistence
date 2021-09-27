@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+    <head>
+        <title>Login/Register</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Login Page for Blackjack Game.">
+        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.css">
+    </head>
+    <body>
+        <form id="registerForm" class="accountForm" action='/register' method='POST'>
+            <label for="usernameBox">Username:</label>
+            <input id="usernameBox" name='username' type="text" required>
+            <br>
+            <label for="passwordBox">Password: </label>
+            <input id="passwordBox" name='password' type="password" required>
+            <br>
+            <label for="registerBox">Register</label>
+            <a role="button" type='submit' id="registerButton" onclick="register()">Register</a>
+        </form>
+        <br><br>
+        <div class="grid">
+            <form id="loginForm" class="accountForm" action='/login' method='POST'>
+                <label for="usernameBoxLogin">Username:</label>
+                <input id="usernameBoxLogin" name='username' type="text">
+                <label for="passwordBoxLogin">Password: </label>
+                <input id="passwordBoxLogin" name='password' type="password">
+                <label for="loginBox">Login</label>
+                <a role="button" type='submit' id="loginButton" onclick="login()">Login</a>
+            </form>
+        </div>
+        <script src="index.js"></script>
+    </body>
+</html>

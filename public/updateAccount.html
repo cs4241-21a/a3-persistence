@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+    <head>
+        <title>Update Account Info</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Page for updating account info, including username and password.">
+        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.css">
+    </head>
+    <body>
+        <h2 class="center" style="text-decoration: underline;">Please enter your new account info</h2>
+        <form id="updateForm" class="center" action='/updateAcc' method='POST'>
+            <label for="usernameBox">Username:</label>
+            <input id="usernameBox" name='username' type="text">
+            <br>
+            <label for="passwordBox">Password: </label>
+            <input id="passwordBox" name='password' type="password">
+            <br>
+            <div style="text-align: center;">
+                <a role="button" type='submit' id="updateButton">Update Account Info</a>
+            </div>
+        </form>
+        <div style="text-align: center;">
+            <form action='/returnToMain' method='POST' id="returnToMainForm">
+                <a role="button" type='submit' value="Return To Page" id="returnToMainButton" data-tooltip="Returns you to the game.">Return To Game</a>
+            </form>
+        </div>
+        <script src="updateAccount.js"></script>
+    </body>
+</html>

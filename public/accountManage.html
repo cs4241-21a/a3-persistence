@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+    <head>
+        <title>Account Management</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="A page that lets you manage info related to your account for the Blackjack game.">
+        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.css">
+    </head>
+    <body>
+        <script>
+            window.onload = function() {
+                fetch('/getUserInfo', {
+                    method:'GET'
+                }).then(response => response.json()).then(data => {{
+                    document.getElementById("userName").textContent = "Username: " + data.Username
+                    document.getElementById("userGender").textContent = "Gender: " + data.gender
+                    document.getElementById("userMoney").textContent = "Money: " + data.money
+                }
+            })}
+        </script>
+        <div style="text-align: center">
+            <p class="center" id="userName"></p>
+            <p class="center" id="userGender"></p>
+            <p class="center" id="userMoney"></p>
+            <p class="center">What would you like to do?</p>
+            <form action='/removeAcc' method='POST' id="removeAccForm">
+                <a role="button" type='submit' value="Remove Account" id="removeAccButton" data-tooltip="This will delete your account and associated info!">Remove Account</a>
+            </form>
+            <form action='/updateAccPage' method='POST' id="updateAccPage">
+                <a role="button" type='submit' value="Update Account" id="updateAccPageButton" data-tooltip="Redirects you to a page where you can update your username/password.">Update Account</a>
+            </form>
+            <form action='/removeScore' method='POST' id="removeScoreForm">
+                <a role="button" type='submit' value="Remove Score" id="removeScoreButton" data-tooltip="Resets your balance to $100.">Remove Score</a>
+            </form>
+            <form action='/returnToMain' method='POST' id="returnToMainForm">
+                <a role="button" type='submit' value="Return To Page" id="returnToMainButton" data-tooltip="Returns you to the game.">Return To Game</a>
+            </form>
+        </div>
+        <script src="accountManage.js"></script>
+    </body>
+</html>

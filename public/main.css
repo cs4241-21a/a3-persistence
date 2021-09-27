@@ -1,0 +1,74 @@
+body {
+    background-image: url("images/table.png");
+    background-size: cover;
+}
+
+#helpText {
+    visibility: hidden;
+    text-align: left;
+    font-size: 15px;
+}
+
+.leftside {
+    left: 0;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 75%;
+    height: 100%;
+    font-size: large;
+}
+
+.lefttext {
+    color: white;
+    text-align: center;
+}
+
+#playermoney {
+    padding-bottom: 10%;
+}
+
+.button {
+    color: blue;
+    background-color: lightblue;
+    position: relative;
+}
+
+#betForm {
+    padding-top: 20px;
+    padding-bottom: 20px;
+    font-size: 15px;
+}
+
+.cpuCards {
+    padding-top: 10%;
+}
+
+.cardText {
+    text-decoration: underline;
+}
+
+#rightside {
+    z-index: 3;
+    right: 0;
+    width: 25%;
+    top: 0;
+    padding-top: 25px;
+    height: 100%;
+    overflow-x: hidden;
+    position: fixed;
+}
+
+.scores {
+    color: white
+}
+
+#dataBG {
+    float: right;
+    z-index: 2;
+    text-align: right;
+    position: absolute;
+    top: 0px;
+    right: 0;
+    width: 25%;
+    height: 100%;
+}
+

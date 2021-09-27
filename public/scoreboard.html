@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+    <head>
+        <title>Scoreboard</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="Global leaderboards for blackjack game.">
+        <link rel="stylesheet" href="pico.css">
+    </head>
+    <body>
+        <div class="scores">
+
+        </div>
+        <form action='/returnToMain' method='POST' id="returnToMainForm" style="text-align: center">
+            <a role="button" type='submit' value="Return To Page" id="returnToMainButton" data-tooltip="Returns you to the game.">Return To Game</a>
+        </form>
+        <div style="text-align: center;">
+            <label for="toggleRefresh">Toggle Auto-Refresh</label>
+            <input type="checkbox" id="toggleRefresh">
+        </div>
+        <script src="scoreboard.js"></script>
+    </body>
+</html>
