@@ -1,11 +1,6 @@
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
 ## Punting Tracker - Detailed Statistic Tracker For Football Punters
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+Glitch server: https://a3-lorendiloreto.glitch.me/
 
 The goal of the application was to create a full stack web application that I could use in the future as a punting stat tracker to get better at punting. Some of the major challenged that I faced involved Express as well as the MongoDB database. The Express bugs seemed quite annoying because they were very small errors, however, the MongoDB errors made sense because of the basic idea behind databases. I chose to implement cookies as authentication because it was easier, and didn't want to waste precious time on OAuth. I used Mini.css as my CSS framework because it was very lightweight and I liked the compatibility with mobile devices. I barely had to modify the css framework at all. Most of the changes I had to do were changes a couple variables in the framework css code to change various background colors.
 Five middleware packages:
@@ -17,7 +12,6 @@ Five middleware packages:
 
 ## Technical Achievements
 - **lighthouse tests**: I got 100% in the 4 lighthouse test categories for my application
-- **Heroku**: 
 
 ### Design/Evaluation Achievements
 - **12 W3C tips**: I followed the following 12 tips from the W3C Web Accessibility Initiative:
