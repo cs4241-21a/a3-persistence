@@ -3,14 +3,17 @@ const fs   = require( 'fs' ),
       express = require('express'),
       body_parser = require('body-parser'),
       morgan  = require('morgan'),
+      favicon = require('serve-favicon'),
       mongodb = require('mongodb'),
       cookie  = require('cookie-session'),
+      path  = require('path'),
       app     = express(),
       dir  = 'public/',
       port = 3001
 
 require('dotenv').config();
 
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(':method :url :status - :response-time ms'));
 
