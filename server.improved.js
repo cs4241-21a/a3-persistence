@@ -79,9 +79,9 @@ app.get("/", (request, response) => {
     response.sendFile(__dirname + "/public/login.html")
 });
 
-// redirect to login.html
+// redirect to login.html or go to login if not autheticated
 app.get("/todo", isAuth, (request, response) => {
-    response.sendFile(__dirname + "/public/index.html")
+    response.sendFile(__dirname + "/public/login.html")
 });
 
 // redirect to login.html
