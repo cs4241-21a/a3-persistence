@@ -1,0 +1,69 @@
+* {
+  font-family: 'Coming Soon', cursive;
+}
+
+body {
+  background-color: #E8EDDF;
+  color: #242423;
+}
+
+#app {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+#header {
+  width: 100%;
+  display: block;
+  text-align: center;
+}
+
+#canvas {
+  background-color: #CFDBD5;
+  outline: 1px dashed #333533;
+  margin-top: 1px;
+}
+
+h1 {
+  margin: 0.5em;
+  font-family: 'Permanent Marker', cursive;
+}
+
+hr {
+  color: #333533;
+  opacity: 100%;
+}
+
+.input-group-text, .form-control, .list-group-item {
+  background-color: #CFDBD5;
+  border-color: #333533;
+  border-radius: 0 !important;
+  border-style: dashed;
+}
+
+.form-control:focus {
+  background-color: inherit !important;
+  border-color: inherit !important;
+  box-shadow: none !important;
+}
+
+.split {
+  display: flex;
+}
+.split > button {
+  margin-left: auto;
+}
+
+@media (min-width: 720px) {
+  .container {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  #sidebar {
+    width: 30%;
+  }
+  #game {
+    width: 70%;
+    text-align: center;
+  }
+}

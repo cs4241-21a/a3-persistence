@@ -1,0 +1,12 @@
+{
+  "name": "Eater",
+  "version": "v0.2",
+  "description": "Eat food",
+  "author": "Liam Rathke",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "mime": "^2.4.4"
+  }
+}
