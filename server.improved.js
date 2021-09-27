@@ -102,7 +102,7 @@ app.use( function( req,res,next) {
         res.render('signUpPage');
         return;
     }
-    if( req.session.login === true ) {
+    if( req.session.login === true || req.url === '/css/style.css') {
         next()
     } else {
         res.render('login')
