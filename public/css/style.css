@@ -1,0 +1,25 @@
+body {
+    background-color: lightblue;
+    font-family: 'Lato', sans-serif;
+    text-align: center;
+}
+
+form {
+    display: grid;
+    width: 3in;
+    margin: auto;
+}
+
+table {
+    display: grid;
+    margin:auto;
+    width: 10in;
+}
+
+th, td {
+    background-color: white;
+    border: solid black 1px;
+    width: 2in;
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
