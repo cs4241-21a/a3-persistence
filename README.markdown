@@ -1,6 +1,6 @@
 ## Persistent Colorful Notes
 
-URL: a3.edit2013.com
+URL: a3.edit2014.com
 
 - The goal of this application is to allow users to save notes to themselves in a colorful way. The color dictates how the message is displayed
 - The primary challenge was getting MS auth set up, as well as time management. 
