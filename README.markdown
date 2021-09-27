@@ -1,22 +1,14 @@
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
+README
 ---
 
 ## Dream
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+https://a3-astroseer.glitch.me
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
+- I had some difficulties with my mental wellbeing and was struggling to complete this assignment and ask for help, so the assignment was the original hello-express with some mongoDB integration that I could not get to function properly without it creating errors (I was following along with the video the professor did on mongoDB since I had no database experience prior to this class). Essentially there is not a lot of work done for this assignment so I am just submitting it to see if I can get more than a 0 on this assignment. Thanks for reading this.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: None
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **Design Achievement 1**: None
