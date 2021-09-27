@@ -30,10 +30,10 @@ const updateInfo = async () => {
     document.getElementById("name").innerText = user.displayName;
   if (user.emails && user.emails.length > 0)
     document.getElementById("email").innerText = user.emails[0].value;
-  if (users.username)
+  if (user.username)
     document.getElementById("username").innerText = user.username;
 
-  if (users.photos && users.photos.length > 0)
+  if (user.photos && users.photos.length > 0)
     document.getElementById(
       "photo"
     ).innerHTML = `<img src=${user.photos[0].value} width=100 height=100>`;
