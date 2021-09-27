@@ -7,6 +7,8 @@ The main struggle I face while working on this project was getting the system to
 Current issues: some of the redirection still doesn't work properly. I don't think it redirects to the failedlogin page or returns to the login page when a user deletes their account. 
 
 I used cookies to authenticate because I found it the easiest to implement and didn't have time to implement oauth 
+![image](https://user-images.githubusercontent.com/73271208/134930075-ac6b14b8-b6f5-40b2-93eb-933714bda32b.png)
+^ Lighthouse test, it is the same across all 4 html pages used in this project. 
 
 I used the modern-normalize CSS framework because I felt it was simple and most appropriate for my simple website. I was originally going to use 98.css because I like the windows 98 style but I felt it didn't fit my website. 
 The middleware I use in this project are: 
