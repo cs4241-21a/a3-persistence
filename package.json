@@ -1,0 +1,28 @@
+{
+  "name": "a3",
+  "version": "1.0.0",
+  "description": "",
+  "author": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "repository": "",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-validator": "^6.12.1",
+    "helmet": "^4.6.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.1.2",
+    "mongoose": "^6.0.5",
+    "morgan": "^1.10.0",
+    "node": "^16.10.0",
+    "serve-favicon": "^2.5.0"
+  },
+  "engines": {
+    "node": "14.x",
+    "npm": "6.14.8"
+  }
+}

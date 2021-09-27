@@ -1,0 +1,92 @@
+/*Style your own assignment! This is fun! */
+.wrapper {
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: 20% 20% 20% 20% 20%;
+    grid-template-rows: 20% 20% 20% 20% 20%;
+}
+
+.header{
+  grid-column:1/6;
+  font-family: "Kaisei Decol", serif;
+}
+
+.right{
+   grid-row:2/3;
+    grid-column:2/6;
+    font-family: "Kaisei Decol", serif;
+}
+
+.left{
+  grid-row:2/3;
+  grid-column:1/2;
+  background-color: red;
+  height: 200%;
+  font-family: "Kaisei Decol", serif;
+  
+}
+
+.bottom{
+  grid-row:4/6;
+  grid-column:1/4;
+  font-family: "Kaisei Decol", serif;
+}
+
+form, input, label, select {
+    font-family: "Kaisei Decol", serif;
+}
+
+
+
+#submit {
+    font-family: "Kaisei Decol", serif;
+}
+
+
+#hours{
+  background-color: red;
+  font-size: 35px;
+  text-align: center;
+}
+
+th {
+    font-family: "Kaisei Decol", serif;
+    background-color: red;
+    font-weight: bold;
+    font-size: 18px;
+    padding-right:80px;
+    text-align: left;
+}
+
+td {
+    background-color: lightgrey;
+    font-size: 18px;
+    padding-right: 10px;
+    text-align: center;
+}
+
+
+table, th, td {
+    border-collapse: collapse;
+    font-family: "Kaisei Decol", serif;
+}
+
+table{
+  align : bottom;
+}
+
+h1 {
+    justify-content: center;
+    font-family: "Kaisei Decol", serif;
+    text-align: left;
+    padding-left:20%;
+    color: red;
+    background-color: lightgrey;
+}
+
+#warning {
+    display: flex;
+    justify-content: center;
+    color: red;
+    font-family: "Kaisei Decol", serif;
+}
