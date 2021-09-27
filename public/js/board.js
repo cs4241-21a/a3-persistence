@@ -37,7 +37,6 @@ let addCommentToDOM = function (commentList, comment) {
 window.onload = async () => {
     let comments = await client.getCommentsForBoard(window.location.pathname.split('/')[2])
     let commentList = document.getElementById('comments-col')
-    console.log(comments)
     for(let c of comments) {
         addCommentToDOM(commentList, c)
     }

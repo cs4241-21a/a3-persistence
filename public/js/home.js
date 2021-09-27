@@ -69,7 +69,6 @@ let addBoard = function(parent, b, owned) {
 }
 
 async function createBoard() {
-    console.log(document.getElementById('board-title').value)
     let board = {
         name: document.getElementById('board-title').value,
         reviewers

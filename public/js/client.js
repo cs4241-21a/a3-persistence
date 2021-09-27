@@ -4,7 +4,6 @@ export default {
     async getAllBoards() {
         let res = await fetch('/boards', {credentials: 'include', headers: {'Content-Type': 'application/json'}})
         let v = await res.json()
-        console.log(v)
         return v
     },
 
@@ -13,7 +12,6 @@ export default {
     async getCommentsForBoard(boardID) {
         let res = await fetch(`/boards/${boardID}/comments`, {credentials: 'include', headers: {'Content-Type': 'application/json'}})
         let v = await res.json()
-        console.log(v)
         for(let c of v) {
             let u = await fetch(`/users/${c.author}`, {credentials: 'include', headers: {'Content-Type': 'application/json'}})
             let user = await u.json()
@@ -26,7 +24,6 @@ export default {
     async createBoard(board) {
         let res = await fetch(`/boards`, {credentials: 'include', method: 'POST', body: JSON.stringify(board), headers: {'Content-Type': 'application/json'}})
         let v = await res.json()
-        console.log(v)
         return v
     },
 
@@ -34,7 +31,6 @@ export default {
     async createComment(comment) {
         let res = await fetch(`/comments`, {credentials: 'include', method: 'POST', body: JSON.stringify(comment), headers: {'Content-Type': 'application/json'}})
         let v = await res.json()
-        console.log(v)
         return v
     },
 
@@ -42,7 +38,6 @@ export default {
     async updateBoardContent(boardID, content) {
         let res = await fetch(`/boards/${boardID}`, {credentials: 'include', method: 'PATCH', body: JSON.stringify({content: content}), headers: {'Content-Type': 'application/json'}})
         let v = await res.text()
-        console.log(v)
         return res.status == 200
     },
 
@@ -60,20 +55,17 @@ export default {
     async getUsers() {
         let res = await fetch('/users', {credentials: 'include', headers: {'Content-Type': 'application/json'}})
         let v = await res.json()
-        console.log(v)
         return v
     },
 
     // Delete a board
     async deleteBoard(boardID) {
         let res = await fetch(`/boards/${boardID}`, {credentials: 'include', method: 'DELETE', headers: {'Content-Type': 'application/json'}})
-        console.log(res.status)
         return res.status
     },
 
     async deleteComment(commentID) {
         let res = await fetch(`/comments/${commentID}`, {credentials: 'include', method: 'DELETE', headers: {'Content-Type': 'application/json'}})
-        console.log(res.status)
         return res.status
     }
 

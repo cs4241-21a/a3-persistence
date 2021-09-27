@@ -153,6 +153,11 @@ app.get('/boards/:boardID', (req, res) => {
             return
         }
 
+        if (board == undefined) {
+            res.sendStatus(404)
+            return
+        }
+
         if (req.user._id != board.owner && (board.reviewers && !board.reviewers.includes(req.user._id))) {
             res.sendStatus(403)
             return
@@ -176,6 +181,7 @@ app.patch('/boards/:boardID', (req, res) => {
     client.db('db').collection('boards').updateOne({ _id: new ObjectId(req.params.boardID) }, { $set: { content: req.body.content } }).then(() => res.sendStatus(200)).catch(err => { console.log(err); res.sendStatus(500) })
 })
 
+// Delete a board by ID
 app.delete('/boards/:boardID', (req, res) => {
     // make sure user is authenticated for this endpoint
     if (req.user == undefined) {
@@ -185,6 +191,7 @@ app.delete('/boards/:boardID', (req, res) => {
 
     client.db('db').collection('boards').findOneAndDelete({ _id: new ObjectId(req.params.boardID), owner: req.user._id }).then(() => res.sendStatus(204)).catch(err => { console.log(err); res.sendStatus(500) })
 })
+
 // Create a new comment
 app.post('/comments', (req, res) => {
     // make sure user is authenticated for this endpoint
@@ -216,6 +223,11 @@ app.get('/comments/:commentID', (req, res) => {
         if (err) {
             console.log(err)
             res.sendStatus(500)
+            return
+        }
+
+        if (comment == undefined) {
+            res.sendStatus(404)
             return
         }
 
@@ -251,8 +263,10 @@ app.get('/boards/:boardID/comments', (req, res) => {
             return
         }
 
-        console.log("getting the comments")
-        console.log(board, req.user)
+        if (board == undefined) {
+            res.sendStatus(404)
+            return
+        }
 
         // make sure the user is either the board owner or a valid reviewer
         if (req.user._id != board.owner && (board.reviewers && !board.reviewers.includes(req.user._id))) {
