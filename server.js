@@ -2,6 +2,7 @@
 const express = require("express")
 const cookie  = require( 'cookie-session' )
 const morgan = require("morgan")
+const responseTime = require('response-time')
 
 const app = express() 
 
@@ -15,10 +16,11 @@ app.use( cookie({
   keys: ['key1', 'key2']
 }))
 
-app.use(//morgan format,
-  //response time
-  //timeout 
-  )
+app.use(morgan("tiny"))//response time time out
+
+app.use(responseTime())
+
+
 
 //const { ObjectID } = require('bson');
 const { MongoClient, ObjectId } = require('mongodb');
