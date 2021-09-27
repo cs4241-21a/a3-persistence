@@ -34,7 +34,7 @@ app.use(responseTime())
 
 // passport session
 app.use(session({
-    secret: 'secret',
+    secret: 'keyboard cat',
     resave: false,
     saveUninitialized: false,
     cookie: {
@@ -62,17 +62,14 @@ passport.use(new GH({
         callbackURL: 'https://a3-evelyntrvn.herokuapp.com/auth/github/callback'
     },
     function(accessToken, refreshToken, profile, cb) {
-        userId = profile.username
         cb(null, profile);
     }
 ));
 
 const isAuth = (request, response, next) => {
-    if (request.user !== null) {
-        console.log(userId)
+    if (request.user ) {
         next()
     } else {
-        console.log(userId)
         response.redirect('/login.html')
     }
 }
