@@ -1,4 +1,7 @@
 const express = require('express')
+const { MongoClient } = require('mongodb')
+
+require('dotenv').config()
 
 const bodyParser = require('body-parser')
 const cookieParser = require('cookie-parser')
@@ -24,26 +27,59 @@ app.set('view engine', 'handlebars')
 
 const PORT = 3000
 
-const scores = {'Liam': 26}
+const client = new MongoClient(process.env.DB_URI, {
+  useNewUrlParser: true, 
+  useUnifiedTopology: true 
+})
+
+async function getScoresCollection() {
+  await client.connect()
+  const database = client.db(process.env.DB_NAME)
+  let scoresCollection = database.collection(process.env.DB_COLLECTION_SCORES)
+  return scoresCollection
+}
 
 app.get('/', (req, res) => {
   res.render('home', { csrfToken: req.csrfToken(), layout: false })
 })
 
-app.get('/scores', (req, res) => {
+app.get('/scores', async (req, res) => {
+  scores = await getScores()
   res.json(scores)
 })
 
-app.post('/score', (req, res) => {
+app.post('/score', async (req, res) => {
   const body = req.body
   console.log(body)
-  if (scores[body.username]) {
-    scores[body.username] += body.score
-  } else {
-    scores[body.username] = body.score
-  }
+  incrementScore(body.username, body.score)
+  scores = await getScores()
   res.json(scores)
 })
+
+async function getScores() {
+  let scores = {}
+
+  const collection = await getScoresCollection()
+  const cursor = await collection.find()
+  if (await cursor.count() > 0) {
+    await cursor.forEach(score => scores[score.username] = score.score)
+  }
+  console.log(scores)
+  await client.close()
+  return scores
+}
+
+async function incrementScore(username, score) {
+  const collection = await getScoresCollection()
+  await collection.updateOne({username}, {
+      $inc: {
+        score
+      }
+    },
+    { upsert: true }
+  )
+  await client.close()
+}
 
 app.listen(PORT, () => {
   console.log(`App listening at http://localhost:${PORT}`)

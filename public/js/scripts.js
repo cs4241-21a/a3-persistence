@@ -83,7 +83,7 @@ const app = Vue.createApp({
           break
         case 'd':
         case 'ArrowRight':
-         this.moveRight()
+          this.moveRight()
           break
         case 'w':
         case 'ArrowUp':
