@@ -1,0 +1,33 @@
+{
+  "name": "a3-persistence-1",
+  "version": "1.0.0",
+  "description": "Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template ===",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/carlosavp23/a3-persistence.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/carlosavp23/a3-persistence/issues"
+  },
+  "homepage": "https://github.com/carlosavp23/a3-persistence#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.12"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "express": "^4.17.1",
+    "express-handlebars": "^5.3.3",
+    "express-session": "^1.17.2",
+    "mongodb": "^4.1.2",
+    "mongoose": "^6.0.7",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0"
+  }
+}

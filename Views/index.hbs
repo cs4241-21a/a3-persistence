@@ -1,0 +1,52 @@
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="scripts.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+
+  </head>
+<body action="/index" method="post">
+
+    <div class="grid-container">
+      <div class="grid-item">
+      <h1 class="title">Job Application Log</h1>
+      </div>
+       <div class="grid-item">
+      <a class="Logout" id="logout" href="/logout">Logout</a>
+      </div>
+      <form class= "app-form" id="frm">
+        <div  id ="c1" class="grid-item">
+          <input type="text" id="position" placeholder="Position/Job Title">
+          <input type="text" id="company" placeholder="Company">
+          <input type="text" id="location" placeholder="Job Location">
+          <input type="text" id="references" placeholder="References">
+
+        <br>
+        <button id="submitBtn">SUBMIT</button>
+
+        </div>
+      </form>
+      <br>
+      <div class="grid-item">
+      <table id="table1" style="width:100%">
+    <tr>
+      <th>Position</th>
+      <th>Company</th>
+      <th>Location</th>
+      <th>References</th>
+      <th>Date Applied</th>
+      <th>Delete Entry</th>
+    </tr>
+    </table>
+      </div>
+
+      <div>
+        <button id ="delLastButton">Edit an entry</button>
+        <button id ="deleteButton">clear data</button>
+      </div>
+    </div>
+</body>

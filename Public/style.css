@@ -1,0 +1,172 @@
+
+
+body {
+	background-color: #2F4960;
+	background-image: linear-gradient(to bottom right, #2F4960 10%, #102040);
+	justify-content: center;
+	min-height: 100vh;
+}
+
+.title{
+    font-family: 'Ubuntu', sans-serif;
+    font-size: 50px;
+    text-align:center;
+    color: white;
+    background-color: #FCC201;
+    padding: 15px 10px;
+    color: #1e3d59;
+    text-shadow: 0 0 10px white, 0 0 15px white;
+    margin-bottom: 0;
+}
+
+.grid-container {
+    display: grid;
+    justify-content: space-evenly;
+}
+
+input[Type = text]{
+    font-family: 'Ubuntu', sans-serif;
+    border: 3px solid #3b4d61;
+    background-color: #E5E4E2;
+    padding: 16px 32px;
+    margin: 4px 10px;
+    cursor: pointer;
+
+}/*Style your own assignment! This is fun! */
+
+#submitBtn{
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #FCC201;
+    border: 2px solid black;
+    padding: 10px;
+    text-decoration: none;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+    cursor: pointer;
+    position: relative;
+    left: 43%;
+	width: 15%;
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+	transition: 0.4s;
+	color: #222;
+	font-size: 16px;
+	font-weight:bold;
+    border-radius: 15px;
+}
+
+#deleteButton{
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #ff4c4c;
+    border: 2px solid black;
+    padding: 10px;
+    text-decoration: none;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    cursor: pointer;
+    display:grid;
+    position: relative;
+    left: 46.5%;
+	width: 10%;
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+	transition: 0.4s;
+	color: black;
+	font-size: 14px;
+	font-weight: 300;
+    border-radius: 15px;
+}
+
+#delLastButton{
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #ff8303;
+    border: 2px solid black;
+    padding: 10px;
+    text-decoration: none;
+    margin-top: 20px;
+    display:grid;
+    cursor: pointer;
+    position: relative;
+    left: 44%;
+	width: 15%;
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+	transition: 0.4s;
+	color: black;
+	font-size: 14px;
+	font-weight: 300;
+    border-radius: 15px;
+}
+
+#logout{
+    font-family: 'Ubuntu', sans-serif;
+    background-color: #2F4960;
+    border: 2px solid black;
+    padding: 10px;
+    display: grid;
+    position:relative;
+    margin-top: -60px;
+    margin-bottom: 50px;
+    left: 90%;
+	width: 5%;
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+	transition: 0.4s;
+	color: white;
+	font-size: 14px;
+	font-weight: bold;
+    text-align: center;
+}
+
+.app-form input:not([type="submit"]) {
+	padding: 15px;
+	border-radius: 8px;
+    border: 2px solid black;
+	background-color: rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 0px 0px rgba(0, 0, 0, 0);
+	transition: 0.4s;
+	color: #222;
+	font-size: 18px;
+	font-weight: 300;
+}
+
+.app-form input:not([type="submit"])::placeholder {
+	color: #838383;
+}
+
+.app-form input:not([type="submit"]):focus, form input:not([type="submit"]):valid {
+	background-color: #fff;
+	box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+
+table{
+    border: 3px solid black;
+    border-collapse: collapse;
+}
+
+th{
+    font-family: 'Ubuntu', sans-serif;
+    border-collapse: collapse;
+    background: #fadc78;
+    border: 3px solid black;
+
+}
+
+td {
+    font-family: 'Ubuntu', sans-serif;
+    border-collapse: collapse;
+    background: white;
+    border: 3px solid black;
+
+}
+#form{
+    text-align: center;
+}
+th, td {
+    font-family: 'Ubuntu', sans-serif,;
+    padding: 15px;
+    text-align: left;
+}
+
+#t01 {
+    width: 100%;
+    background-color: white;
+}
