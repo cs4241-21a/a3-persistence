@@ -22,5 +22,6 @@ The goal of the project is to store lost & found items in the database, and prov
 ## Technical Achievements
 - **Tech Achievement 1**: I used Passport.js to allow users to authenticate through GitHub.
 - **Tech Achievement 2**: I used Heroku instead of Glitch. I found the two platforms to be very similar, but Heroku was more convenient thanks to the autodeploy function which updates the live version as soon as I commit to GitHub.
+- **Tech Achievement 3**: I got 100% in all Lighthouse tests.
 
 ### Design/Evaluation Achievements
