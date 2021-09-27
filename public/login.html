@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>CS4241 Assignment 2</title>
+  <meta charset="utf-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+    <link
+      href="https://fonts.googleapis.com/css2?family=ZCOOL+KuaiLe&display=swap"
+      rel="stylesheet"
+    />
+</head>
+
+<body>
+<div class="boxHolder">
+  <div class="box">
+    <h1>Login</h1>
+    <h2><a href="/auth/github">Login with GitHub</a></h2>
+    <a href="sign_up.html">Sign up</a>
+  </div>
+</div>
+
+<div class="boxHolder">
+  <div class="box">
+    <form id="newTrip">
+      <h2>Login</h2>
+
+      <label for="username">username </label>
+      <input type="text" id="username" required />
+
+      <label for="password">password: </label>
+      <input type="password" id="password" required />
+
+      <button id="submitLogin">Submit</button>
+    </form>
+  </div>
+</div>
+
+<script>
+
+  const submit = function (e) {
+    // prevent default form action from being carried out
+    e.preventDefault();
+
+    const username = document.querySelector("#username"),
+        password = document.querySelector("#password");
+
+    const json = {username: username.value, password: password.value};
+
+    fetch("/login", {
+      method: "POST",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(json),
+    }).then(response => response.json())
+      .then(data => {
+        if (data.code !== 200) {
+          alert(data.msg);
+        } else {
+          window.location.href = '/';
+        }
+    });
+
+    return false;
+  };
+
+
+  window.onload = function () {
+    const button = document.querySelector("button");
+    button.onclick = submit;
+  };
+
+</script>
+
+</body>
+</html>
