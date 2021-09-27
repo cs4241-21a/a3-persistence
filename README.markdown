@@ -2,7 +2,7 @@
 
 ## Andrew Kerekon -- WPI Student Preferences -- Rate Your Favorite Dorm, Dining Hall, and Campus Location Compared To Your Peers!
 
-Glitch: https://a3-akerekon.glitch.me/
+Glitch: https://a3-andrew-kerekon.glitch.me/
 Heroku: https://a3-akerekon.herokuapp.com/
 
 By default, users will arrive at a "response" page where they can see how other students responsed to the survey. By clicking "Edit Your Ratings" at the top left, users can add their own ratings by logging in under their own GitHub or local account, specific to them but also shared with the wider student body. Only students who log in will be able to delete and edit their own responses, safeguarding student data while also making it publicly accessible. 
