@@ -1,6 +1,8 @@
 ## Contacts in database
 
-your glitch (or alternative server) link e.g. https://a3-orestropi-ai.glitch.me/
+link: https://a3-orestropi-ai.glitch.me/
+
+You can register or login with myUser, myPassword
 
 Brief summary of project:
 
@@ -27,7 +29,7 @@ Brief summary of project:
 ![image](https://user-images.githubusercontent.com/73619173/134874534-203c7900-7ec9-4470-80f0-72d269a6f0c7.png)
 ![image](https://user-images.githubusercontent.com/73619173/134874648-3ff04bb6-1884-45d7-8b30-d03adf1a02f9.png)
 
-- **Tech Achievement 1**:(IDK if trying to debug it and using logs for heroku count for anything, I also got the link for my site, and made comments on heroku)
+- **Tech Achievement 2**:(IDK if trying to debug it and using logs for heroku count for anything, I also got the link for my site, and made comments on heroku)
 -(5 points)I tried to use Heroku for many hours but could not understand their complicated and hard to use error logs :(. I got the site up but it has an H31 error in the error logs.https://a3-orest-ropi-ai.herokuapp.com/
 ![image](https://user-images.githubusercontent.com/73619173/134898956-270b79e3-f403-40f8-b4bd-360043e06c96.png)
 
