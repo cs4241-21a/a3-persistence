@@ -197,7 +197,7 @@ app.post('/addBook', ensureAuthenticated, async(req, res) => {
     console.log(book_info);
     const authors = book_info.authors;
 
-    let authors_names = [];
+    let author_names = [];
     if (authors) {
         // the authors are given by their author entry in openlibrary
         // so we have to go through and get the name for each other
@@ -241,24 +241,27 @@ app.put('/modifyBook', ensureAuthenticated, async(req, res) => {
     const book_info = (await axios.get(isbn_url)).data;
     const authors = book_info.authors;
 
-    let author_names = ['Author Unkown'];
+    let author_names = [];
     if (authors) {
         // the authors are given by their author entry in openlibrary
         // so we have to go through and get the name for each other
         author_names = await Promise.all(authors.map(async author => {
+
             const author_info = (await axios.get(`${OPENLIB_BASE_URL}/${author.key}`)).data;
             return author_info.name;
         }));
-    }
 
+    } else {
+        author_names = ["Author Unknown"]
+    }
 
     const book_entry = {
         user_id,
         isbn,
-        title: book_info.title || 'Book Title Unknown',
+        title: book_info.title || "Title Unknown",
         authors: author_names,
-        release_date: book_info.publish_date ? Date.parse(book_info.publish_date) : 'Publish Data Unknown',
-        num_pages: book_info.number_of_pages || "# Pages Unkown",
+        release_date: book_info.publish_date ? Date.parse(book_info.publish_date) : "Unknown",
+        num_pages: book_info.number_of_pages || "Unknown",
         date_added: Date.now(),
         location: body.location,
         rating: body.rating,
