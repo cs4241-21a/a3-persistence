@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@300&family=Roboto+Mono:wght@200&display=swap');
+
+body {
+    grid-template-columns: [col0] 10px [col1] 300px [col2] 530px [col3] 17% [col4] 10px [col5] 250px [col6] 100px [col7];
+    grid-template-rows: [row0] 100px [row1] 400px [row2] 50px [row3] 50px [row4] 80px [row5] 400px  [row6] auto; 
+
+    grid-template-areas:  
+        ". . headerArea headerArea . . logutButtonArea ."
+        ". . . formArea . . . ."
+        ". logoArea . formArea . primaryButtonArea . ."
+        ". logoArea . formArea . . . ."
+        ". logoArea . formArea . secondaryButtonArea . ."
+        ". logoArea . formArea . . . ." 
+        ". logoArea . formArea . . . ."
+        "tableArea tableArea tableArea tableArea tableArea tableArea tableArea tableArea";
+    
+}
+
+#logoutButton {
+    grid-area: logutButtonArea;
+    justify-self: center; 
+    background-color: #ffd814;
+    border-color: #ffd814;
+    width: 200px;
+    height: 30px;
+    margin-top: 20px;
+}
+
+.modifyButtons {
+    background-image: url('../resources/modify.png');
+    background-size: 20px 20px;
+    height: 20px;
+    width: 20px;
+    display: block;
+}
+
+.deleteButtons {
+    background-image: url('../resources/delete.png');
+    background-size: 20px 20px;
+    height: 20px;
+    width: 20px;
+    display: block;
+}
+
+#table {
+    width: 95%;
+    grid-area: tableArea;
+    color: black;
+    background-color: #E7E9EB;
+    font-family: 'Roboto Mono', monospace;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+td {
+    text-align: center;
+}
+
+
+th {
+    height: 20px;
+}
+
+select {
+    margin-bottom: 20px;
+    padding: 5px;
+    width: 250px;
+    height: 40px;
+    border-radius: 5px;
+}
+
+
+
