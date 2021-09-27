@@ -116,6 +116,9 @@ The goal of the application is to create a task management tool to add, modify, 
 
 3. To delete a task, click the delete button on the desired row you want to move.
 
+In addition, I connected my website to MongoDB where it collects data for database users, github users, and tasks. Here is the link: https://cloud.mongodb.com/v2/5eac7e59f386911f8233df59#metrics/replicaSet/6141599a37a2a33e19bf88f8/explorer/Assignment3.
+There is also a screenshot of the MongoDB site in my assets as well.
+
 The five expressions I used are as follows. The first is cookie session where it accepts cookie-based sessions.
 The second is body parser where it passes HTTP request bodies. The third is compression where it compresses HTTP responses.
 The fourth is morgan where it deals with the HTTP request logger. The fifth is response time where it handles the HTTP response time.
