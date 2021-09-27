@@ -203,7 +203,7 @@ app.get('/css/signin.css', function (request, response) {
 })
 
 app.get('/robots.txt', function (request, response) {
-  response.status(404).send()
+  response.sendFile(__dirname + '/public/robots.txt')
 })
 
 app.use(function (req, res, next) {
