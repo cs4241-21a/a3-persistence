@@ -19,7 +19,7 @@ Include a very brief summary of your project here. Images are encouraged, along 
 
 ## Technical Achievements
 - **Tech Achievement 1**: 
-- I used Heroku to host my website for this project. It was a bit challenging as I had to debug a few issues on the command line, but I was able to get it working without too many problems.
+- I used Heroku to host my website for this project. It was a bit challenging as I had to debug a few issues on the command line, but I was able to get it working without too many problems. It is considerably faster than Glitch though, making me likely to prefer it when developing web apps in the future. It was definitely worth the steeper learning curve.
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative. These tips include:
