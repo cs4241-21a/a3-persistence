@@ -10,6 +10,7 @@ const bcrypt			= require('bcrypt');
 const app				= express();
 const uri = "mongodb+srv://carlosavp23:CAVPadmin@cluster0.j8unn.mongodb.net/a3_persistence?retryWrites=true&w=majority";
 const client = new MongoClient(uri, { useNewUrlParser: true });
+var port = process.env.PORT || 5000;
 
 mongoose.connect( uri, {
 	useNewUrlParser: true,
@@ -182,6 +183,6 @@ app.get("/load", (request, response) => {
   })
 
 
-app.listen(process.env.PORT || 5000, () => {
+app.listen(port, () => {
 	console.log("Listening on port 5000");
 });
