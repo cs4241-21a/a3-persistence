@@ -4,16 +4,14 @@
   "description": "Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template\r ===",
   "main": "login.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node -r dotenv/config server.js"
+    "dev": "TESTVAR=localhost",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/aamaxaa/a3-persistence.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "author": "Maxine Shi",
   "bugs": {
     "url": "https://github.com/aamaxaa/a3-persistence/issues"
   },
@@ -30,6 +28,5 @@
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
     "response-time": "^2.3.2"
-  },
-  "devDependencies": {}
+  }
 }
