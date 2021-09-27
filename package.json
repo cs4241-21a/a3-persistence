@@ -1,10 +1,10 @@
 {
   "name": "owoifier",
-  "version": "1.0",
+  "version": "1.0.0",
   "description": "Turns text into OwO speak",
   "author": "Morgan Lee",
   "scripts": {
-    "start": "node server.improved.js"
+    "start": "node server_ex.js"
   },
   "dependencies": {
     "cookie-session": "^1.4.0",

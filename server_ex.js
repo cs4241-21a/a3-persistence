@@ -34,12 +34,8 @@ client.connect()
   })
 
 
-  // Middleware no.1
 app.use(serveStatic('public'))
-  // Middleware no.2
 app.use(express.urlencoded({ extended: true }))
-
-  // Middleware no.3
 app.use(cookie({
   name: 'session',
   keys: ['Lucce', 'Janey']
@@ -130,7 +126,6 @@ app.post('/submit', bodyParser.json(), async function (req, res) {
   }));
 });
 
- // Middleware no.4 (bodyparser)
 app.post('/update', bodyParser.json(), async function (req, res) {
   const query = {
     _id: ObjectID(req.body.dbid)
