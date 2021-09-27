@@ -18,6 +18,7 @@ Middleware:
 - **Single Page App with Recent User Updates**: Whenever a user submits their score, the list showing live scores is updated with the latest data from the server. Submitting results triggers an HTTP POST request, and that request returns the database's memory to the client; the live scores list is refreshed with this response data.
 - **Modify User Data**: Using application logic, whenever a new user score is submitted to the database, the server checks to see whether a score for the submitted username exists. If it does, then the score for the username is simply updated. With this method, modifying data on the server is possible. Since users can delete their scores, this app implements all aspects of CRUD.
 - **Web Frameworks Implemented**: Eat is powered by the VueJS framework, and implements some styles from the Bootstrap CSS framework.
+- **Heroku Deployment**: The app is deployed to Heroku and available at https://a3-persistence-liamrathke.herokuapp.com/
 
 ### Design/Evaluation Achievements
 N/A
