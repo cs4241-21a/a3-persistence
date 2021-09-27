@@ -13,6 +13,7 @@ My application is site for users to relax and play a small game to compete with 
 - morgan -- HTTP request logger, very helpful in identifying when requests were being sent and showing their status
 - connect-timeout -- sets timeout period for HTTP requests and kills them if they are stalling.
 
+![image](https://user-images.githubusercontent.com/59970835/134937847-b0c8f999-6011-4e54-8290-e8cd9ea38e7f.png)
 
 
 ## Technical Achievements
