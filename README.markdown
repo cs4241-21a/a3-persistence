@@ -16,8 +16,9 @@ and income (CRUD), and a Node.js server using the express framework, connecting 
 	- They can not get email verifications for creating and resetting the password yet.
 	- They can log in with their account and ask the browser to remember their login for a week.
 	- User activities are seperated so data they entered is private to other users.
-	- I choose this method because I personally don't like to link accounts and believe accounts should be seperated.
-	  Browsers are all equipped with password autofill now, so it can also be more convenient.
+	- I used cookies for user authentication, I store a signed in status and the _id of the user's document in the
+	  mongoDB database. I choose this method because I personally don't like to link accounts and believe accounts
+	  should be seperated. Browsers are all equipped with password autofill now, so it can also be more convenient.
 - **Remember Me**: Allows the browser to automatically sign user in for 7 weeks, else user will have to manually log in
   frequently
 - **Expense Tracking**: The user can submit a transaction to the server, they can specify its type (income or expense),
