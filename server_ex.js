@@ -2,13 +2,18 @@ const express = require('express'),
   mongodb = require('mongodb'),
   serveStatic = require('serve-static'),
   bodyParser = require('body-parser')
-app = express(),
+  app = express(),
   cookie = require('cookie-session'),
   dir = 'public/',
-  port = 3000
-ObjectID = require('mongodb').ObjectID
+  port = 3000 
+  ObjectID = require('mongodb').ObjectID,
+  morgan = require('morgan'),
+  favicon = require('serve-favicon'),
+  path = require('path')
 
 require('dotenv').config();
+app.use(morgan('dev'));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 const faces = ["(・`ω´・)", ";;w;;", "owo", "UwU", ">w<", "^w^", "(･.◤)", "^̮^", "(>人<)", "( ﾟヮﾟ)", "(▰˘◡˘▰)"];
 const emojis = ["❤", "🤣", "😍", "😜", "😝", "😬", "🤪", "😳"];
@@ -29,9 +34,12 @@ client.connect()
   })
 
 
+  // Middleware no.1
 app.use(serveStatic('public'))
+  // Middleware no.2
 app.use(express.urlencoded({ extended: true }))
 
+  // Middleware no.3
 app.use(cookie({
   name: 'session',
   keys: ['Lucce', 'Janey']
@@ -72,7 +80,6 @@ app.post('/login', async function (req, res) {
   }
 
   if (newUser || result.pass === pass) {
-    console.log("should be redirecting now")
     req.session.login = true;
     req.session.username = name;
     res.redirect(`/message_board.html`)
@@ -82,17 +89,10 @@ app.post('/login', async function (req, res) {
   }
 });
 
-app.use(function (req, res, next) {
-  if (req.session.login === true)
-    next()
-  else
-    res.sendFile(__dirname + '/public/login.html')
-});
-
 app.get('/getMessagesTo', async function (req, res) {
   let query = { to: req.session.username };
   let appdata = [];
-  let results = await db.collection("records").find(query);
+  let results = await db.collection("records").find(query); 
   results.forEach(function (elt, idx) {
     appdata.push(elt);
   }).then(() => {
@@ -130,8 +130,8 @@ app.post('/submit', bodyParser.json(), async function (req, res) {
   }));
 });
 
+ // Middleware no.4 (bodyparser)
 app.post('/update', bodyParser.json(), async function (req, res) {
-  console.log("logging update request: " + req.body.dbid);
   const query = {
     _id: ObjectID(req.body.dbid)
   }
@@ -161,7 +161,6 @@ app.post('/update', bodyParser.json(), async function (req, res) {
 });
 
 app.post('/delete', bodyParser.json(), async function (req, res) {
-  console.log("logging delete request: " + req.body.dbid);
   const query = {
     _id: ObjectID(req.body.dbid)
   }

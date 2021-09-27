@@ -8,7 +8,6 @@ button {
 }
 
 a {
-  font-family: 'Courier Prime', monospace; 
   font-size: x-large;
 }
 
@@ -34,13 +33,13 @@ a {
 #sentence-root,#sent-root{
   display: none;
 }
-
+/*
 th, td {
   border:#333;
   border-width: 1px;
   border-style: solid;
   padding: 1em;
-}
+}*/ 
 
 p {
   border: #333;
@@ -73,17 +72,31 @@ table {
 }
 
 form {
-  display:flex;
-  flex-direction: column;
   margin-top: 1em;
   margin-bottom: 1em;
+  padding-left: 1em;
+  padding-right:1em; 
 }
 
-input[type=text] {
+#primary-form {
+  display:flex;
+  flex-direction: column; 
+}
+
+.inline-form {
+  align-items:center;
+}
+
+input[type=input], input[type=password] {
   margin-bottom: 1em;
 }
 
 .fancy-font {
   font-family: 'Dancing Script', cursive!important;
   font-size: x-large!important;
+}
+
+nav {
+  margin-top: 1em;
+  margin-left: 1em;
 }

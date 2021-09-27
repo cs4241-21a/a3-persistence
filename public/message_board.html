@@ -16,60 +16,76 @@
 </head>
 
 <body>
-  <nav>
-    <a id='table-nav' href='#'>Table View</a> | <a id='sentence-nav' href='#'>Sentence View</a> | <a id='sent-nav'
-      href='#'>Sent Messages</a> | <a id='login-return' href='/'>Return to Login</a>
+  <nav class='nav nav-pills'>
+    <a class='nav-link active' id='table-nav' href='#'>Table View</a>
+    <a class='nav-link' id='sentence-nav' href='#'>Sentence View</a>
+    <a class='nav-link' id='sent-nav' href='#'>Sent Messages</a>
+    <a class='nav-link' id='login-return' href='/'>Return to Login</a>
   </nav>
-  <form action="">
-    <label for='name'>To</label>
-    <input type='text' id='name' value="Who is your message to?">
-    <label for='target-text'>Message</label>
-    <input type='text' id='target-text' value="Type something here!">
-    <label for='fancy-font'>Fancy Font?</label>
-    <input type='checkbox' id='fancy-font'>
-    <label for='text-faces'>Replace '!' With Text Faces</label>
-    <input type='radio' id='text-faces' name='facereplace' value=0 checked>
-    <label for='emojis'>Replace '!' With Emojis</label>
-    <input type='radio' id='emojis' name='facereplace' value=1>
-    <label for='no-replace'>Do Not Replace '!'</label>
-    <input type='radio' id='no-replace' name='facereplace' value=2>
-    <button id='form-submit-btn'>submit</button>
+  <form action="" id='primary-form'>
+    <div class='form-floating mb-3'>
+      <input type='text' id='name' class='form-control' placeholder="your name">
+      <label for='name' class='form-label'>To</label>
+    </div>
+    <div class='form-floating mb-3'>
+      <input type='text' id='target-text' class='form-control' placeholder="this is a message">
+      <label for='target-text' class='form-label'>Message</label>
+    </div>
+    <div class='form-check'>
+      <label for='fancy-font' class='form-check-label'>Fancy Font?</label>
+      <input type='checkbox' id='fancy-font' class='form-check-input'>
+    </div>
+    <div class='form-check'>
+      <label for='text-faces' class='form-check-label'>Replace '!' With Text Faces</label>
+      <input type='radio' id='text-faces' name='facereplace' class='form-check-input' value=0 checked>
+    </div>
+    <div class='form-check'>
+      <label for='emojis' class='form-check-label'>Replace '!' With Emojis</label>
+      <input type='radio' id='emojis' name='facereplace' class='form-check-input' value=1>
+    </div>
+    <div class='form-check'>
+      <label for='no-replace' class='form-check-label'>Do Not Replace '!'</label>
+      <input type='radio' id='no-replace' name='facereplace' class='form-check-input' value=2>
+    </div>
+    <button id='form-submit-btn' class='btn btn-primary'>Submit</button>
   </form>
-  <div id='table-root' class='root'>
-    <div>
-      <b>Normal Table</b>
-      <table id='normal-table'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-      </table>
+  <div class='container-md'>
+    <div id='table-root' class='root row'>
+      <div class='col'>
+        <b>Normal Table</b>
+        <table id='normal-table' class='table table-bordered'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class='col'>
+        <b>OwO-ified Table</b>
+        <table id='owo-table' class='table table-bordered'>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Message</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
     </div>
-    <div>
-      <b>OwO-ified Table</b>
-      <table id='owo-table'>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Message</th>
-          </tr>
-        </thead>
-      </table>
+    <div id='sentence-root' class='root row'>
+      <div id='normal-sentence-root' class='col'>
+        <b>Normal Sentences</b>
+      </div>
+      <div id='owo-sentence-root' class='col'>
+        <b>OwO-ified Sentences</b>
+      </div>
     </div>
-  </div>
-  <div id='sentence-root' class='root'>
-    <div id='normal-sentence-root'>
-      <b>Normal Sentences</b>
-    </div>
-    <div id='owo-sentence-root'>
-      <b>OwO-ified Sentences</b>
-    </div>
-  </div>
-  <div id='sent-root' class='root'>
-    <div id='editable-root'>
-      <b>Sent Messages</b>
+    <div id='sent-root' class='root row'>
+      <div id='editable-root' class='col'>
+        <b>Sent Messages</b>
+      </div>
     </div>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"

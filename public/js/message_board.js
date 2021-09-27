@@ -8,9 +8,9 @@ const submit = function (e) {
     const textFaces = document.getElementById('text-faces');
     const emojis = document.getElementById('emojis');
     let checkedRadio = -1;
-    if(textFaces.checked) {
+    if (textFaces.checked) {
         checkedRadio = 0;
-    } else if(emojis.checked) {
+    } else if (emojis.checked) {
         checkedRadio = 1;
     } else {
         checkedRadio = 2;
@@ -23,26 +23,32 @@ const submit = function (e) {
     };
     body = JSON.stringify(json)
 
+    if(nameText.value !== '' && targetText.value !== '') {
     fetch('/submit', {
         method: 'POST',
-        headers: {'Content-Type': 'application/json'},
+        headers: { 'Content-Type': 'application/json' },
         body
     })
         .then(function (response) {
             // do something with the reponse 
             response.text().then(function (str) {
                 let jsonObj = JSON.parse(str);
-                if(jsonObj.loggedInUser === jsonObj.obj.to) {
+                if (jsonObj.loggedInUser === jsonObj.obj.to) {
                     addNewElt(jsonObj.obj);
                 }
                 addSentElement(jsonObj.obj);
             })
         })
 
+    } else {
+        alert("Please specify a user to receive a message, as well as the message itself.")
+    }
     return false
 }
 
 const switchView = function (e) {
+    document.getElementsByClassName('active')[0].classList.remove('active');
+    e.target.classList.add('active');
     if (e.target.id === 'table-nav') {
         document.getElementById('table-root').style.display = 'flex';
         document.getElementById('sentence-root').style.display = 'none';
@@ -76,7 +82,7 @@ function addNewElt(element) {
     normalSentence.innerHTML = `${element.from} said: "${element.message}"`;
     let owoSentence = document.createElement('p');
     owoSentence.innerHTML = `${element.fromowo} said: "${element.messageowo}"`;
-    if(element.fancyFont) {
+    if (element.fancyFont) {
         messagecell.className = 'fancy-font';
         messageowocell.className = 'fancy-font';
         normalSentence.className = 'fancy-font';
@@ -88,70 +94,95 @@ function addNewElt(element) {
 
 function addSentElement(element, idx) {
     const editRoot = document.getElementById('editable-root');
-    let newDiv = document.createElement('div');
-    newDiv.innerHTML = `
-    <label for='message'>Message</label>
-    <textarea name='message' id='message${idx}'>${element.message}</textarea>
-    <label for='fancy-font'>Fancy Font?</label>
-    <input type="checkbox" id='fancy-font${idx}'>
-    <label for='text-faces${idx}'>Replace '!' With Text Faces</label>
-    <input type='radio' name='facereplace${idx}' id='text-faces${idx}'>
-    <label for='emojis${idx}'>Replace '!' With Emojis</label>
-    <input type='radio' name='facereplace${idx}' id='emojis${idx}'>
-    <label for='no-replace${idx}'>Do Not Replace '!'</label>
-    <input type='radio' name='facereplace${idx}' id='no-replace${idx}'>
-    <button class='inline-update-btn' id='inline-update-btn${idx}' data-index=${idx} data-dbid=${element._id}>Update</button>
-    <button class='inline-delete-btn' id='inline-delete-btn${idx}' data-index=${idx} data-dbid=${element._id}>Delete</button>`;
-    editRoot.append(newDiv);
-    switch(element.oworeplace) {
+    let newForm = document.createElement('form');
+    newForm.classList.add('row', 'inline-form');
+    newForm.innerHTML = `
+    <div class='form-floating col-4'>
+        <textarea class='form-control' placeholder='message goes here' name='message' id='message${idx}'>${element.message}</textarea>
+        <label for='message'>Message</label>
+    </div>
+    <div class='form-check col'>
+        <label class='form-check-label' for='fancy-font'>Fancy Font?</label>
+        <input class='form-check-input' type="checkbox" id='fancy-font${idx}'>
+    </div>
+    <div class='col'>
+        <div class='row'>
+            <div class='form-check col'>
+                <label class='form-check-label' for='text-faces${idx}'>Replace '!' With Text Faces</label>
+                <input class='form-check-input' type='radio' name='facereplace${idx}' id='text-faces${idx}'>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='form-check col'>
+                <label class='form-check-label' for='emojis${idx}'>Replace '!' With Emojis</label>
+                <input class='form-check-input' type='radio' name='facereplace${idx}' id='emojis${idx}'>
+            </div>
+        </div>
+        <div class='row'>
+            <div class='form-check col'>
+                <label class='form-check-label' for='no-replace${idx}'>Do Not Replace '!'</label>
+                <input class='form-check-input' type='radio' name='facereplace${idx}' id='no-replace${idx}'>
+            </div>
+        </div>
+    </div>
+    <div class='col'>
+        <div class='row'>
+            <button class='btn btn-outline-primary inline-update-btn' id='inline-update-btn${idx}' data-index=${idx} data-dbid=${element._id}>Update</button>
+        </div>
+        <div class='row'>
+            <button class='btn btn-outline-secondary inline-delete-btn' id='inline-delete-btn${idx}' data-index=${idx} data-dbid=${element._id}>Delete</button>
+        </div>
+    </div>`;
+    editRoot.append(newForm);
+    switch (element.oworeplace) {
         case 0:
-            document.getElementById('text-faces'+idx).checked = true;
+            document.getElementById('text-faces' + idx).checked = true;
             break;
         case 1:
-            document.getElementById('emojis'+idx).checked = true;
+            document.getElementById('emojis' + idx).checked = true;
             break;
         case 2:
-            document.getElementById('no-replace'+idx).checked = true;
+            document.getElementById('no-replace' + idx).checked = true;
             break;
     }
-    if(element.fancyFont) {
-        document.getElementById('fancy-font'+idx).checked = true;
+    if (element.fancyFont) {
+        document.getElementById('fancy-font' + idx).checked = true;
     }
 
-    const updateBtn = document.getElementById('inline-update-btn'+idx);
-    const deleteBtn = document.getElementById('inline-delete-btn'+idx);
+    const updateBtn = document.getElementById('inline-update-btn' + idx);
+    const deleteBtn = document.getElementById('inline-delete-btn' + idx);
 
-    let updateFunc = function(e) {
+    let updateFunc = function (e) {
         e.preventDefault;
         let btn = e.srcElement
         let index = btn.getAttribute('data-index');
         let dbid = btn.getAttribute('data-dbid');
         let checkedRadio = -1;
-        if(document.getElementById('text-faces'+index).checked) {
+        if (document.getElementById('text-faces' + index).checked) {
             checkedRadio = 0;
-        } else if (document.getElementById('emojis'+index).checked) {
+        } else if (document.getElementById('emojis' + index).checked) {
             checkedRadio = 1
         } else {
             checkedRadio = 2;
         }
         let obj = {
             dbid: dbid,
-            message: document.getElementById('message'+index).value,
-            fancyFont: document.getElementById('fancy-font'+index).checked,
+            message: document.getElementById('message' + index).value,
+            fancyFont: document.getElementById('fancy-font' + index).checked,
             checkedRadio: checkedRadio
         }
         let body = JSON.stringify(obj);
         fetch('/update', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body
-        }).then(function(response) {
+        }).then(function (response) {
             clearAllMessages();
             fetchAllMessages();
         });
     }
     updateBtn.onclick = updateFunc;
-    let deleteFunc = function(e) {
+    let deleteFunc = function (e) {
         e.preventDefault;
         let btn = e.srcElement
         let dbid = btn.getAttribute('data-dbid');
@@ -161,15 +192,15 @@ function addSentElement(element, idx) {
         let body = JSON.stringify(obj);
         fetch('/delete', {
             method: 'POST',
-            headers: {'Content-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json' },
             body
-        }).then(function(response) {
+        }).then(function (response) {
             clearAllMessages();
             fetchAllMessages();
         });
     }
     deleteBtn.onclick = deleteFunc;
-    
+
 }
 
 function clearAllMessages() {
@@ -179,15 +210,15 @@ function clearAllMessages() {
     const owoSentence = document.getElementById('owo-sentence-root');
     const sentMessages = document.getElementById('editable-root')
 
-    normalTable.innerHTML = 
-    `<thead>
+    normalTable.innerHTML =
+        `<thead>
         <tr>
         <th>Name</th>
         <th>Message</th>
         </tr>
     </thead>`;
-    owoTable.innerHTML = 
-    `<thead>
+    owoTable.innerHTML =
+        `<thead>
         <tr>
         <th>Name</th>
         <th>Message</th>
@@ -196,7 +227,7 @@ function clearAllMessages() {
     normalSentence.innerHTML = '<b>Normal Sentences</b>';
     owoSentence.innerHTML = '<b>OwO-ified Sentences</b>';
     sentMessages.innerHTML = '<b>Sent Messages</b>';
-  
+
 }
 
 function fetchAllMessages() {
@@ -215,12 +246,12 @@ function fetchAllMessages() {
     fetch('/getMessagesFrom', {
         metod: 'GET',
     }).then(function (response) {
-        response.text().then(function(jsonData) {
+        response.text().then(function (jsonData) {
             console.log(jsonData);
             let appdata = JSON.parse(jsonData);
-            if(appdata.length !== 0) {
-                appdata.forEach(function(elt,idx) {
-                    addSentElement(elt,idx);
+            if (appdata.length !== 0) {
+                appdata.forEach(function (elt, idx) {
+                    addSentElement(elt, idx);
                 });
             }
         });
