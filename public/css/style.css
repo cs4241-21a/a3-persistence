@@ -6,6 +6,7 @@ form {
   border-right: 1px solid rgb(255, 245, 245);
 }
 
+
 button {
   color: rgb(255, 245, 245); }
 
@@ -33,7 +34,6 @@ body {
   min-width:100%;
   width: 100%;
   margin:0px;
-}
 
 table {
 /*   height: 100%; */

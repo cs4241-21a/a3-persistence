@@ -11,12 +11,15 @@ const express = require( 'express' ),
 
 app.use( express.json() )
 app.use(cors())
+
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
 app.use( serveStatic('public') )
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
 // app.use( express.static('public'))
+
 app.use(morgan('tiny'))
+
 app.use( express.urlencoded({ extended: true }) )
 
 require('dotenv').config()
