@@ -70,7 +70,12 @@ app.get('/api/founditems', validateLoginMiddleware, (req, res) => {
 app.post('/api/update', validateLoginMiddleware, (req, res) => {
   mongodbclient.getElement(req.body._id)
   .then(item => {
-    if (req.user.emails[0].value === item[0].emailme) {
+    if (!item) {
+      res.writeHead( 404, "Invalid item in database", {'Content-Type': 'text/plain' })
+      res.end() 
+      return; 
+    }
+    if (req.user.emails[0].value === item.emailme) {
       mongodbclient.update(req.body)
       .then(e => {
         if (e === false) {

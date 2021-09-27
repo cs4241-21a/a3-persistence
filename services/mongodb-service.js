@@ -73,6 +73,9 @@ exports.getFoundItems = async function() {
 }
 
 exports.getElement = async function(id) {
-    const findResult = await lostitems.find({ _id: new ObjectID(id) }).toArray()
-    return findResult
+    const findResult1 = await lostitems.find({ _id: new ObjectID(id) }).toArray()
+    if (findResult1.length === 1) { return findResult1[0]; }
+    const findResult2 = await founditems.find({ _id: new ObjectID(id) }).toArray()
+    if (findResult2.length === 1) { return findResult2[0]; }
+    return null
 }
