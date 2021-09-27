@@ -42,6 +42,7 @@ function render(ctx, user, food) {
 const app = Vue.createApp({
   data() {
     return {
+      token: '',
       game: {
         user: [],
         food: [],
@@ -62,6 +63,7 @@ const app = Vue.createApp({
     }
   },
   mounted: function() {
+    this.token = document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     this.game.user = randomCoords()
     this.game.food = randomCoords()
 
@@ -106,17 +108,28 @@ const app = Vue.createApp({
   },
   methods: {
     async getScores() {
-      let response = await fetch('/scores', {method: 'GET'})
+      let token = this.token
+      let response = await fetch('/scores', {
+        credentials: 'same-origin',
+        headers: {
+          'CSRF-Token': token,
+          'Content-Type' : 'application/json'
+        },
+        method: 'GET'
+      })
       this.results = await response.json()
     },
     async submitScore() {
+      let token = this.token
       let requestBody = {
         username: this.username,
         score: this.score
       }
       let response = await fetch('/score', {
+        credentials: 'same-origin',
         headers: {
-          "Content-Type" : "application/json"
+          'CSRF-Token': token,
+          'Content-Type' : 'application/json'
         },
         method: 'POST',
         body: JSON.stringify(requestBody)

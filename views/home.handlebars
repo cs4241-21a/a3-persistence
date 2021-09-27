@@ -3,6 +3,7 @@
   <head>
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrfToken }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Libraries -->
     <script src="https://unpkg.com/vue@next"></script>
@@ -27,7 +28,7 @@
                 <input v-model="username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="basic-addon1">
               </div>
               <div class="split">
-                <h4>Score: <b>{{score}}</b></h4>
+                <h4>Score: <b>\{{score}}</b></h4>
                 <button v-on:click="submitScore" :disabled="username.length === 0" class="btn btn-success btn-sm ml-auto">Submit</button>
               </div>
               <hr>
@@ -35,7 +36,7 @@
             <div v-if="scores.length > 0">
               <h4>Live Scores</h4>
               <ul class="list-group">
-                <li v-for="score in scores" :key="score.username" class="list-group-item"><b>{{score.username}}</b>: {{score.score}}</li>
+                <li v-for="score in scores" :key="score.username" class="list-group-item"><b>\{{score.username}}</b>: \{{score.score}}</li>
               </ul>
               <hr>
             </div>
