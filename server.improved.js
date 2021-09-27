@@ -18,7 +18,7 @@ const {response, request} = require("express");
 const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
 
 mongoose.connect(uri, {useNewUrlParser: true, useUnifiedTopology: true})
-    .then(result => app.listen(port))
+    .then(result => app.listen(process.env.PORT || port))
     .catch(err => console.log(err));
 
 //register view engine
