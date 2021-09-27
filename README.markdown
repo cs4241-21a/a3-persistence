@@ -15,8 +15,7 @@ The project demonstrates on flight information record. Many people may book the 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy. 
 - **Tech Achievement 2**: I deployed to DigitalOcean. 
-  I have tried to use Heroku; since I have no previous experience with Heroku, it took me lots of time to understand the procedure, eventually I gave up. 
-
+  I found my application does not work, and it seems there's an issue associated with dependencies.  However, the log provided by Heroku was unclear.  In order to figure out the fundamental causes, I switched to DigitalOcean where an dedicated vps provides the flexibility and can interact with the console.  In the end I found it was because of the version of Node.js required by Mongoose higher from the current -- I updated the Node.js with apt-get, and it then works.
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
   1. Provide informative, unique page titles
