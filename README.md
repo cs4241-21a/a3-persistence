@@ -47,8 +47,8 @@ convenient compared to Glitch because it removes the need for re-deploying the a
 
 **Tech Achievement 2**: As shown in the images below, I earned 100% in all four lighthouse tests required for this assignment including Performance, Best Practices, Accessibility,
 and SEO for both the main and login pages.
-![](images/lighthouselogin.jpg)
-![](images/lighthousemain.jpg)
+![](images/lighthouselogin.JPG)
+![](images/lighthousemain.JPG)
 
 ### Design/Evaluation Achievements
 
