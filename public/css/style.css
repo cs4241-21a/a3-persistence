@@ -41,7 +41,7 @@ th, td {
   padding: 1em;
 }*/ 
 
-p {
+.sentence {
   border: #333;
   border-width: 1px;
   border-style: solid;

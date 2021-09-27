@@ -13,16 +13,20 @@
 
 <body>
   <form action='/login' method='POST'>
-    <label for='name'>username</label>
-    <input type="text" name='name' id='name'>
-    <label for='pass'>password</label>
-    <input type="password" name='pass' id='pass'>
-    <input type="submit">
+    <div class='form-floating mb-3'>
+      <input class='form-control' placeholder="username" type="text" name='name' id='name'>
+      <label for='name' class='form-label'>username</label>
+    </div>
+    <div class='form-floating mb-3'>
+      <input class='form-control' placeholder='password' type="password" name='pass' id='pass'>
+      <label class='form-label' for='pass'>password</label>
+    </div>
+    <input class='btn btn-primary' type="submit">
   </form>
-  <div>
+  <div class='container-md'>
     <p>Welcome to the OwO-ifier! To login, please enter your username and password.</p>
-    <p>If you are a new user, please input your desired username and password, and an account will be created for you!
-    </p>
+    <p>If you are a new user, please input your desired username and password, and an account will be created for
+      you!</p>
   </div>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"

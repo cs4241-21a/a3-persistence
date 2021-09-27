@@ -2,11 +2,11 @@ const express = require('express'),
   mongodb = require('mongodb'),
   serveStatic = require('serve-static'),
   bodyParser = require('body-parser')
-  app = express(),
+app = express(),
   cookie = require('cookie-session'),
   dir = 'public/',
-  port = 3000 
-  ObjectID = require('mongodb').ObjectID,
+  port = 3000
+ObjectID = require('mongodb').ObjectID,
   morgan = require('morgan'),
   favicon = require('serve-favicon'),
   path = require('path')
@@ -88,7 +88,7 @@ app.post('/login', async function (req, res) {
 app.get('/getMessagesTo', async function (req, res) {
   let query = { to: req.session.username };
   let appdata = [];
-  let results = await db.collection("records").find(query); 
+  let results = await db.collection("records").find(query);
   results.forEach(function (elt, idx) {
     appdata.push(elt);
   }).then(() => {

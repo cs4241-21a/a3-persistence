@@ -23,22 +23,22 @@ const submit = function (e) {
     };
     body = JSON.stringify(json)
 
-    if(nameText.value !== '' && targetText.value !== '') {
-    fetch('/submit', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body
-    })
-        .then(function (response) {
-            // do something with the reponse 
-            response.text().then(function (str) {
-                let jsonObj = JSON.parse(str);
-                if (jsonObj.loggedInUser === jsonObj.obj.to) {
-                    addNewElt(jsonObj.obj);
-                }
-                addSentElement(jsonObj.obj);
-            })
+    if (nameText.value !== '' && targetText.value !== '') {
+        fetch('/submit', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body
         })
+            .then(function (response) {
+                // do something with the reponse 
+                response.text().then(function (str) {
+                    let jsonObj = JSON.parse(str);
+                    if (jsonObj.loggedInUser === jsonObj.obj.to) {
+                        addNewElt(jsonObj.obj);
+                    }
+                    addSentElement(jsonObj.obj);
+                })
+            })
 
     } else {
         alert("Please specify a user to receive a message, as well as the message itself.")
@@ -82,6 +82,8 @@ function addNewElt(element) {
     normalSentence.innerHTML = `${element.from} said: "${element.message}"`;
     let owoSentence = document.createElement('p');
     owoSentence.innerHTML = `${element.fromowo} said: "${element.messageowo}"`;
+    owoSentence.classList.add('sentence');
+    normalSentence.classList.add('sentence');
     if (element.fancyFont) {
         messagecell.className = 'fancy-font';
         messageowocell.className = 'fancy-font';
