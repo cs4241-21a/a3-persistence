@@ -129,25 +129,19 @@
 
           fetch( '/submit', {
       method:'POST',
-      body 
+      body: body,
+      headers: {"Content-Type": "application/json"} 
     })
     .then(function( response ) {
          return response.json();
     })
     .then (function(json){
 
-
-      if(json.length > 0){
-        if(JSON.parse(json[0]).load == -1){
-          return false;
-        }
-      }
-
       let htmlStr = "<tr id='headers'><th>Item #</th><th>Assigned To</th><th>Task</th><th>Status</th><th>Tasks Assigned</th></tr>"//header row 
       for(let i = 0; i<json.length; i++){
         //let obj = json[i]
         
-        
+      
         htmlStr = htmlStr + "<tr>" 
           + "<td>" + (json[i]).id + "</td>"
           + "<td>" + (json[i]).name + "</td>"
@@ -189,19 +183,13 @@
 
           fetch( '/submit', {
       method:'POST',
-      body 
+      body: body,
+      headers: {"Content-Type": "application/json"} 
     })
     .then(function( response ) {
          return response.json();
     })
     .then (function(json){
-
-      if(json.length > 0){
-        if(JSON.parse(json[0]).load == -1){
-          return false;
-        }
-      }
-
 
       let htmlStr = "<tr id='headers'><th>Item #</th><th>Assigned To</th><th>Task</th><th>Status</th><th>Tasks Assigned</th></tr>"//header row 
       for(let i = 0; i<json.length; i++){
@@ -268,6 +256,9 @@ json = {
 
     const logbutton = document.querySelector( '#logout' )//delete not allowed
     logbutton.onclick = logout
+
+    
+
   }
 
   </script>

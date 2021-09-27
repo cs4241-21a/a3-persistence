@@ -1,17 +1,24 @@
 
 const express = require("express")
 const cookie  = require( 'cookie-session' )
+const morgan = require("morgan")
+
 const app = express() 
 
 
 
-app.use( express.urlencoded({ extended:true }) )//meddleware 
+app.use( express.urlencoded({ extended:true }) )//middleware 
 app.use(express.json())
 
 app.use( cookie({
   name: 'session',
   keys: ['key1', 'key2']
 }))
+
+app.use(//morgan format,
+  //response time
+  //timeout 
+  )
 
 //const { ObjectID } = require('bson');
 const { MongoClient, ObjectId } = require('mongodb');
@@ -184,19 +191,28 @@ app.post("/submit", async function (req, res) {
   let appdata = dbdata.appdata
 
   console.log(dbdata.appdata)
+
   let dataObj =  req.body
 
+  console.log("hit submit")
+
   if(appdata == null){
-    console.log("400")
+    console.log("500")
+    
     res.status(500).end() //sends a json object as response
+    return; 
   }
   
 
   if(dataObj.id >= appdata.length){
+    console.log(dataObj.id)
     console.log("400")
-    res.status(400) //sends a json object as response
+    res.status(400).end()
+    return;
   }
     else{
+
+      console.log(dataObj)
     if(dataObj.id == -1){ //indicates add
       dataObj.id = appdata.length
       appdata.push(dataObj)
@@ -266,7 +282,7 @@ app.post("/submit", async function (req, res) {
     //res.json(appdata)
   }
 
-  await collection.updateOne({user: "admin", password: "admin", appdata: appdata })
+  await collection.updateOne({user: req.session.user}, {$set:{appdata: appdata}})  
  
 
   res.json(appdata)
