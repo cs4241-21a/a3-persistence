@@ -40,7 +40,7 @@ passport.deserializeUser(function(user, done){
 passport.use( new GitHubStrategy({
   clientID: '56dbd74c19ff02af8549',
   clientSecret: '88dea4f58046c27386e4619ecc61398e158779e6',
-  callbackURL: "http://genshindb.glitch.me/github/logs"
+  callbackURL: "http://https://genshin-db.herokuapp.com/github/logs"
 },
 function(accessToken, refreshToken, profile, done) {
   return done(null, profile)

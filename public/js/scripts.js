@@ -7,8 +7,8 @@ console.log("Welcome to assignment 3!")
 window.onload = function() {
     const button = document.getElementById( 'submitAdd' )
     button.onclick = submit
-    const loginButton = document.getElementByID( 'loginButton' )
-    loginButton.onclick = login
+    //const loginButton = document.getElementById( 'loginButton' )
+    //loginButton.onclick = login
     initTable()
 }
 
@@ -45,28 +45,32 @@ function remove(id) {
 
 function edit(id) {
     const name = document.getElementById('charName')
-    const element = document.getElementById('charName')
-    const level = document.getElementById('charName')
+    const element = document.getElementById('elmt')
+    const level = document.getElementById('lvl')
 
-    const input = document.querySelector( '#name' ),
-        input2 = document.querySelector( '#element' ),
-        input3 = document.querySelector( '#level' )
-          json = { name: input.value,
-            element: input2.value,
-            level: input3.value
+    const json = { id: id,
+                  name: name.value,
+            element: element.value,
+            level: level.value
          }
          body = JSON.stringify( json )
+        console.log('hello' + name.value)
     fetch( '/update', {
-        method: 'POST',
-        body: JSON.stringify({id: id}),
-        headers:{
-            "Content-Type": "application/json"
-        }
+                method:'POST',
+                body,
+                headers: {
+                    "Content-Type":"application/json"
+                }
       })
       .then( function( response ) {
-          console.log( response )
-          initTable()
-  })
+                // do something with the reponse 
+                console.log( response )
+                return response.json()
+              })
+              .then( function( json ){
+                  initTable()
+              }
+  )
   }
 
 const createTable = function(id, data) {
@@ -144,9 +148,9 @@ const login = function(){
       document.getElementById( 'pword' ).value = ""
       document.getElementById( 'uname' ).value = ""
       console.log('Wrong info')
-      //document.getElementById("wrong_info").classList.remove("is-hidden")
       
     }
+    initTable()
   })
 }
 
@@ -159,6 +163,7 @@ function logout() {
         }
     })
     .then( window.location.replace('/index.html'))
+  initTable()
 }
 
 const submit = function( e ) {
