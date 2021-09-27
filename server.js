@@ -1,15 +1,21 @@
+const { request } = require('express')
+
 require('dotenv').config()
 const express = require( "express" ),
     mongodb = require('mongodb'),
+    path = require('path'),
     bodyParser = require('body-parser'),
     cookierParser = require('cookie-parser'),
     session = require('express-session'),
+    favicon = require('serve-favicon'),
+    helmet = require('helmet'),
     passport = require('passport'),
     LocalStrategy = require('passport-local').Strategy,
     app = express()
 
 
 app.use('/public', express.static(__dirname + '/public'))
+app.use(favicon(__dirname + '/public/favicon.ico'))
 app.use(session({ secret: "secret"}))
 app.use( express.json() )
 app.use( cookierParser("Secret") )
@@ -72,14 +78,6 @@ app.get("/views/index.html", ( request, response ) => {
 
 app.get( "/dreams", ( request, response ) => {
   response.json( dreams );
-});
-
-app.get("/logout", function(req, res){
-  console.log(req.user)
-  req.logout()
-  console.log(req.user)
-  res.redirect("/public/login.html")
-  console.log('here')
 });
 
 app.get('/getUser', function (req, res) {

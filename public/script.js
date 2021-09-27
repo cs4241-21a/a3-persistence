@@ -1,9 +1,3 @@
-//import "nes.css/css/nes.min.css";
-const logout = function () {
-    //console.log('here')
-    fetch('/logout')
-}
-
 const addScore = function () {
     const date = new Date().toISOString().replace('-', '/').split('T')[0].replace('-', '/'),
         json = { score: correct, date: date },
@@ -272,9 +266,6 @@ window.onload = function() {
     }, false);
 
     document.getElementById("start").className = "nes-btn is-disabled"
-
-    const logout_button = document.getElementById("logout")
-    logout_button.onclick = logout
 
     const start_button = document.getElementById("start")
 
