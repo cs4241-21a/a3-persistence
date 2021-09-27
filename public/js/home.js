@@ -51,6 +51,7 @@ let addBoard = function(parent, b, owned) {
             e.preventDefault()
             e.stopPropagation()
             await client.deleteBoard(b.id)
+            parent.removeChild(preview)
         }
 
         let i = document.createElement('i')

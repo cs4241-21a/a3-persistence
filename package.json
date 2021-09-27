@@ -1,7 +1,8 @@
 {
   "scripts": {
-    "start": "node server.js"
+    "start": "node web.js"
   },
+  "main": "web.js",
   "engines": {
     "node": "14.x"
   },
