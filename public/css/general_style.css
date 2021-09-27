@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@300&family=Roboto+Mono:wght@200&display=swap');
+
+body {
+    display: grid;
+    
+    background-color: black;
+    background-image: url('../resources/background.webp');
+    background-size: 1700px 1200px;
+
+
+    background-position-x: -100px;
+    background-repeat: no-repeat;
+
+}
+
+form, button {
+    font-family: 'Azeret Mono', monospace;
+
+}
+
+form {
+    background-color: #E7E9EB;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-bottom: 0px;
+    padding-top: 0px;
+    
+    height: 85%;
+    place-self: center;
+    grid-area: formArea;
+    border-radius: 15px;
+}
+
+
+#logo {
+    width: 300px;
+    height: 300px;
+    grid-area: logoArea;
+    place-self: center;
+}
+
+label {
+    margin-top: 5px;
+    margin-bottom: -20px;
+}
+
+input {
+    margin-bottom: 0px;
+    width: 200px;
+    height: 40px;
+    padding: 5px;
+    border-radius: 5px;
+}
+
+
+.staticButtons {
+    width: 250px;
+    height: 50px;
+    font-size: 16px;
+    border-radius: 10px;
+    font-size: 14pt;
+    font-weight: bold;
+}
+
+#primaryButton {
+    grid-area: primaryButtonArea;
+    justify-self: center;
+    background-color: #42B72A;
+    color: black;
+    border-color: #42B72A;
+    width: 200px;
+    height: 40px;
+   
+    
+}
+
+#secondaryButton {
+    grid-area: secondaryButtonArea;
+    justify-self: center; 
+    background-color: white;
+    width: 180px;
+    height: 35px;
+}
