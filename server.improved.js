@@ -11,7 +11,7 @@ const http = require('http'),
     session = require('express-session'),
     dotenv = require('dotenv').config(),
     app = express(),
-    port = 3000
+    port = process.env.PORT
 
 let userId = ''
 
