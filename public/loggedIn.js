@@ -10,88 +10,72 @@ window.onload = async function () {
     submitButton.onclick = submitEntry;
 }
 
-function renderTableForUser(){
+function renderTableForUser() {
     renderUserData()
 }
 
-/*async function getEntrysFromDB(){
-    console.log("USER: ",CURRENT_USER);
-    let reqBody = {
-        userID: CURRENT_USER
-    }
-
-    fetch("/getUserInformation", {
-        method: "POST",
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(reqBody)
-    }).then(function(response){
-        return response.json()
-    }).then(function(data){
-        console.log(data);
-    })
-}*/
-
 function insertValuesIntoTable(listOfEntries) {
-    console.log("Inserting Information Now", listOfEntries)
-    for (let i = 0; i < listOfEntries.length; i++) {
-        let element = listOfEntries[0][i];
-        console.log("element is", element)
-        let car_name = element.car_name;
-        let purchase_price = element.purchase_price;
-        let age = 2021 - element.purchase_year;
-        let num_repairs = element.repairs;
-        let miles_driven = element.miles;
-        let estimated_value = element.estimated_value;
+        listOfEntries.forEach((element) => {
+            console.log("element is", element)
+            let car_name = element.car_name;
+            let purchase_price = element.purchase_price;
+            let age = 2021 - element.purchase_year;
+            let num_repairs = element.repairs;
+            let miles_driven = element.miles;
+            let estimated_value = element.purchase_price * 0.8 -
+                  (2021 - element.purchase_year) * 100 -
+                  element.miles / 10 -
+                  element.repairs * 100;
 
-        // Acquire the table that we want to add to
-        const tableRef = document.getElementById("car_table");
-        let newRow = tableRef.insertRow(-1);
+            // Acquire the table that we want to add to
+            const tableRef = document.getElementById("car_table");
+            let newRow = tableRef.insertRow(-1);
 
-        // Construct a new Row
-     /*   if (i === tableEntries[0].length - 1) {
-            newRow.setAttribute("id", "lastRow");
-        } else {
-            newRow.setAttribute("id", tableIndexCount);
-        }*/
+            // Construct a new Row
+            /*   if (i === tableEntries[0].length - 1) {
+                   newRow.setAttribute("id", "lastRow");
+               } else {
+                   newRow.setAttribute("id", tableIndexCount);
+               }*/
 
-        // Construct and populate a new cell
-        let newCar_cell = newRow.insertCell(-1);
-        let newCar_text = document.createTextNode(car_name);
-        newCar_cell.appendChild(newCar_text);
+            // Construct and populate a new cell
+            let newCar_cell = newRow.insertCell(-1);
+            let newCar_text = document.createTextNode(car_name);
+            newCar_cell.appendChild(newCar_text);
 
-        let newPurchase_cell = newRow.insertCell(-1);
-        let newPurchase_text = document.createTextNode("$" + purchase_price);
-        newPurchase_cell.appendChild(newPurchase_text);
+            let newPurchase_cell = newRow.insertCell(-1);
+            let newPurchase_text = document.createTextNode("$" + purchase_price);
+            newPurchase_cell.appendChild(newPurchase_text);
 
-        let newAge_cell = newRow.insertCell(-1);
-        let newAge_text = document.createTextNode(age.toString());
-        newAge_cell.appendChild(newAge_text);
+            let newAge_cell = newRow.insertCell(-1);
+            let newAge_text = document.createTextNode(age.toString());
+            newAge_cell.appendChild(newAge_text);
 
-        let newRepair_cell = newRow.insertCell(-1);
-        let newRepair_text = document.createTextNode(num_repairs);
-        newRepair_cell.appendChild(newRepair_text);
+            let newRepair_cell = newRow.insertCell(-1);
+            let newRepair_text = document.createTextNode(num_repairs);
+            newRepair_cell.appendChild(newRepair_text);
 
-        let newMiles_cell = newRow.insertCell(-1);
-        let newMiles_text = document.createTextNode(miles_driven);
-        newMiles_cell.appendChild(newMiles_text);
+            let newMiles_cell = newRow.insertCell(-1);
+            let newMiles_text = document.createTextNode(miles_driven);
+            newMiles_cell.appendChild(newMiles_text);
 
-        let newEstimate_cell = newRow.insertCell(-1);
-        let newEstimate_text = document.createTextNode("$" + estimated_value);
-        newEstimate_cell.appendChild(newEstimate_text);
+            let newEstimate_cell = newRow.insertCell(-1);
+            let newEstimate_text = document.createTextNode("$" + estimated_value);
+            newEstimate_cell.appendChild(newEstimate_text);
 
-        let newTest_cell = newRow.insertCell(-1);
-        let newTest_text = document.createElement("input");
-        newTest_text.setAttribute("type", "checkbox");
-        newTest_text.setAttribute("id", "checkbox" + tableIndexCount);
-        newTest_cell.appendChild(newTest_text);
+            let newTest_cell = newRow.insertCell(-1);
+            let newTest_text = document.createElement("input");
+            newTest_text.setAttribute("type", "checkbox");
+            //newTest_text.setAttribute("id", "checkbox" + tableIndexCount);
+            newTest_cell.appendChild(newTest_text);
 
-        tableIndexCount++;
-        if (document.getElementById("car_table").rows.length === 1) {
-            document.getElementById("deleteButton").style.visibility = "hidden";
-        } else {
-            document.getElementById("deleteButton").style.visibility = "visible";
-        }
-    }
+            if (document.getElementById("car_table").rows.length === 1) {
+                document.getElementById("deleteButton").style.visibility = "hidden";
+            } else {
+                document.getElementById("deleteButton").style.visibility = "visible";
+            }
+        })
+
 };
 
 function submitEntry(e){
@@ -125,8 +109,7 @@ function submitEntry(e){
  */
 async function renderUserData() {
     const userData = await fetchUserData()
-    console.log("USER DATA:", userData);
-    return userData;
+    insertValuesIntoTable(userData.entries)
 }
 async function fetchUserData() {
     try{
@@ -140,8 +123,9 @@ async function fetchUserData() {
             headers: {"Content-Type": "application/json"},
             body: JSON.stringify(reqBody)
         })
-        const list = await response.json();
-        console.log("LIST: ", list)
+        const list = await response.json().then((data) => {return data;});
+        console.log("Code reached here")
+        console.log(list);
         return list;
     } catch(error) {
         console.error(error)

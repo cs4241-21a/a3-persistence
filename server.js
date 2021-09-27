@@ -20,10 +20,20 @@ app.use( cookieSession({
     numHits: 0
 }))
 
-app.post("/getUserInformation", (req, res) => {
-    let userEntrys = getUserInformation(req.body.userID)
-    respObj = {entry: userEntrys}
-    console.log(userEntrys)
+/**
+ * POST request that is responsible for loading in the entry's that are associated with a userID.
+ *
+ */
+app.post("/getUserInformation",  async (req, res) => {
+    let userEntries = []
+    await getUserInformation(req.body.userID).then((response) => {
+        return response;
+    }).then((dataList) =>{
+        for(let i = 0; i < dataList.length; i++){
+            userEntries.push(dataList[i])
+        }
+    })
+    respObj = {entries: userEntries}
     res.send(JSON.stringify(respObj))
 })
 
@@ -35,25 +45,14 @@ app.post("/submit", (req, res) =>{
 })
 
 app.get('/getUser', (req, res) =>{
-    let body = {
-        "user": currentUser
-    }
+    let body = {"user": currentUser}
     console.log("Current User is ", currentUser);
     res.send(JSON.stringify(body));
 })
 
 /**
- *  GET request that handles the initial page that unauthenticated users will see.
- */
-app.get('/', (req, res) => {
-    req.session.numHits = 0
-    res.sendFile(__dirname + '/public/login.html')
-})
-
-/**
  *  POST request that handles the user logging in
  */
-
 app.post('/login', (req, res) =>{
     handlePost(req.body).then(function(validUser){
         if(req.session.login === true){
@@ -92,8 +91,6 @@ let handlePost = async function(json){
         validUser = result;
         return result;
     })
-
-    console.log("Credentials Accepted: ", validUser)
     if(validUser){
         console.log("Sending User to Main Screen")
         return validUser;
@@ -116,9 +113,7 @@ async function doesUserExist(username, password){
         return authenticated
     }catch (e) {
         console.error(e);
-    }finally{
-        client.close();
-    }
+    }finally{await client.close();}
 }
 
 /**
@@ -136,6 +131,7 @@ async function checkUser(client, username, password){
     let authenticated = false;
     let db = client.db(LOGIN_DATABASE_AUTHENTICATION)
     await db.collection(LOGIN_COLLECTION).find().forEach(function(user){
+        console.log("USER:" ,user)
         if(user.username === username && user.password === password){
             console.log("Found a User with Matching Credentials")
             authenticated = true
@@ -148,18 +144,22 @@ async function checkUser(client, username, password){
  * getUserInformation is a function that returns all car-entrys that are associated with a userID.
  *
  * @param userID
- * @returns {Promise<[]>}
+ * @returns {*[]}
  */
 async function getUserInformation(userID){
     let userEntries = []
 
     await client.connect()
     let db = client.db(LOGIN_DATABASE_ENTRY)
-    await db.collection(LOGIN_COLLECTION_CAR).find({userID}).forEach(function(entry){
-        userEntries.push(entry)
-    })
-
-    return userEntries;
+    await db.collection(LOGIN_COLLECTION_CAR).find({userID}).toArray()
+        .then((result) => {
+            return result
+        }).then((dataList) =>{
+            for(let i = 0; i < dataList.length; i++){
+                userEntries.push(dataList[i])
+            }
+        })
+     return userEntries;
 }
 
 /**
@@ -180,6 +180,13 @@ async function addEntry(body){
     } else{ console.log("Please Login and Try again.")}
 
 }
+
+/**
+ *  GET request that handles the initial page that unauthenticated users will see.
+ */
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/login.html')
+})
 
 /** Establishes that the Express Server will be listening on PORT 3000
  *
