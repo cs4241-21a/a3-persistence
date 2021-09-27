@@ -7,8 +7,6 @@ npm install
 npm start
 then proceed to http://localhost:3000/
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
 The goal of the application is to track what items og into your fridge and their expected expiration dates. I faced countrless challenges during the process of making this application. Firstly, I wanted to use heroku but struggled to maintain the usability of app as heroku would fail to build continously which wasted a lot of time. 
 
 I chose to maintain a database of the user and logins and checking if the user & login combination was part of the db. 
