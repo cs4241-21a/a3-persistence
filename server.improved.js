@@ -25,10 +25,10 @@ app.use(express.static("public"))
 app.use(express.json())
 
 // Helps secure your apps by setting various HTTP headers
-//app.use(express.helmet())
+app.use(express.helmet())
 
 // Record HTTP response time
-//app.use(express.response-time())
+app.use(express.responseTime())
 
 // passport session
 app.use(session({
@@ -45,7 +45,6 @@ app.use(session({
 app.use(passport.initialize())
 
 app.use(passport.session())
-
 
 passport.serializeUser(function(user, cb) {
     cb(null, user.id)
@@ -71,6 +70,7 @@ const isAuth = (request, response, next) => {
         console.log(userId)
         next()
     } else {
+        console.log(userId)
         response.redirect('/login.html')
     }
 }
