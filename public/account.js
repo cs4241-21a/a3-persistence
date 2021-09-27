@@ -16,6 +16,7 @@ const updateInfo = async () => {
   // Login history
 
   user.data.loginTimes.reverse();
+  document.getElementById("loginHistoryList").innerHTML = "";
 
   user.data.loginTimes.forEach((timestamp) => {
     const node = document.createElement("li");
