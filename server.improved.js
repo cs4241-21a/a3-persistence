@@ -14,6 +14,7 @@ const express = require( 'express' ),
 
 app.use( express.static('public') )
 app.use( express.json() )
+app.use(morgan('combined'))
 
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
@@ -74,7 +75,7 @@ app.get( '/currentUser', (req, res) => {
 //POST REQUESTS//
 /////////////////
 
-app.post( '/login', (req,res)=> {
+app.post( '/login', bodyParser.json(), (req,res)=> {
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
@@ -103,18 +104,18 @@ app.post( '/login', (req,res)=> {
       } else {
 
         //reject user for bad password
-        res.sendFile( __dirname + '/public/index.html' )
+        res.sendFile( __dirname + '/public/badLogin.html' )
       }
     } else {
       //reject user for bad username
-      res.sendFile( __dirname + '/public/index.html' )
+      res.sendFile( __dirname + '/public/usernameNotExist.html' )
     }
   }  
   )
 })
 
 //NOT REQUIRED
-app.post( '/logout', (req,res)=> {
+app.post( '/logout', bodyParser.json(), (req,res)=> {
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
@@ -153,7 +154,7 @@ app.post( '/logout', (req,res)=> {
   )
 })
 
-app.post( '/register', (req,res)=> {
+app.post( '/register', bodyParser.json(), (req,res)=> {
   // express.urlencoded will put your key value pairs 
   // into an object, where the key is the name of each
   // form field and the value is whatever the user entered
@@ -171,7 +172,7 @@ app.post( '/register', (req,res)=> {
 
       //make a new user entry and insert it into the user collection
       let newUserObject = makeUserObject(regUsername, regPassword);
-      collection.insertOne( newUserObject ).then( res.sendFile( __dirname + '/public/index.html' ) )
+      collection.insertOne( newUserObject ).then( res.sendFile( __dirname + '/public/registered.html' ) )
       //reject user for bad username
       
       return;
@@ -187,7 +188,7 @@ app.post( '/register', (req,res)=> {
       // https://stackoverflow.com/questions/10827242/understanding-the-post-redirect-get-pattern 
       
     }else{
-      // We already created the user, don't bother
+      res.sendFile( __dirname + '/public/badRegister.html' )
     }
   })
   
@@ -204,7 +205,7 @@ app.use( function( req,res,next) {
 // serve up static files in the directory public
 app.use( express.static('public') )
 
-app.post( '/submit', (req,res) => {
+app.post( '/submit', bodyParser.json(), (req,res) => {
 
   // assumes only one object to insert
   if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
@@ -252,20 +253,25 @@ app.post( '/submit', (req,res) => {
 
 app.post( '/delete', (req,res) => {
 
-  // assumes only one object to insert
-  if(req.body.hasOwnProperty("playername") && req.body.hasOwnProperty("playerscore")){
+  collection.deleteOne({name: req.session.username}, true)
 
-    //Delete the score object of the player
-    deletePlayerScore(req.body.playername);
-    
-    //Sort player data
-    //sortPlayerData();
-
-    collection.find({ }).sort({rank: 1}).toArray().then( result => res.json( result ) )
-    
-  } else {
-    console.log("Invalid parameters!");
-  }
+  collection.aggregate(
+    [
+      {$sort: {score: -1}}
+    ]
+  ).toArray()
+  .then(sorted_data => {
+    for(let i = 0; i < sorted_data.length; i++){
+      collection.updateOne(
+        {_id: sorted_data[i]._id},
+        {$set: {rank: i+1}}
+        
+      )
+    }
+    console.log("Data deleted. logging out...")
+    req.session.login = false;
+    res.redirect( 'index.html' )
+  })
 })
 
 app.listen( process.env.PORT || 3000 )
@@ -276,38 +282,6 @@ app.listen( process.env.PORT || 3000 )
 ////////////////////
 //HELPER FUNCTIONS//
 ////////////////////
-
-/**
- * 
- * @param {*} playerName - name of the player whose score is being updated
- * @param {*} playerScore - score value that will be replaced
- */
-function updatePlayerScore(playerName, playerScore){
-  const query = { name: playerName};
-  const update = {
-    $set: {score: playerScore}
-  };
-  const options = { returnNewDocument: true };
-
-  collection.findOneAndUpdate(query, update, options);
-/*
-  collection.find(({name: playerName})).toArray()
-  .then(foundUsername => {
-    console.log(foundUsername[0])
-    collection.updateOne(
-      {_id: foundUsername[0]._id},
-      {$set: {score: playerScore}} 
-    )
-    .then( result => res.json( result ))
-  })
-  .then(findResponse => res.json(findResponse))
-}
-*/
-}
-
-async function addDataAndSortLeaderboard(){
-
-}
 
 /**
  * function that deletes the name of the player
@@ -324,33 +298,6 @@ function deletePlayerScore(playerName){
 
 /**
  * 
- 
-function sortPlayerData(){
-  //sort in order of score
-  collection.aggregate(
-    [
-      {$sort: {score: -1}}
-    ]
-  ).toArray()
-  .then(sorted_data => {
-    console.log(sorted_data)
-    //update the document in order using ids you got back
-    for(let i = 0; i < sorted_data.length; i++){
-      collection.updateOne(
-        {_id: sorted_data[i]._id},
-        {$set: {rank: i+1}}
-        
-      )
-    }
-
-    //collection = sorted_data;
-  })
-  .then( result => res.json( result ) )
-}
-*/
-
-/**
- * 
  * @param {*} username - username of user
  * @param {*} userPassword - password of user
  * @returns 
@@ -358,26 +305,3 @@ function sortPlayerData(){
 function makeUserObject(username, userPassword){
   return {name: username, password: userPassword, score: 0, rank: 0};
 }
-/*
-//Removes a piece of data from the table
-function removeData(appdata, row){
-
-  //remove data
-  let isItemRemoved = false;
-  for(let element of appdata){
-    if(element.name === row){
-      appdata.splice(element.rank-1, 1);
-      isItemRemoved = true;
-      break;
-    }
-  }
-  if(!isItemRemoved){
-    console.log("Something fishy is happening...");
-  } else {
-    //Reassign item ranks
-    for(let i = 0; i < appdata.length; i++){
-      appdata[i].rank = i+1;
-    }
-  }
-}
-*/

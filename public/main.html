@@ -5,6 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="description" content="Main Game Page">
 
     <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
     <link href="https://unpkg.com/nes.css@latest/css/nes.min.css" rel="stylesheet" />
@@ -42,29 +43,13 @@
       </form>
   
       
-      <form action="/access-player-delete" id="adminForm" class="gameForm" method="post">
-        <h3 class="gameLabel">Admin Password</h3>
-        <ul>
-          <li>
-            <input type='password' id='adminpassword' class="nes-input">
-          </li>
-        </ul>
-        
-        <button id = "adminAccessButton" class="nes-btn is-warning">Enter Admin Password</button>
-      </form>
+      
       
   
       
       <form action="/delete-player-score" id ="deleteScoreForm" class="gameForm" method="post">
-        <h3 class="gameLabel">Delete Player Score</h3>
-        <ul>
-          <li>
-            <label for="deletename" class="gameLabel">Name:</label>
-            <input type='text' id='deletename' name="your name here">
-          </li>
-        </ul>
         
-        <button id = "deleteButton">Delete</button>
+        <button id = "deleteButton" class="nes-btn is-warning">Delete Player Account</button>
       </form>
 
       <table id="game-leaderboard">
@@ -108,22 +93,16 @@
   const deleteScore = function(e){
     e.preventDefault();
 
-    const input = document.querySelector( '#deletename' ),
-          json = { playername: input.value},
+    const json = { playername: usernameVar},
           body = JSON.stringify( json )
 
-    fetch('/deleteScore', {
+    fetch('/delete', {
       method: 'POST',
       body
     })
-    .then(function( response) {
-      //do something with the reponse 
-      response.text().then(function(textdata) {
-        console.log(JSON.parse(textdata));
-        let newAppdata = JSON.parse(textdata);
-
-        makeTableFromData(newAppdata);
-      })
+    .then(function (response){
+      //Redirect to home page
+      window.location.href = "public/index.html";
     })
   }
 
@@ -166,9 +145,6 @@
 
     const deleteButton = document.getElementById('deleteButton');
     deleteButton.onclick = deleteScore;
-
-    const adminButton = document.getElementById("adminAccessButton");
-    adminButton.onclick = adminAccess;
   }
 
   </script>

@@ -2,8 +2,8 @@
     --dark-blue: #91bdd3;
     --light-blue: #57C7FF;
     --blue: #3BB7F5;
-    --dark-brown: #A86007;
-    --light-brown: #b48142;
+    --dark-brown: #000000;
+    --light-brown: #000000;
 }
 
 
@@ -55,6 +55,7 @@ section {
 .gameForm{
     display: flex;
     flex-direction: column;
+    padding-top: 1%;
     justify-content: center;
     align-items: center;
 }
