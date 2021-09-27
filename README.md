@@ -95,13 +95,13 @@ Write a paragraph of at least 125 words *for each of four principles* (four para
 Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
 ---
 
-## Your Web Application Title
+## Contacts in database
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+your glitch (or alternative server) link e.g. https://a3-orestropi-ai.glitch.me/
 
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
+Brief summary of project:
 
-- the goal of the application is to have users store their own contacts in a mongo database(can delete,edit, and create)
+- The goal of the application is to have users store their own contacts in a mongo database(can delete,edit, and create)
 - challenges I faced in realizing the application, were parsing JSON objects and client to server communication
 - I chose cookies as an authentication strategy because it seemed the easiest to implement
 - I use pure(https://purecss.io/start/) as a CSS framework, I made many modifications to make sure the dynamic table looked reasonably nice
