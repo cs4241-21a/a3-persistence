@@ -15,9 +15,9 @@ I used bootstrap css with custom modifications.
 
 The Middle wares I used
 Firstly, I used mongodb to manage user credentials and the data.
-Secondly, I usedody-parser, responsible for parsing the incoming request body before it is handled
+Secondly, I use body-parser, responsible for parsing the incoming request body before it is handled
 Thirdly, I tried to implement cookie-parser, which parses the cookie header and populate the req.cookies field.
-Fourthly, I tried to impletement morgan, which shows a log of HTTP requests
+Fourthly, I tried to implement morgan, which shows a log of HTTP requests
 Fifthly, I implemented response-time, which records the HTTP response time
 Additionally, I used connect-timeout, which allowed me to set a timeout period for HTTP requests
 I also tried to implement OAuth but could not get it to work in time. 
@@ -30,6 +30,8 @@ I also tried to implement OAuth but could not get it to work in time.
 Light House
 ![image](https://user-images.githubusercontent.com/15680552/134867973-70b5bcd1-7683-4beb-84dd-66e0c13edac4.png)
 ![image](https://user-images.githubusercontent.com/15680552/134868030-c761bfb4-d8d7-49d6-aa08-6848e1140580.png)
+
+- **Tech Achievement 2**: Used local authentication
 
 ### Design/Evaluation Achievements
 - Design Achievement 1: I followed the following tips from the W3C Web Accessibility Initiative.
