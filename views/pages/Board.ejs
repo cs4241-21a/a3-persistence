@@ -4,26 +4,41 @@
 <head>
   <%- include('../partials/head'); %>
     <link rel="stylesheet" href="/css/board.css">
+    <% if (board.owner==user._id) { %>
+      <script type="module" src="/js/updateBoard.js"></script>
+      <% } %>
+        <script type="module" src="/js/board.js"></script>
 </head>
 
 <body class="bg-light">
   <%- include('../partials/nav'); %>
 
-    <h1 class="ps-3">
-      <%= (board.name || "Board" ) %>
-    </h1>
-
     <div class="container">
-      <div class="row justify-content-center">
-        <div class="divtext shadow bg-white col-10" contentEditable><%= board.content %> </div>
+      <div class="row justify-content-between flex-fill">
+        <div class="col-8">
+          <h2 class="board-title">
+            <%= (board.name || "Board" ) %>
+          </h2>
+          <div id="board-content" <% if (board.owner==user._id) { %>
+            class="divtext shadow bg-white" contentEditable>
+            <% } else { %>
+              class="divtext shadow bg-white">
+              <% } %>
+                <%= board.content %>
+          </div>
+        </div>
+
+        <div id="comments-col" class="col-3 comment-section">
+          <p class="comment-header">Comments</p>
+          <button id="add-comment-btn" class="btn" role="button" aria-label="create comment" data-bs-toggle="modal" data-bs-target="#commentModal"><i
+              class="fas fa-plus-circle"></i>
+          </button>
+
+        </div>
       </div>
     </div>
 
-
-    <footer>
-      <%- include('../partials/footer'); %>
-    </footer>
-
+    <%- include('../partials/commentModal') %>
 
 </body>
 
