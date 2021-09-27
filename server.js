@@ -16,7 +16,9 @@ const express = require('express')
 const bodyParser = require('body-parser') // body-parser is a middle-ware
 const mongodb = require('mongodb');
 const cookie = require('cookie-session')
-const morgan = require('morgan')
+const morgan = require('morgan');
+const cookieParser = require('cookie-parser')
+// const { json } = require('body-parser');
 // const session = require('express-session')
 
 
@@ -72,19 +74,7 @@ app.use( cookie({
 app.use(morgan('common'))
 
 
-// add some middleware that always sends unauthenticated users to the login page
-// app.use( function( req,res,next) {
-//     if( req.session.login === true ) {
-//         // console.log("req.session.login === true", req.session.login === true)
-//         res.sendFile(__dirname + "/public/receipts.html");
-//         // next()
-//     }
-//     else {
-//         // console.log("req.session.login === true", req.session.login === true)
-//         // res.sendFile( __dirname + '/public/login.html' )
-//         next()
-//     }
-// })
+
 
 
 noAccess = function(req, res, next){
@@ -104,7 +94,7 @@ noAccess = function(req, res, next){
 
 
 app.get("/", noAccess, (req, res) => {
-    console.log("main page")
+    // console.log("main page")
 
     res.sendFile(__dirname + "/receipts.html");    
 })
@@ -124,6 +114,9 @@ app.get("/create_account", (req, res) => {
 
 
 app.post('/login', (req,res)=> {
+
+    console.log('req.body', req.body);
+
     // express.urlencoded will put your key value pairs 
     // into an object, where the key is the name of each
     // form field and the value is whatever the user entered
@@ -132,13 +125,24 @@ app.post('/login', (req,res)=> {
     // for A3, you should check username / password combos in your database
     accounts_collection.find(req.body).toArray()
     .then( dbJSON => {
+        // console.log("dbJSON", dbJSON);
+
         if(dbJSON.length > 0){
+
+            // console.log("redirecting")
             // define a variable that we can check in other middleware
             // the session object is added to our requests by the cookie-session middleware
             req.session.login = true
+            // req.session.email = req.body.email
+            res.cookie('user', req.body.email)
+
+            // res.cookie('user', 'admin', {signed: true})
+            
+
             res.redirect('receipts.html' )
         }
         else{
+            console.log("reloading page")
             // password incorrect, redirect back to login page
             res.redirect('login.html')
         }
@@ -146,7 +150,7 @@ app.post('/login', (req,res)=> {
 })
 
 app.get('/login.html', (req, res) => {
-    console.log("In get login");
+    // console.log("In get login.html");
 
 
     // console.log("req.session: ", req.session)
@@ -154,9 +158,17 @@ app.get('/login.html', (req, res) => {
     res.sendFile(__dirname + '/public/login.html');
 })
 
+app.get('/login', (req, res) => {
+    // console.log("In get login");
+
+
+    // console.log("req.session: ", req.session)
+    // res.json()
+    res.sendFile(__dirname + '/public/login.html');
+})
 
 app.post('/logout', logOutUser, (req, res) => {
-    console.log("In post method");
+    // console.log("In post method");
 
 
     // console.log("req.session: ", req.session)
@@ -165,7 +177,7 @@ app.post('/logout', logOutUser, (req, res) => {
 })
 
 function logOutUser(req, res, next){
-    console.log("in logOutUser middleware");
+    // console.log("in logOutUser middleware");
     // req.session.login = false
     // delete req.session
     req.session = null
@@ -178,32 +190,66 @@ app.use(express.static('public'))
 
 
 
+app.post('/check_user_exists', bodyParser.json(), (request, response) => {
+    accounts_collection.find(request).toArray()
+    .then( dbJSON => {
+        // console.log("sending response")
+        response.json(dbJSON)
+    })
 
-// app.get("/create_account", (request, response) => {
-//     response.sendFile(__dirname + "/public/create_account.html");
-// })
+})
 
-// app.get("/receipts", (request, response) => {
-//     response.sendFile(__dirname + "/receipts.html");
-// })
+function check_user_does_not_exist(request, response, next){
+
+    accounts_collection.find({'email': request.body.email}).toArray()
+    .then( dbJSON => {
+        // console.log(dbJSON);
+        if(dbJSON.length == 0){
+            console.log("equals zero")
+            next()
+        }
+        else{
+            // console.log("does not equal zero")
+            response.redirect("/create_account.html")
+        }
+    })
+    
+}
+
+app.post("/create_account", bodyParser.json(), check_user_does_not_exist, (request, response) => {
+
+    // console.log('/create_account');
+
+    let account = {}
+
+    account.name = request.body.name
+    account.email = request.body.email
+    account.password = request.body.password_1
+
+    // console.log('account: ', account);
 
 
 
-app.post("/create_account", bodyParser.json(), (request, response) => {
-
-    json = request.body
-
-    accounts_collection.insertOne(json)
+    accounts_collection.insertOne(account)
     .then( result => {
-                   
+        // console.log("inserted...")
+                               
         request.session.login = true
-
+            
         // console.log(result)
         // response.json( result) 
         response.redirect('receipts.html')
     })
-    
 })
+
+
+        
+
+
+
+    
+    
+
 
 /* 
     post is part of REST API
@@ -230,10 +276,15 @@ app.post("/add", bodyParser.json(), (request, response) => {
         .then( result => response.json(result) )
 })
 
-app.post("/find_user_receipts", bodyParser.json(), (request, response) => {
+app.post("/find_user_receipts", cookieParser(), bodyParser.json(), (request, response) => {
+    // console.log("request.body.user", request.cookies.user)
 
-    receipt_collection.find({email: request.body.email}).toArray()
-        .then( dbJSON => response.json(dbJSON));
+    receipt_collection.find({user: request.cookies.user}).toArray()
+        .then( dbJSON => {
+            
+            response.json(dbJSON)
+            // console.log(dbJSON)
+        });
 
 })
 
@@ -297,10 +348,23 @@ app.post('/update_receipt', bodyParser.json(), (request, response) => {
 
 
 app.post('/get_user', bodyParser.json(), (request, response) => {
-    console.log("Sending over", logged_in_user);
+    // console.log("Sending over", logged_in_user);
     response.json(logged_in_user);
 })
 
+app.post('/get_logged_in_user', cookieParser(), (req, res) => {
+    
+    // console.log('Signed Cookies: ', req.cookies.user)
+    res.json({'user': req.cookies.user})
+})
+
+
+app.post('/delete_cookie', (req, res) => {
+    req.session = null
+    // req.user = null
+
+    res.json()
+})
 
 
 // Tells the app to listen on port 3000

@@ -19,29 +19,39 @@
   </head>
   <body >
 
+    <nav class="navbar navbar-dark bg-primary" >
+        <div class="container d-inline me-0" style="text-align: right;" style="margin-right: 0px;"> 
+            <label for="logout" onclick="signIn()">Sign in</label>
+            <svg xmlns="http://www.w3.org/2000/svg" id="logout" width="25" height="25" fill="currentColor" class="bi bi-person-circle" viewBox="0 0 16 16" onclick="logout()">
+                <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+                <path fill-rule="evenodd" d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8zm8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1z"/>
+            </svg> 
+        </div>
+    </nav>
+
     <div class="shadow p-4 pb-4" style="position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 450px; height: 450px;" >
        
         
-            <form style="margin: auto;" method="POST" action="/create_account">
+            <form style="margin: auto;" method="POST" id="create_user_form" action="/create_account" oninput='password_1.setCustomValidity(password_2.value != password_1.value ? "Passwords do not match." : "")'>
                 
                 <h1 class="h1 mb-3 font-weight-light" style="text-align: center;" > Create an account</h1>
                 
                 <input id="name" name="name" class="form-control" placeholder="Your name" required autofocus> 
                 
-                <input type="email" name="email" id="emailAddress" placeholder="Email Address" class="form-control mt-2" required>
+                <input type="email" name="email" id="emailAddress" placeholder="Email Address" class="form-control mt-2" required/>
 
-                <input type="password" name="password" id="password_1" class="form-control mt-4" placeholder="Password" required autofocus> 
+                <input type="password" name="password_1" id="password_1" class="form-control mt-4" placeholder="Password" required> 
                 
-                <input type="password" id="password_2" placeholder="Confirm Password" class="form-control mt-2" required>
+                <input type="password" name="password_2" id="password_2" placeholder="Confirm Password" class="form-control mt-2" required>
 
                 <div class="mt-3">
-                    <input type="submit" class="btn btn-lg btn-primary" style="display: block; width: 100%;" value="Create your account">
+                    <input type="submit" class="btn btn-lg btn-primary" style="display: block; width: 100%;" value="Create your account"> 
                 </div>
                 <div class="d-inline">
                     <small>You already have an account?</small>
                 </div>
                 <div class="d-inline">
-                    <a href="/login"><small><ins>Sign in!</ins></small></a>
+                    <a href="/login.html"><small><ins>Sign in!</ins></small></a>
                 </div>
             </form>
 

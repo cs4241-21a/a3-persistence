@@ -69,9 +69,9 @@ function handle_tip(input, blur){
 
 function generateNewForm(newContainerID, oldContainerID, json){
 
-    console.log("New box id: ", newContainerID);
-    console.log("Old box id: ", oldContainerID)
-    console.log("json: ", json)
+    // console.log("New box id: ", newContainerID);
+    // console.log("Old box id: ", oldContainerID)
+    // console.log("json: ", json)
 
 
     
@@ -181,7 +181,7 @@ function edit_mode(button){
 
         const json = res[0];
 
-        console.log("the json: ", json);
+        // console.log("the json: ", json);
 
         container.innerHTML = `
             <div class="row fs-4 mb-5">
@@ -500,70 +500,87 @@ function submit(calculate_button) {
     
 
     if(validate_input_fields(fields)){
-        let values = { 
-            "num_of_people": people_input.value, 
-            "amount_due": amount_due_input.value,
-            "tip": tip_input.value,
-            "calc_1": calc_1.innerHTML,
-            "calc_2": calc_2.innerHTML,
-            "calc_3": calc_3.innerHTML,
-            "tip_percentage": tip_percentage.innerHTML.substring(6)
-        };
-    
-        console.log("values: ", values);
-    
-        let data = JSON.stringify(values);
-    
-        fetch('/add', {
+
+        fetch('/get_logged_in_user', {
             method: 'POST',
-            body: data,
+            body: JSON.stringify({}),
             headers:{
                 "Content-Type":"application/json"
             }
         })
-        .then(function( response ){
-            console.log("response: ", response);
-            //do something with the response
-            return response.json();
-        })
-        .then(function(json){
-            //json is the array returned by the server
-            console.log("Client Side:");
-            // console.log("json: ", json);
-            console.log("json.insertedId:", json.insertedId);
-    
-            // the new container that is made will have the ID equal to the ID that data has in the database
-            let newContainerID = json.insertedId
-    
-    
-            // This is the id of the big white box container
-            // We want this so that we we create a new form, we know where to place it on the screen 
-            let parentID = parent_container.id;
-            
-    
-            let query = JSON.stringify({"id" : newContainerID})
-    
-            fetch('/find_receipt', {
+        .then(cookie => cookie.json())
+        .then(json => {
+
+            let values = { 
+                "num_of_people": people_input.value, 
+                "amount_due": amount_due_input.value,
+                "tip": tip_input.value,
+                "calc_1": calc_1.innerHTML,
+                "calc_2": calc_2.innerHTML,
+                "calc_3": calc_3.innerHTML,
+                "tip_percentage": tip_percentage.innerHTML.substring(6),
+                "user": json.user
+            };
+        
+            // console.log("values: ", values);
+        
+            let data = JSON.stringify(values);
+        
+            fetch('/add', {
                 method: 'POST',
-                body: query,
+                body: data,
                 headers:{
                     "Content-Type":"application/json"
                 }
             })
-            .then(response => response.json())
-            .then(json => {
-                console.log("json", json);
-    
-                generateNewForm(newContainerID, "0", json[0]);
-                if(parent_container.id === "0"){
-                    refresh_form();
-                }
-                else{
-                    parent_container.remove();
-                }
-    
+            .then(function( response ){
+                // console.log("response: ", response);
+                //do something with the response
+                return response.json();
             })
+            .then(function(json){
+                //json is the array returned by the server
+                // console.log("Client Side:");
+                // console.log("json: ", json);
+                // console.log("json.insertedId:", json.insertedId);
+        
+                // the new container that is made will have the ID equal to the ID that data has in the database
+                let newContainerID = json.insertedId
+        
+        
+                // This is the id of the big white box container
+                // We want this so that we we create a new form, we know where to place it on the screen 
+                let parentID = parent_container.id;
+                
+        
+                let query = JSON.stringify({"id" : newContainerID})
+        
+                fetch('/find_receipt', {
+                    method: 'POST',
+                    body: query,
+                    headers:{
+                        "Content-Type":"application/json"
+                    }
+                })
+                .then(response => response.json())
+                .then(json => {
+                    // console.log("json", json);
+        
+                    generateNewForm(newContainerID, "0", json[0]);
+                    if(parent_container.id === "0"){
+                        refresh_form();
+                    }
+                    else{
+                        parent_container.remove();
+                    }
+        
+                })
+            })
+
         })
+        
+
+        
     }
 }
 
@@ -625,95 +642,10 @@ function update_values(calculate_button){
 }
 
 
-function login(){
-
-    const email_input = document.getElementById('emailAddress');
-    const password_input = document.getElementById('password');
-
-    const email = email_input.value;
-    const password = password_input.value;
-
-    const fields = [email_input, password_input];
-
-    
-
-    if(validate_input_fields(fields)){
-        console.log("ready to log user in");
-
-        const data = JSON.stringify({'email' : email, 'password' : password});
-
-        console.log("data: ", data);
-
-        fetch('/login', {
-            method: 'POST',
-            body: data,
-            headers:{
-                "Content-Type":"application/json"
-            }
-        })
-
-    }
-}
-
-
-function create_account(){
-    const name_input = document.getElementById('name');
-    const email_input = document.getElementById('emailAddress');
-    const password_1_input = document.getElementById('password_1');
-    const password_2_input = document.getElementById('password_2');
-
-    const name = name_input.value;
-    const email = email_input.value;
-    const password_1 = password_1_input.value;
-    const password_2 = password_2_input.value;
-
-    let input_fields = [name_input, email_input, password_1_input, password_2_input]
 
 
     
-    if(validate_input_fields(input_fields)){
 
-        //We need to make sure the passwords match
-        if(password_1 === password_2){
-
-            //Inside this if statement means they do and we can therefore create an account with the given info
-            const json = {  'name' : name, 
-            'email' : email, 
-            'password' : password_1}
-
-            const data = JSON.stringify(json);
-
-            console.log("data: ", data);
-
-            fetch('/create_account', {
-            method: 'POST',
-            body: data,
-            headers:{
-                "Content-Type":"application/json"
-            }
-            }).then(() => {
-            window.location.pathname = '/login.html'
-
-            })
-        }
-        else{
-            // The password was not retyped the same so we will flag it and make them repeat it
-
-            // what attributes does it already have. That way we don't need to hard code them all again
-            let styling = password_2_input.getAttribute("class")
-
-            // This means that the input form has already been identified as invalid, so we don't need to 
-            // add another invalid class attribute
-            if (styling.includes(" is-invalid") === false){
-                password_2_input.setAttribute("class", styling + " is-invalid");
-                password_2_input.focus();
-            }
-
-        }
-
-        
-    }
-}
 
 
 function validate_input_fields(input_fields){
@@ -762,10 +694,21 @@ function validate_input_fields(input_fields){
     }
 }
 
+function signIn(){
+    fetch('/login', {
+        method: 'POST',
+        body: JSON.stringify({}),
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+    .then( () => window.location.reload())
+}
+
 
 function logout(){
 
-    console.log("signing the user out");
+    // console.log("signing the user out");
     // Signs the user out which gets rid of the username and email stored in the server.js file
     fetch('/logout', {
         method: 'POST',
@@ -774,103 +717,55 @@ function logout(){
             "Content-Type":"application/json"
         }
     })
-    // .then(response => {
-    //     // console.log("response", response);
-    //     // window.location.href = 'login.html';
-    // })
-
-    
-    // Changes the browser to the login page
-    // fetch('/login')
+    .then( () => window.location.reload())
 }
 
 
-// window.onload = function(){
 
+
+// Loads the receipts the user has already created in previous sessions
+window.onload = function(){
+    // console.log("window.location.href", window.location.href);
+
+    if(window.location.href.includes('/receipts.html') ){
+        // console.log("I'm ready to load receipts");
+
+        fetch('/find_user_receipts', {
+            method: 'POST',
+            data: JSON.stringify({}),
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+        .then(response => response.json())
+        .then(receipts => {
+            // console.log(receipts);
+
+            let old_container_id = "0";
+
+            let count = 1
+            receipts.forEach( function(json) {
+                // console.log(json);
+
+                generateNewForm(json._id, old_container_id, json);
+                old_container_id = json._id;
+
+                count += 1;
+
+            })
+        })
+        
+    }
+  
+}
+
+function del_cookie(){
+    fetch('/delete_cookie', {
+        method: 'POST',
+        body: JSON.stringify({}),
+        headers: {
+            "Content-Type":"application/json"
+        }
+    })
     
-//     fetch('/get_user', {
-//         method: 'POST',
-//         data: JSON.stringify({}),
-//         headers:{
-//             "Content-Type":"application/json"
-//         }
-//     })
-//     .then(response => response.json())
-//     .then(json => {
-
-//         const user = JSON.stringify(json);
-
-//         fetch('/find_user_receipts', {
-//             method: 'POST',
-//             data: user,
-//             headers:{
-//                 "Content-Type":"application/json"
-//             }
-//         })
-//         .then(response => {
-//             console.log("response", response);
-//             response.json()
-//         })
-//         .then(receipts => {
-//             console.log(receipts);
-//         }).then(() => {
-            
-//             let sampleReturnedJsons = [
-//                 {_id: "614a23a369269a6950412261",
-//                 num_of_people: '1',
-//                 amount_due: '$100.00',
-//                 tip: '$3.00',
-//                 calc_1: '$20.00',
-//                 calc_2: '$47.50',
-//                 calc_3: '$15.20',
-//                 tip_percentage: '(%30.00) :',
-//                 price_per_person: '$13.00',
-//                 email: 'aburke@wpi.edu'
-//               },
-//               {
-//                 _id: "614a23d469269a6950412262",
-//                 num_of_people: '1',
-//                 amount_due: '$100.00',
-//                 tip: '$3.00',
-//                 calc_1: '$22.00',
-//                 calc_2: '$77.50',
-//                 calc_3: '$55.00',
-//                 tip_percentage: '(%99.00) :',
-//                 price_per_person: '$103.00',
-//                 email: 'aburke@wpi.edu'
-//               },
-//               {_id: "614a241769269a6950412263",
-//                 num_of_people: '1',
-//                 amount_due: '$1.00',
-//                 tip: '$1.00',
-//                 calc_1: '$2.00',
-//                 calc_2: '$1.50',
-//                 calc_3: '$1.00',
-//                 tip_percentage: '(%3.00) :',
-//                 price_per_person: '$1.00',
-//                 email: 'aburke@wpi.edu'
-//               }]
-
-//             let old_container_id = "0";
-
-//             let count = 1
-//             sampleReturnedJsons.forEach( function(json) {
-//                 console.log(json);
-
-                
-//                 generateNewForm(json._id, old_container_id, json);
-//                 old_container_id = json._id;
-
-//                 count += 1;
-
-//             })
-
-//         })
-
-
-
-
-
-//     })
-
-// }
+}
