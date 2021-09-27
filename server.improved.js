@@ -61,6 +61,11 @@ app.get('/', validateLoginMiddleware, (req, res) => {
   res.sendFile(path.join(__dirname, '/private/main.html'));
 })
 
+app.get('/me', validateLoginMiddleware, (req, res) => {
+  console.log('Getting /me')
+  res.sendFile(path.join(__dirname, '/private/yourdata.html'));
+})
+
 
 
 

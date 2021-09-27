@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Home • Lost&Found @ WPI</title>
+    <meta charset="utf-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com"> 
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> 
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/@primer/css@^16.0.0/dist/primer.css" rel="stylesheet" />
+    <link rel="stylesheet" href="css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Worcester Polytechnic Institute's Lost and Found 
+                                      platform used to retrieve lost and found items around campus.">
+  </head>
+  <body>
+    <div class="Header">
+      <div class="Header-item">
+        <p class="h1 color-text-inverse">Lost&Found</p>
+      </div>
+      <div class="Header-item">
+        <a href="/" class="Header-link">Home</a>
+      </div>
+      <div class="Header-item">
+        <a href="/me" class="Header-link">Me</a>
+      </div>
+      <div class="Header-item Header-item--full">
+      </div>
+      <div id="username-box" class="Header-item">
+      </div>
+      <div class="Header-item">
+        <img class="avatar" height="40" alt="@octocat" src="https://github.com/octocat.png" width="40">
+      </div>
+    </div>
+    <div class="container-xl clearfix">
+      <div class="col-9 float-left border p-4">
+        <div id="info-section">
+          <p>Below are all the lost and found items created by you.</p>
+          <p id="error-box"></p>
+        </div>
+        <div class="logged-in">
+          <div id="lost-items-section">
+            <p class="h2">Lost items</p>
+            <table id="lostitems">
+              <tr>
+                <th>Item</th>
+                <th>When</th>
+                <th>Where</th>
+                <th>Description</th>
+                <th>Photo Link</th>
+                <th>Email me!</th>
+              </tr>
+            </table>
+          </div>
+          <div id="found-items-section" class="mt-5">
+            <p class="h2">Found items</p>
+            <table id="founditems">
+              <tr>
+                <th>Item</th>
+                <th>When</th>
+                <th>Where</th>
+                <th>Description</th>
+                <th>Photo Link</th>
+                <th>Email me!</th>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script src="js/scripts2.js"></script>
+  </body>
+</html>
