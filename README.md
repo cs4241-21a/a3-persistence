@@ -20,14 +20,5 @@ your glitch (or alternative server) link e.g. https://a3-praisex.glitch.me/
 - ![Screenshot (175)](https://user-images.githubusercontent.com/89667516/134859843-5b1f8c09-8f43-4978-a18d-8f6a483590dd.png)
 
 
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
-- Provide sufficient contrast between foreground and background
-- Don’t use color alone to convey information
-- Ensure that interactive elements are easy to identify
-- Provide clear and consistent navigation options
-- Ensure that form elements include clearly associated labels
-- Provide easily identifiable feedback
-- Use headings and spacing to group related content
 
 
