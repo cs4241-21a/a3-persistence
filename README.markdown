@@ -1,10 +1,6 @@
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
 ## Library of Horrors
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
+https://a3-blueocean090.glitch.me
 
 - the goal of the application was supposed to be a library service where users could insert books they have checked out into the database as well as create an account
 - This assignment is not complete because of mental and physical health reasons. The professor knows about this so please check with him when grading.
@@ -19,9 +15,8 @@ your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.m
   - I used passport-local-mongoose for the optimization of mongoose user schema user accounts
   - I used body-parser as it is no longer in express, so I had to use a middleware to get the same functionality
   - I used cookie-parser as it is no longer in express, so I had to use a middleware to get the same functionality
-  - I used bcrypt for cryptographic hashing of passwords and 
 ## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- **Tech Achievement 1**: I used bcrypt for cryptographic hashing of passwords when sending passwords (5 points).
 
 ### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- **None**
