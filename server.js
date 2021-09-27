@@ -233,4 +233,4 @@ function checkNotAuthenticated(req, res, next) {
 
 app.use(express.static('./views'));
 
-app.listen(3000);
+app.listen(process.env.PORT);
