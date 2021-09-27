@@ -1,0 +1,15 @@
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+.c-button {
+  background-color: #778899 !important;
+  color: #FFFFFF !important;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}

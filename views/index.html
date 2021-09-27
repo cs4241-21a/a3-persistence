@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@blaze/css@x.x.x/dist/blaze/blaze.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script src="/login.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+          html *
+      {
+         font-family: 'Raleway', sans-serif; !important;
+         color: #778899 !important;
+         background-color: #FFFAFA !important;
+      }
+    </style>
+  </head>
+
+  <br />
+  <br />
+
+  <body>
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/1676/1676506.png"
+      alt="tupperware"
+      512
+      x
+      512
+      style="width:200px;height:200px;"
+      class="center"
+    />
+
+    <h1 class="c-heading u-super" align="center">find my tupps</h1>
+
+    <h1 class="c-heading u-large" align="center">
+      a tupperware tracker to find the tupperware that your friends steal
+    </h1>
+    <br />
+    <br />
+
+    <form class="o-container o-container--xsmall c-card u-high" id="loginForm">
+      <header class="c-card__header">
+        <h2 class="c-heading" align="center">
+          login
+          <div class="c-heading__sub">
+            if email is not associated, a new account will be created.
+          </div>
+        </h2>
+      </header>
+      <div class="c-card__body">
+        <div class="o-form-element">
+          <label class="o-form-element c-label">
+            Username:
+            <label
+              for="username"
+              <input
+              class="c-field c-field--label"
+              type="text"
+              id="username"
+            />
+          </label>
+        </div>
+        <label class="o-form-element c-label">
+          Password:
+          <label
+            for="password"
+            <input
+            class="c-field c-field--label"
+            type="password"
+            id="password"
+          />
+        </label>
+      </div>
+      <footer class="c-card__footer">
+        <button
+          type="button"
+          class="c-button c-button--brand c-button--block"
+          method="POST"
+          action="/login"
+          id="login"
+        >
+          login
+        </button>
+
+        <br />
+        <br />
+
+        <button
+          type="button"
+          class="c-button c-button--brand c-button--block"
+          method="POST"
+          action="/reg"
+          id="register"
+        >
+          register
+        </button>
+      </footer>
+    </form>
+  </body>
+</html>

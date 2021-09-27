@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="A cool thing made with Glitch" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@blaze/css@x.x.x/dist/blaze/blaze.css"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <script
+      type="module"
+      src="https://unpkg.com/@blaze/atoms@x.x.x/dist/blaze-atoms/blaze-atoms.esm.js"
+    ></script>
+    <script
+      nomodule=""
+      src="https://unpkg.com/@blaze/atoms@x.x.x/dist/blaze-atoms/blaze-atoms.js"
+    ></script>
+    <script src="node_modules/@blaze/atoms/dist/blaze-atoms.js"></script>
+    <script src="/script.js" defer></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Raleway:ital,wght@0,100;0,200;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+          html *
+      {
+               font-family: 'Raleway', sans-serif; !important;
+               color: #778899 !important;
+               background-color: #FFFAFA !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <img
+      src="https://cdn-icons-png.flaticon.com/512/1676/1676506.png"
+      alt="tupperware"
+      512
+      x
+      512
+      style="width:200px;height:200px;"
+      class="center"
+    />
+
+    <h1 class="c-heading u-super" align="center">find my tupps</h1>
+
+    <div class="u-text--quiet" align="center">thanks for logging in!</div>
+
+    <br />
+    <br />
+    <button id="viewTup" class="c-button" onclick="showTups()">
+      view my tupps
+    </button>
+    <br />
+
+    <button id="addTupButton" class="c-button">add a new tupp</button>
+
+    <div class="o-grid o-grid--demo">
+      <div class="o-grid__cell">
+        <div class="o-grid-text">
+          <h2>the tupperware info</h2>
+
+          <p class="c-paragraph">
+            when did you loan it?
+          </p>
+
+          <form action="">
+            <input type="date" id="loanDate" />
+          </form>
+
+          <br />
+
+          <p class="c-paragraph">
+            what was in the tupperware
+          </p>
+          <form action="">
+            <input type="text" id="contents" />
+          </form>
+
+          <br />
+
+          <p class="c-paragraph">
+            what color was the tupp?
+          </p>
+
+          <form action="">
+            <input type="text" id="tupColor" />
+          </form>
+
+          <br />
+
+          <p class="c-paragraph">
+            what size is it?
+          </p>
+
+          <label for="tup_Size">Tupperware Size:</label>
+          <select id="tup_Size" name="scale">
+            <option value="extraLG">extra large</option>
+            <option value="large">large</option>
+            <option value="medium">medium</option>
+            <option value="small">small</option>
+            <option value="extraSM">extra small</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="o-grid__cell">
+        <div class="o-grid-text">
+          <h2>recipent's information</h2>
+
+          <p class="c-paragraph">
+            who did you loan it to?
+          </p>
+          <form action="">
+            <input type="text" id="theirname" />
+          </form>
+
+          <br />
+
+          <p class="c-paragraph">
+            how reliable is your friend on a scale of one to five when it comes
+            to returning things? (1 being the worst, 5 being the best)
+          </p>
+
+          <br />
+          <br />
+
+          <label for="relible">reliability:</label>
+          <select id="relible" name="scale">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <br />
+    <br />
+
+    <p class="c-paragraph" align="center">
+      are you ready to add your tups?
+    </p>
+
+    <button id="submitDataButton" button type="button" class="c-button">
+      submit my tupps!
+    </button>
+
+    <br />
+    <br />
+
+    <table class="c-table c-table--striped" id="storedTups">
+      <thead class="c-table__head">
+        <tr class="c-table__row c-table__row--heading">
+          <th class="c-table__cell">Your Name</th>
+          <th class="c-table__cell">Loan Date</th>
+          <th class="c-table__cell">Content of Tup</th>
+          <th class="c-table__cell">Tup Color</th>
+          <th class="c-table__cell">Tup Size</th>
+          <th class="c-table__cell">Tup Loanee</th>
+          <th class="c-table__cell">Reliability of Loanee</th>
+          <th class="c-table__cell">Tup Return Probabilty</th>
+        </tr>
+      </thead>
+      <tbody class="c-table__body">
+        <tr class="c-table__row">
+          <td class="c-table__cell">john doe</td>
+          <td class="c-table__cell">09/02/21</td>
+          <td class="c-table__cell">pasta sauce</td>
+          <td class="c-table__cell">blue lid</td>
+          <td class="c-table__cell">extra large</td>
+          <td class="c-table__cell">ted cruz</td>
+          <td class="c-table__cell">0/5</td>
+          <td class="c-table__cell">0%</td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
