@@ -7,15 +7,76 @@ const path = require('path');
 const { nextTick } = require('process');
 // const reqPath = path.join(__dirname, '..', 'views', 'indexFail.html');
 let userNameOfU = '';
+var bodyParser = require('body-parser')
 
 router.get("/getData", async (req, res) => {
   // express helps us take JS objects and send them as JSON
   const allUserData = await Data.find({username: userNameOfU})
-  console.log('all user data')
-  console.log(userNameOfU)
-  console.log(allUserData)
   res.json(allUserData);
 });
+
+router.post("/newData", async (req, res) => {
+  // express helps us take JS objects and send them as JSON
+  console.log(req.body)
+
+  //Check if data aready in server
+  const dataExists = await Data.exists({username: userNameOfU, name: req.body.name, country: req.body.country, age: req.body.age});
+  if( !dataExists ) {
+
+  const data = new Data({
+    username: userNameOfU,
+    name: req.body.name,
+    country: req.body.country,
+    age: req.body.age  
+
+});
+    const dataUser = await data.save();
+    console.log("User data created!");
+//Check what contacts user has
+} else {
+  console.log('Duplicate contact attempted')      
+}
+res.send({username: userNameOfU})
+});
+
+
+router.post("/editData", async (req, res) => {
+  // express helps us take JS objects and send them as JSON
+  
+  //Check if data aready in server
+  const dataExists = await Data.exists({username: userNameOfU, name: req.body.nameEditing, country: req.body.countryEditing, age: req.body.ageEditing});
+  const newDataExists = await Data.exists({username: userNameOfU, name: req.body.name, country: req.body.country, age: req.body.age});
+  console.log(dataExists)
+
+  //Old data has to exist, new data can not exist
+  if( dataExists && !newDataExists ) {
+    const dataUser = await Data.findOneAndUpdate({username: userNameOfU, name: req.body.nameEditing, country: req.body.countryEditing, age: req.body.ageEditing}, 
+      {username: userNameOfU, name: req.body.name, country: req.body.country, age: req.body.age});
+    console.log("User data edited!");
+} else {
+  console.log('Data does not exist or attempted duplicate data!')      
+}
+res.send({username: userNameOfU})
+});
+
+
+router.post("/deleteData", async (req, res) => {
+  // express helps us take JS objects and send them as JSON
+  console.log(req.body)
+  
+  //Check if data aready in server
+  const dataExists = await Data.exists({username: userNameOfU, name: req.body.name, country: req.body.country, age: req.body.age});
+  console.log(dataExists)
+  if( dataExists ) {
+    await Data.findOneAndDelete({username: userNameOfU, name: req.body.name, country: req.body.country, age: req.body.age})
+    console.log("User data deleted!");
+} else {
+  console.log('Data does not exist')      
+}
+res.send({username: userNameOfU})
+});
+
+
 
 router.post('/register', async (req, res) => {    
   //validate user response before user creation
@@ -58,8 +119,6 @@ router.post( '/login', async (req,res)=> {
     // express.urlencoded will put your key value pairs 
     // into an object, where the key is the name of each
     // form field and the value is whatever the user entered
-    console.log("in log func")
-    console.log( req.body )
     
     // below is *just a simple authentication example* 
     // for A3, you should check username / password combos in your database

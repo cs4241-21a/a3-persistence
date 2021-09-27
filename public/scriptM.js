@@ -3,9 +3,15 @@
 
 console.log("hello world :o");
   
+let isUserEditing = false;
+let nameEditing = '';
+let countryEditing = '';
+let ageEditing = '';
+
 
 function edit_row(no)
 {
+    if(!isUserEditing){
  document.getElementById("edit_button"+no).style.display="none";
  document.getElementById("save_button"+no).style.display="block";
 	
@@ -20,7 +26,18 @@ function edit_row(no)
  name.innerHTML="<input type='text' id='name_text"+no+"' value='"+name_data+"'>";
  country.innerHTML="<input type='text' id='country_text"+no+"' value='"+country_data+"'>";
  age.innerHTML="<input type='text' id='age_text"+no+"' value='"+age_data+"'>";
+ nameEditing = name_data;
+ countryEditing = country_data;
+ ageEditing = age_data;
+
+ isUserEditing = true;
+    }
+    else{
+        console.log('can only edit one thing at a time!')
+    }
 }
+
+
 
 function save_row(no)
 {
@@ -34,11 +51,47 @@ function save_row(no)
 
  document.getElementById("edit_button"+no).style.display="block";
  document.getElementById("save_button"+no).style.display="none";
+
+ json = { username: '', name: name_val, country: country_val, age: age_val, nameEditing: nameEditing, countryEditing: countryEditing, ageEditing: ageEditing},
+       body = JSON.stringify(json);
+ fetch('/api/user/editData', {
+    method: 'POST',
+    headers: {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json'
+          },
+    body: body
+  })
+  .then(res => res) // parse the JSON from the server
+  .then(data => {
+    });
+
+    isUserEditing = false;
 }
 
 function delete_row(no)
 {
- document.getElementById("row"+no+"").outerHTML="";
+    var name_val=document.getElementById("name_row"+no).textContent;
+    var country_val=document.getElementById("country_row"+no).textContent;
+    var age_val=document.getElementById("age_row"+no).textContent;
+ 
+
+ json = { username: '', name: name_val, country: country_val, age: age_val},
+ body = JSON.stringify(json);
+
+fetch('/api/user/deleteData', {
+method: 'POST',
+headers: {
+      'Accept': 'application/json, text/plain, */*',
+      'Content-Type': 'application/json'
+    },
+body: body
+})
+.then(res => res) // parse the JSON from the server
+.then(data => {
+});
+
+document.getElementById("row"+no+"").outerHTML="";
 }
 
 function add_row()
@@ -54,6 +107,20 @@ function add_row()
  document.getElementById("new_name").value="";
  document.getElementById("new_country").value="";
  document.getElementById("new_age").value="";
+
+json = { username: '', name: new_name, country: new_country, age: new_age},
+       body = JSON.stringify(json);
+ fetch('/api/user/newData', {
+          method: 'POST',
+          headers: {
+                  'Accept': 'application/json, text/plain, */*',
+                  'Content-Type': 'application/json'
+                },
+          body: body
+        })
+        .then(res => res) // parse the JSON from the server
+        .then(data => {
+          });
 }
 
 function add_rowFromServer(name, country, age)
@@ -125,7 +192,6 @@ window.onload = function() {
     fetch("/api/user/getData")
     .then(response => response.json()) // parse the JSON from the server
     .then(data => {
-        console.log(data)
         for (var i = 0; i < data.length; i++) { 
             add_rowFromServer(data[i].name, data[i].country, data[i].age);
         }

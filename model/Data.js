@@ -9,17 +9,14 @@ const userDataSchema = new mongoose.Schema({
     },
     name:{
         type: String,
-        required: true,
         max: 1024,
     },
     country:{
         type: String,
-        required: true,
         max: 1024,
     },
     age:{
         type: String,
-        required: true,
         max: 1024,
     },
     date:{

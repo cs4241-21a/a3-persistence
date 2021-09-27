@@ -7,10 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A cool thing made with Glitch">
-
-    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
-    <!-- import the webpage's stylesheet -->
-    <link rel="stylesheet" href="/style.css">
+    <!-- import the webpage's stylesheet -->    
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">   
+     <link rel="stylesheet" href="/style.css">
 
     <!-- import the webpage's client-side javascript file -->
     <script src="/scriptM.js" defer></script>
@@ -18,6 +17,7 @@
   </head>
   <body>
     <h1>Welcome to your contact data!</h1>
+    <h1>Duplicate contacts will not be saved to your profile!</h1>
     <div id="wrapper">
     <table align='center' cellspacing=2 cellpadding=5 id="data_table" border=1>
     <tr>
@@ -38,9 +38,9 @@
     </tr>
     
     <tr>
-    <td><input type="text" id="new_name"></td>
-    <td><input type="text" id="new_country"></td>
-    <td><input type="text" id="new_age"></td>
+    <td><input type="text" id="new_name" aria-label="new_name"></td>
+    <td><input type="text" id="new_country" aria-label="new_country"></td>
+    <td><input type="text" id="new_age" aria-label="new_age"></td>
     <td><input type="button" class="add" onclick="add_row();" value="Add Row"></td>
     </tr>
     

@@ -49,6 +49,7 @@ app.get("/", (request, response) => {
 // changed
 app.use( cookie({
   name: 'sessionLog',
+  sameSite: "none",
   keys: ['123', '456']
 }))
 

@@ -7,16 +7,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="A cool thing made with Glitch">
-    <!-- import the webpage's stylesheet -->    
-    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">   
+
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <!-- import the webpage's stylesheet -->
     <link rel="stylesheet" href="/style.css">
 
     <!-- import the webpage's client-side javascript file -->
+    <link rel="stylesheet" href="https://unpkg.com/purecss@2.0.6/build/pure-min.css" integrity="sha384-Uu6IeWbM+gzNVXJcM9XV3SohHtmWE+3VGi496jvgX1jyvDTXfdK+rfZc8C1Aehk5" crossorigin="anonymous">   
     <script src="/script.js" defer></script>
     <title>Log in page</title>
   </head>
   <body>
 
+    <h1>You entered a duplicate contact!</h1>
     <h1>Login here!</h1>
     <form action='/api/user/login' method='POST'>
       <input type='text' name='username' value="your username here" aria-label="username">
@@ -26,8 +29,8 @@
 
     <h1>Register here!</h1>
     <form action='/api/user/register' method='POST'>
-      <input type='text' name='username' value="make a username!" aria-label="username">
-      <input type='text' name='password' value="make a password!" aria-label="password">
+      <input type='text' name='username' value="make a username" aria-label="username"
+      <input type='text' name='password' value="make a password" aria-label="password">
       <button>register</button>
     </form>
 

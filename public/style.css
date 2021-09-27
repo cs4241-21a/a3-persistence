@@ -9,8 +9,14 @@ body {
   margin: 2em 1em;
   line-height: 1.5em;
 }
-
+td{
+  text-align: center;
+}
+tr{
+  text-align: center;
+}
 h1 {
+  text-align: center;
   font-style: italic;
   color: #373fff;
   max-width: calc(100% - 5rem);
@@ -18,6 +24,7 @@ h1 {
 }
 
 form {
+  margin: 0 auto; 
   background-color: #eee;
   display: grid;
   grid-gap: 1em;
