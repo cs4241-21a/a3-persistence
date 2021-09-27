@@ -9,7 +9,7 @@ Brief summary of project:
 - The goal of the application is to have users store their own contacts in a mongo database(can delete,edit, and create)
 - challenges I faced in realizing the application, were parsing JSON objects and client to server communication
 - I chose cookies as an authentication strategy because it seemed the easiest to implement
-- I use pure(https://purecss.io/start/) as a CSS framework, I made many modifications to make sure the dynamic table looked reasonably nice
+- I use pure(https://purecss.io/start/) as a CSS framework since it did not mess up my dynamic table while also giving me a spacious feel. I made many modifications to make sure the dynamic table looked reasonably nice and implemeted some CSS based on CRAP principles.
 - These are 6 middlware I used, added an extra one I used to be safe
 1. app.use(express.json()); - Returns middleware that only parses json and only looks at requests where the Content-Type header matches the type option.
 2. app.use( cookie({name: 'sessionLog',sameSite: "none",keys: [you will never know :)]})) - Cookie middleware, keys are used for encryption
