@@ -113,9 +113,9 @@ li[done='true']>.row>*>p {
     color: #c4baba;
 }
 
-li>.row>*>input {
+/* li>.row>*>input {
     border: 0;
-}
+} */
 
 .taskItem:read-only,
 .timeItem:read-only,
