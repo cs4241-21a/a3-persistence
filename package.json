@@ -16,7 +16,6 @@
   "bugs": {
     "url": "https://github.com/carlosavp23/a3-persistence/issues"
   },
-  "homepage": "https://github.com/carlosavp23/a3-persistence#readme",
   "devDependencies": {
     "nodemon": "^2.0.12"
   },
