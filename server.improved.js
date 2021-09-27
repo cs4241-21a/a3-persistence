@@ -206,4 +206,8 @@ router.get('/home', function (req, res) {
   res.redirect('index.html' )
 });
 
-app.listen(process.env.PORT || 3000 )
+const port = process.env.PORT || 3000 
+
+server.listen(port, () => {
+  console.log("App is running on port " + port);
+});
