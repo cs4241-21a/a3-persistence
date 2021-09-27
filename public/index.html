@@ -1,48 +1,87 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <title>CS4241 Assignment 2</title>
+    <title>GenshinDB Login</title>
     <meta charset="utf-8">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <script src="js/scripts.js" defer></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Sacramento&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Roboto+Mono:wght@300&family=Sacramento&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   </head>
-  <body>
-    <section class="c0">
-    <h1>Please enter your information into the work database:</h1>
-    <div class="form">
-    <form action="">
-      <input type='text' id='name' placeholder="Enter Name">
-    </form>
-    <form action="">
-      <input type='number' id='age' placeholder="Enter Age">
-    </form>
-    <form action="">
-      <input type='number' id='hours' placeholder="Enter hours worked per week">
-      <button>submit</button>
-    </form>
-  </section>
-    <hr>
-    <section class="c1">
-    <table id="dataTable">
-      <thead>
-      <tr>
-      <th>Name</th>
-      <th>Age</th>
-      <th>Hours worked</th>
-      <th>Job Type</th>
-      <th>Delete</th>
-    </tr>
-  </thead>
-  <tbody id="data">
+  <body class="bg-dark">
+    <div class="card text-center" style="width:50%; margin: 150px auto">
+      <div class="card-header">
+        GenshinDB
+      </div>
+      <div class="card-body">
+        <form>
+      <strong><p>Please login to your account</p></strong>
+        <div class="form-outline text-center">
+          <label class="form-label" for="uname">Username</label>
+          <input type="email" id="uname" class="form-control" placeholder="Username" style="margin-bottom:25px"></input>
+          
+        </div>
 
-  </tbody>
-    </table>
-      <button onclick="location.href='https://youtu.be/dQw4w9WgXcQ'" type="button">
-         Don't click here!!!</button>
-  </section>
+        <div class="form-outline text-center">
+          <label class="form-label" for="pword">Password</label>
+          <input type="password" id="pword" class="form-control" placeholder="Password" style="margin-bottom:20px"></input>
+          
+        </div>
+
+        <div class="text-center">
+          <button class="btn btn-primary btn-block" type="button">Log in</button>
+        </div>
+        <div style="margin:10px">
+          
+        </div>
+
+        <div class="d-flex align-items-center justify-content-center">
+          <p style="margin:10px">Don't have an account?</p>
+          <button type="button" id="createnewBtn" class="btn btn-outline-danger" data-toggle="modal" data-target="#createAcct">Create new</button>
+        </div>
+      
+      <div class="d-flex align-items-center justify-content-center">
+          <button type="button" id="createnewBtn" class="btn btn-dark" style="margin-top:10px;">Github Log In</button>
+        </div>
+
+      </form>
+      </div>
+      <div class="card-footer text-muted">
+        Hope you enjoy :)
+      </div>
+    </div>
+    <div class="modal fade" id="createAcct" tabindex="-1" role="dialog" aria-labelledby="addInfoModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Create a new account:  </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="">
+              <label class="form-label" for="reguname">Username</label>
+              <input type="email" id="reguname" class="form-control" placeholder="Username" style="margin-bottom:10px"></input>
+            </form>
+            <form action="">
+              <label class="form-label" for="regpword">Password</label>
+          <input type="password" id="regpword" class="form-control" placeholder="Password" style="margin-bottom:10px"></input>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="registerBtn" class="btn btn-primary">Register</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    
   </body>
- 
 </html>
+

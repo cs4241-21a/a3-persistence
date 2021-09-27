@@ -1,54 +1,118 @@
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library used in the following line of code
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000
+const express = require( 'express' ),
+      bodyParser   = require( 'body-parser' ),
+      app = express(),
+      cookie = require('cookie-session'),
+      cookieParser = require('cookie-parser'),
+      GitHibStrategy = require('passport-github2').Strategy,
+      passport = require('passport')
 
-const appdata = [
-  { 'name': 'Michael', 'age': 19, 'hours': 23 ,'jobType': 'Part Time'},
-  { 'name': 'Jenny', 'age': 30, 'hours': 45, 'jobType': 'Full Time'}
-]
+app.use( express.static( 'public' ))
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response )    
-  }else if( request.method === 'POST' ){
-    handlePost( request, response ) 
+const { response, request } = require('express');
+const { cp } = require('fs');
+const mongodb = require('mongodb');
+const MongoClient = mongodb.MongoClient;
+let collection = null;
+const uri = "mongodb+srv://tester:tester123@cluster0.upfeg.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+client.connect(err => {
+  collection = client.db("datatest").collection("test");
+});
+
+app.use( express.urlencoded({ extended:true }))
+app.use(cookieParser())
+
+app.use( cookie({
+  name:'session',
+  keys:[process.env.KEY1, process.env.KEY2]
+}))
+
+passport.serializeUser(function(user, done){
+  done(null, user)
+})
+
+passport.deserializeUser(function(user, done){
+  done(null, user)
+})
+
+passport.use( new GitHubStrategy({
+  clientID: process.env.GITHUB_ID,
+  clientSecret: process.env.GITHUB_SECRET,
+  callbackURL: "http://127.0.0.1:3001/github/callback"
+},
+function(accessToken, refreshToken, profile, done) {
+  return done(null, profile)
+}
+))
+
+app.use(passport.initialize())
+app.use(passport.session())
+
+app.get('/auth/error', (request, response) => response.send("Unknown Error"))
+app.get('/github/callback', passport.authenticate('github', { failureRedirect: '/auth/error'}),
+function(request, response) {
+  response.redirect('/response?id=' + request.user.id)
+})
+
+app.get('/response', (request, response) => {
+  request.session.id = request.query.id
+  response.redirect("main.html")
+})
+
+app.get('/', (request,response) => {
+  response.sendFile( 'public/index.html' )
+})
+
+app.post('/login', (request, response) => {
+  const user = {'username': request.body.username, 'password': request.body.password}
+  collection.findOne(user)
+  .then(user => {
+    response.cookie('login', true)
+    response.cookie('userid', user._id)
+    response.cookie('username', user.username)
+    response.redirect( 'public/main.html')
+  })
+})
+
+app.get('/logout', (request, response) => {
+  response.cookie('login', false)
+  response.cookie('userid', "")
+  response.cookie('username', "")
+  response.sendFile( 'public/index.html' )
+})
+
+app.get('/getData', (request, response) => {
+  if(collection != null) {
+    collection.find({ }).toArray().then( result => { response.json( result )})
   }
 })
 
-const handleGet = function( request, response ) {
-  const filename = dir + request.url.slice( 1 ) 
+app.post('/submit', bodyParser.json(), (request, response) => {
+  if(collection != null) {
+    collection.insertOne(request.body)
+  .then( result => {
+     response.json(result)})}
+})
 
-  if( request.url === '/getData' ) {
-    response.end(JSON.stringify(appdata))
-  }else if(request.url === '/'){
-    sendFile( response, 'public/index.html' )
-  }else{
-    sendFile( response, filename )
-  }
-}
+app.post('/delete', bodyParser.json(), (request, response) => {
+  if(collection != null) {
+    collection.deleteOne({ _id: mongodb.ObjectId(request.body.id) })
+  .then( insert => {
+   console.log(insert)
+     response.json(insert)})}
+})
 
-const handlePost = function( request, response ) {
-  let dataString = ''
+app.post('/update', bodyParser.json(), (request, response) => {
+  if(collection != null) {
+    collection.updateOne({ _id: mongodb.ObjectId(request.body.id) },
+    {$set:{ name:request.body.name,
+    element:request.body.element,
+  level:request.body.level}})
+  .then( insert => {
+   console.log(insert)
+     response.json(insert)})}
+})
 
-  request.on( 'data', function( data ) {
-      dataString += data 
-  })
-
-  request.on( 'end', function() {
-    console.log( JSON.parse( dataString ) )
-
-    // ... do something with the data here!!!
-    if(request.url === '/submit') {appdata.push(JSON.parse(dataString))}
-    else if(request.url === '/delete') {appdata.splice(json['modifyInput'], 1)}
-
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    response.end()
-  })
-}
 
 const sendFile = function( response, filename ) {
    const type = mime.getType( filename ) 
@@ -72,4 +136,4 @@ const sendFile = function( response, filename ) {
    })
 }
 
-server.listen( process.env.PORT || port )
+app.listen( process.env.PORT || 3001 )

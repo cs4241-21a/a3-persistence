@@ -1,111 +1,163 @@
 // Add some Javascript code here, to run on the front end.
 
-console.log("Welcome to assignment 2!")
+//const { monitorEventLoopDelay } = require("perf_hooks")
+
+console.log("Welcome to assignment 3!")
 
 window.onload = function() {
-    const button = document.querySelector( 'button' )
+    const button = document.getElementById( 'submitAdd' )
     button.onclick = submit
-    createTable()
+    initTable()
 }
 
-function remove() {
-    let table = document.getElementById("dataTable")
-    document.getElementById("dataTable").deleteRow(table.rowIndex);
-      json = { 
-        modifyInput: 1
-     },
-     body = JSON.stringify( json )
+const initTable = function(){
+    fetch('/getData', {
+        method:'GET'
+    })
+    .then(function (response) {
+        return response.json()
+    })
+    .then(function (data) {
+        const text = document.getElementById( 'dataTable' )
+        const charCount = document.getElementById( 'characterCount' )
+        charCount.innerHTML = 'Number of Characters: ' + Object.values(data).length
+        createTable("dataTable", data)
+
+    })
+}
+
+function remove(id) {
 
   fetch( '/delete', {
       method: 'POST',
-      body
+      body: JSON.stringify({id: id}),
+      headers:{
+          "Content-Type": "application/json"
+      }
     })
     .then( function( response ) {
-    console.log( response )
-    createTable()
+        console.log( response )
+        initTable()
 })
 }
 
-const createTable = function() {
-    fetch("/getData", {
-        method:"GET"
-    })
-    .then(function(response) {
-        return response.json()
-    })
-    .then(function(data){
+function edit(id) {
+    const name = document.getElementById('charName')
+    const element = document.getElementById('charName')
+    const level = document.getElementById('charName')
+
+    const input = document.querySelector( '#name' ),
+        input2 = document.querySelector( '#element' ),
+        input3 = document.querySelector( '#level' )
+          json = { name: input.value,
+            element: input2.value,
+            level: input3.value
+         }
+         body = JSON.stringify( json )
+    fetch( '/update', {
+        method: 'POST',
+        body: JSON.stringify({id: id}),
+        headers:{
+            "Content-Type": "application/json"
+        }
+      })
+      .then( function( response ) {
+          console.log( response )
+          initTable()
+  })
+  }
+
+const createTable = function(id, data) {
+    
         let table = document.getElementById("dataTable")
         for(var i = table.rows.length - 1; i > 0; i--)
             table.deleteRow(i)
 
-        data.map(function(item) {
-            let tableRow = document.createElement("tr")
-            let tableData = document.createElement("td")
-            let tableData2 = document.createElement("td")
-            let tableData3 = document.createElement("td")
-            let tableData4 = document.createElement("td")
-            let deleteButton = document.createElement("td")
-            tableData.innerHTML = item['name']
-            tableData2.innerHTML = item['age']
-            tableData3.innerHTML = item['hours']
-            tableData4.innerHTML = item['jobType']
-            deleteButton.innerHTML = '<button onclick="remove()">Delete</button>';
-            tableRow.appendChild(tableData)
-            tableRow.appendChild(tableData2)
-            tableRow.appendChild(tableData3)
-            tableRow.appendChild(tableData4)
-            tableRow.appendChild(deleteButton)
-            table.appendChild(tableRow)
-        })
-    })
+        let row = 1
+            data.map( function ( item ){
+                let repRow = table.insertRow(-1)
+                repRow.classList += "itemRow"
+
+                let columnNum = table.rows[0].cells.length
+
+                console.log(item)
+
+                for(let i=0; i<columnNum; i++){
+                    let newCell = document.createElement("td")
+                    let value = Object.values(item)
+                    let newText
+
+                    if (i == 0)
+                        newText = document.createTextNode(row)
+                    else if ( i == columnNum - 1) {
+                        newText = document.createElement('button')
+                        newText.innerHTML = "Alter"
+                        newText.classList += "btn btn-primary changeButton"
+                        newText.onclick = function() {
+                            $("#alterInfo").modal('show')
+                            deleteBtn.onclick = function(){
+                                remove(item._id)
+                                $("#alterInfo").modal('hide')
+                            }
+                            editBtn.onclick = function(){
+                                edit(item._id)
+                                $("#alterInfo").modal('hide')
+                            }
+                        }
+                    }
+                    else
+                        newText = document.createTextNode(value[i])
+
+                    newCell.appendChild(newText)
+                    repRow.appendChild(newCell)
+                }
+                row++
+            })
 }
 
-
+function logout() {
+    fetch( '/logout', {
+        method:'GET',
+        headers:{
+            "Content-Type":"application/json"
+        }
+    })
+    .then( window.location.replace('/index.html'))
+}
 
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
 
     const input = document.querySelector( '#name' ),
-        input2 = document.querySelector( '#age' ),
-        input3 = document.querySelector( '#hours' ),
-        typeJob = document.querySelector( '#jobType')
+        input2 = document.querySelector( '#element' ),
+        input3 = document.querySelector( '#level' )
           json = { name: input.value,
-            age: input2.value,
-            hours: input3.value,
-            jobType: getJobType(input3.value, input2.value),
+            element: input2.value,
+            level: input3.value,
             modifyInput: 1
          },
           body = JSON.stringify( json )
-          if(json['name']  === "" || json['age']  === "" || json['hours'] === "") {
+          if(json['name']  === "" || json['level'] === "") {
               alert("Please fill in all fields.")
           } else {
             fetch( '/submit', {
                 method:'POST',
-                body 
+                body,
+                headers: {
+                    "Content-Type":"application/json"
+                }
               })
               .then( function( response ) {
                 // do something with the reponse 
                 console.log( response )
-                createTable()
+                return response.json()
+              })
+              .then( function( json ){
+                  initTable()
+                  console.log("Created ID: " + json.insertedId)
               })
           }
-
-          function getJobType(hours, age) {
-              if(hours <= 0 && age < 18) {
-                  return "Student"
-              }
-              else if(hours <= 0) {
-                  return "Unemployed"
-              }
-              else if(hours < 40) {
-                  return "Part time"
-              }
-              else {
-                  return "Full Time"
-              }
-          }
-
 
     return false
   }

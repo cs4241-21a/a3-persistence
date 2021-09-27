@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="js/scripts.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Sacramento&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100&family=Roboto+Mono:wght@300&family=Sacramento&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+  </head>
+  <body class="bg-dark">
+    <nav class="navbar navbar-dark bg-dark">
+      <div class="container-fluid">
+        <div class="navbar-header">
+          <a class="navbar-brand" href="#">Genshin Characters</a>
+          <button type="button" id="addButton" class="btn btn-primary navbar-btn" data-toggle="modal" data-target="#addInfo">Add</button>
+        </div>
+        <a onclick="logout()" class="btn btn-danger navbar-btn">Log Out</a>
+      </div>
+    </nav>
+    <div class="modal fade" id="addInfo" tabindex="-1" role="dialog" aria-labelledby="addInfoModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Add your character: </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="">
+              <input type='text' id='name' placeholder="Enter Character Name" style="margin-bottom:10px;">
+            </form>
+            <form action="">
+              <select id="element" name="Element" style="margin-bottom:10px; padding:2%;">
+                <option value="Please select an element">Please select an element</option>
+                <option value="Electro">Electro</option>
+                <option value="Pyro">Pyro</option>
+                <option value="Anemo">Anemo</option>
+                <option value="Cryo">Cryo</option>
+                <option value="Hydro">Hydro</option>
+                <option value="Geo">Geo</option>
+                <option value="Dendro">Dendro</option>
+              </select>
+            </form>
+            <form action="">
+              <input type='number' id='level' placeholder="Enter Character Level">
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="submitAdd" class="btn btn-primary">Add Result</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="alterInfo" tabindex="-1" role="dialog" aria-labelledby="addInfoModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Modify this character: </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              &times;
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="form-group">
+              <label for="charName">Character Name</label>
+              <input type="text" class="form-control" id="charName" placeholder="Character Name">
+            </div>
+            <div class="form-group">
+              <label for="elmt">Element</label>
+              <select class="form-control" id="elmt">
+                <option value="Please select an element">Please select an element</option>
+                <option value="Electro">Electro</option>
+                <option value="Pyro">Pyro</option>
+                <option value="Anemo">Anemo</option>
+                <option value="Cryo">Cryo</option>
+                <option value="Hydro">Hydro</option>
+                <option value="Geo">Geo</option>
+                <option value="Dendro">Dendro</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="lvl">Level</label>
+              <input type="number" class="form-control" id="lvl" placeholder="Level">
+            </div>
+              
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <button type="button" id="deleteBtn" class="btn btn-danger">Delete</button>
+            <button type="button" id="editBtn" class="btn btn-primary">Edit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <section class="c0">
+    <!-- <h1>Please enter your Genshin characters:</h1> -->
+
+    
+  </section>
+  <hr style="margin:auto;">
+    <div id="characterCount" class="text-white bg-dark" style="padding-left:10px;"></div>
+    <section class="c1">
+    <table id="dataTable" class="table table-hover table-dark">
+      <thead>
+      <tr>
+      <th>Character Number</th>
+      <th>Name</th>
+      <th>Element</th>
+      <th>Level</th>
+      <th>Alter</th>
+    </tr>
+  </thead>
+  <tbody id="data">
+
+  </tbody>
+    </table>
+  </section>
+  </body>
+</html>
