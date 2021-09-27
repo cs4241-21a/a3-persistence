@@ -1,7 +1,7 @@
 const express = require( 'express' ),
     mongodb = require( 'mongodb' ),
     app = express(),
-    port = 3000,
+    port = process.env.PORT || 3000,
     mongoDatabase = 'hmkfinancetracker',
     mongoCollection = 'users',
     mongoCollection2 = 'userportfolios',
