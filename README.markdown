@@ -13,11 +13,11 @@ The goal of this application is to allow users to quickly determine how much eac
 ## Technical Achievements
 - **Tech Achievement 1**: I got a 100% in all four lighthouse tests. This can be seen on all the login page, create account page, and the receipts page. 
 
-<img src="/images/Login page Lighthouse">
+<img src="images/CreateAccountLighthouse.png">
 
-<img src="/images/Create Account Lighthouse">
+<img src="images/LoginLighthouse.png">
 
-<img src="/images/Receipts Page Lighthouse">
+<img src="images/ReceiptsLighthouse.png">
 
 - **User Logout (10pts)**: While it was not a given technical achievement, I think it should be considered to be one. Logging the user out and removing any cookies was extremely difficult and required several hours of debugging and multiple sessions of office hours for help. While simply removing cookies was not necessarily the hard part, I have implemented it using redirects in a way that if the user hits the back button, it does not re-log the user in rather continues to ask them to sing in.
 
