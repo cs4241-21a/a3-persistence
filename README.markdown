@@ -7,14 +7,14 @@ This project is an extension of a2-shortstack where I originally created an anon
 
 ![](/writeupImages/indexPage.png)
 
-The management page lets you modify the title or description of any post, or delete the post entirely. Any changes that occur here are also shown on the homepage for all users. The screenshot below shows how the only my post is shown on my profile and the image posted by Ben is not shown, thus the user can only modify their own posts.
+The management page lets you modify the title or description of any post the user created, or delete the post entirely. Any changes that occur here are also shown on the homepage for all users. The screenshot below shows how only my post is shown on my profile and the image posted by Ben is not shown, thus the user can only modify their own posts.
 
 ![](/writeupImages/myProfile.png)
 
 During the development process, I experiencied difficulties interacting with my database (MongoDB). It was straight forward inserting data, but I had difficulties searching for contents of the database that fit certain conditions, in addition to modifying them. Everything else only required small adaptations to the code from a2 to work with the new server (express) and retrieving data from mongodb instead of a json file.
 
 I used a username and password for authentications for two reasons:
-  1. It was easy to implement due to it just being two text inputs that are submitted to the server through a post requests
+  1. It was easy to implement due to it just being two text inputs that are submitted to the server through a post request.
   2. It allowed the user to have a unique username and display name to be used as the author for every post on the website.
 
 I used the sakura css framework on my webpage due to it being easy to implement and the design of it worked well with the site. I kept some of my old styling from a2, in particular I kept the grid display to make sure every post had its own box, with three on each row. I also limited the size of the images and text area forms to make sure they didn't take up the whole screen, and centered the input of textboxes. 
@@ -27,7 +27,7 @@ I used the following middleware in my project:
   - serve-favicon - This is used to put a favicon.ico on every webpage.
 
 ## Technical Achievements
-- **Tech Achievement 1**: I used Heroku to host my website instead of glitch. While it took much more effort to initially setup the webpage to work on heroku compared to glitch, the extra effort made it much easier to apply any changes, as all I needed to do to push changes was `git push heroku main` in my terminal. This also stops the page from going to sleep after 5 minutes like glitch. In addition, it was easy to use .env capabilities securely through the config page of herokus website. Overall, heroku gives you much more control of your projects deployment in comparison to glitch. 
+- **Tech Achievement 1**: I used Heroku to host my website instead of glitch. While it took much more effort to initially setup the webpage to work on heroku compared to glitch, the extra effort made it much easier to apply any changes, as all I needed to do to push changes is type `git push heroku main` in my terminal. This also stops the page from going to sleep after 5 minutes like glitch. In addition, it was easy to use .env capabilities securely through the config page of herokus website. Overall, heroku gives you much more control of your projects deployment in comparison to glitch. 
 
 
 - **Tech Achievement 2**: 100% on Lighthouse tests\
