@@ -25,7 +25,10 @@ app.use(function (req, res, next) {
 app.engine('handlebars', expressHandlebars())
 app.set('view engine', 'handlebars')
 
-const PORT = 3000
+const PORT = process.env.PORT
+if (PORT == null || PORT == '' {
+  PORT = 8000
+}
 
 const client = new MongoClient(process.env.DB_URI, {
   useNewUrlParser: true, 
