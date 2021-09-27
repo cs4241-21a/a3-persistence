@@ -5,7 +5,6 @@ const login = function (e) {
     const username = document.querySelector('#username'),
     password = document.querySelector('#password');
 
-    //Error checking that the user enters both fields
     if (username.value === "" || password.value === "") {
         alert("Enter a valid username and password");
         return false
@@ -37,7 +36,6 @@ const signup = function (e) {
     const username = document.getElementById('username'),
     password = document.getElementById('password');
 
-    //Error checking that the user signs-up with valid fields
     if (username.value === "" || password.value === "") {
         alert("Enter a valid username and password");
         return false

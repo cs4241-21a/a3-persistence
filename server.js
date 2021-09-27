@@ -90,14 +90,12 @@ app.post("/submit", bodyParser.json(), function(req,res) {
       .then( findResponse   => res.json( findResponse ))
     })
   
-//Add a route to remove a todo
 app.post( '/remove', (req,res) => {
     collection
       .deleteOne({ _id:mongodb.ObjectId( req.body.idElement) })
       .then(result => res.json(result))
 })
 
-//Add a route to update a document
 app.post( '/update', (req,res) => {
     collection
       .updateOne({ _id:mongodb.ObjectId( req.body.id ) },
