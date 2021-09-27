@@ -3,8 +3,10 @@ const express = require( 'express' ),
       app = express(),
       cookie = require('cookie-session'),
       cookieParser = require('cookie-parser'),
-      GitHibStrategy = require('passport-github2').Strategy,
-      passport = require('passport')
+      GitHubStrategy = require('passport-github2').Strategy,
+      passport = require('passport'),
+      mime = require('mime')
+const { TextEncoder, TextDecoder } = require("util");
 
 app.use( express.static( 'public' ))
 
@@ -36,9 +38,9 @@ passport.deserializeUser(function(user, done){
 })
 
 passport.use( new GitHubStrategy({
-  clientID: process.env.GITHUB_ID,
-  clientSecret: process.env.GITHUB_SECRET,
-  callbackURL: "http://127.0.0.1:3000/github/callback"
+  clientID: '56dbd74c19ff02af8549',
+  clientSecret: '88dea4f58046c27386e4619ecc61398e158779e6',
+  callbackURL: "http://genshindb.glitch.me/github/logs"
 },
 function(accessToken, refreshToken, profile, done) {
   return done(null, profile)
@@ -114,26 +116,5 @@ app.post('/update', bodyParser.json(), (request, response) => {
 })
 
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
-}
 
 app.listen( process.env.PORT || 3000 )

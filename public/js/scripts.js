@@ -7,6 +7,8 @@ console.log("Welcome to assignment 3!")
 window.onload = function() {
     const button = document.getElementById( 'submitAdd' )
     button.onclick = submit
+    const loginButton = document.getElementByID( 'loginButton' )
+    loginButton.onclick = login
     initTable()
 }
 
@@ -114,6 +116,40 @@ const createTable = function(id, data) {
                 row++
             })
 }
+
+const login = function(){
+  const password = document.getElementById( 'uname' ).value
+  const username = document.getElementById('pword').value
+
+  fetch('/login', {
+    method: 'POST',
+    body: JSON.stringify({
+      password: password,
+      username: username
+    }),
+    headers:{
+      "Content-Type":"application/json"
+    }
+  })
+  .then(response => {
+    return response.json()
+  }) 
+  .then(json => {
+    if(json.worked){
+      document.getElementById( 'pword' ).value = ""
+      document.getElementById( 'uname' ).value = ""
+      window.location.href = '/main.html'
+    }
+    else {
+      document.getElementById( 'pword' ).value = ""
+      document.getElementById( 'uname' ).value = ""
+      console.log('Wrong info')
+      //document.getElementById("wrong_info").classList.remove("is-hidden")
+      
+    }
+  })
+}
+
 
 function logout() {
     fetch( '/logout', {
