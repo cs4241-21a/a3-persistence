@@ -15,7 +15,6 @@ Some major challenges that I faced when writing this application:
 - Logging out from the github auth required an extra step to destroy the user's session and not just logout
 - I had been very used to relational databases before this, so I kept thinking about things using joins/foreign keys which don't exist. Instead, every document can just store the information it needs
 
-
 ## Technical Achievements
 - **Authentication**: I used OAuth authentication via passport and the GitHub strategy
 - **Express Server**: Created a RESTful API with express to manage the data
