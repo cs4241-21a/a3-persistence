@@ -2,7 +2,69 @@
 // run by the browser each time the page is loaded
 
 console.log("hello world :o");
+const table = document.getElementById("watchlist");
+const form = document.querySelector("#movieForm");
+const addButton = document.getElementById("add-entry");
 
+function updateWatchlist(data) {
+  let json_data = JSON.parse(data);
+  //  clientdata = json_data["data"];
+  table.innerHTML = `<tr> <th id ="title" ><div contenteditable = 'true'> Title</th> <th id ="year" ><div contenteditable = 'true'> Year</th> <th id ="genre"><div contenteditable = 'true'>Genre</th><th id = "streaming"> <div contenteditable = 'true'>Streaming</th><th id = "synopsis"><div contenteditable = 'true'>Synopsis</th><th id = "save" >Save Edit</th> <th id = "delete" >Delete</th>  </tr>`;
+  json_data.forEach(element =>
+    addMedia(
+      element["titleEntry"],
+      element["yearEntry"],
+      element["Genre"],
+      element["isStreaming"],
+      element["synopsisEntry"]
+    )
+  );
+  // addMedia(json_data.title, json_data.director, json_data.)
+}
+
+window.onload = function() {
+  fetch("/load")
+    .then(response => response.json())
+    .then(appdata => {
+      updateWatchlist(appdata);
+    });
+  addButton.onclick = submit;
+};
+
+function addMedia(title, year, genre, isStreaming, synopsis) {
+  // console.log(title,director,genre,year,isInTheaters)
+  let row = table.insertRow(-1);
+  let streamChecker = document.getElementById("isStreaming");
+  let cell0 = row.insertCell(0);
+  let cell1 = row.insertCell(1);
+  let cell2 = row.insertCell(2);
+  let cell3 = row.insertCell(3);
+  let cell4 = row.insertCell(4);
+  let cell5 = row.insertCell(5);
+  let cell6 = row.insertCell(6);
+
+  cell0.innerHTML = title;
+  cell1.innerHTML = year;
+  cell2.innerHTML = genre;
+  if (streamChecker) {
+    cell3.innerHTML = "Yes";
+  } else cell3.innerHTML = "No";
+  cell4.innerHTML = synopsis;
+  cell5.innerHTML = `<button type="submit" id="delete-entry">Delete</button>`;
+  cell6.innerHTML = `<button type="submit" id="save-entry">Save</button>`;
+}
+
+const submit = function(e) {
+  console.log("started submit");
+  e.preventDefault();
+
+  // get dream value and add it to the list
+  let newEntry = form.elements;
+  for (var i = 0; i < newEntry.length - 1; i++) {
+    let element = newEntry.item(i);
+    console.log(element.id, element.value);
+  }
+};
 /*
 // define variables that reference elements on our page
 const table = document.getElementById("watchlist");
@@ -173,4 +235,3 @@ fetch("/entries")
       dreamsForm.reset();
       dreamsForm.elements.dream.focus();
       */
-  
