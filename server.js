@@ -4,8 +4,10 @@ const fs   = require( 'fs' ),
       body_parser = require('body-parser'),
       morgan  = require('morgan'),
       favicon = require('serve-favicon'),
+      passport = require('passport'),
+      GitHubStrategy = require('passport-github2').Strategy,
       mongodb = require('mongodb'),
-      cookie  = require('cookie-session'),
+      session  = require('express-session'),
       path  = require('path'),
       app     = express(),
       dir  = 'public/',
@@ -17,10 +19,55 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(':method :url :status - :response-time ms'));
 
-app.use( cookie({
-  name: 'session',
-  keys: ['key1', 'key2']
-}));
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }}))
+
+app.use(passport.initialize());
+
+passport.serializeUser(function(user, cb){
+  cb(null, user);
+})
+
+passport.deserializeUser(function(user, cb) {
+  cb(null, user);
+})
+
+passport.use(new GitHubStrategy({
+    clientID: process.env.GITHUB_CLIENT_ID,
+    clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    callbackURL: "http://localhost:3001/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    cb(null, profile);
+  }
+));
+
+app.get('/auth/github',
+  passport.authenticate('github'));
+
+app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+    // Successful authentication
+    req.session.login = true;
+    req.session.username = req.user.id;
+
+    collection.findOne({ username: req.session.username }).then(result => {
+      if(result === null){
+        let data = {
+          username: req.session.username,
+          // note missing password field on github users
+          tasks: []
+        }
+        collection.insertOne(data).then(result => {
+          console.log(result);
+          // this is just a guess on how to check if it was successful
+          if(result.acknowledged && result.insertedId !== null) {
+            res.redirect('/');
+          }
+        });
+      } else {
+        res.redirect('/');
+      }
+    });
+});
 
 app.post( '/login', body_parser.json(), (req,res)=> {
   // express.urlencoded will put your key value pairs 
@@ -30,6 +77,7 @@ app.post( '/login', body_parser.json(), (req,res)=> {
   
   collection.findOne({ username: req.body.username }).then(result => {
     if(result !== null) {
+      // note result.password only exists on non-github users, so this always fails for github users (as expected)
       if(result.password === req.body.password) {
         // define a variable that we can check in other middleware
         // the session object is added to our requests by the cookie-session middleware
@@ -60,7 +108,7 @@ app.post( '/signup', body_parser.json(), (req,res)=> {
 
   let data = {
     username: req.body.username,
-    password: req.body.password,
+    password: req.body.password, // this field is only on non-github users
     tasks: []
   }
 
@@ -105,12 +153,16 @@ app.post( '/signup', body_parser.json(), (req,res)=> {
 });
 
 app.post( '/logout', (req,res)=> {
-  req.session.login = false;
+  req.session.destroy(function(err) {
+    console.error("Failed to destroy session: " + err);
+  })
   res.sendFile(__dirname + '/public/index.html');
 })
 
 // redirect unauthenticated users to login
 app.use( function( req,res,next) {
+  console.log(req.session.login);
+  console.log(req.session.username);
   if( req.session.login === true || req.originalUrl === "/js/login.js" || req.originalUrl === "/robots.txt" )
     next()
   else
