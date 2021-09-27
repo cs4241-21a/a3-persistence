@@ -4,9 +4,6 @@
 
 ## MyAgenda - *A simple homework agenda*
 
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-
 My project is a homework todo list web application. The user can add multiple homework assignments with various properties such as the assignment name, course, and due date. The users are also capable of completing assignments (which removes it from the server), as well as editing assignments (which directly modifies the on server data).
 
 Currently there are some minor issues with the date handling, since it is using JavaScripts built in Date object. Due to the default timezone that the built-in Date object uses, the due dates occasionally appear off by a day, depending on what time the assignment was created (since there is currently no way of entering time easily on the due date form). This could be a fix for the future.
@@ -43,7 +40,6 @@ menus, text inputs, and text areas as my form of input for information.
 - Custom Redirect Middleware = Redirect to home page if a user is not logged in (determined by if a cookie exists) and is attempting to view their agenda.
                                Also redirects to the agenda if the user attempts to login but already has.
 
-
 ## Technical Achievements
 
 - **Setup OAuth for Login**: I used PassportJS to create OAuth authentication with GitHub. This used the *passport-github2* Passport strategy available through NPM.
@@ -66,8 +62,12 @@ upon loading, it takes too long to process for lighthouse.
     For example, on the landing page I provided contrast on the GitHub login button so that it was clearly separate from the heading of the page. On the agenda editor,
     I added contrast on the "New Homework" and "Delete" buttons. By doing this, and giving them bright and different colors, it becomes clearer to the user that these buttons
     are for a specific purpose. With the delete button having an orange shade, it is also clearer that this button may have more negative side-effects, such as removing the
-    actual homework assignment from the agenda.
+    actual homework assignment from the agenda. This contrast with buttons is also done on the homework editing form. By having the submit button be in a brighter, and eye catching
+    blue color, it makes it easier to the user that this is the submit button.
 
-  - *Repetition*:
+  - *Repetition*: For using repetition with my application, this was done throughout the tool with the agenda table, and the actual homework editor submission form. By repeating
+    multiple table elements in the same format and layout, this hopefully made it clearer to the user when a new element was added, and what information was corresponding
+    to that new homework assignment.
 
-  - **:
+  - *Alignment*: Kept table elements aligned, and buttons aligned. Also kept inputs in the editor aligned to make it clearer to the user that all of the editing information
+    was related.

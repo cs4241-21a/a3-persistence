@@ -1,7 +1,7 @@
 const hwAPIPath = "/agenda/data"
 
 const hwProperties = [
-  "name", "priority", "course", "dueDate",
+  "name", "priority", "course", "dueDate", "complete",
 ]
 const hwPropColNames = [
   "Homework", "Priority", "Course", "Due Date",
@@ -43,7 +43,7 @@ function createHWRow(homeworkTable, homework) {
   const newHWSubmit = document.getElementById('newHWSubmit')
   const editBtn = document.createElement('button')
   editBtn.textContent = "Edit"
-  editBtn.className = "mui-btn"
+  editBtn.className = "mui-btn mui-btn--raised"
   editBtn.onclick = function() {
     const nameInput = document.getElementById('homeworkName'),
           courseInput = document.getElementById('homeworkCourse'),
