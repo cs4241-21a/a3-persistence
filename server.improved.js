@@ -76,7 +76,6 @@ const isAuth = (request, response, next) => {
 
 // redirect to login.html
 app.get("/", (request, response) => {
-    
     response.sendFile(__dirname + "/public/login.html")
 });
 
@@ -88,7 +87,7 @@ app.get("/todo", isAuth, (request, response) => {
 // redirect to login.html
 app.get("/logout", (request, response) => {
     request.logOut()
-    response.redirect('/login')
+    response.redirect('/')
 });
 
 
