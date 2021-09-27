@@ -14,13 +14,19 @@ passport.deserializeUser((user, done) => {
 
 // Local Strategy
 passport.use(
-    new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
+    new LocalStrategy({usernameField: 'email'}, (email, password, done) => {
         // Match User
-        User.findOne({ username: email })
+        User.findOne({username: email}, function (err, docs) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log("Result : ", docs);
+            }
+        })
             .then(user => {
                 // Create new User
-                if (!user) {
-                    const newUser = new User({ email, name, password });
+                if (user === undefined) {
+                    const newUser = new User({email, password});
                     // Hash password before saving in database
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
@@ -32,10 +38,11 @@ passport.use(
                                     return done(null, user);
                                 })
                                 .catch(err => {
-                                    return done(null, false, { message: err });
+                                    return done(null, false, {message: err});
                                 });
                         });
                     });
+                    Console.log(newUser);
                     // Return other user
                 } else {
                     // Match password
@@ -46,13 +53,13 @@ passport.use(
                         if (isMatch) {
                             return done(null, user);
                         } else {
-                            return done(null, false, { message: "Wrong password" });
+                            return done(null, false, {message: "Wrong password"});
                         }
                     });
                 }
             })
             .catch(err => {
-                return done(null, false, { message: err });
+                return done(null, false, {message: err});
             });
     })
 );

@@ -4,6 +4,7 @@ const express = require( 'express' ),
     {connect} = require('mongoose'),
     PORT = process.env.PORT || 3000,
     app = express();
+    robots = require('express-robots-txt')
 const session = require("express-session");
 const MongoStore = require('connect-mongodb-session')(session);
 const passport = require('passport');
@@ -59,6 +60,11 @@ app.use(function(err, req, res, next) {
 
 app.use(passport.initialize);
 app.use(passport.session);
+
+app.use(robots({
+    UserAgent: '*',
+    Disallow: '/',
+}))
 
 app.listen( PORT )
 console.log(`server started on port ${PORT}`)

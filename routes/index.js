@@ -3,12 +3,15 @@ require("body-parser");
 require("passport-local-mongoose");
 require("passport-local");
 require('body-parser');
+const robots = ('express-robots-txt');
 const express = require("express"),
     passport = require("passport"),
     User = require("../models/User");
 const {render} = require("ejs");
 const Console = require("console");
 const bodyParser = require("body-parser");
+const {join} = require("path");
+const {sendFile} = require("express/lib/response");
     router = express.Router();
 
     function isLoggedIn(req, res, next) {
@@ -25,7 +28,7 @@ const jsonParser = bodyParser.json();
 // create application/x-www-form-urlencoded parser
 const urlencodedParser = bodyParser.urlencoded({extended: false});
 
-//Login
+
 router.get('/', urlencodedParser,(req, res) => res.render('login'));
 
 //Register
