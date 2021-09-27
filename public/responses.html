@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Responses -- CS4241 Assignment 3</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+  <header class="container-fluid header-footer-background">
+    <div class="row align-items-center">
+      <div class="col">
+        <img src="https://cdn.glitch.com/c2c9492b-2ab1-4df2-b027-f9c1281d4de7%2FPikPng.com_wpi-logo-png_3464524.png?v=1632623944035"
+          class="wpi-logo" alt="WPI Logo" />
+        <h1 class="text-center">Student Preferences</h1>
+      </div>
+      <div class="col">
+        <h2>Welcome to WPI's <i>unofficial</i> dorm, dining hall, and campus location comparison tool!</h2>
+      </div>
+      <div class="col">
+        <h2>Check how students have rated your favorite spots on campus and add your own ratings!</h2>
+      </div>
+    </div>
+  </header>
+
+  <div class="responses-background p-3">
+    <div id='info' class="container-fluid py-3">
+      <div class="row align-items-center text-center">
+        <div class="col">
+          <a class="btn btn-lg btn-outline-dark" href='login.html'>Edit Your Ratings</a>
+        </div>
+        <div class="col">
+          <a class="btn btn-lg btn-outline-dark" href='#seal' onclick='stepOnSeal()'>Step On The Seal</a>
+        </div>
+      </div>
+    </div>
+
+    <table id='ratings' class="table table-striped text-center">
+      <thead>
+        <tr>
+          <th scope="col">Response ID</th>
+          <th scope="col">Name</th>
+          <th scope="col">Academic Year</th>
+          <th scope="col">Years Till Graduation</th>
+          <th scope="col">Best Dorm?</th>
+          <th scope="col">Best Dining Hall?</th>
+          <th scope="col">Favorite Spot?</th>
+          <th scope="col">Additional Notes</th>
+        </tr>
+      </thead>
+    </table>
+
+    <img src="https://cdn.glitch.com/5786a749-abf3-443b-8bab-466af4fe7d5a%2FWPI_Quad.jpeg?v=1631079961919"
+      class="img-fluid w-100 py-3" alt="WPI Quad" />
+  </div>
+
+  <footer class="container-fluid header-footer-background py-3">
+    <div class="row align-items-center text-center">
+      <div class="col">
+        <h3>Works Cited...</h3>
+      </div>
+      <div class="col">
+        <h5><a class="link-dark"
+          href="https://www.wpi.edu/sites/default/files/docs/Offices/Marketing-Communications/WPI_Institutional_9-4-12.pdf">WPI
+          Logo Used With Permission</a></h5>
+      </div>
+      <div class="col">
+        <h5><a class="link-dark" href="https://en.wikipedia.org/wiki/File:WPI_Quad.jpeg">WPI Quadrangle Used With Permission</a></h5>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
+  <script src='js/responsesPage.js'></script>
+</body>
+
+</html>

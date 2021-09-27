@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <title>Login -- CS4241 Assignment 3</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+  <link href="css/style.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+  <header class="container-fluid header-footer-background">
+    <div class="row align-items-center">
+      <div class="col">
+        <img
+          src="https://cdn.glitch.com/c2c9492b-2ab1-4df2-b027-f9c1281d4de7%2FPikPng.com_wpi-logo-png_3464524.png?v=1632623944035"
+          class="wpi-logo" alt="WPI Logo" />
+        <h1 class="text-center">Student Preferences</h1>
+      </div>
+      <div class="col">
+        <h2>Welcome to WPI's <i>unofficial</i> dorm, dining hall, and campus location comparison tool!</h2>
+      </div>
+      <div class="col">
+        <h2>Check how students have rated your favorite spots on campus and add your own ratings!</h2>
+      </div>
+    </div>
+  </header>
+
+  <div class="responses-background p-3">
+    <div id='login' class="container-fluid py-3">
+      <div class="row align-items-start text-center">
+        <div class="col">
+          <h3>Sign In To Your Account</h3>
+          <form>
+            <div class="mb-3">
+              <label for="loginUsername" class="form-label">Username</label>
+              <input type="text" class="form-control" id="loginUsername" aria-describedby="usernameHelp">
+              <div id="usernameHelp" class="form-text">A sample username is "test"!</div>
+            </div>
+            <div class="mb-3">
+              <label for="loginPassword" class="form-label">Password</label>
+              <input type="password" class="form-control" id="loginPassword" aria-describedby="passwordHelp">
+              <div id="passwordHelp" class="form-text">A sample password is "1234"!</div>
+            </div>
+            <button id="signInButton" onclick="event.preventDefault();" type="submit" class="btn btn-danger">Sign
+              In!</button>
+          </form>
+        </div>
+        <div class="col">
+          <h3>Sign In With GitHub</h3>
+          <h5>Coming soon!</h5>
+        </div>
+        <div class="col">
+          <h3>Register For An Account</h3>
+          <form>
+            <div class="mb-3">
+              <label for="registerUsername" class="form-label">Username</label>
+              <input type="text" class="form-control" id="registerUsername" aria-describedby="usernameHelp">
+              <div id="usernameHelp" class="form-text">Be creative, have fun with it!</div>
+            </div>
+            <div class="mb-3">
+              <label for="registerPassword" class="form-label">Password</label>
+              <input type="password" class="form-control" id="registerPassword" aria-describedby="passwordHelp">
+              <div id="passwordHelp" class="form-text">Don't reuse your own passwords!</div>
+            </div>
+            <button onclick="event.preventDefault();" id="registerAccountButton" type="submit"
+              class="btn btn-danger">Register!</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="container-fluid header-footer-background py-3">
+    <div class="row align-items-center text-center">
+      <div class="col">
+        <h3>Don't want to sign in? Check out how other students responded here!</h3>
+        <a class="btn btn-lg btn-outline-dark" href='responses.html'>View Current Responses</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src='js/loginPage.js'></script>
+</body>
+
+</html>
