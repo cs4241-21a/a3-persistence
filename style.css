@@ -1,0 +1,61 @@
+body {
+  background-color: rgba(228, 228, 228, 0.788);
+}
+
+h1,
+h2 {
+  font-family: "Special Elite", cursive;
+}
+
+li {
+  list-style-type: none;
+  font-family: "Carrois Gothic SC", sans-serif;
+  font-size: 20px;
+  margin: 0 0 8px 0;
+}
+
+input {
+  line-height: 2;
+  font-size: 20px;
+  font-family: "Carrois Gothic SC", sans-serif;
+}
+
+select {
+  font-family: "Carrois Gothic SC", sans-serif;
+  font-size: 15px;
+  text-align: center;
+  border: 0;
+  margin: 0 0 0 10px;
+}
+
+button {
+  font-size: 30px;
+  font-family: "Big Shoulders Stencil Text", cursive;
+  background-color: aliceblue;
+  border-color: #020c3a;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: auto auto auto auto auto auto;
+  background-color: #2196F3;
+  padding: 2px;
+}
+
+.grid-item {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgb(0, 0, 0);
+  padding: 5px;
+  font-size: 15px;
+  text-align: center;
+  font-family: "Carrois Gothic SC", sans-serif;
+}
+
+.grid-item-label {
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid rgb(0, 0, 0);
+  padding: 10px;
+  font-size: 35px;
+  text-align: center;
+  font-family: "Big Shoulders Stencil Text", cursive;
+}
