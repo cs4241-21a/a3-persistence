@@ -88,6 +88,12 @@ app.delete( "/removeSpeedrun", (req, res) => {
   res.redirect("main.html");
 })
 
+app.get( "/getUserData", (req, res) => {
+  data = Speedrun.find({ userName: req.session.userName }, function (err, docs) {
+    res.body.data = data;
+  });
+})
+
 // add some middleware that always sends unauthenicated users to the login page
 app.use( function( req,res,next) {
   if( req.session.login === true )

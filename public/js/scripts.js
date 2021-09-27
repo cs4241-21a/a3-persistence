@@ -49,6 +49,14 @@ function onDelete(td) {
 
 const createResultsTable = function (resultsData) {
     for (let i = 0; i < resultsData.length; i++) {
-        
+        displaySpeedrunRow(resultsData[i]);
     }
+}
+
+window.onload = function() {
+    fetch("/getUserData", {
+        method: "GET"
+    }).then( function (response) {
+        createResultsTable(response.body.data);
+    })
 }
