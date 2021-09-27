@@ -38,7 +38,7 @@ passport.deserializeUser(function(user, done){
 passport.use( new GitHubStrategy({
   clientID: process.env.GITHUB_ID,
   clientSecret: process.env.GITHUB_SECRET,
-  callbackURL: "http://127.0.0.1:3001/github/callback"
+  callbackURL: "http://127.0.0.1:3000/github/callback"
 },
 function(accessToken, refreshToken, profile, done) {
   return done(null, profile)
@@ -136,4 +136,4 @@ const sendFile = function( response, filename ) {
    })
 }
 
-app.listen( process.env.PORT || 3001 )
+app.listen( process.env.PORT || 3000 )
