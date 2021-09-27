@@ -76,8 +76,8 @@ passport.deserializeUser(function(user, done) {
 });
 
 passport.use(new GitHubStrategy({
-  clientID: process.env.GITHUB_ID,
-  clientSecret: process.env.GITHUB_SECRET,
+  clientID: '98054014391d5b76fa5e',
+  clientSecret: 'aedfa1913dfc6dd6434891ec086a125f71f81528',
   callbackURL: "https://a3-akerekon.herokuapp.com/github/logs"
 },
 function(accessToken, refreshToken, profile, done) {
