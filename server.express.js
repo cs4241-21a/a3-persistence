@@ -1,6 +1,10 @@
 const express = require('express'),
       cookie = require('cookie-session'),
       mongodb = require('mongodb'),
+      morgan = require('morgan')
+      responseTime = require('response-time')
+      path = require('path')
+      favicon = require('serve-favicon')
       app = express();
 
 require('dotenv').config();
@@ -47,6 +51,11 @@ client.connect()
 //     }
 // })
 
+app.use(morgan('combined'))
+app.use(responseTime(function(req,res,time){
+    console.log("time to handle request (ms): " + time)
+}))
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 
 app.use((req,res,next)=>{      //note that a .use call with no mount path runs on every single request to app (the server)
     if (users !== null || assignments !== null){
