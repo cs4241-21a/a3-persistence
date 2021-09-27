@@ -17,7 +17,7 @@ add a little more detail about what it does.
 ## Summary
 
 The Game of Blackjack is a web application for playing a simple game of Blackjack against a computer opponent. It features an account system, a money balance that persists between sessions, a global leaderboard, and an account management page that lets you modify account information. There were many challenges faced when realizing the application. I chose a simple Username and Password combination to login, with that information being stored as a document in my database. My authentication system had many problems in the beginning, including being able to register with no username and/or password and being unable to modify your account info. Since my project is a game, making all of the important game elements appear without requiring users to scroll was also a challenge. I chose to use pico.css for my CSS Framework. Pico made it much easier to read, but even that had some problems, one of which being that buttons and text inputs stretched across the screen by default.
-![Bet Form](/images/bet_amount.png)
+![Bet Form](/public/images/bet_amount.png)
 The only modifications I made to the framework were slight changes in color for buttons, which made them a little brighter.
 For middleware packages, I used body-parser, cookie-parser, cookie-session, serve-favicon, and a custom middleware package that redirects unauthenticated users to the login page.
 
