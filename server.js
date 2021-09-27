@@ -23,14 +23,7 @@ client.connect()
 	})
 	.then(__collection => {
 		collection = __collection
-		console.log('mongoDB connection established')
-		// DB Tester
-		collection.find({"email": "test@testers.com", "password": "test"})
-			.toArray().then(result => {
-			if (result[0] !== undefined)
-				console.log(result[0]._id.toString())
-			else console.log("Test user not found")
-		})
+		if (collection !== null) console.log('mongoDB connection established')
 	})
 
 // Checks DB connection
@@ -80,23 +73,23 @@ app.get('/G3P-logo.png', function (req, res) {
 
 // User login authentication
 app.post('/login', (req, res) => {
-	console.log('/login:')
+	console.log('/login')
 	console.log(req.body)
 
-	collection.find({"email": req.body.email, "password": req.body.password}).toArray()
+	collection.find({'email': req.body.email, 'password': req.body.password}).toArray()
 		.then(
 			result => {
-				if (result === "" || result[0] === undefined) {
+				if (result === "" || result === "[]" || result[0] === undefined) {
 					// TODO: Inform user "Email or Password Incorrect"
 					res.redirect('/login')
 				} else {
-					console.log("Successfully logged in")
+					console.log("Successfully logged user in")
 					req.session.login = true
-					console.log("user _id: " + result[0]._id.toString())
+					console.log("user id: " + result[0]._id.toString())
 					req.session.id = result[0]._id.toString()
 					// TODO: This is a temporary implementation of the "Remember me" feature
 					if (req.body.remember !== 'on') {
-						req.sessionOptions.maxAge = 60 * 1000 // 1 Minute
+						req.sessionOptions.maxAge = 5 * 60 * 1000 // 5 Minutes
 					}
 					res.redirect('/')
 				}
@@ -122,24 +115,23 @@ app.post('/join', (req, res) => {
 	}
 
 	collection.find({"email": req.body.email}).toArray()
-		.then(
-			result => {
-				if (result[0] !== undefined) {
-					// TODO: Inform user "Email already used"
-					res.redirect('/join')
-				} else {
-					let newUser = {
-						"email": req.body.email,
-						"password": req.body.password,
-						"list": []
-					}
-					collection.insertOne(newUser).then(() => {
-							console.log("Successfully created account")
-							res.redirect('/login')
-						}
-					)
+		.then(result => {
+			if (result[0] !== undefined) {
+				// TODO: Inform user "Email already used"
+				res.redirect('/join')
+			} else {
+				let newUser = {
+					"email": req.body.email,
+					"password": req.body.password,
+					"list": []
 				}
-			})
+				collection.insertOne(newUser).then(() => {
+						console.log("Successfully created account")
+						res.redirect('/login')
+					}
+				)
+			}
+		})
 })
 
 
@@ -157,10 +149,10 @@ app.use(function (req, res, next) {
 // ------ Logged in only ------
 
 
-// Serve static files
+// Serve static files with automatic extension fallbacks so things can look much nicer
 app.use(express.static('public', {extensions: ['html', 'js', 'css']}))
 
-// index
+// Serve index.html
 app.get('/', function (req, res) {
 	res.sendFile(__dirname + '/public/index.html')
 })
@@ -169,11 +161,83 @@ app.get('/', function (req, res) {
 // ------ CRUD ------
 
 
-app.get('/read', (req, res) => {
-	if (collection !== null) {
-		collection.find({_id: new mongodb.ObjectId(req.session.id)}).toArray().then(result => res.json(result[0].list))
+// Route to create transaction
+app.post('/create', (req, res) => {
+	console.log('/create')
+	console.log(req.body)
+
+	let transaction = {
+		"_id": new mongodb.ObjectId(),
+		"date": req.body.date,
+		"isIn": (req.body.type === "income"),
+		"amount": req.body.amount * 100,
+		"note": req.body.note
 	}
+
+	collection.updateOne({"_id": new mongodb.ObjectId(req.session.id)}, {"$push": {"list": transaction}})
+		.then(result => {
+			const {matchedCount, modifiedCount} = result;
+			if (matchedCount && modifiedCount) {
+				console.log('Successfully added a new transaction:')
+				console.log(transaction)
+			}
+		})
+		.catch(err => console.error(`Failed to add transaction: ${err}`))
+
+	res.redirect('/')
 })
 
+
+// Route to read transaction
+app.get('/read', (req, res) => {
+	collection.findOne({_id: new mongodb.ObjectId(req.session.id)})
+		.then(result => res.json(result.list))
+})
+
+
+// Route to update transaction
+app.post('/update', (req, res) => {
+	console.log('/update')
+	console.log(req.body)
+
+	let transaction = {
+		"_id": new mongodb.ObjectId(req.body.id),
+		"date": req.body.date,
+		"isIn": (req.body.type === "income"),
+		"amount": req.body.amount * 100,
+		"note": req.body.note
+	}
+
+	collection.updateOne({"list._id": new mongodb.ObjectId(req.body.id)}, {"$set": {"list.$": transaction}})
+		.then(result => {
+			const {matchedCount, modifiedCount} = result;
+			if (matchedCount && modifiedCount) {
+				console.log('Successfully updated a transaction:')
+				console.log(transaction)
+			}
+		})
+		.catch(err => console.error(`Failed to update transaction: ${err}`))
+
+	res.redirect('/')
+})
+
+
+// Route to delete transaction
+app.post('/delete', (req, res) => {
+	console.log('/delete')
+	console.log(req.body)
+
+	collection.updateOne({'_id': new mongodb.ObjectId(req.session.id)},
+		{$pull: {'list': {'_id': new mongodb.ObjectId(req.body.id)}}})
+		.then(result => {
+			const {matchedCount, modifiedCount} = result;
+			if (matchedCount && modifiedCount) {
+				console.log('Successfully deleted a transaction: ' + req.body.id)
+			}
+		})
+		.catch(err => console.error(`Failed to delete transaction: ${err}`))
+
+	res.redirect('/')
+})
 
 app.listen(3000)

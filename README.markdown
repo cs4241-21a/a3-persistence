@@ -1,116 +1,94 @@
 Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
 ===
 
-Due: September 20th, by 11:59 AM.
+## G3P Expense Tracker
 
-This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
-a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
+Yihong Xu
+https://a3-gp2p.glitch.me
 
-Baseline Requirements
----
+This project is a website built with tailwindCSS that allows user to create account and log in to track their spending
+and income (CRUD), and a Node.js server using the express framework, connecting to a mongoDB server.
 
-Your application is required to implement the following functionalities:
+### Features:
 
-- a `Server`, created using Express (no alternatives will be accepted for this assignment)
-- a `Results` functionality which shows all data associated with a logged in user (except passwords)
-- a `Form/Entry` functionality which allows users to add, modify, and delete data items (must be all three!) associated with their user name / account.
-- Use of at least five [Express middleware packages](https://expressjs.com/en/resources/middleware.html). Explore! One of these five middleware 
-can be a custom function that you write yourself; if you choose to do this, make sure to describe what this function is in your README.  
-- Persistent data storage in between server sessions using [mongodb](https://www.mongodb.com/cloud/atlas)
-- Use of a [CSS framework or template](https://github.com/troxler/awesome-css-frameworks). 
-This should do the bulk of your styling/CSS for you and be appropriate to your application. 
-For example, don't use [NES.css](https://nostalgic-css.github.io/NES.css/) (which is awesome!) unless you're creating a game or some type of retro 80s site.
+- **User Accounts**:
+	- The user can create an account consisting of an email address and a password.
+	- They can not get email verifications for creating and resetting the password yet.
+	- They can log in with their account and ask the browser to remember their login for a week.
+	- User activities are seperated so data they entered is private to other users.
+	- I choose this method because I personally don't like to link accounts and believe accounts should be seperated.
+	  Browsers are all equipped with password autofill now, so it can also be more convenient.
+- **Remember Me**: Allows the browser to automatically sign user in for 7 weeks, else user will have to manually log in
+  frequently
+- **Expense Tracking**: The user can submit a transaction to the server, they can specify its type (income or expense),
+  the amount of the transaction, the date it happened, and a customized note to explain that transaction.
+- **Expense History**: The website displays a list of user expenses (and income) by date, shows the total income and
+  expenses for a day, and lists each transaction entered by the user.
+- **Expense Editing**: The user can edit a transaction by clicking on a button. They can edit its type (income or
+  expense), the amount of the transaction, the date it happened, and the customized note. The user can also delete a
+  transaction from the server.
+- **Express Middleware**: Used 8 express middlewares, 5 of them are imported, 3 of them are customized, located in
+  different sections of the server flow where needed
+	- body-parser is used to parse communication to request body for server use
+	- cookie-session is for storing and managing user cookies, used for user authentication in my case
+	- serve-favicon is to serve the same favicon for all the pages.
+	- express.static is used to serve static files (after the user was confirmed to be authenticated), with automatic
+	  extension fallbacks set up so urls don't need extensions like `.html`
+	- unnamed1 is used to check DB connection before any corrupted data gets past to the client, to avoid unexpected
+	  server and client behaviors
+- **User Interface**:
+	- Looks and feels clean and professional, with vibrant colors and playful interaction animations
+	- Well-designed, tested by testers and improved based on feedback
+	- Responsive, changes layout based on device type or window width (supports mobile phones, tablets and PCs)
+	- Accessible, contains hidden components for screen readers
+- **User Experience**:
+	- Data is sorted based on date, data is grouped based on date.
+	- Loading animation indicates the website is working to get/update their data.
+	- An empty table indicator tells the user when they don't have any data for the current selection.
+	- Buttons are interactive, shows alternative looks when mouse hovering, clicking and dragging, touchscreen dragging
+	  and more, to help user understand current options.
+	- A full screen popup allows user to add a transaction wherever they are on the screen, in case referencing old data
+	  is needed.
+	- The edit popup automatically fills old data so the user don't have to copy it over if they don't want to change
+	  that field.
+	- Delete button located in secondary menu and labeled with interactive red colors to avoid accidental deletions
+- **CSS**:
+	- Used tailwindCSS as the CSS framework of this project, adapted official UI elements and drastically edited them
+	  for my needs, including creating a set of custom color scheme. Customizations to the framework can be found
+	  in `tailwind.config.js`
+	- Used postCSS, purgeCSS and autoprefixer to produce an optimized minimal CSS file to ship to clients, reducing load
+	  time
+- **Two Tier Loading**: Loads a basic website that shows content loading first, then loads in all the data and process
+  it for display
+- CRUD (Create, Read, Update, Delete) of data
+- Unique key for each entry
+- **Folder System (not implemented)**: Users will be able to add data to different folders and view them separately in
+  the future.
+- **View System (not implemented)**: Users will be able to view data in pages based on customizable timeframes in the
+  future.
+- **Currency System (not implemented)**: Users will be able to label transactions to be in different currencies and
+  filter data with one or multiple currencies in the future.
+- **Tag System (not implemented)**: Users will be able to use tags to label data and filter data with one or multiple
+  tags in the future.
+- **Summary System (not implemented)**: Users will be able to see weekly/monthly/yearly summary of their finical
+  situation by tags in the future. This might include a generated statistic graph.
+- **Theme System (not implemented)**: Users will be able to switch themes/color schemes and have them remembered by the
+  server in the future.
 
-Your application is required to demonstrate the use of the following concepts:  
+### Technical Achievements (10/10)
 
-HTML:  
-- HTML input tags and form fields of various flavors (`<textarea>`, `<input>`, checkboxes, radio buttons etc.)
-- HTML that can display all data *for a particular authenticated user*. Note that this is different from the last assignnment, which required the display of all data in memory on the server.
+- **Data Processing**: Sort and group data by date instead of displaying data in a table/list
+- **HTML Templates**: Used JavaScript to automatically create HTML based on templates instead of adding data to a table
+- Serve static files with automatic extension fallbacks
+- Optimized `amount` datatype to save file size, internet usage and avoid float operation errors
+- See above for **Beautiful User Interface**, **Great User Experience**, **Optimized CSS**, **Remember Me**, **Two Tier
+  Loading**
 
-Note that it might make sense to have two pages for this assignment, one that handles login / authentication, and one that contains the rest of your application.
-For example, when visiting the home page for the assignment, users could be presented with a login form. After submitting the login form, if the login is 
-successful, they are taken to the main application. If they fail, they are sent back to the login to try again. For this assignment, it is acceptable to simply create 
-new user accounts upon login if none exist, however, you must alert your users to this fact.  
+### Design Achievements (10/10)
 
-CSS:  
-- CSS styling should primarily be provided by your chosen template/framework. 
-Oftentimes a great deal of care has been put into designing CSS templates; 
-don't override their stylesheets unless you are extremely confident in your graphic design capabilities. 
-The idea is to use CSS templates that give you a professional looking design aesthetic without requiring you to be a graphic designer yourself.
-
-JavaScript:  
-- At minimum, a small amount of front-end JavaScript to get / fetch data from the server. 
-See the [previous assignment](https://github.com/cs4241-19a/a2-shortstack) for reference.
-
-Node.js:  
-- A server using Express, at least five pieces of Express middleware, and a persistent database (mongodb).
-
-General:  
-- Your site should achieve at least 90% on the `Performance`, `Best Practices`, `Accessibility`, and `SEO` tests 
-using Google [Lighthouse](https://developers.google.com/web/tools/lighthouse) (don't worry about the PWA test).
-Test early and often so that fixing problems doesn't lead to suffering at the end of the assignment. 
-
-Deliverables
----
-
-Do the following to complete this assignment:
-
-1. Implement your project with the above requirements. A good potential starting point is to use the "hello-express" project template inside of Glitch; this appears as an option when you hit the "New Project" button. Use the work you did in the last assignment as a reference to implement functionality.
-2. If you developed your project locally, deploy your project to Glitch (unless completing the alternative server technical acheivement described below), and fill in the appropriate fields in your package.json file.
-3. Test your project to make sure that when someone goes to your main page on Glitch, it displays correctly.
-4. Ensure that your project has the proper naming scheme `a3-yourfirstname-yourlastname` so we can find it.
-5. Fork this repository and modify the README to the specifications below.
-6. Create and submit a Pull Request to the original repo. Name the pull request using the following template: `a3-firstname-lastname`.
-
-Acheivements
----
-
-Below are suggested technical and design achievements. You can use these to help boost your grade up to an A and customize the 
-assignment to your personal interests, for a maximum twenty additional points and a maximum grade of a 100%. 
-These are recommended acheivements, but feel free to create/implement your own... just make sure you thoroughly describe what you did in your README, 
-why it was challenging, and how many points you think the achievement should be worth. 
-ALL ACHIEVEMENTS MUST BE DESCRIBED IN YOUR README IN ORDER TO GET CREDIT FOR THEM.
-
-*Technical*
-- (10 points) Implement OAuth authentication, perhaps with a library like [passport.js](http://www.passportjs.org/). 
-*You must either use Github authenticaion or provide a username/password to access a dummy account*. 
-Course staff cannot be expected, for example, to have a personal Facebook, Google, or Twitter account to use when grading this assignment. 
-Please contact the course staff if you have any questions about this. THIS IS THE HARDEST ACHEIVEMENT OFFERED IN WEBWARE. You have been warned!  
-- (5 points) Instead of Glitch, host your site on a different service like [Heroku](https://www.heroku.com) or [Digital Ocean](https://www.digitalocean.com). Make sure to describe this a bit in your README. What was better about using the service you chose as compared to Glitch? What (if anything) was worse? 
-- (5 points) Get 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.  
-
-*Design/UX*
-- (10 points) Make your site accessible using the [resources and hints available from the W3C](https://www.w3.org/WAI/), Implement/follow twelve tips from their [tips for writing](https://www.w3.org/WAI/tips/writing/), [tips for designing](https://www.w3.org/WAI/tips/designing/), and [tips for development](https://www.w3.org/WAI/tips/developing/). *Note that all twelve must require active work on your part*. 
-For example, even though your page will most likely not have a captcha, you don't get this as one of your twelve tips to follow because you're effectively 
-getting it "for free" without having to actively change anything about your site. 
-Contact the course staff if you have any questions about what qualifies and doesn't qualify in this regard. 
-List each tip that you followed and describe what you did to follow it in your site.
-- (5 points) Describe how your site uses the CRAP principles in the Non-Designer's Design Book readings. 
-Which element received the most emphasis (contrast) on each page? 
-How did you use proximity to organize the visual information on your page? 
-What design elements (colors, fonts, layouts, etc.) did you use repeatedly throughout your site? 
-How did you use alignment to organize information and/or increase contrast for particular elements. 
-Write a paragraph of at least 125 words *for each of four principles* (four paragraphs, 500 words in total). 
-
-Sample Readme (delete the above when you're ready to submit, and modify the below so with your links and descriptions)
----
-
-## Your Web Application Title
-
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
-
-Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
-
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
-
-## Technical Achievements
-- **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-
-### Design/Evaluation Achievements
-- **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
+- Checks DB connection before connecting user, send error code to client to indicate error
+- Reject unauthenticated users' access of private files, but allow for public file serving
+- Serve static files with automatic extension fallbacks
+- Display date with `Mon Sep 27 2021` format for convenience
+- See above for **Beautiful User Interface**, **Great User Experience**, **Optimized CSS**, **Remember Me**, **Two Tier
+  Loading**
