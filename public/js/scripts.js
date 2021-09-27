@@ -62,11 +62,22 @@ const del = function del(e) {
 }
 
 function checked(box) {
-    const toDoItemID = box.parentNode.id,
+    const col = box.parentNode,
+        row = col.parentNode,
+        toDoItemID = row.parentNode.id,
         toDoItem = document.getElementById(toDoItemID),
+        deleteB = toDoItem.querySelector('.deleteB'),
+        editB = toDoItem.querySelector('.editB'),
         checked = (toDoItem.getAttribute("done") === "true") ? "false" : "true"
-    console.log(toDoItem.done)
     toDoItem.setAttribute('done', checked)
+    if (checked == "true") {
+        deleteB.style.display = 'none'
+        editB.style.display = 'none'
+    } else {
+        deleteB.style.display = 'table-cell'
+        editB.style.display = 'table-cell'
+    }
+
     let json = {
         '_id': toDoItemID,
         'done': checked
@@ -89,7 +100,10 @@ function checked(box) {
 }
 
 const edit = function editTask(e) {
-    const toDoItem = e.target.parentNode,
+    const col = e.target.parentNode,
+        row = col.parentNode,
+        toDoItemID = row.parentNode.id,
+        toDoItem = document.getElementById(toDoItemID),
         taskInput = toDoItem.querySelector('.taskItem'),
         timeInput = toDoItem.querySelector('.timeItem'),
         dateInput = toDoItem.querySelector('.dateItem'),
@@ -114,7 +128,6 @@ const save = function saveTask(e) {
     const col = e.target.parentNode,
         row = col.parentNode,
         toDoItem = row.parentNode
-    console.log("heyy:" + toDoItem)
     const toDoItemID = toDoItem.id
 
     const taskInput = toDoItem.querySelector('.taskItem'),
@@ -191,23 +204,28 @@ function refresh() {
                     checkCol.className = 'col-1'
                     const check = document.createElement('input') // making checkbox
                     check.type = 'checkbox'
-                    check.className = 'form-check-input me-1 checkbox'
+                    check.id = 'check' + toDoItem.id
+                    check.placeholder = "check"
+
+                    const checkLabel = document.createElement('label')
+                    checkLabel.setAttribute('for', check.id)
+
                     check.addEventListener('change', function() {
                         checked(check)
                     })
                     if (done === 'true') {
                         check.checked = true;
-                        toDoItem.className = toDoItem.className + " disabled"
                     }
                     checkCol.append(check)
+                    checkCol.append(checkLabel)
 
 
                     const taskCol = document.createElement('div')
-                    taskCol.className = 'col-4'
+                    taskCol.className = 'col-3'
                     const timeCol = document.createElement('div')
                     timeCol.className = 'col-2'
                     const dateCol = document.createElement('div')
-                    dateCol.className = 'col-2'
+                    dateCol.className = 'col-3'
 
                     const taskEdit = document.createElement('input') // making info elements
                     const timeEdit = document.createElement('input')
@@ -225,9 +243,13 @@ function refresh() {
                     timeEdit.readOnly = true;
                     dateEdit.readOnly = true;
 
-                    taskEdit.className = 'taskItem'
-                    timeEdit.className = 'timeItem'
-                    dateEdit.className = 'dateItem'
+                    taskEdit.placeholder = 'task'
+                    timeEdit.placeholder = 'time'
+                    dateEdit.placeholder = 'date'
+
+                    taskEdit.name = 'task';
+                    timeEdit.name = 'time';
+                    dateEdit.name = 'date';
 
 
                     taskCol.append(taskEdit)
@@ -237,7 +259,9 @@ function refresh() {
                     // making urgency tag
                     const uCol = document.createElement('div')
                     uCol.className = 'col-1'
-                    const urg = document.createElement('p')
+                    const urg = document.createElement('p'),
+                        uLabel = document.createElement('label')
+                    uLabel.setAttribute('for', "urgency")
                     let str = ""
                         //console.log(u)
                     urg.className = 'urgItem'
@@ -246,6 +270,7 @@ function refresh() {
                     }
                     urg.innerHTML = str
                     uCol.append(urg)
+                    uCol.append(uLabel)
 
                     // making buttons -----------------------------------
                     const buttonCol = document.createElement('div')
@@ -255,9 +280,9 @@ function refresh() {
                         deleteB = document.createElement('button'),
                         saveB = document.createElement('button')
 
-                    editB.className = 'editB'
-                    deleteB.className = 'deleteB'
-                    saveB.className = 'saveB'
+                    editB.className = 'editB btn'
+                    deleteB.className = 'deleteB btn m-1'
+                    saveB.className = 'saveB btn'
 
                     editB.textContent = 'Edit'
                     deleteB.textContent = 'Delete'
@@ -302,6 +327,9 @@ function refresh() {
 
 window.onload = function() {
     const addB = document.getElementById('addB')
-    addB.onclick = submit
-    refresh()
+    if (addB !== null) {
+        addB.onclick = submit
+        refresh()
+
+    }
 }

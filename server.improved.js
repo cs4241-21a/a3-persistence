@@ -24,6 +24,9 @@ app.use(express.static("public"))
 // handles parsing json data
 app.use(express.json())
 
+// Helps secure your apps by setting various HTTP headers
+app.use(express.helmet())
+
 // passport session
 app.use(session({
     secret: 'secret',
@@ -39,6 +42,7 @@ app.use(session({
 app.use(passport.initialize())
 
 app.use(passport.session())
+
 
 passport.serializeUser(function(user, cb) {
     cb(null, user.id)

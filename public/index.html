@@ -4,6 +4,9 @@
 <head>
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8">
+    <meta name="description" content="To-Do List for CS4241">
+    <meta name="keywords" content="HTML, CSS, JavaScript, To-Do">
+    <meta name="author" content="Evelyn Tran">
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@500&family=Open+Sans&display=swap" rel="stylesheet">
     <link rel='stylesheet' href='css/style.css'>
@@ -12,22 +15,25 @@
 </head>
 
 <body>
-    <a href='/logout'>log out</a>
+    <div class='d-flex flex-row-reverse '>
+        <a href='/logout' id="logoutB" class='btn btn-primary m-2'>log out</a>
+    </div>
 
     <div id='header'>
         <h1>to-do list</h1>
         <form id='form'>
             <div id='inputs'>
-                <input type='text' id='task' placeholder="add a task">
-                <input type='time' id='time'>
-                <input type='date' id='date'>
-                <button id='addB'>+</button>
+                <input type='text' id='taskForm' name='task' placeholder="add a task">
+                <input type='time' name='timeForm' id='timeForm' placeholder="time">
+                <input type='date' name='dateForm' id='dateForm' placeholder="date">
+
+                <button class="btn" id='addB'>+</button>
             </div>
         </form>
     </div>
-    <div id='toDoList' class='list-group-flush'>
+    <ul id='toDoList' class='list-group-flush'>
 
-    </div>
+    </ul>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
