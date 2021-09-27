@@ -2,7 +2,7 @@
   "name": "a3-persistence",
   "version": "1.0.0",
   "description": "Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template\r ===",
-  "main": "server.js",
+  "main": "login.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node -r dotenv/config server.js"
