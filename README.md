@@ -101,16 +101,30 @@ your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.m
 
 Include a very brief summary of your project here. Images are encouraged, along with concise, high-level text. Be sure to include:
 
-- the goal of the application
-- challenges you faced in realizing the application
-- what authentication strategy you chose to use and why (choosing one because it seemed the easiest to implement is perfectly acceptable)
-- what CSS framework you used and why
-  - include any modifications to the CSS framework you made via custom CSS you authored
-- the five Express middleware packages you used and a short (one sentence) summary of what each one does. If you use a custom function for *one* (and one alone) middleware please 
-add a little more detail about what it does.
+- the goal of the application is to have users store their own contacts in a mongo database(can delete,edit, and create)
+- challenges I faced in realizing the application, were parsing JSON objects and client to server communication
+- I chose cookies as an authentication strategy because it seemed the easiest to implement
+- I use pure(https://purecss.io/start/) as a CSS framework, I made many modifications to make sure the dynamic table looked reasonably nice
+- These are 6 middlware I used, added an extra one I used to be safe
+1. app.use(express.json()); - Returns middleware that only parses json and only looks at requests where the Content-Type header matches the type option.
+2. app.use( cookie({name: 'sessionLog',sameSite: "none",keys: [you will never know :)]})) - Cookie middleware, keys are used for encryption
+3. app.use(express.static("public")); - Creates an Express application. The express() function is a top-level function exported by the express module.
+4. app.use( function( req,res,next) {
+  if( req.session.login === true )
+    next()
+  else
+    res.sendFile( __dirname + '/views/index.html' )
+}) - middleware that always sends unauthenicaetd users to the login page
+5. app.use('/api/user', authRoute); - middlware that handles post and get request, so server is not as "chunky"
+6. app.use( express.urlencoded({ extended:true }) ) - middleware that only parses urlencoded bodies and only looks at requests where the Content-Type header matches the type option
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
+- (5 points) Goy 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.  
+![image](https://user-images.githubusercontent.com/73619173/134874534-203c7900-7ec9-4470-80f0-72d269a6f0c7.png)
+![image](https://user-images.githubusercontent.com/73619173/134874648-3ff04bb6-1884-45d7-8b30-d03adf1a02f9.png)
+- (5 points) I used [Heroku](https://www.heroku.com). What was better about using Heroku as compared to Glitch was ... What (if anything) was worse? 
+
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative...
