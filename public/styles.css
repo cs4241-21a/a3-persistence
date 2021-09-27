@@ -1,0 +1,12 @@
+.center-text {
+    text-align: center;
+}
+.right-text {
+    text-align: right;
+}
+label {
+    text-align: center;
+}
+tr:hover {
+    background-color: #b0b3b8;
+}
