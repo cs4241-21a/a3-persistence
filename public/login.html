@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8" />
+    <script src="js/login.js"></script>
+    <style>
+      h1 {
+        color: lightgreen;
+        justify-content: center;
+        text-align: center;
+        grid-column: span 2;
+      }
+      h2 {
+        color: lightgreen;
+        justify-content: center;
+        text-align: center;
+      }
+      header {
+        grid-column: span 2;
+        justify-content: center;
+        text-align: center;
+      }
+      body {
+        display: grid;
+        justify-content: center;
+        color: lightgreen;
+        grid-template-columns: 2;
+        grid-auto-rows: auto;
+      }
+
+      body form {
+        margin: 60px;
+      }
+
+      body button {
+        margin-top: 20px;
+      }
+
+      #register_form {
+        grid-column: 1;
+      }
+
+      #login_form {
+        grid-column: 2;
+      }
+    </style>
+    <header>
+      <title>High Score Leaderboard - Login</title>
+    </header>
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Azeret+Mono:wght@200&display=swap"
+      rel="stylesheet"
+    />
+
+    <h1>High Score Leaderboard - Login</h1>
+  </head>
+  <body>
+    <form id="register_form" action="javascript:void(0);">
+      <h2>
+        Register Here
+      </h2>
+      <label for="register_username">Username</label>
+      <input type="text" name="register_username" id="register_username" />
+      <label for="register_password">Password</label>
+      <input type="password" name="register_password" id="register_password" />
+      <button onclick="window.location.href='public/index.html'" id="registerButton">Register</button>
+    </form>
+
+    <form id="login_form" action="javascript:void(0);">
+      <h2>
+        Login Here
+      </h2>
+      <label for="login_username">Username</label>
+      <input type="text" name="login_username" id="login_username" />
+      <label for="login_password">Password</label>
+      <input type="password" name="login_password" id="login_password" />
+      <button onclick="window.location.href='public/index.html'" id="loginButton">Log In</button>
+    </form>
+  </body>
+</html>

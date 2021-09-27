@@ -1,0 +1,41 @@
+/*Style your own assignment! This is fun! */
+body {
+  font-family: "Azeret Mono", monospace;
+  background-color: black;
+  color: white;
+  text-align: center;
+  display: grid;
+  grid-template-columns: 1;
+  grid-auto-rows: auto;
+}
+
+header {
+  text-align: center;
+}
+
+section {
+  background-color: black;
+  margin: 20px;
+  color: lightgreen;
+  border: 2px solid lightgreen;
+}
+
+table {
+  margin-top: 10px;
+  align: center;
+  border-collapse: collapse;
+  text-color: lightgreen;
+  color: lightgreen;
+}
+
+th {
+  border: 3px solid lightgreen;
+  padding: auto;
+  margin: auto;
+  color: lightgreen;
+}
+
+.center {
+  margin-left: auto;
+  margin-right: auto;
+}
