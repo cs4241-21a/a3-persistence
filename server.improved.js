@@ -76,7 +76,7 @@ const isAuth = (request, response, next) => {
 
 // redirect to index.html
 app.get("/", isAuth, (request, response) => {
-    response.sendFile(__dirname + "/views/index.html")
+    response.sendFile(__dirname + "/views/login.html")
 });
 
 // redirect to login.html
