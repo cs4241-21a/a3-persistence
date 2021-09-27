@@ -1,8 +1,8 @@
 {
-  "name": "",
+  "name": "a3-ashley-burke",
   "version": "",
-  "description": "",
-  "author": "",
+  "description": "Tip Calculator",
+  "author": "Ashley Burke",
   "scripts": {
     "start": "nodemon server.js"
   },
