@@ -5,6 +5,7 @@ const mongodb           = require('mongodb');
 const MongoClient       = mongodb.MongoClient;
 const mongoose			= require('mongoose');
 const passport			= require('passport');
+const path              = require('path')
 const localStrategy		= require('passport-local').Strategy;
 const bcrypt			= require('bcrypt');
 const app				= express();
@@ -35,7 +36,8 @@ const User = mongoose.model('User', UserSchema);
 // Middleware
 app.engine('hbs', hbs({ extname: '.hbs' }));
 app.set('view engine', 'hbs');
-app.use(express.static(__dirname + '/public'));
+app.use(express.static(path.join(__dirname + '/public')));
+app.set('Views', path.join(__dirname, 'Views'));
 app.use(session({
 	secret: "verygoodsecret",
 	resave: false,
@@ -114,6 +116,10 @@ app.get('/logout', function (req, res) {
 	req.logout();
 	res.redirect('/');
 });
+
+app.get("/", function(req, res) {
+    res.render("login");
+  });
 
 // Setup our admin user
 app.get('/setup', async (req, res) => {
