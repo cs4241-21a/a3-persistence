@@ -1,23 +1,15 @@
-/* @import url("https://fonts.google.com/specimen/Knewave?category=Display#standard-styles");
-@import url("https://fonts.google.com/specimen/ZCOOL+QingKe+HuangYou?category=Display&query=Zheng+Qingke");
-@import url("https://fonts.google.com/specimen/VT323?category=Monospace"); */
-
 html {
     height: 100%;
-    /* margin: 0; */
     overflow:hidden;
     color: white;
-    /* color: black; */
 } 
 body {
-  /* background-image: url('../backgrounds/home.jpeg');  */
   background-color: black;
   font-family: "VT323", monospace;
   background-position: center;
   background-repeat:no-repeat;
   background-size:cover;
   height: 100%;
-  /* margin: 0; */
 }
 #bg-image {
   background-image: url('../backgrounds/train.jpeg'); 
@@ -35,10 +27,6 @@ button, input {
   font-family: "VT323", monospace;
 
 }
-
-  /* #background {
-    position:absolute;
-  } */
 
 table, th, td {
   border:1px solid gray;
@@ -75,22 +63,12 @@ h1 {
   left: 7%
 }
 
-/* #mix_name, #play {
-  margin-top: 20px;
-} */
-
-
-
   
-/* The container */
+
 .container {
-  /* display: flex; */
-  /* flex-direction: row; */
   position: relative;
   padding-left: 20px;
-  /* margin-bottom: 12px; */
   cursor: pointer;
-  /* font-size: 22px; */
   -webkit-user-select: none;
   -moz-user-select: none;
   -ms-user-select: none;

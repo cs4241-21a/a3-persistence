@@ -5,12 +5,14 @@ const express = require( 'express' ),
       cookie = require('cookie-session')
       favicon = require('serve-favicon')
       path = require('path')
+      serveStatic = require('serve-static')
 
 app.use( express.json() )
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
-app.use( express.static('public') )
-app.use(favicon(__dirname + '/public/images/favicon.ico'))
+app.use( serveStatic('public') )
+app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
+// app.use( express.static('public'))
 app.use( express.urlencoded({ extended: true }) )
 
 require('dotenv').config()

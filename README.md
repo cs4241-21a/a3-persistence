@@ -13,7 +13,7 @@ this website allows you to listen to chill lofi rain sounds and lofi beats while
 achievements
 ---
 ### technical achievements
-- **middleware**: this site uses the serve-favicon, and middlewares.
+- **middleware**: this site uses the cookie-session, serve-static, serve-favicon, and middlewares.
 - **sounds**: working with sound files was really tough for me since i'd never done it before. i found a javascript library called howler.js that allows you to use sounds on your website and although it wasn't hard to use, there were so many options and methods, i got a little lost. i found it really difficult to play two sounds at once since howler.js creates a new object for each sound and the objects could be hard to manage. for example, when the user wants to switch to a new rain mix (pressed the "play" button), the old audio objects have to be deleted or else the old sounds and the new sounds would overlap.
 - **derived field**: the volume of the rain sound is calculated based on the level and the presence of lofi music in the background. each level has a different default volume and if the user specifies that they would like some music to go with the rain, the volume of the rain is decreased. when the two sounds start playing together, the rain is really loud at first but then goes down to the specified volume once the lofi music begins.
 - **table scrollbar**: to prevent the table from getting longer than the page height, a scrollbar was made.
