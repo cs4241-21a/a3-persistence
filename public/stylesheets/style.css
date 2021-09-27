@@ -1,8 +1,36 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+
+message{
+  box-sizing: border-box;
+  background-color: blueviolet;
+  width: 20%;
+  height: fit-content;
+  border-radius: .5em;
+  margin: .5em;
+  padding: 1em;
+  color: white;
+}
+message p{
+  margin: 0;
+  background-color: #6935d2;
+  word-wrap: break-word
 }
 
-a {
-  color: #00B7FF;
+#main {
+  margin: 10px;
+  display: flex;
+  flex-flow: column wrap;
+  height: 50vw;
+  align-content: flex-start;
+}
+
+body {
+  max-width: 100%;
+}
+
+header {
+  width: 20%;
+}
+
+header form{
+  padding-top: 1em;
 }

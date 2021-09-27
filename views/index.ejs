@@ -4,18 +4,21 @@
 	</head>
 	<body>
 		<h2>Welcome! Please log in.</h2>
-		<a href="/login">Log In</a>
+		<a href="/login"><button type="button">Log In</button></a>
 	</body>
 <% } else { %>
 	<head>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
 		<script type="module" src="javascripts/clientMain.js"></script>
+		<link rel="stylesheet" href="stylesheets/style.css">
 	</head>
-	<h2>Hello, <%= user.displayName %></h2>
-	<a href="/account">Account Info</a></br>
-	<a href="/logout">Log Out</a>
+
 	<body id="main">
 		<header style="order: -1;">
+			<h2>Hello, <%= user.displayName %></h2>
+			<a href="/account">Account Info</a></br>
+			<a href="/logout"><button type="reset">Log Out</button></a>
+			<br>
 			<form>
 				<label>Name:</label>
 				<input type="text" id="inputName" style="width: 100%" placeholder="Jane Doe">
@@ -26,7 +29,7 @@
 				<label>Message:</label><br>
 				<textarea id="inputMessage" placeholder="Sometimes all you need is a little splash of color"></textarea>
 				<br>
-				<button class="header-btn">Send</button>
+				<button class="header-btn" id="submit-button">Send</button>
 			</form>
 		</header>
 	</body>

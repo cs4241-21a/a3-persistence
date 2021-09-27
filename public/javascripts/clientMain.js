@@ -21,9 +21,13 @@ const submit = function( e ) {
         message = document.getElementById("inputMessage"),
         json = { name: name.value, color: color.value, message: message.value },
         body = JSON.stringify( json )
+    console.log("Sending: ", body, JSON.parse(body))
 
     fetch( '/submit', {
         method:'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
         body
     })
         .then( function( response ) {
@@ -56,7 +60,9 @@ const loadMessages = function (){
     }).then(function( response ) {
         return response.json()
     }).then(function (jsonMessages){
+        console.log("Recieved data from server: ", jsonMessages)
         for (const jsonMessage of jsonMessages) {
+            console.log(jsonMessage)
             if(storedMessages.includes(JSON.stringify(jsonMessage))){
                 //Do nothing, we don't want duplicates
             }else {
@@ -99,7 +105,7 @@ const makeMessage = function (name, color, message){
 }
 
 window.onload = function() {
-    const button = document.querySelector( 'button' )
+    const button = document.getElementById( 'submit-button' )
     button.onclick = submit
     loadMessages()
 }

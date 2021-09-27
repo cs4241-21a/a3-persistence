@@ -208,28 +208,31 @@ require('dotenv').config()
 /******************************************************************************
  * Module dependencies.
  *****************************************************************************/
+const express = require('express');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const jsonParser = bodyParser.json();
+const urlEncodedParser = bodyParser.urlencoded({ extended: true });
+const expressSession = require('express-session');
+const passport = require('passport');
+const bunyan = require('bunyan');
+const morgan = require('morgan');
 
-var express = require('express');
-var cookieParser = require('cookie-parser');
-var expressSession = require('express-session');
-var passport = require('passport');
-var bunyan = require('bunyan');
-var morgan = require('morgan');
-
-var config = require('./config');
+const config = require('./config');
 
 // set up database for express session
-var MongoStore = require('connect-mongo')(expressSession);
-var mongoose = require('mongoose');
+const MongoStore = require('connect-mongo')(expressSession);
+const mongoose = require('mongoose');
 const fs = require("fs"),
-    mime = require( 'mime' );
+    mime = require( 'mime' ),
+    mongodb = require( 'mongodb' );
 
 // Start QuickStart here
 
-var OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
+const OIDCStrategy = require('passport-azure-ad').OIDCStrategy;
 
-var log = bunyan.createLogger({
-  name: 'Microsoft OIDC Example Web Application'
+const log = bunyan.createLogger({
+    name: 'Microsoft OIDC Example Web Application'
 });
 
 /******************************************************************************
@@ -258,7 +261,7 @@ var users = [];
 var findByOid = function(oid, fn) {
   for (var i = 0, len = users.length; i < len; i++) {
     var user = users[i];
-    log.info('we are using user: ', user);
+    // log.info('we are using user: ', user);
     if (user.oid === oid) {
       return fn(null, user);
     }
@@ -334,7 +337,9 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 app.use(morgan('dev'));
 app.use(cookieParser());
+app.use( express.json() )
 
+const appdata = []
 
 const credentials = process.env.CERT_PATH
 var options = {
@@ -369,7 +374,40 @@ if (config.useMongoDBSessionStore) {
       saveUninitialized: false }));
 }
 
-app.use(express.urlencoded({ extended : true }));
+
+/**
+ * Set up normal DB client
+ */
+const uri = process.env.PASS_PATH //'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
+
+console.log("Creating DB Client")
+const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
+let collection = null
+
+
+/**
+ * getMessages
+ *
+ * Gets all messages for a specific user
+ * @param client
+ * @param user
+ * @returns {Promise<void>}
+ */
+async function getMessages(client, user){
+    const cursor = client
+        .db('messages')
+        .collection(user)
+        .find()
+    let results = await cursor.toArray()
+    if (results.length > 0){
+        appdata.length = 0
+        for (const result of results){
+            appdata.push(result)
+        }
+    }
+}
+
+// app.use(express.urlencoded({ extended : true }));
 
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
@@ -393,27 +431,31 @@ function ensureAuthenticated(req, res, next) {
   res.redirect('/login');
 };
 
-function sendMessages(response) {
+async function sendMessages(response, user) {
+    await client.connect()
+    await getMessages(client, user.oid.toString())
+    await client.close()
+    console.log("Sending messages: ", appdata)
     response.writeHead(200, "OK", {'Content-Type': 'text/plain'})
     response.end(JSON.stringify(appdata))
 }
 
-app.get('/', function(req, res) {
+app.get('/', urlEncodedParser, function(req, res) {
     console.log("REQ.USER::::::::::::::", req.user)
   res.render('index', { user: req.user });
 });
 
 // '/account' is only available to logged in user
-app.get('/account', ensureAuthenticated, function(req, res) {
+app.get('/account', urlEncodedParser, ensureAuthenticated, function(req, res) {
   console.log(req.user);
   res.render('account', { user: req.user });
 });
 
-app.get('/messages', ensureAuthenticated, function (req, res){
-    sendMessages(res)
+app.get('/messages', jsonParser, ensureAuthenticated, function (req, res){
+    sendMessages(res, req.user)
 })
 
-app.get('/login',
+app.get('/login', urlEncodedParser,
     function(req, res, next) {
       passport.authenticate('azuread-openidconnect',
           {
@@ -433,7 +475,7 @@ app.get('/login',
 // `passport.authenticate` will try to authenticate the content returned in
 // query (such as authorization code). If authentication fails, user will be
 // redirected to '/' (home page); otherwise, it passes to the next middleware.
-app.get('/auth/openid/return',
+app.get('/auth/openid/return', urlEncodedParser,
     function(req, res, next) {
       passport.authenticate('azuread-openidconnect',
           {
@@ -451,7 +493,7 @@ app.get('/auth/openid/return',
 // `passport.authenticate` will try to authenticate the content returned in
 // body (such as authorization code). If authentication fails, user will be
 // redirected to '/' (home page); otherwise, it passes to the next middleware.
-app.post('/auth/openid/return',
+app.post('/auth/openid/return', urlEncodedParser,
     function(req, res, next) {
       passport.authenticate('azuread-openidconnect',
           {
@@ -465,26 +507,38 @@ app.post('/auth/openid/return',
       res.redirect('/');
     });
 
-app.post('/submit'), function (req, res, next) {
-    const json = JSON.parse( dataString )
-    console.log("Received datastring to /submit: " + dataString)
+app.post('/submit', ensureAuthenticated, function (req, res, next) {
+    const json = req.body
+    console.log("Received datastring to /submit: " + JSON.stringify(json) + typeof(json))
 
     //Derived field
-    json.message = json.name + " says \"" + json.message + "\""
+    json.message = JSON.stringify(req.user.displayName).replace(/['"]+/g, '') + " says \"" + json.message + "\""
 
     appdata.push(json)
 
-    res.writeHead( 200, "OK", {'Content-Type': 'text/plain' })
-    res.end(JSON.stringify(appdata))
-}
+    uploadMessage(json, req.user).then(r => {
+        res.writeHead(200, "OK", {'Content-Type': 'text/plain'})
+        res.end(JSON.stringify(appdata))
+    })
+})
 
 // 'logout' route, logout from passport, and destroy the session with AAD.
-app.get('/logout', function(req, res){
+app.get('/logout', urlEncodedParser, function(req, res){
   req.session.destroy(function(err) {
     req.logOut();
     res.redirect(config.destroySessionUrl);
   });
 });
+
+async function uploadMessage(message, user){
+    await client.connect()
+    const result = await client
+        .db("messages")
+        .collection(user.oid.toString())
+        .insertOne(message)
+    console.log('Inserted message with this ID: ', result.insertedId )
+    await client.close()
+}
 
 
 /**
