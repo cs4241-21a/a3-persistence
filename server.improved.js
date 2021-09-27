@@ -67,27 +67,27 @@ passport.use(new GH({
     }
 ));
 
-const isAuth = (request, response, next) => {
-    if (request.user) {
-        console.log(userId)
-        next()
-    } else {
-        console.log(userId)
-        response.redirect('/login.html')
-    }
-}
+// const isAuth = (request, response, next) => {
+//     if (request.user) {
+//         console.log(userId)
+//         next()
+//     } else {
+//         console.log(userId)
+//         response.redirect('/login.html')
+//     }
+// }
 
 // redirect to index.html
 app.get("/", isAuth, (request, response) => {
+    if (!request.user) {
+        return response.redirect('/login')
+    }
     response.sendFile(__dirname + "/views/index.html")
 });
 
 // redirect to login.html
 app.get("/login", (request, response) => {
-    if (request.user) {
-        console.log(request.user)
-        return response.redirect('/')
-    }
+    
     response.sendFile(__dirname + "/public/login.html")
 });
 
