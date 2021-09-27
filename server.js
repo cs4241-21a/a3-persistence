@@ -9,7 +9,6 @@ const express    = require('express'),
       
 const favicon = require('serve-favicon')
 const iconPath = __dirname+'/public/favicon.ico';
-console.log(iconPath)
 const app = express()
 
 const uri = 'mongodb+srv://' + process.env.USER + ':' + process.env.PASS + '@' + process.env.HOST
@@ -177,8 +176,6 @@ app.use(function(req,res,next) {
 app.use(express.static('public'))
 app.use(favicon(iconPath))
 
-const listener = app.listen(3000, function() {
+const listener = app.listen(process.env.PORT, function() {
     console.log( 'Your app is listening on port ' + listener.address().port )
   })
-
-  //process.env.PORT
