@@ -5,11 +5,11 @@ https://a3-nicholasmarkou.herokuapp.com/
 
 This project is an extension of a2-shortstack where I originally created an anonymous image board. This extends it by adding authentication by accounts. This authentication lets you see the poster of every post on the homepage, and allows you to manage your own posts by clicking on the `See your posts here` link. A screenshot of the homepage is below.
 
-![](writeupImages\indexPage.png)
+![](/writeupImages/indexPage.png)
 
 The management page lets you modify the title or description of any post, or delete the post entirely. Any changes that occur here are also shown on the homepage for all users. The screenshot below shows how the only my post is shown on my profile and the image posted by Ben is not shown, thus the user can only modify their own posts.
 
-![](writeupImages\myProfile.png)
+![](/writeupImages/myProfile.png)
 
 During the development process, I experiencied difficulties interacting with my database (MongoDB). It was straight forward inserting data, but I had difficulties searching for contents of the database that fit certain conditions, in addition to modifying them. Everything else only required small adaptations to the code from a2 to work with the new server (express) and retrieving data from mongodb instead of a json file.
 
@@ -32,12 +32,12 @@ I used the following middleware in my project:
 
 - **Tech Achievement 2**: 100% on Lighthouse tests
 index.html: 
-![](writeupImages\lighthouseIndex.jpg)
+![](/writeupImages/lighthouseIndex.jpg)
 createAccount.html:
-![](writeupImages\lighthouseCreateAcc.jpg)
+![](/writeupImages/lighthouseCreateAcc.jpg)
 accountLogin.html:
-![](writeupImages\lighthouseLogin.jpg)
+![](/writeupImages/lighthouseLogin.jpg)
 accountLoginFail.html:
-![](writeupImages\lighthouseLoginFailed.jpg)
+![](/writeupImages/lighthouseLoginFailed.jpg)
 myProfile.html:
-![](writeupImages\lighthouseProfiles.jpg)
+![](/writeupImages/lighthouseProfiles.jpg)
