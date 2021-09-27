@@ -1,6 +1,6 @@
 ## Flight Reminder
 
-App link: flight.penguimuseum.com<flight.penguinmuseum.com>
+App link: [flight.penguimuseum.com](flight.penguinmuseum.com)
 
 The project demonstrates on flight information record. Many people may book the flights from different flight companies/platforms, which they may or may not to remember or hard to track all the flight information. This app will allow users to record the flight information include their flight number, departure & arrival airport, and the date; then the app will sort the flight information into upcoming trips and past trips. User can either created their own username and password or choose to link their their github account; also, all the data is permanently stored in the Mongodb. Users should be able to add or delete the data. 
 
