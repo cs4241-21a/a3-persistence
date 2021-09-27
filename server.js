@@ -241,22 +241,24 @@ app.put('/modifyBook', ensureAuthenticated, async(req, res) => {
     const book_info = (await axios.get(isbn_url)).data;
     const authors = book_info.authors;
 
-    // the authors are given by their author entry in openlibrary
-    // so we have to go through and get the name for each other
-    const author_names = await Promise.all(authors.map(async author => {
-
-        const author_info = (await axios.get(`${OPENLIB_BASE_URL}/${author.key}`)).data;
-        return author_info.name;
-    }));
+    let author_names = ['Author Unkown'];
+    if (authors) {
+        // the authors are given by their author entry in openlibrary
+        // so we have to go through and get the name for each other
+        author_names = await Promise.all(authors.map(async author => {
+            const author_info = (await axios.get(`${OPENLIB_BASE_URL}/${author.key}`)).data;
+            return author_info.name;
+        }));
+    }
 
 
     const book_entry = {
         user_id,
         isbn,
-        title: book_info.title,
+        title: book_info.title || 'Book Title Unknown',
         authors: author_names,
-        release_date: Date.parse(book_info.publish_date),
-        num_pages: book_info.number_of_pages,
+        release_date: book_info.publish_date ? Date.parse(book_info.publish_date) : 'Publish Data Unknown',
+        num_pages: book_info.number_of_pages || "# Pages Unkown",
         date_added: Date.now(),
         location: body.location,
         rating: body.rating,
