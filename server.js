@@ -29,7 +29,6 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 
 let usersCollection = null;
 let bookCollection = null;
-let locationCollection = null;
 
 // app.set('views', __dirname);
 // app.set('view engine', 'ejs');
@@ -41,8 +40,8 @@ client.connect()
     .then((db) => {
         usersCollection = db.collection('Users');
         bookCollection = db.collection('Books');
-        locationCollection = db.collection('Locations');
     });
+
 // Passport session setup.
 //   To support persistent login sessions, Passport needs to be able to
 //   serialize users into and deserialize users out of the session.  Typically,
@@ -119,9 +118,9 @@ app.use(express.static('public', { index: false }));
 
 // get json when appropriate
 app.use(bodyparser.json());
-app.use(methodOverride());
+// app.use(methodOverride());
 
-app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false }));
+app.use(session({ secret: 'dreadlockanyonewhackydeviator', resave: false, saveUninitialized: false }));
 // Initialize Passport!  Also use passport.session() middleware, to support
 // persistent login sessions (recommended).
 app.use(passport.initialize());
@@ -289,26 +288,6 @@ app.delete('/deleteBook', ensureAuthenticated, async(req, res) => {
     res.send(deletion_result);
 });
 
-// JUST FOR TESTING
-app.delete('/user/:id', (req, res) => {
-    console.log("removing user: ", req.params.id);
-    usersCollection.deleteOne({ github_id: req.params.id }).then(response => {
-        console.log(response);
-        res.send(response);
-    });
-});
-
-// JUST FOR TESTING
-app.get('/users/', (req, res) => {
-    usersCollection.find({}).toArray().then(response => {
-        console.log(response);
-        res.send(response);
-    })
-})
-
-app.get('/books/', (req, res) => {
-    bookCollection.find({}).toArray().then(response => res.send(response));
-});
 
 
 app.listen(process.env.PORT ? process.env.PORT : DEFAULT_PORT);

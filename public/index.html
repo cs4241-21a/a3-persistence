@@ -60,7 +60,7 @@
                         <div class="mb-3 row">
                             <label for="ISBN" class="col-sm-2 col-form-label">ISBN</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="add-book-ISBN">
+                                <input type="text" class="form-control" id="add-book-ISBN" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -78,7 +78,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" onclick="addBook()" class="btn btn-primary">Add Book</button>
+                        <button type="submit" onclick="addBook(this)" class="btn btn-primary">Add Book</button>
                     </div>
                 </div>
             </form>
@@ -98,7 +98,7 @@
                         <div class="mb-3 row">
                             <label for="ISBN" class="col-sm-2 col-form-label">ISBN</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="modify-book-ISBN">
+                                <input type="text" class="form-control" id="modify-book-ISBN" required>
                             </div>
                         </div>
                         <div class="mb-3 row">
@@ -116,7 +116,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary book-modify-button">Save changes</button>
+                        <button type="submit" class="btn btn-primary book-modify-button">Save changes</button>
                     </div>
                 </div>
             </form>

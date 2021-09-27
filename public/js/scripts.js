@@ -63,18 +63,17 @@ function checkISBN(isbn) {
     }
 }
 
-function addBook() {
+function addBook(event) {
     let form = document.getElementById("add-book-form");
     let formValues = {};
     form.querySelectorAll("input").forEach(input => {
-        console.log('input:', input);
         const realId = input.id.split('-')[2];
-        console.log("realId:", realId);
         formValues[realId] = input.value;
     });
 
     if (!checkISBN(formValues["ISBN"])) {
         console.log("INVALID ISBN!");
+        form.querySelector("#add-book-ISBN").setCustomValidity("ISBN number invalid");
         return;
     }
 
@@ -129,6 +128,8 @@ function modifyBookEntry(entry_id) {
 
     if (!checkISBN(formValues["ISBN"])) {
         console.log("INVALID ISBN!");
+        console.log(form.querySelector("#modify-book-ISBN"));
+        form.querySelector("#modify-book-ISBN").setCustomValidity("ISBN number invalid");
         return;
     }
 
