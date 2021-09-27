@@ -14,6 +14,16 @@ description
 ---
 this website allows you to listen to chill lofi rain sounds and lofi beats while you study or code or do art or grade this assignment. you can choose the level of rain you want to listen to, whether or not you want lofi music in the background, what environment you want to be in, and also what name you want to give your playlist. a table showing your track mix history is shown on the right, and the user is able to delete old mixes they don't want anymore.
 
+challenges
+---
+- i had a lot of trouble using mongodb and changing the api calls to use the output from communicating with the database. 
+- i didn't have a delete button in a2 and creating one while trying to figure out how to get/delete data in mongodb was really confusing. eventually i figured it out but that took a couple days.
+- when switching to a css framework, the ability to change the background image was lost. so i had to get a little hacky and creative with that.
+
+authentication strategy
+---
+the strategy i used is just checking if the user exists in the database, then checking if the password is correct. i chose this strategy because it was the easiest.
+
 achievements
 ---
 ### technical achievements
