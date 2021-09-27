@@ -24,9 +24,14 @@ app.use(cookieSession({
 }))
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(express.static('public'))
+app.use(express.static(__dirname + '/public'));
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
 app.use(compression())
+
+app.get('/auth/login', (req, res) => {
+  console.log("Redirecting to login page /auth/login")
+  res.sendFile(path.join(__dirname, '/public/login.html'));
+})
 
 app.get('/auth/github', passport.authenticate('github', {
   scope: [ 'user:email' ]
@@ -48,10 +53,16 @@ app.get('/auth/getUserID', validateLoginMiddleware, (req, res) => {
   res.end(JSON.stringify({ 'username': req.user.emails[0].value , 'status': 200}))
 })
 
+
+
+
 app.get('/', validateLoginMiddleware, (req, res) => {
   console.log('Getting /')
   res.sendFile(path.join(__dirname, '/private/main.html'));
 })
+
+
+
 
 app.get('/api/lostitems', validateLoginMiddleware, (req, res) => {
   mongodbclient.getLostItems()
