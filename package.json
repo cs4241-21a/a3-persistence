@@ -1,0 +1,27 @@
+{
+    "name": "PCPPP",
+    "version": "1.0.0",
+    "description": "A party planner for Post-Covid times",
+    "author": "Eva Labbe",
+    "scripts": {
+      "start": "node server.improved.js"
+    },
+    "dependencies": {
+      "express": "^4.17.1",
+      "mime": "^2.5.2",
+      "mongodb": "^4.1.2",
+      "body-parser": "^1.19.0",
+      "cookie-session": "^1.4.0",
+      "98.css": "^0.1.16",
+      "morgan": "^1.10.0"
+    },
+    "engines": {
+      "node": ">=12.0.0"
+    },
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/evallabbe/a3-persistence.git"
+    }
+  }
+  
+  
