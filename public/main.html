@@ -1,8 +1,67 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
-        <title>
-            Hospital Information Manager
-        </title>
+        <title>Celeste Speedrunning Tracker</title>
+        <meta charset="utf-8">
+
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <script type="text/javascript" src="/js/scripts.js"></script>
     </head>
+    <body>
+        <form action="/addSpeedrun" method="POST">
+            <label for="inGameTimer">In-Game Timer: </label><br>
+            <input type="text" name="inGameTimer" id="inGameTimer" placeholder="00:00:00.000" required/><br><br>
+            <label for="totalDeaths">Total Deaths: </label><br>
+            <input type="number" name="totalDeaths" id="totalDeaths" placeholder="0" min="0" required/><br><br>
+            <label for="totalStrawberries">Total Strawberries: </label><br>
+            <input type="number" name="totalStrawberries" id="totalStrawberries" placeholder="0" required/><br><br>
+            
+            <label>Input Type: </label><br>
+            <input type="radio" name="inputType" id="controller" value="Controller" required/>
+            <label for="controller">Controller</label><br>
+            <input type="radio" name="inputType" id="keyboardMouse" value="Keyboard & Mouse" required/>
+            <label for="keyboardMouse">Keyboard & Mouse</label><br>
+            <input type="radio" name="inputType" id="other" value="Other" required/>
+            <label for="other">Other</label><br><br>
+
+            <label for="dateCompleted">Completion Date and Time: </label><br>
+            <input type="datetime-local" name="dateCompleted" id="dateCompleted" required/><br><br>
+
+            <label>Platform: </label><br>
+            <input type="radio" name="platform" id="platformSwitch" value="Switch" required/>
+            <label for="platformSwitch">Switch</label><br>
+            <input type="radio" name="platform" id="platformPC" value="PC" required/>
+            <label for="platformPC">PC</label><br>
+            <input type="radio" name="platform" id="platformStadia" value="Stadia" required/>
+            <label for="platformStadia">Stadia</label><br>
+            <input type="radio" name="platform" id="platformPS4" value="PS4" required/>
+            <label for="platformPS4">PS4</label><br>
+            <input type="radio" name="platform" id="platformPS5" value="PS5" required/>
+            <label for="platformPS5">PS5</label><br>
+            <input type="radio" name="platform" id="platformXboxOne" value="Xbox One" required/>
+            <label for="platformXboxOne">Xbox One</label><br>
+            <input type="radio" name="platform" id="platformXboxSeriesX" value="Xbox Series X" required/>
+            <label for="platformXboxSeriesX">Xbox Series X</label><br><br>
+            
+            <input type="submit" id="submit" name="submit" value="Submit"/>
+            <input type="reset">
+        </form>
+
+        <div class="speedruns-table">
+            <table class="list" id="speedruns">
+                <tr>
+                    <th>Username</th>
+                    <th>In-Game Timer</th>
+                    <th>Total Deaths</th>
+                    <th>Total Strawberries></th>
+                    <th>Input Type</th>
+                    <th>Date / Time Completed</th>
+                    <th>Platform</th>
+                </tr>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </body>
 </html>
