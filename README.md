@@ -120,7 +120,7 @@ Include a very brief summary of your project here. Images are encouraged, along 
 
 ## Technical Achievements
 - **Tech Achievement 1**: I used OAuth authentication via the GitHub strategy
-- (5 points) Goy 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment.  
+- (5 points) Goy 100% (not 98%, not 99%, but 100%) in all four lighthouse tests required for this assignment. (pictures take on local host before deployment of app) 
 ![image](https://user-images.githubusercontent.com/73619173/134874534-203c7900-7ec9-4470-80f0-72d269a6f0c7.png)
 ![image](https://user-images.githubusercontent.com/73619173/134874648-3ff04bb6-1884-45d7-8b30-d03adf1a02f9.png)
 - (5 points) I used [Heroku](https://www.heroku.com). What was better about using Heroku as compared to Glitch was ... What (if anything) was worse? 
