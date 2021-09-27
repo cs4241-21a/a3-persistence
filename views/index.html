@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Data Main Page</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styleMain.css">
+    <script src="/script.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital@1&display=swap" rel="stylesheet">
+  </head>
+  <body>
+    <h1>
+      DataTable
+    </h1>
+    <div id="dataTable">
+      <table>
+        <tr><th>Name</th><th>Savings</th><th>Cost</th><th>Balance</th></tr>
+      </table>
+    </div>
+
+    <br>
+    <button id='loadTable'>
+      LoadData
+    </button>
+    
+    <br><br>
+    <form class="formClass" style="width:300px; height:auto; float:left; display:inline">
+      <h2>
+        Add Data
+      </h2>
+      <label>Name:</label>
+      <input type="text" onfocus="this.value=''" id="fname" placeholder="type the name here">
+      <label >Savings:</label>
+      <input type="text" onfocus="this.value=''" id="fsavings" placeholder="type an integer">
+      <label >Cost:</label>
+      <input type="text" onfocus="this.value=''" id="fcost" placeholder="type an integer">
+      <button id='addButton'>Add</button>
+    </form> 
+
+     <form class="formClass" style="width:300px; height:auto; float:left; display:inline">
+      <h2>
+        Modify Data
+      </h2>
+      <label>Name:</label>
+      <input type="text" onfocus="this.value=''" id="newName" placeholder="type the name here">
+      <label >Savings:</label>
+      <input type="text" onfocus="this.value=''" id="newSavings" placeholder="new Savings here">
+      <label >Cost:</label>
+      <input type="text" onfocus="this.value=''" id="newCost" placeholder="new Cost here">
+      <button id='updateButton'>Update</button>
+    </form>
+    
+    
+    <form class="formClass" style="width:300px; height:auto">
+      <h2>
+        Delete Data
+      </h2>
+      <label>Name:</label>
+      <input type="text" onfocus="this.value=''" id="dname" placeholder="name of the data you want to delete">
+      <button id='deleteButton'>Delete</button>
+    </form>
+    
+   
+
+  </body>
+</html>

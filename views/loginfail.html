@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>Login Fail Page</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Signin Page</title>
+    <script src="/login.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/spectre.css/dist/spectre.min.css">
+    <link rel="stylesheet" href="/style.css">
+  </head>
+
+  <body>
+    <h1>Sign In!</h1>
+    <p style="color:red">Login Fail! Please try again!</p>
+
+    <div>
+      <form id="signinForm">
+        <label class="signTextLeft">Username</label>
+        <input type="text" id="username" value="" placeholder="Your username here" required>
+
+        <label class="signTextLeft">Password</label>
+        <input type="password" id="password" value="" placeholder="Your password here" required>
+
+        <button type="submit" id="loginButton">Sign in</button>
+      </form>
+      <br>
+      <div><b>Don't have an account? </b><a href="/regist">Sign up here</a>!</div>
+    </div>
+
+  </body>
+</html>
