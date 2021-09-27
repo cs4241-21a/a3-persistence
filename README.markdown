@@ -23,15 +23,15 @@ Include a very brief summary of your project here. Images are encouraged, along 
 
 ### Design/Evaluation Achievements
 - **Design Achievement 1**: I followed the following tips from the W3C Web Accessibility Initiative. These tips include:
-- C Associating a label with every form control
-- C Identifying page language (might be cheap)
-- C Using mark-up to convey meaning and structure
-- C Providing clear instructions
-- C Providing easily identifiable feedback (might overlap with above)
-- C Keeping content clear and consise (might be cheap)
-- C Providing sufficient contrast between foreground and background
-- C Don't use color alone to convey information
-- C Ensure that interactive elements are easy to identify
-- C Provide clear and consistent navigation options (might overlap with below)
-- C Ensure that form elements include clearly associated labels
-- C Use headings and spacing to group related content
+- Associating a label with every form control
+- Identifying page language (might be cheap)
+- Using mark-up to convey meaning and structure
+- Providing clear instructions
+- Providing easily identifiable feedback (might overlap with above)
+- Keeping content clear and consise (might be cheap)
+- Providing sufficient contrast between foreground and background
+- Don't use color alone to convey information
+- Ensure that interactive elements are easy to identify
+- Provide clear and consistent navigation options (might overlap with below)
+- Ensure that form elements include clearly associated labels
+- Use headings and spacing to group related content
