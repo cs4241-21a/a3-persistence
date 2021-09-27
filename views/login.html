@@ -5,15 +5,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="Log in to keep your tasks seperate, secure and private from other users">
-    <title>Character Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <title>Material Manager</title>
   </head>
 
   <body>
-    <h1>Character Manager</h1>
+    <h1>Material Manager</h1>
 
-    <p>Create and manage characters for table top role playing games</p>
-    <p>Log in or create a new account to view and edit your characters</p>
-    <form id="login-form" action="/login" method="POST" class="row">
+    <p>Create and manage materials</p>
+    <p>Log in or create a new account to view and edit your materials</p>
+    <form action="/login" method="POST" class="row">
       <div>
         <input id="username" name="username" type="text" class="validate">
         <label for="username" class=>Username</label>                
@@ -23,9 +24,7 @@
         <label for="password" class=>Password</label>
       </div>
       <div>
-        <button type="submit">Log in or Register
-<!--                 <i title="Logging in with a username that doesn't exist will create a new account and log you in as that account."></i> -->
-        </button>
+        <button type="submit" class="btn btn-primary">Log in or Register</button>
       </div>
     </form>
   </body>

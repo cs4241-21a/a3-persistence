@@ -2,40 +2,43 @@
 // run by the browser each time the page is loaded
 
 console.log("hello world :o");
+let user = null
+let list = document.getElementById("mat_list")
+const template = document.getElementById("material")
+window.onload = function() {
+  document.getElementById("welcome").innerHTML = "Welcome!"
+  fetch( "/update", {
+    method: "POST",
+    headers: { 'Content-Type': 'application/json' },
+    body: "{}"
+  })
+  .then( ( response ) => response.json() )
+  .then( function( data ) {
+    console.log(data)
+    load( data )
+  })
 
-// define variables that reference elements on our page
-const dreamsList = document.getElementById("dreams");
-const dreamsForm = document.querySelector("form");
-
-// a helper function that creates a list item for a given dream
-function appendNewDream(dream) {
-  const newListItem = document.createElement("li");
-  newListItem.innerText = dream;
-  dreamsList.appendChild(newListItem);
 }
 
-// fetch the initial list of dreams
-// fetch("/dreams")
-//   .then(response => response.json()) // parse the JSON from the server
-//   .then(dreams => {
-//     // remove the loading text
-//     dreamsList.firstElementChild.remove();
-  
-//     // iterate through every dream and add it to our page
-//     dreams.forEach(appendNewDream);
-  
-//     // listen for the form to be submitted and add a new dream when it is
-//     dreamsForm.addEventListener("submit", event => {
-//       // stop our form submission from refreshing the page
-//       event.preventDefault();
+const calcDens = function (mass, volume){
+  return mass/volume
+}
 
-//       // get dream value and add it to the list
-//       let newDream = dreamsForm.elements.dream.value;
-//       dreams.push(newDream);
-//       appendNewDream(newDream);
+const calcCost = function (mass, cost){
+  return mass * cost
+}
 
-//       // reset form
-//       dreamsForm.reset();
-//       dreamsForm.elements.dream.focus();
-    // });
-  // });
+const load = function ( json ) {
+
+    list.innerHTML = ""
+
+    json.forEach( mat => {
+        let element = template.cloneNode( true )
+        console.log(mat)
+
+        
+      list.append( element )
+    });
+
+    return false
+}

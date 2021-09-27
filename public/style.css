@@ -1,10 +1,10 @@
 /* this file is loaded by index.html and styles the page */
 
-* {
+/* * {
   box-sizing: border-box;
-}
+} */
 
-body {
+/* body {
   font-family: sans-serif;
   margin: 2em 1em;
   line-height: 1.5em;
@@ -32,9 +32,9 @@ input {
   margin-bottom: 10px;
   padding: 5px;
   width: 100%;
-}
+} */
 
-form button {
+/* form button {
   background-color: #bbbbf2;
   border: 2px solid currentColor;
   border-radius: .25em;
@@ -43,14 +43,15 @@ form button {
   line-height: 1.4em;
   padding: 0.25em 1em;
   max-width: 20ch;
-}
+} */
 
-form button:hover {
+/* form button:hover {
   background-color: lavender;
-}
-
+} */
+/* 
 footer {
   margin-top: 3em;
   padding-top: 1.5em;
   border-top: 1px solid lightgrey;
 }
+ */

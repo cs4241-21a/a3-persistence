@@ -8,39 +8,38 @@ app.use( express.urlencoded( {extended : true}  ) )
 
 console.log("hi")
 const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASS+'@'+process.env.HOST
-// const uri = 'mongodb+srv://test_user:test_pass123@cluster0.2hxyg.mongodb.net/'
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let collection = null
+let user_data = null
+let username = null
+client.connect() 
 
-client.connect()
-  .then( () => {
-    // will only create collection if it doesn't exist
-    return client.db( 'character_saver' ).collection( 'users' )
-  })
-  .then( __collection => {
-    // store reference to collection
-    collection = __collection
-    // blank query returns all documents
-    return collection.find({ }).toArray()
-  })
-  .then( console.log )
-  
-// route to get all docs
-// app.get( '/', (req,res) => {
-//   if( collection !== null ) {
-//     // get array and pass to res.json
-//     collection.find({ }).toArray().then( result => res.json( result ) )
-//   }
-// })
-app.get( '/', (req,res) => {
-  console.log(__dirname)
+app.get( '/login.html', (req,res) => {
   res.sendFile(__dirname + "/views/login.html")
-
+})
+app.get( '/logout', ( request, response ) => {
+  response.redirect( "/login.html" )
 })
 app.get( '/index.html', (req,res) => {
-  console.log(__dirname)
   res.sendFile(__dirname + "/views/index.html")
+})
 
+app.get( '/user', (req,res) => {
+  res.end(username)
+})
+
+app.post( '/update', async (req,res) => {
+  await loadData(username)
+  res.writeHead( 200, "OK", { 'Content-Type': 'application/json' } )
+  res.end( JSON.stringify( user_data ) )
+})
+
+app.post( '/addnew', async ( request, response ) => {
+  let json = request.body
+  console.log(json.name)
+  addMaterial(json.name, calcDens(json.mass, json.volume), parseInt(json.mass), parseInt(json.volume), parseInt(json.cost), calcCost(json.mass, json.cost))
+  response.redirect("/index.html")
+  
 })
 
 app.post( '/login', async ( request, response ) => {
@@ -50,42 +49,20 @@ app.post( '/login', async ( request, response ) => {
   
   switch(await checkUser (json.username, json.password)) {
   case "success":
-    console.log("suc")
-    // request.session.username = json.username
-    // request.session.password = json.password
-    // response.redirect( "/views/login.html" )
+    username = json.username
+    user_data = client.db('character_saver').collection('characters')
     response.redirect("/index.html");
+    await loadData(json.username)
     break;
   case "fail":
-            console.log("fail")
     response.redirect( "/login.html" )
     break;
   case "no_user":
-            console.log("nouser")
     createUser(json.username, json.password)
     break;
   default:
-    // code block
+
 }
-})
-
-app.use( async function( request, response, next ) {
-  // if logged in, or logging in, or fetching the login page or a non html file, do nothing
-  // if( ( !request.url.endsWith( ".html" ) && request.url !== "/" && request.method === "GET" ) ||
-  //     request.url.endsWith( "/login.html" ) || request.url.endsWith( "/login" ) || 
-  //     await checkCredentials( request.session.username, request.session.password ) === "correct" ) {
-if(true){
-  next()
-  }
-  // if loading an html file other than the login page, or using a non login post request and not logged in, redirect to the login page
-  else {
-    response.redirect( "/login.html" )
-  }
-})
-
-app.post( '/add', (req,res) => {
-  // assumes only one object to insert
-  collection.insertOne( req.body ).then( result => res.json( result ) )
 })
 
 app.listen( 3000 )
@@ -116,41 +93,22 @@ const createUser = async function (username, password) {
   users.insertOne( { username: username, password: password } )
 }
 
-// // server.js
-// // where your node app starts
+// load user data
+const loadData = async function (username) {
+  console.log("loading")
+  user_data = await client.db('character_saver').collection('characters').find({ user: username }).toArray()
+  console.log(user_data)
+}
 
-// // we've started you off with Express (https://expressjs.com/)
-// // but feel free to use whatever libraries or frameworks you'd like through `package.json`.
-// const express = require("express");
-// const app = express();
+const addMaterial = async function (name, density, mass, volume, cost, totcost){
+  let users = client.db('character_saver').collection('characters')
+  users.insertOne( { user: username, name: name, density: density, mass: mass, volume: volume, cost: cost, totcost: totcost } )
+}
 
-// // our default array of dreams
-// const dreams = [
-//   "Find and count some sheep",
-//   "Climb a really tall mountain",
-//   "Wash the dishes"
-// ];
+const calcDens = function (mass, volume){
+  return mass/volume
+}
 
-// // make all the files in 'public' available
-// // https://expressjs.com/en/starter/static-files.html
-// app.use(express.static("public"));
-
-// // https://expressjs.com/en/starter/basic-routing.html
-// app.get("/", (request, response) => {
-//   console.log(request.url)
-//   console.log(__dirname)
-//   response.sendFile(__dirname + "/views/login.html");
-// });
-
-// // send the default array of dreams to the webpage
-// app.get("/dreams", (request, response) => {
-//   // express helps us take JS objects and send them as JSON
-//   response.json(dreams);
-// });
-
-
-
-// // listen for requests :)
-// const listener = app.listen(process.env.PORT, () => {
-//   console.log("Your app is listening on port " + listener.address().port);
-// });
+const calcCost = function (mass, cost){
+  return mass * cost
+}
