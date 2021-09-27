@@ -16,6 +16,7 @@ There are seven elements in Genshin Impact (Shown below in the image):
 - Electro
 - Geo
 - Dendro
+
 ![image](https://staticg.sportskeeda.com/editor/2021/06/67258-16247348366456-800.jpg)
 
 The main challenge I faced was getting the OAuth authentication with GitHub strategy for the log-in and also getting familiar with bootstrap.
