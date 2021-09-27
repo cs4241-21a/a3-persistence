@@ -2,6 +2,12 @@ let sound
 let howls = []
 let rain_sound, lofi_music
 
+
+/**
+ * Adds the mix to the database and plays it
+ * after the "play" button is clicked.
+ * @param {Event} e The onclick event
+ */
 const submit = function( e ) {
     // prevent default form action from being carried out
     e.preventDefault()
@@ -42,7 +48,8 @@ const submit = function( e ) {
       // rain_volume: rain_volume.toFixed(1)
     },
     body = JSON.stringify( json )
-
+    console.log(body)
+    // debugger
     fetch( '/submit', {
       method:'POST',
       body 
@@ -51,23 +58,25 @@ const submit = function( e ) {
       if(response.ok)
         return response.json()
     })
+    .then( jsonstr => JSON.parse(jsonstr))
     .then(function (json) {
       console.log(json)
       playNewSound(json)
       setBG(json.environment)
-      updateHistory(json)
+      updateHistory()
         // howls[1].volume(0.5)
     })
     return false
   }
 
-  window.onload = function() {
-    const play_button = document.getElementById( 'play' )
-    play_button.onclick = submit
+window.onload = function() {
+  const play_button = document.getElementById( 'play' )
+  play_button.onclick = submit
+  updateHistory()
 
-    // const play_history_button = document.getElementById('play_history')
-    // play_history_button.onclick = playHistory
-  }
+  // const play_history_button = document.getElementById('play_history')
+  // play_history_button.onclick = playHistory
+}
 
 /**
  * Sets the background image according
@@ -75,11 +84,9 @@ const submit = function( e ) {
  * @param {String} environment The environment
  */
 function setBG(environment) {
-  let bg = document.getElementById("body")
+  let bg = document.getElementById("bg-image")
   bg.style.backgroundImage = "url(../backgrounds/"+environment+".jpeg)"
 }
-
-
 
 /**
  * Gets the correct audio file paths
@@ -199,27 +206,119 @@ function playNewSound(json, isSnippet = false) {
 
 /**
  * Updates the history table using the data
- * from the given json
- * @param {Object} json The given json
+ * from the database
  */
-function updateHistory(json) {
+function updateHistory() {
   let history_table = document.getElementById("history_table")
-  let row = history_table.insertRow(history_table.rows.length)
-  let json_keys = []
 
-  // get json keys
-  for (var key in json) {
-    json_keys.push(key)
-  }
+  // call the /getHistory route
+  // returns array of json objects for all the mixes
+  fetch( '/getHistory', {
+    method:'GET'
+  })
+  .then(function(response) {
+    // console.log('get history response', response)
+    if(response.ok)
+      return response.json()
+  })
+  .then( function(jsonArr) {
+    console.log('mix history')
+    console.log(jsonArr)
 
-  // update table with new data from json
-  for (let i = 0; i < 5; i++) {
-    let cell = row.insertCell(i)
-    if (i === 4) {i = 5}
-    cell.innerHTML = json[json_keys[i]].replace('_', ' ')
-  }
+    let num_rows = history_table.rows.length
+
+    // clear the table
+    for (let i = 1; i < num_rows; i++) {
+      console.log(i)
+      console.log(history_table)
+      history_table.deleteRow(1)
+    }
+
+    // add each mix json to the table
+    jsonArr.forEach((object)  => {
+      // console.log('mix', object)
+      let row = history_table.insertRow(1)
+      let json_keys = []
+
+      // get json keys
+      for (var key in object) {
+        json_keys.push(key)
+      }
+      // console.log(json_keys)
+      // update table with new data from json
+      for (let i = 1; i < 7; i++) {
+        let cell = row.insertCell(i-1)
+        if (i === 5) {i = 6}
+        cell.innerHTML = object[json_keys[i]].replace('_', ' ')
+      }
+
+      // todo add modify button
+
+      // add delete button
+      let del_cell = row.insertCell(5)
+      let del_btn = document.createElement("button")
+      let del_t = document.createTextNode('delete')
+      del_btn.appendChild(del_t)
+      del_cell.appendChild(del_btn)
+
+      del_btn.onclick = remove
+    })
+  })
 }
 
+
+/**
+ * Removes the selected mix after the "delete"
+ * button is pressed.
+ * @param {Event} e The onclick event
+ */
+const remove = function(e) {
+  // prevent default form action from being carried out
+  e.preventDefault()
+
+  let row_index = e.path[2].rowIndex
+
+  // get the mix history (array)
+  fetch( '/getHistory', {
+    method:'GET'
+  })
+  .then(function(response) {
+    if(response.ok)
+      return response.json()
+  })
+  .then(function(jsonArr) {
+    // console.log('get history response', response)
+    console.log('jsonArr', jsonArr)
+    let json = jsonArr[jsonArr.length - row_index]
+    console.log('this json', json)
+    let json_keys = []
+    for (var key in json) {
+      json_keys.push(key)
+    }
+    // tell the database to remove the selected mix
+    body = JSON.stringify({_id: json[json_keys[0]]})
+    fetch( '/remove', {
+      method:'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body
+    })
+    .then(async function(response) {
+      console.log('delete response', response.json)
+      // if the removal was successful, delete the row from the table
+      if(response.ok)
+        history_table.deleteRow(row_index)
+    })
+    return false
+  })
+}
+
+
+/**
+ * Play each mix for 10 sec after the
+ * "play history" button is clicked.
+ * @param {Event} e The onclick event
+ */
+// todo finish this function
 const playHistory = function(e) {
   // prevent default form action from being carried out
   e.preventDefault()

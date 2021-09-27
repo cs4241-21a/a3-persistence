@@ -1,0 +1,42 @@
+h1, div {
+  margin-bottom: 50px;
+}
+
+form {
+  border-right: 1px solid rgb(255, 245, 245);
+}
+
+button {
+  color: rgb(255, 245, 245); }
+
+input {
+  color:#222;
+}
+
+body {
+  font-family:  monospace;
+  overflow: hidden;
+  height: 100%;
+/*   position: absolute; */
+}
+
+#bg-image {
+  background-image: url('../backgrounds/train.jpeg'); 
+  /* filter: blur(2px);
+  -webkit-filter: blur(2px); */
+  min-height:100%; 
+  height: 100%; 
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: absolute;
+  min-width:100%;
+  width: 100%;
+  margin:0px;
+}
+
+table {
+/*   height: 100%; */
+/*   position: absolute; */
+  overflow-y:scroll;
+}
