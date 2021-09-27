@@ -26,12 +26,17 @@ const updateInfo = async () => {
 
   // Github info
 
-  document.getElementById("name").innerText = user.displayName;
-  document.getElementById("email").innerText = user.emails[0].value;
-  document.getElementById("username").innerText = user.username;
-  document.getElementById(
-    "photo"
-  ).innerHTML = `<img src=${user.photos[0].value} width=100 height=100>`;
+  if (user.displayName)
+    document.getElementById("name").innerText = user.displayName;
+  if (user.emails && user.emails.length > 0)
+    document.getElementById("email").innerText = user.emails[0].value;
+  if (users.username)
+    document.getElementById("username").innerText = user.username;
+
+  if (users.photos && users.photos.length > 0)
+    document.getElementById(
+      "photo"
+    ).innerHTML = `<img src=${user.photos[0].value} width=100 height=100>`;
 
   // Contacts
 
