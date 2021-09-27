@@ -1,18 +1,25 @@
 const express = require( 'express' ),
       // bodyparser = require( 'body-parser' )
-      mongodb = require( 'mongodb' )
-      app = express()
-      cookie = require('cookie-session')
-      favicon = require('serve-favicon')
-      path = require('path')
-      serveStatic = require('serve-static')
+      mongodb = require( 'mongodb' ),
+      app = express(),
+      cookie = require('cookie-session'),
+      favicon = require('serve-favicon'),
+      path = require('path'),
+      serveStatic = require('serve-static'),
+      morgan = require('morgan'),
+      cors = require('cors')
 
 app.use( express.json() )
+app.use(cors())
+
 // use express.urlencoded to get data sent by defaut form actions
 // or GET requests
 app.use( serveStatic('public') )
 app.use(favicon(path.join(__dirname, 'public', 'images', 'favicon.ico')))
 // app.use( express.static('public'))
+
+app.use(morgan('tiny'))
+
 app.use( express.urlencoded({ extended: true }) )
 
 require('dotenv').config()
