@@ -64,7 +64,7 @@ body {
 .gridLoginContainer {
     display: grid;
     grid-template-areas:
-        'text login';
+        'login';
     grid-gap: 10px;
     padding: 10px;
     background-color: #EC058E;
