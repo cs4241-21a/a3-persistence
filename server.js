@@ -88,14 +88,30 @@ passport.use(new GitHubStrategy({
   }
 ));
 
+const isAuth = (request, response, next) => {
+  if(request.user) {
+    next();
+  } else {
+    res.redirect("/login");
+  }
+}
+
 // Make sure that index gets loaded anyway
-app.get("/", (request, respone) => {
+app.get("/", isAuth, (request, response) => {
   response.sendFile(__dirname + "/public/index.html");
 });
 
 // Handles login GET request
 app.get("/login", (request, response) => {
+  if(request.user) {
+    return response.redirect("/");
+  }
   response.sendFile(__dirname + "/public/login.html");
+});
+
+app.get("/logout", (request, response) => {
+  request.logOut();
+  request.redirect("/login");
 });
 
 app.get('/auth/github', passport.authenticate('github'));
