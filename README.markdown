@@ -5,7 +5,7 @@
 Michael Lai https://a3-michael-lai.herokuapp.com
 Note: 24hr extension granted from Professor.
 
-With this assignment, I aimed to redeem myself after the disaster of project 2. (Although even this project has it's mistakes; but at least it mostly works this time, rather than not working at all)
+With this assignment, I aimed to redeem myself after the disaster of project 2. (Although even this project has one minor mistake; but at least it mostly works this time, rather than not working at all)
 
 The first step was to implement the remaining portions of project 2. That's been completed.
 
@@ -16,24 +16,22 @@ Next was to port the code to Express. Which involved learning how middleware wor
 - checkDBConnection: A custom made middleware that does a simple check to see if the database is there.
 - express-session: Used to help oauth work.
 - passport (for oauth): Used to help oauth work.
-- isAuth: A custom made middleware that checks for authentication and redirects you if it isn't available. (should be working, not sure why it isn't)
+- isAuth: A custom made middleware that checks for authentication and redirects you if it isn't available.
 
 After that, I needed to implement the MongoDB system. This was a challenging process to get done, as I had a few asynchronous issues, but I resolved them in the end.
 
-With that solved, I needed to create an authentication system. I decided to implement Github OAuth. The implementation isn't fully complete, as users aren't able to edit their own data, but they can edit data nonetheless. The original plan was to show the full scoreboard, but only let users edit their own scores from the board (but this never worked out).
-
-Also, with the OAuth system, it doesn't seem to work (on the account of a single bug, that it's not checking for authentication on the form page, and thus, the redirect to the login page cannot happen). If you go to the /login page, then you should be able to see that the login side of it works (and if you try to go there afterwards with a login session, it redirects you).
+With that solved, I needed to create an authentication system. I decided to implement Github OAuth. The implmentation is technically complete, but users aren't able to edit their own data (but they can edit data nonetheless). The original plan was to show the full scoreboard, but only let users edit their own scores from the board (but this never worked out).
 
 (Note: Not Implemented, ran out of time) Finally, the CSS guide. Because I was making an arcade highscore site, the retro CSS framework from the original readme was already the perfect choice.
 
 ## Technical Achievements
 **1 - OAuth:**
-I'm going to repeat the same stuff I mentioned above with the OAuth System. Just Note: The only major bugs are the missing redirect when the authentication should be checked.
+I'm going to repeat the same stuff I mentioned above with the OAuth System. It works, as it displays the login page with a single button to sign in and you can log out in the scoreboard page (and without a valid session, you cannot access the scoreboard). The only issue is that it's not saving anything to the a specific user, as users aren't able to edit their own data, but they can edit data nonetheless. The original plan was to show the full scoreboard, but only let users edit their own scores from the board (but this never worked out).
 
-With the OAuth system, it doesn't seem to work (on the account of a single bug, that it's not checking for authentication on the form page, and thus, the redirect to the login page cannot happen). If you go to the /login page, then you should be able to see that the login side of it works (and if you try to go there afterwards with a login session, it redirects you).
+The technical achievement did say to implement OAuth, which was done (but that's up to you on how to grade it).
 
 **2 - Hosting on Heroku:**
-For this project, instead of hosting the site on Glitch, I hosted it on Heroku. It's very similar in what actions they use to deploy your app, but I really their improvements on the Github import, specifically the automatic import and the ability to select which branch you want to deploy from.
+For this project, instead of hosting the site on Glitch, I hosted it on Heroku. It's very similar in what actions they use to deploy your app, but I really like their improvements on the Github import, specifically the automatic import and the ability to select which branch you want to deploy from.
 
 ## Design/Evaluation Achievements
 
