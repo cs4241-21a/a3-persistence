@@ -1,4 +1,5 @@
 // I've got no idea what this is and how it got here
+require('dotenv').config();
 const { json } = require('body-parser');
 const { ObjectId } = require('bson');
 const res = require('express/lib/response');
@@ -20,6 +21,14 @@ const express       = require('express'),
       path          = require('path'),
       port          = 3000;
 
+// Github OAuth Stuff
+const passport      = require('passport'),
+      session       = require('express-session');
+      GitHubStrategy = require('passport-github').Strategy,
+      clientID      = "e81fcf4d7f4bda644038",
+      clientSecret  = "88b8192b95be8dd5209f39730a7a00b6ac4b48cd",
+      axios         = require('axios');
+
 // Initialize connection to MongoDB
 dbClient.connect(MongoURL).then( (client) =>{
   arcadeDatabase = client.db("ArcadeDatabase"); // This references the database
@@ -33,22 +42,70 @@ app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 // Make all files in 'public' available
 app.use(express.static("public"));
 
-// Make sure that index gets loaded anyway
-app.get("/", (request, respone) => {
-  response.sendFile(__dirname + "/index.html");
-});
-
 // Gets json when appropriate
 app.use(bodyparser.json());
 
-// Handles login GET request
-app.get("/login", (request, response) => {
-  response.sendFile(__dirname + "/login.html");
+// Handles Github OAuth
+/*app.get("/login", (request, response) => {
+  response.redirect("https://github.com/login/oauth/authorize?client_id=${clientId}");
+});*/
+
+app.use(
+  session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUnitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
+    }
+  })
+)
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
 });
 
-app.get("/user", (request, response) => {
-  response.sendFile(__dirname + "/user.html");
-})
+passport.deserializeUser(function(id, cb) {
+  cb(null, id);
+});
+
+passport.use(new GitHubStrategy({
+    clientID: "e81fcf4d7f4bda644038",
+    clientSecret: "88b8192b95be8dd5209f39730a7a00b6ac4b48cd",
+    callbackURL: "https://a3-michael-lai.herokuapp.com/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log(profile);
+    cb(null, profile);
+    /*User.findOrCreate({ githubId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });*/
+  }
+));
+
+// Make sure that index gets loaded anyway
+app.get("/", (request, respone) => {
+  response.sendFile(__dirname + "/public/index.html");
+});
+
+// Handles login GET request
+app.get("/login", (request, response) => {
+  response.sendFile(__dirname + "/public/login.html");
+});
+
+app.get('/auth/github', passport.authenticate('github'));
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+  res.redirect('/');
+});
 
 // Handles update GET request
 app.get("/update", checkDBConnection, (request, response) => {
@@ -164,7 +221,6 @@ app.post("/submit", async (request, response) => {
         let objectID2 = newGameUpdateHS._id;
 
         if(objectID1.equals(objectID2)) { // We found itself, New highscore
-          console.log("Test1");
           let updateHSTrue = { $set: { highscore: true } };
           await updateDatabaseItem(searchID, updateHSTrue);
           let targetID = { _id: mongodb.ObjectId(newGameCurrentHS._id) };
@@ -172,7 +228,6 @@ app.post("/submit", async (request, response) => {
           await updateDatabaseItem(targetID, updateHSFalse);
 
         } else { // Make sure that the highscore is set to false
-          console.log("Test2");
           let updateHSFalse = { $set: { highscore: false } };
           await updateDatabaseItem(searchID, updateHSFalse);
         }

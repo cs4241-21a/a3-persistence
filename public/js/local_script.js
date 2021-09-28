@@ -187,6 +187,16 @@ function resetEntry() {
     document.getElementById("submitButton").value = "Submit";
 }
 
+function loginRequest() {
+    fetch( '/auth/github', { // Send the POST request
+        method:'GET'
+    });
+}
+
+function logoutRequest() {
+    
+}
+
 // Run when the html page loads
 window.onload = function() {
     const submitButton = document.getElementById("submitButton");

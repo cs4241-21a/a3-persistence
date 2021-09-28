@@ -19,9 +19,9 @@ Next was to port the code to Express. Which involved learning how middleware wor
 
 After that, I needed to implement the MongoDB system. This was a challenging process to get done, as I had a few asynchronous issues, but I resolved them in the end.
 
-With that solved, I needed to create a username/password system.
+With that solved, I needed to create an authentication system. I decided to implement Github OAuth.
 
-Finally, the CSS guide. Because I was making an arcade highscore site, the presented 
+Finally, the CSS guide. Because I was making an arcade highscore site, the retro CSS framework from the original readme was already the perfect choice.
 
 ## Technical Achievements
 **1 - Updating Data:**
