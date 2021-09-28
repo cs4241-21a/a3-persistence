@@ -92,7 +92,7 @@ const isAuth = (request, response, next) => {
   if(request.user) {
     next();
   } else {
-    res.redirect("/login");
+    response.redirect("/login");
   }
 }
 

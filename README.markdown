@@ -24,7 +24,9 @@ With that solved, I needed to create an authentication system. I decided to impl
 Finally, the CSS guide. Because I was making an arcade highscore site, the retro CSS framework from the original readme was already the perfect choice.
 
 ## Technical Achievements
-**1 - Updating Data:**
+**1 - OAuth:**
+
+**2 - Hosting on Heroku:**
 
 
 ## Design/Evaluation Achievements
