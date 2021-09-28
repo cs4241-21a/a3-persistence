@@ -3,6 +3,7 @@
 
 ## An Arcade Game Scoreboard
 Michael Lai https://a3-michael-lai.herokuapp.com
+
 Note: 24hr extension granted from Professor.
 
 With this assignment, I aimed to redeem myself after the disaster of project 2. (Although even this project has one minor mistake; but at least it mostly works this time, rather than not working at all)
@@ -31,7 +32,7 @@ I'm going to repeat the same stuff I mentioned above with the OAuth System. It w
 The technical achievement did say to implement OAuth, which was done (but that's up to you on how to grade it).
 
 **2 - Hosting on Heroku:**
-For this project, instead of hosting the site on Glitch, I hosted it on Heroku. It's very similar in what actions they use to deploy your app, but I really like their improvements on the Github import, specifically the automatic import and the ability to select which branch you want to deploy from.
+For this project, instead of hosting the site on Glitch, I hosted it on Heroku. It's very similar in what actions they use to deploy your app, but I really like their improvements on the Github import, specifically the automatic import and the ability to select which branch you want to deploy from. This really came in handy when I finished with the original a2 project and had to switch gears to a3, as I decided to create a branch in case something bad happened.
 
 ## Design/Evaluation Achievements
 
@@ -39,7 +40,7 @@ For this project, instead of hosting the site on Glitch, I hosted it on Heroku. 
 ## Old Readme Below
 ===
 
-Due: September 23th, by 11:59 AM.
+Due: September 28th, by 11:59 AM.
 
 This assignnment continues where we left off, extending it to use the most popular Node.js server framework (express), 
 a database (mongodb), and a CSS application framework / template of your choice (Boostrap, Material Design, Semantic UI, Pure etc.)
