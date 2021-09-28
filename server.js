@@ -45,11 +45,7 @@ app.use(express.static("public"));
 // Gets json when appropriate
 app.use(bodyparser.json());
 
-// Handles Github OAuth
-/*app.get("/login", (request, response) => {
-  response.redirect("https://github.com/login/oauth/authorize?client_id=${clientId}");
-});*/
-
+// Handle session token
 app.use(
   session({
     secret: 'keyboard cat',
@@ -61,7 +57,7 @@ app.use(
       maxAge: 24 * 60 * 60 * 1000,
     }
   })
-)
+);
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -74,6 +70,7 @@ passport.deserializeUser(function(id, cb) {
   cb(null, id);
 });
 
+// Handles Github OAuth
 passport.use(new GitHubStrategy({
     clientID: "e81fcf4d7f4bda644038",
     clientSecret: "88b8192b95be8dd5209f39730a7a00b6ac4b48cd",

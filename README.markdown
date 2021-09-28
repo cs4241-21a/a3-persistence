@@ -14,20 +14,22 @@ Next was to port the code to Express. Which involved learning how middleware wor
 - body-parser: Helps parse json within requests. Even though it depreciated and already part of express, the professor did allow the use of this middleware.
 - server-favicon: Helps serve the favicon as to avoid processing any other middleware for a simple favicon request.
 - checkDBConnection: A custom made middleware that does a simple check to see if the database is there.
-- cookie-session: 
-- passport (for oauth): 
+- express-session: Used to help oauth work.
+- passport (for oauth): Used to help oauth work.
+- isAuth: A custom made middleware that checks for authentication and redirects you if it isn't available.
 
 After that, I needed to implement the MongoDB system. This was a challenging process to get done, as I had a few asynchronous issues, but I resolved them in the end.
 
-With that solved, I needed to create an authentication system. I decided to implement Github OAuth.
+With that solved, I needed to create an authentication system. I decided to implement Github OAuth. The implementation isn't fully complete, as users aren't able to edit their own data, but they can edit data nonetheless. The original plan was to show the full scoreboard, but only let users edit their own scores from the board (but this never worked out).
 
 Finally, the CSS guide. Because I was making an arcade highscore site, the retro CSS framework from the original readme was already the perfect choice.
 
 ## Technical Achievements
 **1 - OAuth:**
 
-**2 - Hosting on Heroku:**
 
+**2 - Hosting on Heroku:**
+For this project, instead of hosting the site on Glitch, I hosted it on Heroku. It's very similar in what actions they use to deploy your app, but I really their improvements on the Github import, specifically the automatic import and the ability to select which branch you want to deploy from.
 
 ## Design/Evaluation Achievements
 
