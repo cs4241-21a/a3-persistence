@@ -95,7 +95,14 @@ const isAuth = (request, response, next) => {
 
 // Make sure that index gets loaded anyway
 app.get("/", isAuth, (request, response) => {
-  response.sendFile(__dirname + "/public/index.html");
+  if(request.user) {
+    console.log("Authenticated");
+    response.sendFile(__dirname + "/public/index.html");
+  } else {
+    console.log("Redirect");
+    response.redirect("/login");
+  }
+  
 });
 
 // Handles login GET request
@@ -108,7 +115,7 @@ app.get("/login", (request, response) => {
 
 app.get("/logout", (request, response) => {
   request.logOut();
-  request.redirect("/login");
+  response.redirect("/login");
 });
 
 app.get('/auth/github', passport.authenticate('github'));
