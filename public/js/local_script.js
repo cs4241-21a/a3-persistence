@@ -1,21 +1,9 @@
-//const appdata = [];
-let modifyID = -1;
-
-// Updates the local appdata file
-/*function updateJSON() {
-    fetch('/update', {
-        method: 'POST'
-    }).then(function(response) {
-        return response.json();
-    }).then(function(data) {
-        appdata = data;
-        console.log(data)
-    });
-}*/
+let modifyID = null;
+let sessionID = -1;
 
 // Takes an entry and places it in the form
 function editEntry(name, game, score, id) {
-    console.log("Populating entries for edit: Name: %s || Game: %s || Score: %d || ID: %d", name, game, score, id);
+    console.log("Populating entries for edit: Name: %s || Game: %s || Score: %d || ID: %s", name, game, score, JSON.stringify(id));
 
     document.getElementById("submitButton").value = "Modify";
     document.getElementById('nameForm').value = name;
@@ -43,7 +31,7 @@ function editEntry(name, game, score, id) {
 // Deletes an entry
 function deleteEntry(deleteID) {
     const jsonID = {
-        id: deleteID
+        _id: deleteID
     };
 
     console.log("Sending delete request for [%d]", deleteID);
@@ -73,7 +61,7 @@ const makeFormJSON = function () {
         game: game.value,
         score: +score.value,
         highscore: false,
-        id: id
+        _id: id
     };
     return json;
 };
@@ -83,7 +71,7 @@ function updateForm() {
     console.log("Sending update request");
 
     fetch('/update', {
-        method: 'POST'
+        method: 'GET'
     }).then(function(response) {
         return response.json();
     }).then(function(data) {
@@ -134,13 +122,13 @@ function updateForm() {
             let editIcon = document.createElement('td');
             editIcon.innerHTML = '<span class="material-icons-outlined iconButton">edit</span>'
             editIcon.onclick = function(e) {
-                editEntry(scoreEntry['name'], scoreEntry['game'], scoreEntry['score'], scoreEntry['id']);
+                editEntry(scoreEntry['name'], scoreEntry['game'], scoreEntry['score'], scoreEntry['_id']);
             }
 
             let deleteIcon = document.createElement('td');
             deleteIcon.innerHTML = '<span class="material-icons-outlined iconButton">delete_forever</span>'
             deleteIcon.onclick = function(e) {
-                deleteEntry(scoreEntry['id']);
+                deleteEntry(scoreEntry['_id']);
             }
 
             newRow.appendChild(editIcon);
@@ -191,7 +179,7 @@ const newEntry = function(e) {
 function resetEntry() {
     console.log("Reseting Entry Form");
 
-    modifyID = -1; // Reset the modifyID
+    modifyID = null; // Reset the modifyID
 
     document.getElementById('nameForm').value = ""; // Reset the fields
     let gameSelect = document.getElementById('gameForm');
