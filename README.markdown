@@ -1,4 +1,36 @@
-Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
+# Assignment 3 - Persistence: Two-tier Web Application with Database, Express server, and CSS template
+===
+
+## An Arcade Game Scoreboard
+Michael Lai https://a3-michael-lai.herokuapp.com
+Note: 12hr extension granted from Professor.
+
+With this assignment, I aimed to redeem myself after the disaster of project 2. (Although even this project has it's mistakes)
+
+The first step was to implement the remaining portions of project 2. That's been completed.
+
+Next was to port the code to Express. Which involved learning how middleware worked in the framework. After that, these are the 5 middleware packages I've chosen:
+
+- body-parser: Helps parse json within requests. Even though it depreciated and already part of express, the professor did allow the use of this middleware.
+- server-favicon: Helps serve the favicon as to avoid processing any other middleware for a simple favicon request.
+- checkDBConnection: A custom made middleware that does a simple check to see if the database is there.
+- cookie-session: 
+- passport (for oauth): 
+
+After that, I needed to implement the MongoDB system. This was a challenging process to get done, as I had a few asynchronous issues, but I resolved them in the end.
+
+With that solved, I needed to create an authentication system. I decided to implement Github OAuth.
+
+Finally, the CSS guide. Because I was making an arcade highscore site, the retro CSS framework from the original readme was already the perfect choice.
+
+## Technical Achievements
+**1 - Updating Data:**
+
+
+## Design/Evaluation Achievements
+
+
+## Old Readme Below
 ===
 
 Due: September 23th, by 11:59 AM.

@@ -1,215 +1,369 @@
-let nextID = 4; // If you have default ID's being set, make sure this one gets set to an available ID 
+// I've got no idea what this is and how it got here
+require('dotenv').config();
+const { json } = require('body-parser');
+const { ObjectId } = require('bson');
+const res = require('express/lib/response');
 
-const http = require( 'http' ),
-      fs   = require( 'fs' ),
-      // IMPORTANT: you must run `npm install` in the directory for this assignment
-      // to install the mime library used in the following line of code
-      mime = require( 'mime' ),
-      dir  = 'public/',
-      port = 3000;
+// MongoDB Stuff
+const mongodb     = require('mongodb'),
+      dbClient    = mongodb.MongoClient,
+      assert      = require('assert'),
+      MongoURL    = "mongodb+srv://quantum:bloodhouse@project-a3-db.jyoep.mongodb.net/ArcadeDatabase?retryWrites=true&w=majority";
 
-const appdata = [
-  { 'name': 'AAA', 'score': 43, 'game': 'Mario Bros.', 'highscore': true, 'id': 0},
-  { 'name': 'ABC', 'score': 67, 'game': 'Donkey Kong', 'highscore': true, 'id': 1},
-  { 'name': 'ZZZ', 'score': 168, 'game': 'Street Racing', 'highscore': true, 'id': 2},
-  { 'name': 'E', 'score': 2, 'game': 'Mario Bros.', 'highscore': false, 'id': 3}
-];
+let arcadeDatabase  = null,
+    databaseClient  = null; // See if there's an eventual use for this
 
-const server = http.createServer( function( request,response ) {
-  if( request.method === 'GET' ) {
-    handleGet( request, response );
-  } else if( request.method === 'POST' ) {
-    handlePost( request, response );
-  }
+// Express server stuff
+const express       = require('express'),
+      app           = express(),
+      bodyparser    = require('body-parser'),
+      favicon       = require('serve-favicon'),
+      path          = require('path'),
+      port          = 3000;
+
+// Github OAuth Stuff
+const passport      = require('passport'),
+      session       = require('express-session');
+      GitHubStrategy = require('passport-github').Strategy,
+      clientID      = "e81fcf4d7f4bda644038",
+      clientSecret  = "88b8192b95be8dd5209f39730a7a00b6ac4b48cd",
+      axios         = require('axios');
+
+// Initialize connection to MongoDB
+dbClient.connect(MongoURL).then( (client) =>{
+  arcadeDatabase = client.db("ArcadeDatabase"); // This references the database
+  clientTest = client; // This is the client object (used for closing the connection)
+  console.log("Database connected");
 });
 
-// Takes a specific game and returns the position of the highscore for that game
-// Returns -1 if that game doesn't exist or if no highscore exists
-function findHighscore(game) {
-  let hsCounter = -1;
-  let hsScoreCounter = -1;
-  
-  for(let i = 0; i < appdata.length; i++) {
-    if(appdata[i].game === game && appdata[i].score > hsScoreCounter) {
-      hsScoreCounter = appdata[i].score;
-      hsCounter = i;
+// Making sure this comes first (avoid processing any other middleware for a simple favicon request)
+app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
+
+// Make all files in 'public' available
+app.use(express.static("public"));
+
+// Gets json when appropriate
+app.use(bodyparser.json());
+
+// Handles Github OAuth
+/*app.get("/login", (request, response) => {
+  response.redirect("https://github.com/login/oauth/authorize?client_id=${clientId}");
+});*/
+
+app.use(
+  session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUnitialized: false,
+    cookie: {
+      httpOnly: true,
+      secure: false,
+      maxAge: 24 * 60 * 60 * 1000,
     }
+  })
+)
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+passport.serializeUser(function(user, cb) {
+  cb(null, user.id);
+});
+
+passport.deserializeUser(function(id, cb) {
+  cb(null, id);
+});
+
+passport.use(new GitHubStrategy({
+    clientID: "e81fcf4d7f4bda644038",
+    clientSecret: "88b8192b95be8dd5209f39730a7a00b6ac4b48cd",
+    callbackURL: "https://a3-michael-lai.herokuapp.com/auth/github/callback"
+  },
+  function(accessToken, refreshToken, profile, cb) {
+    console.log(profile);
+    cb(null, profile);
+    /*User.findOrCreate({ githubId: profile.id }, function (err, user) {
+      return cb(err, user);
+    });*/
   }
+));
 
-  return hsCounter;
-}
-
-// Handle GET requests (don't touch this you fool, you moron)
-const handleGet = function( request, response ) {
-  console.log("GET Request URL: %s", request.url);
-  const filename = dir + request.url.slice( 1 );
-
-  if( request.url === '/' ) {
-    sendFile( response, 'public/index.html' );
+const isAuth = (request, response, next) => {
+  if(request.user) {
+    next();
   } else {
-    sendFile( response, filename );
+    res.redirect("/login");
   }
 }
 
-// Handle POST requests
-const handlePost = function( request, response ) {
+// Make sure that index gets loaded anyway
+app.get("/", isAuth, (request, response) => {
+  response.sendFile(__dirname + "/public/index.html");
+});
 
-  // Create a string based on the data that comes with the POST request
-  let dataString = '';
-  request.on( 'data', function( data ) {
-      dataString += data; 
+// Handles login GET request
+app.get("/login", (request, response) => {
+  if(request.user) {
+    return response.redirect("/");
+  }
+  response.sendFile(__dirname + "/public/login.html");
+});
+
+app.get("/logout", (request, response) => {
+  request.logOut();
+  request.redirect("/login");
+});
+
+app.get('/auth/github', passport.authenticate('github'));
+
+app.get('/auth/github/callback', 
+  passport.authenticate('github', { failureRedirect: '/login' }),
+  function(req, res) {
+    // Successful authentication, redirect home.
+  res.redirect('/');
+});
+
+// Handles update GET request
+app.get("/update", checkDBConnection, (request, response) => {
+  console.log("GET Request: Update");
+  getGameDatabase().then( (result) => {
+    console.log(result);
+    response.writeHead( 200, "OK", {'Content-Type': 'application/json' });
+    response.end(JSON.stringify(result));
   });
+});
 
-  // Continue with the POST request
-  request.on( 'end', function() {
+// Handles submit POST request
+app.post("/submit", async (request, response) => {
+  console.log("POST Request: Submit");
+  
+  const jsonInput = request.body;
 
-    if(request.url === '/update') { // Update request, nothing in the dataString, send appdata
-      console.log("POST Request: Update");
+  console.log("POST Request Data:");
+  console.log(jsonInput);
 
-      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
-      response.end(JSON.stringify(appdata));
-      return;
+  if(jsonInput._id === null) { // New submission
+    // Find if there is a highscore to replace
+    let currentHS = await findHighscore(jsonInput.game);
+
+    if(currentHS !== null) { // Found highscore, time to see if it's to be replaced
+      console.log("Found Highscore", currentHS.score);
+      if(jsonInput.score > currentHS.score) { // Replace highscore
+        jsonInput.highscore = true; // Update to true locally
+
+        let targetID = { _id: mongodb.ObjectId(currentHS._id)}; // Update to false in the database
+        let updateJSON = { $set: { highscore: false } }
+        await updateDatabaseItem(targetID, updateJSON);
+      }
+    } else { // Did not find highscore, it's now the highscore
+      jsonInput.highscore = true;
     }
 
-    // Take the string and create a JSON object
-    const jsonInput = JSON.parse(dataString);
+    await addDatabaseItem(jsonInput); // Add the item to the database
+    console.log("Submission Complete");
+    //response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
+    //response.end();
 
-    if(request.url === '/delete') { // Delete request
-      console.log("POST Request: Delete");
-      console.log("POST Request Data:");
-      console.log(jsonInput);
+  } else { // Must be a modification
+    let searchID = { _id: mongodb.ObjectId(jsonInput._id) }
+    let JSONMatch = await searchDatabaseItem(searchID);
 
-      // Only item in this JSON object is the ID; that's all we need
-      for(let i = 0; i < appdata.length; i++) {
-        if(appdata[i].id === jsonInput.id) { // ID Matches
-          let hsStatus = appdata[i].highscore;
-          let hsGame = appdata[i].game;
-          appdata.splice(i, 1);
-          console.log("Deletion Complete");
+    let updateName = { $set: { name: jsonInput.name } }
+    await updateDatabaseItem(searchID, updateName); // Update the name
 
-          if(hsStatus === true) { // We then need to find a new highscore
-            let hsNew = findHighscore(hsGame); // Find the high score for a specific game
-            if(hsNew !== -1) {
-              appdata[hsNew].highscore = true;
-            }
-          }
+    // First, check if there's a game change
+    if(JSONMatch.game === jsonInput.game) { // Same game
 
-          break; // Stop search
+      if(JSONMatch.highscore === true) { // If it was the highscore
+        let updateScore = { $set: { score: jsonInput.score } }
+        await updateDatabaseItem(searchID, updateScore); // Update the score
+
+        let findHS = await findHighscore(jsonInput.game); // Find the highscore
+
+        console.log(findHS._id.valueOf());
+        console.log(JSONMatch._id.valueOf());
+
+        let objectID1 = JSONMatch._id;
+        let objectID2 = findHS._id;
+
+        if( !objectID1.equals(objectID2) ) { // If the ID's are different
+          // The highscore is now a different entry
+          let updateHSFalse = { $set: { highscore: false } };
+          await updateDatabaseItem(searchID, updateHSFalse);
+          let targetID = { _id: mongodb.ObjectId(findHS._id) };
+          let updateHSTrue = { $set: { highscore: true } };
+          await updateDatabaseItem(targetID, updateHSTrue);
+        }
+
+      } else if(JSONMatch.highscore === false) { // If it wasn't the highscore
+        let findHS = await findHighscore(jsonInput.game); // Find current highscore
+        
+        let updateScore = { $set: { score: jsonInput.score } }
+        await updateDatabaseItem(searchID, updateScore); // Update the score
+
+        if(findHS.score < jsonInput.score) { // If the replacement score is greater
+          // It is the highscore now
+          let updateHSTrue = { $set: { highscore: true } };
+          await updateDatabaseItem(searchID, updateHSTrue);
+          let targetID = { _id: mongodb.ObjectId(findHS._id) };
+          let updateHSFalse = { $set: { highscore: false } };
+          await updateDatabaseItem(targetID, updateHSFalse);
         }
       }
 
-    } else if(request.url === '/submit') { // Handle modify case as well
-      console.log("POST Request: Submit");
-      console.log("POST Request Data:");
-      console.log(jsonInput);
+    } else { // Different game
+      let previousGame = JSONMatch.game; // Save the previous game
+      let newGameCurrentHS = await findHighscore(jsonInput.game); // Grab the highscore for the game that we're switching to
+      
+      let updateGame = { $set: { game: jsonInput.game } }
+      await updateDatabaseItem(searchID, updateGame); // Update the game
 
-      if(jsonInput.id === -1) { // New submission
-        // Set the ID
-        jsonInput.id = nextID;
-        nextID++;
+      // First, update the highscore for the previous game
+      let previousGameHS = await findHighscore(previousGame);
+      if(previousGameHS !== null) { // If there is a new highscore
+        let targetID = { _id: mongodb.ObjectId(previousGameHS._id) };
+        let updateHSTrue = { $set: { highscore: true } }; // Update it to true
+        await updateDatabaseItem(targetID, updateHSTrue);
+      }
 
-        // Find if there is a highscore to replace
-        let findHS = findHighscore(jsonInput.game);
-        if(findHS !== -1) { // Found highscore, time to see if it's to be replaced
-          if(jsonInput.score > appdata[findHS].score) { // Replace highscore
-            appdata[findHS].highscore = false;
-            jsonInput.highscore = true;
-          }
-        } else { // Did not find highscore, it's now the highscore
-          jsonInput.highscore = true;
+      // Then, update the highscore for the new game
+      let updateScore = { $set: { score: jsonInput.score } }
+      await updateDatabaseItem(searchID, updateScore); // Update the score
+      
+      if(newGameCurrentHS !== null) { // There is a current highscore
+        let newGameUpdateHS = await findHighscore(jsonInput.game);
+
+        let objectID1 = JSONMatch._id;
+        let objectID2 = newGameUpdateHS._id;
+
+        if(objectID1.equals(objectID2)) { // We found itself, New highscore
+          let updateHSTrue = { $set: { highscore: true } };
+          await updateDatabaseItem(searchID, updateHSTrue);
+          let targetID = { _id: mongodb.ObjectId(newGameCurrentHS._id) };
+          let updateHSFalse = { $set: { highscore: false } };
+          await updateDatabaseItem(targetID, updateHSFalse);
+
+        } else { // Make sure that the highscore is set to false
+          let updateHSFalse = { $set: { highscore: false } };
+          await updateDatabaseItem(searchID, updateHSFalse);
         }
-
-        appdata.push(jsonInput); // Add the json info into appdata
-        console.log("Submission Complete");
-
-      } else { // Must be a modification
-        for(let i = 0; i < appdata.length; i++) {
-          if(appdata[i].id === jsonInput.id) { // ID Matches
-            
-            appdata[i].name = jsonInput.name; // First, set the name
-
-            // First, check if there's a game change
-            if(appdata[i].game === jsonInput.game) { // Same game
-
-              if(appdata[i].highscore === true) { // If it was the highscore
-                appdata[i].score = jsonInput.score;
-                let findHS = findHighscore(jsonInput.game);
-                if(findHS !== i) {
-                  // The highscore is now a different entry
-                  appdata[i].highscore = false;
-                  appdata[findHS].highscore = true;
-                }
-                
-              } else if(appdata[i].highscore === false) { // If it wasn't the highscore
-                let findHS = findHighscore(jsonInput.game);
-                appdata[i].score = jsonInput.score;
-                if (appdata[findHS].score < jsonInput.score) {
-                  // It is the highscore now
-                  appdata[i].highscore = true;
-                  appdata[findHS].highscore = false;
-                }
-              }
-
-            } else { // Different game
-              let previousGame = appdata[i].game; // Save the previous game
-              let newGameCurrentHS = findHighscore(jsonInput.game); // Grab the highscore for the game that we're switching to
-              
-              appdata[i].game = jsonInput.game; // Change game in appdata
-
-              // First, update the highscore for the previous game
-              let previousGameHS = findHighscore(previousGame);
-              if(previousGameHS !== -1) { // If there is a new highscore
-                appdata[previousGameHS].highscore = true;
-              }
-
-              // Then, update the highscore for the new game
-              appdata[i].score = jsonInput.score;
-              if(newGameCurrentHS !== -1) { // There is a current highscore
-                let newGameUpdateHS = findHighscore(jsonInput.game);
-                if(i === newGameUpdateHS) { // New highscore
-                  appdata[i].highscore = true;
-                  appdata[newGameCurrentHS].highscore = false;
-                }
-              } else { // There isn't a current highscore
-                appdata[i].highscore = true;
-              }
-
-            }
-
-            console.log("Modification Complete");
-
-            break;  // Stop search
-          }
-        }
-      }      
+      } else { // There isn't a current highscore
+        let updateHSTrue = { $set: { highscore: true } };
+        await updateDatabaseItem(searchID, updateHSTrue);
+      }
     }
+    console.log("Modification Complete");
+  }
 
-    response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
-    response.end();
-  })
+  response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
+  response.end();
+});
+
+// Handles delete POST request
+app.post("/delete", async (request, response) => {
+  console.log("POST Request: Delete");
+
+  const jsonInput = request.body;
+
+  console.log("POST Request Data:");
+  console.log(jsonInput);
+  const searchID = { _id: mongodb.ObjectId(jsonInput._id) };
+
+  let result = await searchDatabaseItem(searchID);
+  let hsStatus = result.highscore;
+  await deleteDatabaseItem(searchID);
+  if(hsStatus === true) {
+    let hsNew = await findHighscore(result.game); // Find the high score for a specific game
+    if(hsNew !== null) {
+      const targetID = { _id: mongodb.ObjectId(hsNew._id)};
+      hsNew.highscore = true;
+      const updateJSON = { $set: { highscore: true } }
+      await updateDatabaseItem(targetID, updateJSON);
+    }
+  }
+  response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
+  response.end();
+});
+
+// Takes a specific game and MongoDB client and returns the JSON object of that highscore
+// Returns -1 if that game doesn't exist or if no highscore exists
+async function findHighscore(game) {
+  let result = await arcadeDatabase.collection("GameData").find({}).toArray();
+  let hsItem = null;
+  let hsScoreCounter = -1;
+  
+  for(let i = 0; i < result.length; i++) {
+    if(result[i].game === game && result[i].score > hsScoreCounter) {
+      hsScoreCounter = result[i].score;
+      hsItem = result[i];
+    }
+  }
+  
+  console.log(hsItem);
+  return hsItem;
 }
 
-const sendFile = function( response, filename ) {
-   const type = mime.getType( filename ) 
-
-   fs.readFile( filename, function( err, content ) {
-
-     // if the error = null, then we've loaded the file successfully
-     if( err === null ) {
-
-       // status code: https://httpstatuses.com
-       response.writeHeader( 200, { 'Content-Type': type })
-       response.end( content )
-
-     }else{
-
-       // file not found, error code 404
-       response.writeHeader( 404 )
-       response.end( '404 Error: File Not Found' )
-
-     }
-   })
+async function getGameDatabase() {
+  let gameData = await arcadeDatabase.collection("GameData").find({}).toArray();
+  console.log("Grabbed game database");
+  return gameData;
 }
 
-console.log("Server running");
-server.listen( process.env.PORT || port );
+async function addDatabaseItem(jsonItem) {
+  await arcadeDatabase.collection("GameData").insertOne(jsonItem).then(result => {
+    console.log("Addition Complete", jsonItem);
+  });
+}
+
+
+async function deleteDatabaseItem(jsonID) {
+  console.log(jsonID);
+  await arcadeDatabase.collection("GameData").deleteOne(jsonID);
+  console.log("Deletion Complete:", jsonID);
+}
+
+
+async function updateDatabaseItem(targetItem, updatedItem) {
+  let result = await arcadeDatabase.collection("GameData").updateOne(targetItem, updatedItem);
+  if(result.modifiedCount === 1) {
+    console.log("Updated:", targetItem);
+  }
+}
+
+
+async function searchDatabaseItem(jsonID) {
+  let result = await arcadeDatabase.collection("GameData").findOne(jsonID);
+  console.log("Search Complete:", result);
+  return result;
+}
+
+// Middleware for checking the database connection
+function checkDBConnection(request, response, next) {
+  if( arcadeDatabase !== null) {
+    console.log("Mongo database connection check: Complete");
+    next()
+  } else {
+    console.log("Mongo database connection check: Failed");
+    response.status( 503 ).send()
+  }
+}
+
+// Run the listener on a port
+const listener = app.listen(process.env.PORT || port, () => {
+  console.log("Server running");
+  console.log("Listening on port " + listener.address().port);
+});
+
+// Example code for MongoDB
+/*MongoClient.connect(MongoURL, function(err, client) {
+  if( err ) {
+    console.log("Unable to connect to MongoDB server", err);
+    return res.send("Unable to connect to database server");
+  } else {
+    console.log("Connected to MongoDB server");
+    let gameCollection = client.collection("GameData");
+    let userCollection = client.collection("UserInfo");
+  }
+  
+  client.close();
+});*/
