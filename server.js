@@ -38,9 +38,6 @@ dbClient.connect(MongoURL).then( (client) =>{
 // Making sure this comes first (avoid processing any other middleware for a simple favicon request)
 app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 
-// Make all files in 'public' available
-app.use(express.static("public"));
-
 // Gets json when appropriate
 app.use(bodyparser.json());
 
@@ -85,7 +82,6 @@ passport.use(new GitHubStrategy({
 ));
 
 const isAuth = (request, response, next) => {
-  console.log("Checking");
   if(request.user) {
     next();
   } else {
@@ -95,14 +91,7 @@ const isAuth = (request, response, next) => {
 
 // Make sure that index gets loaded anyway
 app.get("/", isAuth, (request, response) => {
-  if(request.user) {
-    console.log("Authenticated");
-    response.sendFile(__dirname + "/public/index.html");
-  } else {
-    console.log("Redirect");
-    response.redirect("/login");
-  }
-  
+  response.sendFile(__dirname + "/public/index.html");
 });
 
 // Handles login GET request
@@ -126,6 +115,9 @@ app.get('/auth/github/callback',
     // Successful authentication, redirect home.
   res.redirect('/');
 });
+
+// Make all files in 'public' available
+app.use(express.static("public"));
 
 // Handles update GET request
 app.get("/update", checkDBConnection, (request, response) => {
