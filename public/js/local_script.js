@@ -43,9 +43,9 @@ function deleteEntry(deleteID) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(jsonID)
+    }).then(function(response) {
+        updateForm();
     });
-
-    updateForm();
 }
 
 // Creates the JSON object from the form
@@ -164,11 +164,10 @@ const submitEntry = function(e) {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(newJSONEntry)
+    }).then(function(response) { // Call the reset after the response; you dummy; you absolute fool
+        resetEntry(); // Reset the form
+        updateForm(); // Update the form
     });
-    
-    resetEntry(); // Reset the form
-    updateForm(); // Update the form
-    //return false;
 }
 
 const newEntry = function(e) {

@@ -61,7 +61,7 @@ app.get("/update", checkDBConnection, (request, response) => {
 });
 
 // Handles submit POST request
-app.post("/submit", (request, response) => {
+app.post("/submit", async (request, response) => {
   console.log("POST Request: Submit");
   
   const jsonInput = request.body;
@@ -71,94 +71,125 @@ app.post("/submit", (request, response) => {
 
   if(jsonInput._id === null) { // New submission
     // Find if there is a highscore to replace
-    findHighscore(jsonInput.game).then( (currentHS) => {
-      if(currentHS !== null) { // Found highscore, time to see if it's to be replaced
-        console.log("Found Highscore", currentHS.score);
-        if(jsonInput.score > currentHS.score) { // Replace highscore
-          jsonInput.highscore = true; // Update to true locally
+    let currentHS = await findHighscore(jsonInput.game);
 
-          const targetID = { _id: mongodb.ObjectId(currentHS._id)}; // Update to false in the database
-          const updateJSON = { $set: { highscore: false } }
-          updateDatabaseItem(targetID, updateJSON);
-        }
-      } else { // Did not find highscore, it's now the highscore
-        jsonInput.highscore = true;
+    if(currentHS !== null) { // Found highscore, time to see if it's to be replaced
+      console.log("Found Highscore", currentHS.score);
+      if(jsonInput.score > currentHS.score) { // Replace highscore
+        jsonInput.highscore = true; // Update to true locally
+
+        let targetID = { _id: mongodb.ObjectId(currentHS._id)}; // Update to false in the database
+        let updateJSON = { $set: { highscore: false } }
+        await updateDatabaseItem(targetID, updateJSON);
       }
-      addDatabaseItem(jsonInput).then( () => {
-        response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
-        response.end();
-      });
-    });
+    } else { // Did not find highscore, it's now the highscore
+      jsonInput.highscore = true;
+    }
+
+    await addDatabaseItem(jsonInput); // Add the item to the database
+    console.log("Submission Complete");
+    //response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
+    //response.end();
 
   } else { // Must be a modification
-    db.collection("GameData").find({}).toArray(function(err, result) {
-      for(let i = 0; i < appdata.length; i++) {
-        if(appdata[i].id === jsonInput.id) { // ID Matches
-          
-          appdata[i].name = jsonInput.name; // First, set the name
+    let searchID = { _id: mongodb.ObjectId(jsonInput._id) }
+    let JSONMatch = await searchDatabaseItem(searchID);
 
-          // First, check if there's a game change
-          if(appdata[i].game === jsonInput.game) { // Same game
+    let updateName = { $set: { name: jsonInput.name } }
+    await updateDatabaseItem(searchID, updateName); // Update the name
 
-            if(appdata[i].highscore === true) { // If it was the highscore
-              appdata[i].score = jsonInput.score;
-              let findHS = findHighscore(jsonInput.game);
-              if(findHS !== i) {
-                // The highscore is now a different entry
-                appdata[i].highscore = false;
-                appdata[findHS].highscore = true;
-              }
-              
-            } else if(appdata[i].highscore === false) { // If it wasn't the highscore
-              let findHS = findHighscore(jsonInput.game);
-              appdata[i].score = jsonInput.score;
-              if (appdata[findHS].score < jsonInput.score) {
-                // It is the highscore now
-                appdata[i].highscore = true;
-                appdata[findHS].highscore = false;
-              }
-            }
+    // First, check if there's a game change
+    if(JSONMatch.game === jsonInput.game) { // Same game
 
-          } else { // Different game
-            let previousGame = appdata[i].game; // Save the previous game
-            let newGameCurrentHS = findHighscore(jsonInput.game); // Grab the highscore for the game that we're switching to
-            
-            appdata[i].game = jsonInput.game; // Change game in appdata
+      if(JSONMatch.highscore === true) { // If it was the highscore
+        let updateScore = { $set: { score: jsonInput.score } }
+        await updateDatabaseItem(searchID, updateScore); // Update the score
 
-            // First, update the highscore for the previous game
-            let previousGameHS = findHighscore(previousGame);
-            if(previousGameHS !== -1) { // If there is a new highscore
-              appdata[previousGameHS].highscore = true;
-            }
+        let findHS = await findHighscore(jsonInput.game); // Find the highscore
 
-            // Then, update the highscore for the new game
-            appdata[i].score = jsonInput.score;
-            if(newGameCurrentHS !== -1) { // There is a current highscore
-              let newGameUpdateHS = findHighscore(jsonInput.game);
-              if(i === newGameUpdateHS) { // New highscore
-                appdata[i].highscore = true;
-                appdata[newGameCurrentHS].highscore = false;
-              }
-            } else { // There isn't a current highscore
-              appdata[i].highscore = true;
-            }
+        console.log(findHS._id.valueOf());
+        console.log(JSONMatch._id.valueOf());
 
-          }
+        let objectID1 = JSONMatch._id;
+        let objectID2 = findHS._id;
 
-          console.log("Modification Complete");
+        if( !objectID1.equals(objectID2) ) { // If the ID's are different
+          // The highscore is now a different entry
+          let updateHSFalse = { $set: { highscore: false } };
+          await updateDatabaseItem(searchID, updateHSFalse);
+          let targetID = { _id: mongodb.ObjectId(findHS._id) };
+          let updateHSTrue = { $set: { highscore: true } };
+          await updateDatabaseItem(targetID, updateHSTrue);
+        }
 
-          break;  // Stop search
+      } else if(JSONMatch.highscore === false) { // If it wasn't the highscore
+        let findHS = await findHighscore(jsonInput.game); // Find current highscore
+        
+        let updateScore = { $set: { score: jsonInput.score } }
+        await updateDatabaseItem(searchID, updateScore); // Update the score
+
+        if(findHS.score < jsonInput.score) { // If the replacement score is greater
+          // It is the highscore now
+          let updateHSTrue = { $set: { highscore: true } };
+          await updateDatabaseItem(searchID, updateHSTrue);
+          let targetID = { _id: mongodb.ObjectId(findHS._id) };
+          let updateHSFalse = { $set: { highscore: false } };
+          await updateDatabaseItem(targetID, updateHSFalse);
         }
       }
-    });
+
+    } else { // Different game
+      let previousGame = JSONMatch.game; // Save the previous game
+      let newGameCurrentHS = await findHighscore(jsonInput.game); // Grab the highscore for the game that we're switching to
+      
+      let updateGame = { $set: { game: jsonInput.game } }
+      await updateDatabaseItem(searchID, updateGame); // Update the game
+
+      // First, update the highscore for the previous game
+      let previousGameHS = await findHighscore(previousGame);
+      if(previousGameHS !== null) { // If there is a new highscore
+        let targetID = { _id: mongodb.ObjectId(previousGameHS._id) };
+        let updateHSTrue = { $set: { highscore: true } }; // Update it to true
+        await updateDatabaseItem(targetID, updateHSTrue);
+      }
+
+      // Then, update the highscore for the new game
+      let updateScore = { $set: { score: jsonInput.score } }
+      await updateDatabaseItem(searchID, updateScore); // Update the score
+      
+      if(newGameCurrentHS !== null) { // There is a current highscore
+        let newGameUpdateHS = await findHighscore(jsonInput.game);
+
+        let objectID1 = JSONMatch._id;
+        let objectID2 = newGameUpdateHS._id;
+
+        if(objectID1.equals(objectID2)) { // We found itself, New highscore
+          console.log("Test1");
+          let updateHSTrue = { $set: { highscore: true } };
+          await updateDatabaseItem(searchID, updateHSTrue);
+          let targetID = { _id: mongodb.ObjectId(newGameCurrentHS._id) };
+          let updateHSFalse = { $set: { highscore: false } };
+          await updateDatabaseItem(targetID, updateHSFalse);
+
+        } else { // Make sure that the highscore is set to false
+          console.log("Test2");
+          let updateHSFalse = { $set: { highscore: false } };
+          await updateDatabaseItem(searchID, updateHSFalse);
+        }
+      } else { // There isn't a current highscore
+        let updateHSTrue = { $set: { highscore: true } };
+        await updateDatabaseItem(searchID, updateHSTrue);
+      }
+    }
+    console.log("Modification Complete");
   }
 
-  //response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
-  //response.end();
+  response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
+  response.end();
 });
 
 // Handles delete POST request
-app.post("/delete", (request, response) => {
+app.post("/delete", async (request, response) => {
   console.log("POST Request: Delete");
 
   const jsonInput = request.body;
@@ -167,21 +198,20 @@ app.post("/delete", (request, response) => {
   console.log(jsonInput);
   const searchID = { _id: mongodb.ObjectId(jsonInput._id) };
 
-  searchDatabaseItem(searchID).then( (result) => {
-    let hsStatus = result.highscore;
-    deleteDatabaseItem(searchID).then( () => {
-      if(hsStatus === true) {
-        let hsNew = findHighscore(result.game); // Find the high score for a specific game
-        if(hsNew !== -1) {
-          const targetID = { _id: result._id};
-          hsNew.highscore = true;
-          updateDatabaseItem(targetID, hsNew);
-        }
-      }
-      response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
-      response.end();
-    });  
-  });
+  let result = await searchDatabaseItem(searchID);
+  let hsStatus = result.highscore;
+  await deleteDatabaseItem(searchID);
+  if(hsStatus === true) {
+    let hsNew = await findHighscore(result.game); // Find the high score for a specific game
+    if(hsNew !== null) {
+      const targetID = { _id: mongodb.ObjectId(hsNew._id)};
+      hsNew.highscore = true;
+      const updateJSON = { $set: { highscore: true } }
+      await updateDatabaseItem(targetID, updateJSON);
+    }
+  }
+  response.writeHead( 200, "OK", {'Content-Type': 'text/plain' });
+  response.end();
 });
 
 // Takes a specific game and MongoDB client and returns the JSON object of that highscore

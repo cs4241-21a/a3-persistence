@@ -13,10 +13,11 @@ Next was to port the code to Express. Which involved learning how middleware wor
 
 - body-parser: Helps parse json within requests. Even though it depreciated and already part of express, the professor did allow the use of this middleware.
 - server-favicon: Helps serve the favicon as to avoid processing any other middleware for a simple favicon request.
+- checkDBConnection: A custom made middleware that does a simple check to see if the database is there.
 - cookie-session: 
 - passport (for oauth): 
 
-After that, I needed to implement the MongoDB system.
+After that, I needed to implement the MongoDB system. This was a challenging process to get done, as I had a few asynchronous issues, but I resolved them in the end.
 
 With that solved, I needed to create a username/password system.
 
@@ -25,7 +26,9 @@ Finally, the CSS guide. Because I was making an arcade highscore site, the prese
 ## Technical Achievements
 **1 - Updating Data:**
 
+
 ## Design/Evaluation Achievements
+
 
 ## Old Readme Below
 ===
