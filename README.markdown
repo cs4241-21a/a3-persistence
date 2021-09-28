@@ -3,9 +3,9 @@
 
 ## An Arcade Game Scoreboard
 Michael Lai https://a3-michael-lai.herokuapp.com
-Note: 12hr extension granted from Professor.
+Note: 24hr extension granted from Professor.
 
-With this assignment, I aimed to redeem myself after the disaster of project 2. (Although even this project has it's mistakes)
+With this assignment, I aimed to redeem myself after the disaster of project 2. (Although even this project has it's mistakes; but at least it mostly works this time, rather than not working at all)
 
 The first step was to implement the remaining portions of project 2. That's been completed.
 
@@ -16,17 +16,21 @@ Next was to port the code to Express. Which involved learning how middleware wor
 - checkDBConnection: A custom made middleware that does a simple check to see if the database is there.
 - express-session: Used to help oauth work.
 - passport (for oauth): Used to help oauth work.
-- isAuth: A custom made middleware that checks for authentication and redirects you if it isn't available.
+- isAuth: A custom made middleware that checks for authentication and redirects you if it isn't available. (should be working, not sure why it isn't)
 
 After that, I needed to implement the MongoDB system. This was a challenging process to get done, as I had a few asynchronous issues, but I resolved them in the end.
 
 With that solved, I needed to create an authentication system. I decided to implement Github OAuth. The implementation isn't fully complete, as users aren't able to edit their own data, but they can edit data nonetheless. The original plan was to show the full scoreboard, but only let users edit their own scores from the board (but this never worked out).
 
-Finally, the CSS guide. Because I was making an arcade highscore site, the retro CSS framework from the original readme was already the perfect choice.
+Also, with the OAuth system, it doesn't seem to work (on the account of a single bug, that it's not checking for authentication on the form page, and thus, the redirect to the login page cannot happen). If you go to the /login page, then you should be able to see that the login side of it works (and if you try to go there afterwards with a login session, it redirects you). Another thing that kinda works with the OAuth is the logout, as even though it causes an error in which I could not find the bug, it does log you out. The last problem is the exposed .env file with the keys, but I couldn't figure out a way to hide it.
+
+(Note: Not Implemented, ran out of time) Finally, the CSS guide. Because I was making an arcade highscore site, the retro CSS framework from the original readme was already the perfect choice.
 
 ## Technical Achievements
 **1 - OAuth:**
+I'm going to repeat the same stuff I mentioned above with the OAuth System. Just Note: The only major bugs are the missing redirect when the authentication should be checked and the logout displaying an error. Also the exposed env file isn't great.
 
+With the OAuth system, it doesn't seem to work (on the account of a single bug, that it's not checking for authentication on the form page, and thus, the redirect to the login page cannot happen). If you go to the /login page, then you should be able to see that the login side of it works (and if you try to go there afterwards with a login session, it redirects you). Another thing that kinda works with the OAuth is the logout, as even though it causes an error in which I could not find the bug, it does log you out.
 
 **2 - Hosting on Heroku:**
 For this project, instead of hosting the site on Glitch, I hosted it on Heroku. It's very similar in what actions they use to deploy your app, but I really their improvements on the Github import, specifically the automatic import and the ability to select which branch you want to deploy from.

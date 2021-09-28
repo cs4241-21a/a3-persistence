@@ -1,5 +1,4 @@
 // I've got no idea what this is and how it got here
-require('dotenv').config();
 const { json } = require('body-parser');
 const { ObjectId } = require('bson');
 const res = require('express/lib/response');
@@ -21,12 +20,12 @@ const express       = require('express'),
       path          = require('path'),
       port          = 3000;
 
+require('dotenv').config();
+
 // Github OAuth Stuff
 const passport      = require('passport'),
       session       = require('express-session');
       GitHubStrategy = require('passport-github').Strategy,
-      clientID      = "e81fcf4d7f4bda644038",
-      clientSecret  = "88b8192b95be8dd5209f39730a7a00b6ac4b48cd",
       axios         = require('axios');
 
 // Initialize connection to MongoDB
@@ -72,8 +71,8 @@ passport.deserializeUser(function(id, cb) {
 
 // Handles Github OAuth
 passport.use(new GitHubStrategy({
-    clientID: "e81fcf4d7f4bda644038",
-    clientSecret: "88b8192b95be8dd5209f39730a7a00b6ac4b48cd",
+    clientID: process.env.GITHUB_ID,
+    clientSecret: process.env.GITHUB_SECRET,
     callbackURL: "https://a3-michael-lai.herokuapp.com/auth/github/callback"
   },
   function(accessToken, refreshToken, profile, cb) {
@@ -86,6 +85,7 @@ passport.use(new GitHubStrategy({
 ));
 
 const isAuth = (request, response, next) => {
+  console.log("Checking");
   if(request.user) {
     next();
   } else {
