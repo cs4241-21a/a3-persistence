@@ -11,21 +11,25 @@
 </head>
 
 <body>
-    <form action="">
-        <label for="yourname">Your name here: </label>
-        <input type="text" id="yourname" value="">
-        <br>
-        <label for="year">Year of Gradutation: </label>
-        <select id="year" name="Grad Year" size=1>
+    <nav id="usernamedisplaybox" class="jumbotron text-center footer">
+        <h1 id="usernamedisplay">Logged in as: </h1>
+    </nav>
+    <div id="entryformbox" class="left">
+        <form action="" id="entryform">
+            <label for="yourname">Your name here: </label>
+            <input type="text" class="form-control" id="yourname" value="">
+            <br>
+            <label for="year">Year of Gradutation: </label>
+            <select id="year" class="form-control" name="Grad Year" size=1>
         <option value=2022>2022</option>
         <option value=2023>2023</option>
         <option value=2024>2024</option>
         <option value=2025>2025</option>
         <option value=2026>2026</option>
       </select>
-        <br>
-        <label for="major1">Your Major: </label>
-        <select id="major1" name="Major" size=1>
+            <br>
+            <label for="major1">Your Major: </label>
+            <select id="major1" class="form-control" name="Major" size=1>
         <option value="IMGD-Art">IMGD-Art</option>
         <option value="IMGD-Tech">IMGD-Tech</option>
         <option value="Computer Science">Computer Science</option>
@@ -43,9 +47,9 @@
         <option value="Psychology">Psychology</option>
         <option value="Other">Other</option>
       </select>
-        <br>
-        <label for="major2">Second Major: </label>
-        <select id="major2" name="Second Major" size=1>
+            <br>
+            <label for="major2">Second Major: </label>
+            <select id="major2" class="form-control" name="Second Major" size=1>
         <option value="None">No Second Major</option>
         <option value="IMGD-Art">IMGD-Art</option>
         <option value="IMGD-Tech">IMGD-Tech</option>
@@ -64,9 +68,9 @@
         <option value="Psychology">Psychology</option>
         <option value="Other">Other</option>
       </select>
-        <br>
-        <label for="minors">Your Minors: </label>
-        <select multiple="multiple" id="minors" name="Minors" size=5>
+            <br>
+            <label for="minors">Your Minors: </label>
+            <select multiple="multiple" class="form-control" id="minors" name="Minors" size=5>
         <option value="None">No Minors</option>
         <option value="IMGD">IMGD</option>
         <option value="Computer Science">Computer Science</option>
@@ -84,9 +88,10 @@
         <option value="Psychology">Psychology</option>
         <option value="Other">Other</option>
       </select>
-        <br>
-        <label for="hobbies">Your Hobbies: </label>
-        <select multiple="multiple" id="hobbies" name="Hobbies" size=7>
+            <br>
+            <label for="hobbies">Your Hobbies: </label>
+            <br>
+            <select multiple="multiple" class="form-control" id="hobbies" name="Hobbies" size=7>
         <option value="None">None</option>
         <optgroup label="Sports">
           <option value="Football">Football</option>
@@ -125,25 +130,29 @@
         <option value="Animals">Animals</option>
         <option value="Other">Other</option>
       </select>
-        <br>
-        <button>submit</button>
-    </form>
-    <br><br><br>
-    <p>Note: Table sorted based on # of shared interests with the person at the top</p>
-    <table id="displayinfo">
-        <tr>
-            <th>Name</th>
-            <th>Grad Year</th>
-            <th>Primary Major</th>
-            <th>Secondary Major</th>
-            <th>Minors</th>
-            <th>Hobbies</th>
-        </tr>
-    </table>
+            <br>
+            <button id="insertBtn">Insert</button>
+            <button id="modBtn">Modify</button>
+            <button id="deleteBtn">Delete</button>
+
+        </form>
+    </div>
+    <div id="displayinfobox" class="table-bordered fixed-bottom">
+        <table id="displayinfo">
+            <tr>
+                <th>Name</th>
+                <th>Grad Year</th>
+                <th>Primary Major</th>
+                <th>Secondary Major</th>
+                <th>Minors</th>
+                <th>Hobbies</th>
+            </tr>
+        </table>
+    </div>
 </body>
 <script src="js/scripts.js"></script>
 <script>
-    const submit = function(e) {
+    document.getElementById("insertBtn").onclick = function(e) {
         // prevent default form action from being carried out
         e.preventDefault()
 
@@ -179,19 +188,22 @@
 
         fetch("/submit", {
                 method: "POST",
-                body
+                body: body,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+
             })
             .then(function(response) {
                 response.text().then(function(textdata) {
-                        //console.log(textdata);
-                        console.log(JSON.parse(textdata)); // print out the parsed textdata
-                        let newAppdata = JSON.parse(textdata);
+                    //console.log(textdata);
+                    console.log(JSON.parse(textdata)); // print out the parsed textdata
+                    let newAppdata = JSON.parse(textdata);
 
-                        console.log(newAppdata);
+                    console.log(newAppdata);
 
-                        constructTable(newAppdata);
-                    })
-                    // do something with the reponse 
+                    constructTable(newAppdata);
+                })
                 console.log("response is: ")
                 console.log(response)
 
@@ -200,10 +212,156 @@
         return false
     }
 
-    window.onload = function() {
-        const button = document.querySelector("button")
-        button.onclick = submit
+    document.getElementById("modBtn").onclick = function(e) {
+        // prevent default form action from being carried out
+        e.preventDefault()
+
+        console.log("Attemping modification...");
+
+        const input = document.querySelector("#yourname"), // gets the input field and values
+            yearinput = document.getElementById("year"),
+            majorinput = document.getElementById("major1"),
+            secondmajorinput = document.getElementById("major2"),
+            minorsinput = document.getElementById("minors"),
+            hobbiesinput = document.getElementById("hobbies")
+
+        let selectedminors = minorsinput.selectedOptions,
+            selectedhobbies = hobbiesinput.selectedOptions
+
+        let minorslist = []
+        for (let i = 0; i < selectedminors.length; i++) {
+            minorslist.push(selectedminors[i].value)
+        }
+
+        let hobbieslist = []
+        for (let i = 0; i < selectedhobbies.length; i++) {
+            hobbieslist.push(selectedhobbies[i].value)
+        }
+
+        json = {
+                name: input.value,
+                year: yearinput.value,
+                major1: majorinput.selectedOptions[0].value,
+                major2: secondmajorinput.selectedOptions[0].value,
+                minors: minorslist,
+                hobbies: hobbieslist
+            },
+            body = JSON.stringify(json) //turns the JSON into a string to be read
+
+        fetch("/modify", {
+                method: "POST",
+                body: body,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+
+            })
+            .then(function(response) {
+                response.text().then(function(textdata) {
+                    //console.log(textdata);
+                    console.log(JSON.parse(textdata)); // print out the parsed textdata
+                    let newAppdata = JSON.parse(textdata);
+
+                    console.log(newAppdata);
+
+                    constructTable(newAppdata);
+                })
+                console.log("response is: ")
+                console.log(response)
+
+            })
+
+        return false
     }
+
+    document.getElementById("deleteBtn").onclick = function(e) {
+        // prevent default form action from being carried out
+        e.preventDefault()
+
+        console.log("Attempting deletion...");
+
+        const input = document.querySelector("#yourname"), // gets the input field and values
+            yearinput = document.getElementById("year"),
+            majorinput = document.getElementById("major1"),
+            secondmajorinput = document.getElementById("major2"),
+            minorsinput = document.getElementById("minors"),
+            hobbiesinput = document.getElementById("hobbies")
+
+        let selectedminors = minorsinput.selectedOptions,
+            selectedhobbies = hobbiesinput.selectedOptions
+
+        let minorslist = []
+        for (let i = 0; i < selectedminors.length; i++) {
+            minorslist.push(selectedminors[i].value)
+        }
+
+        let hobbieslist = []
+        for (let i = 0; i < selectedhobbies.length; i++) {
+            hobbieslist.push(selectedhobbies[i].value)
+        }
+
+        json = {
+                name: input.value,
+                year: yearinput.value,
+                major1: majorinput.selectedOptions[0].value,
+                major2: secondmajorinput.selectedOptions[0].value,
+                minors: minorslist,
+                hobbies: hobbieslist
+            },
+            body = JSON.stringify(json) //turns the JSON into a string to be read
+
+        fetch("/delete", {
+                method: "POST",
+                body: body,
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(function(response) {
+                response.text().then(function(textdata) {
+                    //console.log(textdata);
+                    console.log(JSON.parse(textdata)); // print out the parsed textdata
+                    let newAppdata = JSON.parse(textdata);
+
+                    console.log(newAppdata);
+
+                    constructTable(newAppdata);
+                })
+                console.log("response is: ")
+                console.log(response)
+
+            })
+
+        return false
+    }
+
+    fetch("/getdata", {
+            method: "POST",
+            body: undefined
+        })
+        .then(function(response) {
+            response.text().then(function(textdata) {
+                //console.log(textdata);
+                console.log(JSON.parse(textdata)); // print out the parsed textdata
+                let newAppdata = JSON.parse(textdata);
+
+                console.log(newAppdata);
+
+                constructTable(newAppdata);
+            })
+            console.log("response is: ")
+            console.log(response)
+
+        })
+
+    fetch("/getusername", {
+        method: "GET"
+    }).then(function(response) {
+        response.text().then(function(textdata) {
+            console.log(textdata);
+            document.getElementById("usernamedisplay").innerHTML = document.getElementById("usernamedisplay").innerHTML.concat(textdata);
+        })
+    })
 </script>
 
 </html>

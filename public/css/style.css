@@ -1,5 +1,56 @@
 /*Style your own assignment! This is fun! */
 
-table, th, tr, td {
+table,
+th,
+tr,
+td {
     border: 1px solid black;
+}
+
+#entryform {
+    background-color: cyan;
+}
+
+#entryformbox {}
+
+#usernamedisplay {
+    float: top
+}
+
+#usernamedisplaybox {
+    background-color: #ff6f56;
+}
+
+#displayinfo {
+    float: bottom;
+    background-color: cyan;
+}
+
+#displayinfobox {
+    background-color: #ff6f56;
+    height: 80%;
+}
+
+html,
+body {
+    background-color: #ff6f56;
+    margin: 0;
+}
+
+.footer.jumbotron {
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+#yourname,
+#year,
+#major1,
+#major2,
+#minors,
+#hobbies {
+    width: 20%;
+}
+
+.footer.jumbotron p {
+    margin-bottom: 0;
 }
