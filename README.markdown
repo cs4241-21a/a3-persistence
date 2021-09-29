@@ -1,6 +1,6 @@
 ## A3 GDGARSSON
 
-your glitch (or alternative server) link e.g. http://a3-charlie-roberts.glitch.me
+my glitch (or alternative server) link: https://a3-gdgarsson.glitch.me/
 
 - The goal was to allow users to store objects containing the information they fill out with the survey (such as name,
     major, hobbies, etc.), as well as modify and remove them, with the list updated each time they perform one of these operations.
