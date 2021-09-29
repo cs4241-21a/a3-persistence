@@ -2,7 +2,7 @@ Assignment 3 - Persistence: Two-tier Web Application with Database, Express serv
 
 ## Job Application log
 
-Link: Been fighting for about 2 days with the deployment of my website. Ive tried deploying to glitch and heroku. Heroku is currently giving me an Internal Server Error. However, if I get it to work it will probably be here -> https://a3-carlos-velasuez.glitch.me/login
+Link: Been fighting for about 2 days with the deployment of my website. Ive tried deploying to glitch and heroku. Heroku is currently giving me an Internal Server Error. And the glitch one is not showing my css. However, if I get it to work it will probably be here -> https://a3-carlos-velasuez.glitch.me/login
 
 Dummy Account:
 username: admin
