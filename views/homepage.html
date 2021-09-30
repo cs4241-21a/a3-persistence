@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Occlupanid collection cataloguer">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
+  </head>
+  <body>
+    <div id="body-wrapper">
+      <h1>HORG Logger</h1>
+      <h2>For classifying your <a href="https://www.horg.com/horg/">occlupanid</a> collection.</h2>
+      <hr>
+      <h2>Add an entry:</h2>
+      <div id="form-wrapper">
+        <form action="">
+          <label for="date">Date of Acquisition:</label>
+          <input type="date" id="date" name="acquisition-date"
+          placeholder="2021-09-09"
+          min="2011-12-01"
+                 required>
+
+          <br>
+          
+          <label for="family">Taxonomic Family:</label>
+          <select name="family" id="family">
+          </select> 
+
+          <br>
+
+          <label for="notes">Specimen notes:</label>
+          <input type='text' id='notes' placeholder="color, size, etc (optional)">
+
+          <br>
+
+          <button id="submit">add</button>
+        </form>
+      </div>
+
+      <hr>
+
+      <h2>Current collection:</h2>
+      <div>
+        <div id="chart-wrapper">
+          <div id="chart"></div>
+        </div>
+        <div id="entries-wrapper"> </div>
+    </div>
+  </body>
+  <script type="module" src="/logger.js" type="text/javascript">
+  </script>
+</html>
