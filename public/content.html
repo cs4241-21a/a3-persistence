@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Urbanist">
+  <link rel="icon" href="favicon.ico?v=1.2">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/yegor256/tacit@gh-pages/tacit-css-1.5.5.min.css"/>
+  <meta name="viewport"  content="width=device-width, initial-scale=1">
+
+  <title>CS4241 Assignment 3</title>
+  <meta charset="utf-8">
+  <script src="js/scripts.js" defer></script>
+</head>
+
+<body>
+
+  <div class="bar">
+    <img src="assets/WPI.png" alt="WPI logo">
+  </div>
+
+  <div class='grid'>
+
+    <div id='left'>
+      <div class='title'>
+        Add A Class
+      </div>
+      <div class="pair">
+        <div>
+          <label for='name'>Course Name</label>
+        </div>
+        <form action="">
+          <input type='text' class='rounded' id='name' value="">
+        </form>
+      </div>
+      <div class="pair">
+        <div>
+          <label for='code'>Course Code</label>
+        </div>
+        <form action="">
+          <input type='text' class='rounded' id='code' value="">
+        </form>
+      </div>
+      <div class="pair">
+        <div>
+          <label for='prof'>Professor</label>
+        </div>
+        <form action="">
+          <input type='text' class='rounded' id='prof' value="">
+        </form>
+      </div>
+      <div class="pair">
+        <div>
+          <label for='grade'>Grade</label>
+        </div>
+        <form action="">
+          <input type='text' class='rounded' id='grade' value="">
+        </form>
+      </div>
+
+      <button class='rounded' id='initButton'>Add Course</button>
+
+      <div class='rounded' id='gpa'></div>
+
+    </div>
+
+    <div id='right'>
+      <div class='title'>
+        Course List
+      </div>
+      <table id='mainTable'>
+        <tr>
+          <th>Course Name</th>
+          <th>Course Code</th>
+          <th>Professor</th>
+          <th>Department</th>
+          <th>Grade</th>
+        </tr>
+      </table>
+    </div>
+
+  </div>
+</body>
+
+</html>
