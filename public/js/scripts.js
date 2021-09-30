@@ -10,7 +10,7 @@ const submit = function (e) {
     const prof = document.querySelector('#prof')
     const grade = document.querySelector('#grade')
 
-    json = {
+    let json = {
         name: name.value,
         code: code.value,
         prof: prof.value,
@@ -22,7 +22,7 @@ const submit = function (e) {
         alert('Error: One or more input cells left blank')
     }
     else{
-        body = JSON.stringify(json)
+        let body = JSON.stringify(json)
         fetch('/submit', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -55,7 +55,7 @@ const signup = function (e) {
     e.preventDefault()
     const user = document.querySelector('#signupuser')
     const pass = document.querySelector('#signuppass')
-    json = {
+    let json = {
         user: user.value,
         pass: pass.value
     }
@@ -63,7 +63,7 @@ const signup = function (e) {
         alert('Error: Must enter a username and password')
     }
     else{
-        body = JSON.stringify(json)
+        let body = JSON.stringify(json)
         fetch('/signup', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -86,7 +86,7 @@ const login = function (e) {
     e.preventDefault()
     const user = document.querySelector('#loginuser')
     const pass = document.querySelector('#loginpass')
-    json = {
+    let json = {
         user: user.value,
         pass: pass.value
     }
@@ -94,7 +94,7 @@ const login = function (e) {
         alert('Error: Must enter a username and password')
     }
     else{
-        body = JSON.stringify(json)
+        let body = JSON.stringify(json)
         fetch('/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -140,7 +140,7 @@ window.onload = function () {
 }
 
 function getDept(code) {
-    tag = code.slice(0, 2 + isNaN(code[2]) + isNaN(code[3]))
+    let tag = code.slice(0, 2 + isNaN(code[2]) + isNaN(code[3]))
     switch (tag) {
         case 'AE': return 'Aerospace Engineering'; break;
         case 'BB': return 'Biology'; break;
@@ -191,7 +191,7 @@ function addRow(json) {
         nameForm.className = 'nameBox'
         nameForm.id = 'nameBox'+json[i]._id
         nameForm.value = json[i].name
-        nameLabel = document.createElement('label')
+        const nameLabel = document.createElement('label')
         nameLabel.htmlFor = nameForm.id
         nameLabel.innerText = 'name'
         nameCell.appendChild(nameLabel)
@@ -321,3 +321,4 @@ function newUser() {
         }))))
     }
 }
+
