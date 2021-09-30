@@ -3,13 +3,8 @@
 * {
   box-sizing: border-box;
 }
-@import url('https://fonts.googleapis.com/css?family=Ubuntu&display=swap');
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans&display=swap');
+
 html, body{
-    font-family:"Noto Sans", sans-serif;
-    font-size: 1em;
-    margin: 2em 1em;
-    line-height: 1.5em;
     background-color:5 lightblue;
 }
 
@@ -95,11 +90,6 @@ form{
     position:relative;
 }
 
-
-a{
-    color:darkblue;
-}
-
 form {
   background-color: #eee;
   display: grid;
@@ -109,32 +99,9 @@ form {
 }
 
 input {
-  border: 1px solid silver;
   display: block;
   font-size: 16px;
   margin-bottom: 10px;
   padding: 5px;
   width: 100%;
 }
-
-form button {
-  background-color: #bbbbf2;
-  border: 2px solid currentColor;
-  border-radius: .25em;
-  cursor: pointer;
-  font-size: inherit;
-  line-height: 1.4em;
-  padding: 0.25em 1em;
-  max-width: 20ch;
-}
-
-form button:hover {
-  background-color: lavender;
-}
-
-footer {
-  margin-top: 3em;
-  padding-top: 1.5em;
-  border-top: 1px solid lightgrey;
-}
-
