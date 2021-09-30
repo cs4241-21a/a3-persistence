@@ -4,21 +4,23 @@
     <title>CS4241 Assignment 2</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="/style.css" rel="stylesheet" type="text/css"/>
+    <meta name="description" content="Occlupanid collection cataloguer">
+    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/water.css@2/out/water.css">
   </head>
   <body>
     <div id="body-wrapper">
       <h1>HORG Logger</h1>
-      <h3>For classifying your <a href="https://www.horg.com/horg/">occlupanid</a> collection.</h3>
-      <h2 id="warn">Sorry, this page requires that you enable Javascript.</h2>
+      <h2>For classifying your <a href="https://www.horg.com/horg/">occlupanid</a> collection.</h2>
       <hr>
       <h2>Add an entry:</h2>
       <div id="form-wrapper">
         <form action="">
           <label for="date">Date of Acquisition:</label>
           <input type="date" id="date" name="acquisition-date"
-          value="2021-09-09"
-          min="2011-12-01">
+          placeholder="2021-09-09"
+          min="2011-12-01"
+                 required>
 
           <br>
           
@@ -29,7 +31,7 @@
           <br>
 
           <label for="notes">Specimen notes:</label>
-          <input type='text' id='notes' value="color, size, etc">
+          <input type='text' id='notes' placeholder="color, size, etc (optional)">
 
           <br>
 
