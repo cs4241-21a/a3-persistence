@@ -1,0 +1,55 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <title>Track your M&M entries!</title>
+
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/login.js" defer></script>
+  </head>
+  <body>
+    <header>
+      <h1>M&M Personal Consumption Tracker!</h1>
+    </header>
+
+    <main>
+      <h2 id="howdy">Hi there!</h2>
+
+      <p>Have you ever wanted to keep a long term log of how many M&Ms you're eating?
+      Have you ever wanted that log divided into the count for each color of M&Ms?
+      Well look no further! Simply come on and choose a color, and enter how many
+      of that color M&M you consumed!</p>
+
+      <form>
+        <label>
+          <form>  
+            Username:  
+            <input type="text" name="usr" size="20">  
+            <br>
+            Password: (should be at least six characters with at least one number)
+            <input type="password" name="pwd" size="15">   
+        </label>
+        <button type="submit" id="log-in">Login!</button>
+          <button type="submit" id="register">Register!</button>
+      </form>
+    </main>
+
+    <footer>A <em>Kyle McFatter</em> Production</footer>
+
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js" defer></script>
+  </body>
+</html>

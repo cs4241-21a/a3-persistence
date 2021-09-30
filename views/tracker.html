@@ -1,0 +1,75 @@
+<!-- This is a static file -->
+<!-- served from your routes in server.js -->
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A cool thing made with Glitch">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat">
+    <title>Log in or register!</title>
+
+    <link id="favicon" rel="icon" href="https://www.iconspng.com/uploads/m-m-s-red.png" type="image/x-icon">
+    <!-- import the webpage's stylesheet -->
+    <link rel="stylesheet" href="/style.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- import the webpage's client-side javascript file -->
+    <script src="/tracker.js" defer></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  </head>
+  <body>
+    <header>
+      <h1>M&M Personal Consumption Tracker!</h1>
+    </header>
+
+    <main>
+      <h2 id="howdy">placeholder
+      </h2>
+
+      <p id="description">Have you ever wanted to keep a long term log of how many M&Ms you're eating?
+      Have you ever wanted that log divided into the count for each color of M&Ms?
+      Well look no further! Simply come on and choose a color, and enter how many
+      of that color M&M you consumed!</p>
+
+      <form>
+        <label>
+          New M&M Log Entry
+          <p>Which M&M color would you like to log?</p>
+            <input type="radio" id="brown" name="mm_color" value="brown">
+            <label for="brown" class="radio-label">Brown</label><br>
+            <input type="radio" id="yellow" name="mm_color" value="yellow">
+            <label for="yellow" class="radio-label">Yellow</label><br>
+            <input type="radio" id="green" name="mm_color" value="green">
+            <label for="green" class="radio-label">Green</label><br>
+            <input type="radio" id="red" name="mm_color" value="red">
+            <label for="red" class="radio-label">Red</label><br>
+            <input type="radio" id="orange" name="mm_color" value="orange">
+            <label for="orange" class="radio-label">Orange</label><br>
+            <input type="radio" id="blue" name="mm_color" value="blue">
+            <label for="blue" class="radio-label">Blue</label><br>
+          <label for="tentacles">Number of M&Ms consumed:</label>
+          <input type="number" id="mm_count" name="mm_count"
+           min="0" max="10000">
+        </label>
+        <button type="submit" id="submit-entry">Add Entry</button>
+        <button id="logout">Logout</button>
+        </button>
+      </form>
+      <br>
+      <section class="entries">
+        <div id="entries">
+          <em>loading entries&hellip;</em>
+        </div>
+      </section>
+    </main>
+
+    <footer>A <em>Kyle McFatter</em> Production</footer>
+
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js" defer></script>
+  </body>
+</html>
