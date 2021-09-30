@@ -1,12 +1,21 @@
 {
-  "name": "CS4241 Assignment 2",
+  "name": "CS4241 Assignment 3",
   "version": "1.0",
-  "description": "Basic two-tiered app",
+  "description": "Two-tiered app with database and express",
   "author": "Mago Sheehy",
   "scripts": {
     "start": "node server.improved.js"
   },
   "dependencies": {
-    "mime": "^2.4.4"
+    "compression": "^1.7.4",
+    "cookie-session": "^1.4.0",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "mongodb": "^4.1.2",
+    "serve-favicon": "^2.5.0"
+  },
+  "engines": {
+    "node": ">=12.0.0"
   }
 }
