@@ -1,134 +1,238 @@
-// server.js
-// where your node app starts
+const express = require( 'express' ),
+      mongodb = require( 'mongodb' ),
+      bodyParser = require( 'body-parser' ),
+      cookie = require('cookie-session'),
+      helmet = require('helmet'),
+      app = express()
 
-// we've started you off with Express (https://expressjs.com/)
-// but feel free to use whatever libraries or frameworks you'd like through `package.json`.
-const express = require("express");
-const app = express();
-const { DateTime } = require('luxon');
-const { MongoClient, ObjectId } = require('mongodb');
-const uri = "mongodb+srv://${process.env.MONGODB_USERNAME}:${process.env.MONGODB_PASSWORD}@kylewm.cui7b.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
-const dir = `${__dirname}/views`;
-const mongoClient = new MongoClient(uri);
-const defaultRoom = 'Public';
-// our default array of dreams
-const entries = [
-  ["500", "Red"],
-  ["10", "Blue"],
-  ["60", "Green"]
-];
+//var path = require('path');
+///var favicon = require('serve-favicon');
+//app.use(favicon(__dirname+'/public/img/mmico.ico'))
+app.use( express.static('public') );
+//app.use( helmet() );
+app.use( express.json() );
+app.use(
+  cookie({
+    name: "session",
+    keys: ["cookieA", "cookieB"]
+  })
+);
+const uri = 'mongodb+srv://'+'kwmcfatter'+':'+'howdyThere'+'@'+'kylewm.cui7b.mongodb.net'
 
-// make all the files in 'public' available
-// https://expressjs.com/en/starter/static-files.html
-app.use(express.static("public"));
+const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
+let collection = null
 
-// https://expressjs.com/en/starter/basic-routing.html
+
+client.connect()
+  .then( () => {
+    return client.db( 'kylewm' ).collection( 'myCollection' )
+  })
+  .then( __collection => {
+    collection = __collection
+    return collection.find({ }).toArray()
+  })
+  .then( console.log )
+  
+// route to get all docs
+
+app.get( '/entries', (req,res) => {
+  if( collection !== null ) {
+    // get array and pass to res.json
+    collection.find({ }).toArray().then( result => res.json( result ) )
+  }
+})
+
+
 app.get("/", (request, response) => {
   response.sendFile(__dirname + "/views/index.html");
 });
 
-// send the default array of dreams to the webpage
-app.get("/entries", (request, response) => {
-  // express helps us take JS objects and send them as JSON
-  response.json(entries);
+app.get("/tracker", (request, response) => {
+  response.sendFile(__dirname + "/views/tracker.html");
 });
+  
+app.listen( 3000 )
 
-app.get('/', async (req, res) => {
-  if (req.session.username && await authenticateSession(req.session.username, req.session.token)) {
-    res.sendFile(`${dir}/chat.html`);
-  } else {
-    res.sendFile(`${dir}/index.html`);
+app.use( (req,res,next) => {
+  if( collection !== null ) {
+    next()
+  }else{
+    res.status( 503 ).send()
   }
-});
+})
 
-app.get('/chat/public', async (req, res) => {
-  const response = await getChat(req.session.username, req.session.token, defaultRoom);
-  res.status(response ? 200 : 401).send(response);
-});
+app.post("/register", bodyParser.json(), (request, response) => {
+  console.log("registering works!");
 
-// listen for requests :)
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
-
-const getMongoClient = () => {
-  return new Promise((resolve, reject) => {
-    mongoClient.connect(async err => {
-      if (err) {
-        console.error(err);
-        reject()
+  collection
+    .find({ usr: request.body.usr })
+    .toArray()
+    .then(result => {
+      if (result.length >= 1) {
+        console.log(result)
+        response.json({ login: false });
       } else {
-        resolve(mongoClient);
+        //user does not exist, create
+        let newUser = {
+          usr: request.body.usr,
+          pwd: request.body.pwd,
+          entries: []
+        };
+
+        console.log(newUser);
+        collection.insertOne(newUser);
+        collection.insertOne(newUser);
+        console.log("registering");
+        console.log(request.body.usr);
+        request.session.usr = request.body.usr;
+        console.log("name:");
+        console.log(request.session.usr);
+        console.log(request.session.usr);
+        request.session.login = true;
+        response.json({ login: true });
       }
     });
-  });
-}
+});
 
-const authenticateSession = async (username, token) => {
-  return getMongoClient().then(async client => {
-    const authenticated = await authenticateToken(username, token, client);
-    await mongoClient.close();
-    return authenticated;
-  }).catch(() => false);
-}
-
-const authenticateToken = async (username, token, client) => {
-  const sessionsCollection = client.db("auth").collection("sessions");
-  const sessionDocument = await sessionsCollection.findOne({ username });
-  if (sessionDocument) {
-    if (DateTime.utc().toMillis() > sessionDocument['expiry']) {
-      await sessionsCollection.deleteOne({ username });
-      return false;
-    }
-    return sessionDocument['token'] === token;
-  }
-  return false;
-};
-
-const addMessage = async (content, username, token, room) => {
-  return getMongoClient().then(async client => {
-    let messages = null;
-    if (await authenticateToken(username, token, client)) {
-      console.log(`[ADD MESSAGE] ${ username } sent a message.`);
-      const messageCollection = client.db("chat").collection(room);
-      await messageCollection.insertOne({
-        username,
-        content,
-        submitted: DateTime.utc(),
-        admin: username === 'kwmcfatter'});
-      messages = await messageCollection.find().toArray();
-    }
-    await mongoClient.close();
-    return messages;
-  }).catch(() => null);
-};
-
-const deleteChat = async (id, username, token, room) => {
-  return getMongoClient().then(async client => {
-    let messages = null;
-    if (await authenticateToken(username, token, client)) {
-      console.log(`[DELETE CHAT] ${ username } deleted a chat.`);
-      const messageCollection = client.db("chat").collection(room);
-      const message = await messageCollection.findOne({ '_id': ObjectId(id) });
-      if (message && message['username'] === username) {
-        await messageCollection.deleteOne({ '_id': ObjectId(id) });
+app.post("/login", bodyParser.json(), (request, response) => {
+  console.log("login works!");
+  collection
+    .find({ usr: request.body.usr, pwd: request.body.pwd })
+    .toArray()
+    .then(result => {
+      if (result.length >= 1) {
+        request.session.usr = request.body.usr;
+        request.session.login = true;
+        console.log("valid login");
+        console.log(request.session.usr);
+        response.json({ login: true });
+      } else {
+        console.log("invalid login")
+        response.json({ login: false });
       }
-      messages = await messageCollection.find().toArray();
-    }
-    await mongoClient.close();
-    return messages;
-  }).catch(() => null);
-};
+    });
+});
 
-const getChat = async (username, token, room) => {
-  return getMongoClient().then(async client => {
-    let messages = null;
-    if (await authenticateToken(username, token, client)) {
-      console.log(`[GET CHAT] ${ username } retrieved the chatroom "${ room }".`);
-      const messageCollection = client.db("chat").collection(room);
-      messages = await messageCollection.find().toArray();
-    }
-    await mongoClient.close();
-    return messages;
-  }).catch(() => null);
-};
+app.post("/logout", bodyParser.json(), (request, response) => {
+  if (request.session.login == true) {
+    request.session.usr = "";
+    request.session.login = false;
+
+    response.json({ logout: true });
+  }else{
+    response.json({ logout: false })
+  }
+});
+
+
+app.post( '/add', (req,res) => {
+  // assumes only one object to insert
+  collection.insertOne( req.body ).then( result => res.json( result ) )
+})
+
+app.get("/getname", bodyParser.json(), (request, response) => {
+  console.log("getname called! ");
+  console.log(request.session.login);
+  console.log(request.session.usr);
+  response.json({ usr: request.session.usr });
+});
+
+app.get("/getMMCounts", bodyParser.json(), (request, response) => {
+  console.log("getMMcounts called!")
+  collection
+    .find({ usr: request.session.usr })
+    .toArray()
+    .then(result => {
+      let entries = result[0].entries;
+      console.log(result[0]);
+      console.log(entries);
+      console.log("entries^");
+      response.json(entries);
+    });
+});
+
+app.post("/logMMCount", bodyParser.json(), (request, response) => {
+  collection
+    .find({ usr: request.session.usr })
+    .toArray()
+    .then(result => {
+      let entries = result[0].entries;
+      entries.push({
+        mmCount: request.body.mmCount,
+        mmColor: request.body.mmColor
+      });
+
+      collection.updateOne(
+        { _id: mongodb.ObjectId(result[0]._id) },
+        { $set: { entries: entries } }
+      );
+      response.json(entries);
+    });
+});
+
+
+app.post("/deleteEntry", bodyParser.json(), (request, response) => {
+  collection
+    .find({ usr: request.session.usr })
+    .toArray()
+    .then(result => {
+      let entries = result[0].entries;
+
+      if (entries[request.body.index]) {
+        entries.splice(request.body.index, 1);
+      }
+
+      collection.updateOne(
+        { _id: mongodb.ObjectId(result[0]._id) },
+        { $set: { entries: entries } }
+      );
+      response.json(entries);
+    });
+});
+
+app.post("/updateEntry", bodyParser.json(), (request, response) => {
+  console.log("update entry called!")
+  collection
+    .find({ usr: request.session.usr })
+    .toArray()
+    .then(result => {
+      let entries = result[0].entries;
+
+      
+      console.log(request.body);
+      console.log("request.body^")
+      let updatedEntry = {
+        mmCount: request.body.mmCount,
+        mmColor: request.body.mmColor,
+        index: request.body.index
+      };
+      
+      console.log(updatedEntry.mmCount);
+      if (entries[request.body.index]) {
+        entries[request.body.index] = updatedEntry;
+      }
+
+      collection.updateOne(
+        { _id: mongodb.ObjectId(result[0]._id) },
+        { $set: { entries: entries } }
+      );
+
+      response.json(entries);
+    });
+});
+/*
+app.post( '/remove', (req,res) => {
+  collection
+    .deleteOne({ _id:mongodb.ObjectId( req.body._id ) })
+    .then( result => res.json( result ) )
+})
+
+app.post( '/update', (req,res) => {
+  collection
+    .updateOne(
+      { _id:mongodb.ObjectId( req.body._id ) },
+      { $set:{ name:req.body.name } }
+    )
+    .then( result => res.json( result ) )
+})
+*/
