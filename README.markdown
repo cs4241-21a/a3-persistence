@@ -19,6 +19,7 @@ Baseline Requirements
 - Usage of the Water CSS template used for simplicity, with some custom CSS for displaying the HORG table
 - HTML input in the form of textarea, date, and dropdown lists
 
+
 Acheivements
 ---
 - All four pages score 100% in all categories on Lighthouse (5 points)
