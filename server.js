@@ -7,7 +7,7 @@ const res = require('express/lib/response');
 const mongodb     = require('mongodb'),
       dbClient    = mongodb.MongoClient,
       assert      = require('assert'),
-      MongoURL    = "mongodb+srv://quantum:bloodhouse@project-a3-db.jyoep.mongodb.net/ArcadeDatabase?retryWrites=true&w=majority";
+      MongoURL    = process.env.MONGODB_URL;
 
 let arcadeDatabase  = null,
     databaseClient  = null; // See if there's an eventual use for this
