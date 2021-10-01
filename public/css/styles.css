@@ -1,0 +1,118 @@
+/*
+Color Theme Notes:
+#010400 (Black)
+#B7B7B7 (Gray)
+#FFFBFC (White)
+#62BBC1 (Cyan)
+#EC058E (Magenta)
+*/
+
+/*General Formatting*/
+body {
+    font-family: 'Urbanist', sans-serif;
+    color: black;
+    background-color: #62BBC1;
+}
+
+.gridTitle {
+    grid-area: header;
+}
+
+.gridForm {
+    grid-area: form;
+    background-color: #EC058E;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    border-radius: 10px;
+}
+
+.gridTable {
+    grid-area: table;
+}
+
+.gridContainer {
+    display: grid;
+    grid-template-areas:
+        'header header header header'
+        'form table table table';
+    grid-gap: 10px;
+    padding: 10px;
+}
+
+/*Login*/
+.gridLoginText {
+    grid-area: login;
+    border-radius: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+    padding: 10px;
+}
+
+.gridLogin {
+    grid-area: login;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: auto;
+    margin-bottom: auto;
+    text-align: center;
+}
+
+.gridLoginContainer {
+    display: grid;
+    grid-template-areas:
+        'login';
+    grid-gap: 10px;
+    padding: 10px;
+    background-color: #EC058E;
+    border-radius: 10px;
+}
+
+/*Form*/
+
+.instructions {
+    padding: 10px;
+}
+
+.defaultSelection {
+    display: none;
+}
+
+.button {
+    cursor: pointer;
+}
+
+/*Table*/
+table {
+    border-collapse: collapse;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    background-color: #B7B7B7;
+    border-radius: 10px;
+}
+
+th, td {
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/*Icons*/
+
+.material-icons-outlined {
+    user-select: none;
+}
+
+.iconButton {
+    color:black;
+}
+
+.iconButton:hover {
+    cursor: pointer;
+    color: #FFFBFC;
+}

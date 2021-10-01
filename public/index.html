@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 2</title>
+    <meta charset="utf-8">
+    <link rel="shortcut icon" type="image/jpg" href="./favicon.ico"/>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined">
+    <link rel="stylesheet" type="text/css" href="css/styles.css">
+    <script src="js/local_script.js"></script>
+  </head>
+  <body>
+    <div class="gridContainer">
+      <div class="gridTitle">
+        <h1>Arcade Score Keeper</h1>
+      </div>
+      
+      <div class="gridForm">
+        <div class="instructions">
+          <h2>Introduction:</h2>
+          <p>This is a simple form for keeping score.</p>
+          <form>
+            <label for="name">Name:</label>
+            <input name="name" type='text' id='nameForm' placeholder="Enter Name Here">
+            <br><br>
+
+            <label for="game">Game:</label>
+            <select name="game" id='gameForm'>
+              <option disabled=true selected="true" class="defaultSelection">-</option>
+              <option>Mario Bros.</option>
+              <option>Donkey Kong</option>
+              <option>Street Racing</option>
+              <option>Tetris</option>
+            </select>
+            <br><br>
+
+            <label for="score">Score:</label>
+            <input name="score" type='number' id='scoreForm' min="0">
+            <br><br>
+
+            <input type="submit" value="New Score" class='button' id="newButton">
+            <input type="submit" value="Submit" class='button' id="submitButton">
+          </form>
+          <h2>Instructions:</h2>
+          <p>
+            To make an entry, use the form above.
+            <br>
+            To edit an entry, click on the
+            <span class="material-icons-outlined">edit</span>
+            button.
+            <br>
+            To delete an entry, click on the
+            <span class="material-icons-outlined">delete_forever</span>
+            button.
+          </p>
+          <button id="logoutButton" onclick="window.location.href='/logout'">Logout</button>
+        </div>
+      </div>
+
+      <div class="gridTable">
+        <table id="scoreTable">
+          <tr>
+            <th>Name</th>
+            <th>Score</th>
+            <th>Game</th>
+            <th>High Score?</th>
+          </tr>
+          <tr>
+            <td>Test</td>
+            <td>0</td>
+            <td>Test</td>
+            <td>No</td>
+            <td>
+              <span class="material-icons-outlined iconButton">edit</span>
+            </td>
+            <td>
+              <span class="material-icons-outlined iconButton">delete_forever</span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>
