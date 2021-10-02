@@ -166,7 +166,9 @@ app.post('/login', function (request, response) {
         request.session.login = true
         request.session.username = request.body.username
         console.log('created user')
-        return response.redirect('/index.html')
+        return response.send({
+          message: 'Login Success'
+        })
       } else {
         if (validatePassword(result, request.body.password)) {
           request.session.login = true
