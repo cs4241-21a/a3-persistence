@@ -64,7 +64,7 @@ const validatePassword = function (user, pass) {
 
 const createUser = function (user) {
   const salt = crypto.randomBytes(16).toString('hex')
-  const hash = crypto.pbkdf2Sync(user.pass, salt, 1000, 64, `sha512`).toString(`hex`)
+  const hash = crypto.pbkdf2Sync(user.password, salt, 1000, 64, `sha512`).toString(`hex`)
   const userObj = { username: user.username, salt: salt, hash: hash }
   logins.insertOne(userObj)
     .then(result => {

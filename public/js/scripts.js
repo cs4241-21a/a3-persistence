@@ -209,7 +209,7 @@ const signout = function (event) {
     })
         .then(function (response) {
             console.log('logging out')
-            location.replace('http://127.0.0.1:3000/login.html')
+            location.replace('/login.html')
         })
     return false
 }
