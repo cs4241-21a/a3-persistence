@@ -174,7 +174,7 @@ const add = function (event) {
 
     const name = document.querySelector('#yourname')
     const dob = document.querySelector('#yourbirthdate')
-    const gender = document.querySelector('#yourgender')
+    const gender = document.querySelector('#yoursex')
     // This just gets the item with an id of yourname
     // can use document.querySelectorAll() to get a list of all instances
     json = { yourname: name.value, yourdob: dob.value, yourgender: gender.value }
