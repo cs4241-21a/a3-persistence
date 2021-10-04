@@ -190,7 +190,7 @@ function todaysDate() {
   let day = d.getDate();
 
   if (day < 10) {
-    day = '0' + dd;
+    day = '0' + day;
   }
 
   if (month < 10) {
