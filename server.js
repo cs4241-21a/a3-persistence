@@ -26,7 +26,7 @@ app.engine('handlebars', expressHandlebars())
 app.set('view engine', 'handlebars')
 
 const PORT = process.env.PORT
-if (PORT == null || PORT == '' {
+if (PORT == null || PORT == '') {
   PORT = 8000
 }
 
