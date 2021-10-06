@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="A login page">
+    <title>CS4241 A3 - Log In</title>
+    <link id="favicon" rel="icon" href="https://glitch.com/edit/favicon-app.ico" type="image/x-icon">
+    <link rel="stylesheet" href="/sakura.css">
+    <script src="/login.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>Log In</h1>
+    </header>
+
+    <main>
+
+        <p>You'll need to log in or sign up before you can see more.</p>
+
+        <div>
+            <form id="login" autocomplete="off">
+                <label for='username'>Username</label><div></div>
+                <input type='text' class="textBox" id="username" placeholder="Enter your username">
+                <br>
+                <label for='password'>Password</label><div></div>
+                <input type='password' class="textBox" id="password" placeholder="Enter your password">
+                <br />
+                <button id="loginBtn">Login</button>
+                <button id="signupBtn">Sign Up</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>Made with <a href="https://glitch.com">Glitch</a>!</footer>
+
+    <!-- include the Glitch button to show what the webpage is about and
+          to make it easier for folks to view source and remix -->
+    <div class="glitchButton" style="position:fixed;top:2em;right:20px;"></div>
+    <script src="https://button.glitch.me/button.js" defer></script>
+</body>
+</html>
