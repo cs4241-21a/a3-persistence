@@ -16,7 +16,7 @@ loginForm.addEventListener('submit', event => {
     
     fetch("/login", {
       method: "POST",
-      body,
+      body:body,
       headers: {
         "Content-Type": "application/json"
       }
@@ -41,7 +41,7 @@ signform.addEventListener('submit', event => {
       body = JSON.stringify(json);
     fetch("/create", {
       method: "POST",
-      body,
+      body:body,
       headers: {
         "Content-Type": "application/json"
       }
@@ -54,7 +54,7 @@ signform.addEventListener('submit', event => {
 
         else{
           response.json() 
-          window.location.href("/index.html")
+          window.location.href = "/index.html";
         }
 
       })

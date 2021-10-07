@@ -8,9 +8,9 @@ fetch("/data")
 const submit = function (e) {
   // prevent default form action from being carried out
   e.preventDefault();
-  let txt = document.getElementById('sub').innerText
-
-  if(txt == "Submit") {
+  let txt = document.getElementById('sub').innerText;
+  window.alert(txt)
+  if(txt.toLowerCase() == 'submit') {
     const form = document.querySelector("form"),
       json = {
         plant: form.plant.value,
@@ -20,26 +20,24 @@ const submit = function (e) {
         notes: form.notes.value,
       },
       body = JSON.stringify(json);
-
-    fetch("/add", {
-      method: "POST",
-      body,
-      headers: {
-        "Content-Type": "application/json"
+      fetch("/add", {
+        method: "POST",
+        body,
+        headers: {
+          "Content-Type": "application/json"
         }
       })
-      .then(function (response) {
-        // do something with the reponse
-        return response.json();
-      })
-
-      .then(function (json) {
-        document.querySelector("form").reset();
-        buildTable(json);
-      });
+        .then(function (response) {
+          // do something with the reponse
+          return response.json();
+        })
+  
+        .then(function (json) {
+          document.querySelector("form").reset();
+          buildTable(json);
+        });
     }
-
-    else {
+    else if(txt.toLowerCase() == 'update') {
       json = {
         plant: document.getElementById('plant').value,
         sunlight: document.getElementById('sunlight').value,
@@ -67,13 +65,11 @@ const submit = function (e) {
       });
     
       document.querySelector('#sub').innerHTML = "Submit";
-
-
+      eid = null;
     }
-
-  return false;
-};
-
+  
+    return false;
+  };
 
 window.onload = function () {
   const button = document.querySelector("button");
@@ -81,45 +77,38 @@ window.onload = function () {
 }
 
 function buildTable(json) {
-  //document.querySelector("#tbody tr").remove();
-
-  console.log(json)
   let row = document.querySelector("#tbody").insertRow();
-  nplant = row.insertCell(0).innerHTML = json.plant;
-  nsunlight = row.insertCell(1).innerHTML = json.sunlight;
-  nwater = row.insertCell(2).innerHTML = json.water;
-  nadopt = row.insertCell(3).innerHTML = json.adopt;
-  nnotes = row.insertCell(4).innerHTML = json.notes;
-  let id = json._id;
+  row.insertCell(0).innerHTML = json.plant;
+  row.insertCell(1).innerHTML = json.sunlight;
+  row.insertCell(2).innerHTML = json.water;
+  row.insertCell(3).innerHTML = json.adopt;
+  row.insertCell(4).innerHTML = json.notes;
+  let id = json._id
+  console.log("building" + id)
   //Edit Button
   let editCell = row.insertCell(5);
   let ebutton = document.createElement("button");
-  //ebutton.classList.add("button2")
   ebutton.innerHTML = 'Edit';
-  //ebutton.style.width = "40px"
-  //ebutton.style.height = "40px"
-
   ebutton.onclick = function() {
-    document.querySelector('#plant').value = json.plant
-    document.querySelector('#sunlight').value = json.sunlight
-    document.querySelector('#water').value = json.water
-    document.querySelector('#adopt').value = json.adopt
-    document.querySelector('#notes').value = json.notes
-    eid = id;
-
-    row.remove()
-
-    document.querySelector('#sub').innerHTML = "Update";
+     //Move row data to edit
+     document.getElementById('plant').value = json.plant
+     document.getElementById('sunlight').value = json.sunlight
+     document.getElementById('water').value = json.water
+     document.getElementById('adopt').value = json.adopt
+     document.getElementById('notes').value = json.notes
+     eid = id;
+ 
+     row.remove()
+ 
+     document.querySelector('#sub').innerHTML = "Update";
   }
 
   editCell.appendChild(ebutton);
-
+  
   //Delete Button
-  let deleteCell = row.insertCell(6)
-  let dbutton = document.createElement("button")
+  let deleteCell = row.insertCell(6);
+  let dbutton = document.createElement("button");
   dbutton.innerHTML = 'Delete';
-  //dbutton.style.width = "40px"
-  //dbutton.style.height = "40px"
   dbutton.onclick = function() {
     fetch("/remove", {
       method: "POST",
@@ -134,17 +123,4 @@ function buildTable(json) {
       });
   }
   deleteCell.appendChild(dbutton);
-
 }
-
-const logoutButton = document.getElementById("logout")
-logoutButton.addEventListener("click", event => {
-  event.preventDefault();
-  fetch("/logout", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    }
-  });
-  window.location.href = "login.html";
-});

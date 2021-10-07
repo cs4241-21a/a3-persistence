@@ -116,10 +116,11 @@ client2.connect()
     loginCollection.createIndex({"username": 1}, {unique: true})
     
   })
-  //.then( console.log )
+  .then( console.log )
 let user = null;
 
 app.post("/login", bodyParser.json(), function(req, res) {
+  console.log(req.body)
   loginCollection
     .find({ username: req.body.username, password: req.body.password })
     .toArray()
@@ -133,15 +134,16 @@ app.post("/login", bodyParser.json(), function(req, res) {
 });
 
 app.post("/create", bodyParser.json(), function(req, res) {
-  user = req.body.username;
-  loginCollection.insertOne( req.body )
-  .then( insertResponse => collection.findOne(insertResponse.insertedId) )
-  .then( findResponse => res.json( findResponse))
-  .catch(err => {
-    res.status(500).json()
-  }) 
+   user = req.body.username;
+   loginCollection.insertOne( req.body )
+   .then( insertResponse => loginCollection.findOne(insertResponse.insertedId) )
+   .then( findResponse => res.json( findResponse))
+   .catch(err => {
+     console.log(err)
+     res.status(500).json()
+   }) 
   
-});
+ });
 
 app.use( function( req,res,next) {
   if( req.session.login === true )
