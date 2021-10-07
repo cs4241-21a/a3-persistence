@@ -9,7 +9,7 @@ const express = require( 'express' ),
 app.use( express.static('public') )
 app.use( express.json() )
 app.use( responseTime() )
-app.use(timeout('800s'))
+app.use(timeout('8000s'))
 app.use(haltOnTimedout)
 const path = require('path');
 
