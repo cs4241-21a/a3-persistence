@@ -9,7 +9,7 @@ const submit = function (e) {
   // prevent default form action from being carried out
   e.preventDefault();
   let txt = document.getElementById('sub').innerText;
-  window.alert(txt)
+  //window.alert(txt)
   if(txt.toLowerCase() == 'submit') {
     const form = document.querySelector("form"),
       json = {
@@ -104,7 +104,7 @@ function buildTable(json) {
   }
 
   editCell.appendChild(ebutton);
-  
+
   //Delete Button
   let deleteCell = row.insertCell(6);
   let dbutton = document.createElement("button");
@@ -124,3 +124,15 @@ function buildTable(json) {
   }
   deleteCell.appendChild(dbutton);
 }
+
+const logoutButton = document.getElementById("logout")
+logoutButton.addEventListener("click", event => {
+  event.preventDefault();
+  fetch("/logout", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  });
+  window.location.href = "login.html";
+});
