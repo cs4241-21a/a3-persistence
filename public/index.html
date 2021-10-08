@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+
+    <meta
+    name="description"           
+    content="A3 site">
+  
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  </head>
+
+
+  <body>
+
+
+    <div  class='page' >
+    <h1 class='center'>Chore Log</h1>
+    <div class='center'>
+    <table id='table'>
+      <tr id='headers'>
+        <th>Item #</th>
+        <th>Assigned To</th>
+        <th>Task</th>
+        <th>Status</th>
+        <th>Tasks Assigned</th>
+      </tr>
+  </table>
+</div>
+<br>
+<div >
+    <form>
+      <p>Add new row:</p>
+      <input type='text' id='name' placeholder="name here">
+      <input type='text' id='chore' placeholder="chore here">
+      <input type='text' id='complete' placeholder="complete or not">
+      <button id = 'submit' style ='color: #000000;'>Add</button>
+      <p>Edit existing row:</p>
+      <input type='text' id='modDel' placeholder="0"> 
+      <button id = 'modify' style ='color: #000000;'>Modify</button>
+      <button id = 'delete' style ='color: #000000;'>Delete</button>
+    </form>
+
+      </div>
+
+  <form>
+    <button id = 'logout' style ='color: #000000;'>Log Out</button>
+  </form>
+
+    </div>
+
+
+  </body>
+  <script>
+
+  //function submit(e) {
+  const submit = function( e ) {
+    // prevent default form action from being carried out*/
+    e.preventDefault()
+
+    const inputName = document.querySelector( '#name' )
+    const inputChore = document.querySelector( '#chore' )
+    const inputComplete = document.querySelector( '#complete' )
+
+    if(inputName.value === "" || inputChore.value === "" || inputComplete.value === ""){
+      return false;
+    }
+
+          let json = {name: inputName.value, chore: inputChore.value , complete:inputComplete.value, load:0, id:-1}
+          let body = JSON.stringify( json )
+
+
+          
+          fetch( '/submit', {
+      method:'POST',
+      body: body,
+      headers: {"Content-Type": "application/json"} 
+    })
+    .then(function( response ) {
+         return response.json();
+    })
+    .then (function(json){
+
+      let htmlStr = "<tr id='headers'><th>Item #</th><th>Assigned To</th><th>Task</th><th>Status</th><th>Tasks Assigned</th></tr>"//header row 
+      for(let i = 0; i<json.length; i++){
+        //let obj = json[i]
+        
+      
+        htmlStr = htmlStr + "<tr>" 
+          + "<td>" + (json[i]).id + "</td>"
+          + "<td>" + (json[i]).name + "</td>"
+          + "<td>" + (json[i]).chore + "</td>"
+          + "<td>" + (json[i]).complete + "</td>"
+          + "<td>" + (json[i]).load + "</td>" 
+          + "</tr>"
+      }
+
+      let theTable= document.getElementById('table')
+      theTable.innerHTML = htmlStr
+    });
+    return false
+  };
+
+  const modify = function( e ) {
+    // prevent default form action from being carried out
+    e.preventDefault()
+
+
+    const inputName = document.querySelector( '#name' )
+    const inputChore = document.querySelector( '#chore' )
+    const inputComplete = document.querySelector( '#complete' )
+    const inputId = document.querySelector( '#modDel' )
+
+    if(inputName.value === "" || inputChore.value === "" || inputComplete.value === "" || inputId.value === ""){
+      return false;
+    }
+
+    if(isNaN(inputId.value)){
+      return false;
+    }
+    else if(inputId.value.includes(".")){//decimal
+      return false;
+    }
+    else if(parseInt(inputId.value) < 0){
+      return false;
+    }
+    
+
+          json = {name: inputName.value, chore: inputChore.value , complete:inputComplete.value, load:0, id:inputId.value}
+          body = JSON.stringify( json )
+
+          fetch( '/submit', {
+      method:'POST',
+      body: body,
+      headers: {"Content-Type": "application/json"} 
+    })
+    .then(function( response ) {
+         return response.json();
+    })
+    .then (function(json){
+
+      let htmlStr = "<tr id='headers'><th>Item #</th><th>Assigned To</th><th>Task</th><th>Status</th><th>Tasks Assigned</th></tr>"//header row 
+      for(let i = 0; i<json.length; i++){
+        //let obj = json[i]
+        
+      
+        htmlStr = htmlStr + "<tr>" 
+          + "<td>" + (json[i]).id + "</td>"
+          + "<td>" + (json[i]).name + "</td>"
+          + "<td>" + (json[i]).chore + "</td>"
+          + "<td>" + (json[i]).complete + "</td>"
+          + "<td>" + (json[i]).load + "</td>" 
+          + "</tr>"
+      }
+
+      let theTable= document.getElementById('table')
+      theTable.innerHTML = htmlStr
+    });
+    return false
+  };
+
+  const deleting = function( e ) {
+    // prevent default form action from being carried out
+    e.preventDefault()
+
+    console.log( "response" )
+
+    const inputId = document.querySelector( '#modDel' )
+    if(inputId.value === ""){
+      return false;
+    }
+
+    if(isNaN(inputId.value)){
+      return false;
+    }
+    else if(inputId.value.includes(".")){//decimal
+      return false;
+    }
+    else if(parseInt(inputId.value) < 0){
+      return false;
+    }
+    
+          json = {name: "n/a", chore: "n/a" , complete:"n/a", load:-1, id:parseInt(inputId.value)}
+          body = JSON.stringify( json )
+
+          fetch( '/submit', {
+      method:'POST',
+      body: body,
+      headers: {"Content-Type": "application/json"} 
+    })
+    .then(function( response ) {
+         return response.json();
+    })
+    .then (function(json){
+
+      let htmlStr = "<tr id='headers'><th>Item #</th><th>Assigned To</th><th>Task</th><th>Status</th><th>Tasks Assigned</th></tr>"//header row 
+      for(let i = 0; i<json.length; i++){
+        //let obj = json[i]
+        
+      
+        htmlStr = htmlStr + "<tr>" 
+          + "<td>" + (json[i]).id + "</td>"
+          + "<td>" + (json[i]).name + "</td>"
+          + "<td>" + (json[i]).chore + "</td>"
+          + "<td>" + (json[i]).complete + "</td>"
+          + "<td>" + (json[i]).load + "</td>" 
+          + "</tr>"
+      }
+
+      let theTable= document.getElementById('table')
+      theTable.innerHTML = htmlStr
+    });
+    return false
+  };
+
+
+  const logout =  function( e ) {
+    // prevent default form action from being carried out*/
+    e.preventDefault()
+
+  
+
+json = {
+  user: "out", 
+  password: "out"
+}
+
+          body = JSON.stringify(json)
+        
+          fetch( '/logout', {
+      method:'POST',
+      body: body, 
+      headers: {"Content-Type": "application/json"}
+      
+      
+    }).then(res => {
+      
+      
+      console.log("client")
+        window.location.href = "/signup"
+        
+      
+    })
+    
+    
+    return false
+  };
+
+  window.onload = function() {
+
+    
+    const subbutton = document.querySelector( '#submit' )
+    subbutton.onclick = submit
+    const modbutton = document.querySelector( '#modify' )
+    modbutton.onclick = modify
+    const delbutton = document.querySelector( '#delete' )//delete not allowed
+    delbutton.onclick = deleting
+
+    const logbutton = document.querySelector( '#logout' )//delete not allowed
+    logbutton.onclick = logout
+
+    
+
+  }
+
+  </script>
+</html>

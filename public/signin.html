@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>CS4241 Assignment 3</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://unpkg.com/mvp.css">
+    <!--link href="css/style.css" -->
+
+<meta
+  name="description"           
+  content="A3 site">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  </head>
+
+  
+
+  <body>
+
+   <!-- <form action ='/login' method = 'POST'>
+      
+      <input type='text' name='user' placeholder="username"> 
+      <input type='password' name='password' placeholder="password"> 
+      <input type='submit' >Log In</inp> style ='border: 3px solid #000000;'
+    </form> -->
+
+    <div id = 'logindiv' class='page' >
+    <h1 class='center'>Chore Log sign in</h1>
+    <div class='center'>
+    
+</div>
+<br>
+<div class='center'>
+    <form>
+      <p id = "Error message">Log In:</p>
+      
+      
+      <input type='text' id='user' placeholder="username"> 
+      <input type='password' id='password' placeholder="password"> 
+      <button id = 'login' style ='color: #000000;'>Log In</button>
+      <button id = 'signup' style ='color: #000000;'>Sign Up</button>
+    </form>
+
+      </div>
+    </div>
+  </body>
+  <script>
+
+  //function submit(e) {
+  const login =  function( e ) {
+    // prevent default form action from being carried out*/
+    e.preventDefault()
+
+    const userIn = document.querySelector( '#user' )
+    const passwordIn = document.querySelector( '#password' )
+
+
+    if(userIn.value === "" || passwordIn.value === "" ){
+      return false;
+    }
+
+json = {
+  user: userIn.value, 
+  password: passwordIn.value
+}
+
+          body = JSON.stringify(json)
+        
+          fetch( '/login', {
+      method:'POST',
+      body: body, 
+      headers: {"Content-Type": "application/json"}
+      
+      
+    }).then(res => {
+      console.log(res.status);
+      if(res.status === 201){
+        window.location.href = "/index"
+      }
+      else if(res.status === 202){
+        window.location.href = "/signin"
+      }
+    })
+    
+    
+    return false
+  };
+
+  const signup =  function( e ) {
+    // prevent default form action from being carried out*/
+    e.preventDefault()
+
+    const userIn = document.querySelector( '#user' )
+    const passwordIn = document.querySelector( '#password' )
+
+
+    if(userIn.value === "" || passwordIn.value === "" ){
+      return false;
+    }
+
+json = {
+  user: userIn.value, 
+  password: passwordIn.value
+}
+
+          body = JSON.stringify(json)
+        
+          fetch( '/signup', {
+      method:'POST',
+      body: body, 
+      headers: {"Content-Type": "application/json"}
+      
+      
+    }).then(res => {
+      console.log("signed up");
+      if(res.status === 201){
+        window.location.href = "/index"
+      }
+      else if(res.status === 202){
+        window.location.href = "/signup"
+      }
+    })
+    
+    
+    return false
+  };
+  
+  window.onload = function() {
+
+    const subbutton = document.querySelector( '#login' )
+    subbutton.onclick = login
+    const signbutton = document.querySelector( '#signup' )
+    signbutton.onclick = signup
+   
+  }
+
+  </script> 
+</html>

@@ -1,0 +1,62 @@
+/*Style your own assignment! This is fun! */
+body {
+    display: flex;
+    justify-content: center;
+    background-color: #37b7d4;
+  }
+  h1 {
+    font-family: "Papyrus", Times, serif;
+    text-transform: uppercase;
+    color: #003459;
+    font-size: 32pt;
+    
+  }
+  
+  table {
+    width: 100%;
+    border: 2px solid #000000;
+    border-collapse: collapse;
+  }
+  th {
+    border: 2px solid #000000;
+    text-align: left;
+    font-family: "Times New Roman", Times, serif;
+  }
+  td {
+    border: 2px solid #000000;
+    font-family: "Times New Roman", Times, serif;
+  }
+  
+  p {
+    font-family: "Times New Roman", Times, serif;
+    font-size: 11pt;
+  }
+  
+  
+  .center {
+    display: flex;
+    justify-content: center;
+  }
+
+  .page {
+    margin: 0;
+    padding: 1%;
+    width: 600px;
+    background-color: #37b7d4;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  button {
+    margin: 5px;
+    border: 2px solid #000000;
+    background-color: #BD4F6C;
+    border-radius: 5px;
+    min-height: 25px;
+    font-family: "Papyrus", Times, serif;
+    color: #FFFFFF;
+  }
+  
+  input {
+    font-family: "Times New Roman", Times, serif;
+  }
