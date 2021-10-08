@@ -4,8 +4,13 @@ const express    = require('express'),
       bodyparser = require( 'body-parser' ),
       cookie     = require('cookie-session'),
       helmet     = require('helmet'),
+<<<<<<< HEAD
       favicon    = require('serve-favicon')
       response   = require('response-time')
+=======
+      favicon    = require('serve-favicon'),
+      util       = require('util'),
+>>>>>>> 5ad5e1c242f0f94caa5e87b5352343211e2d8f8b
       dreams     = []
 
 // automatically deliver all files in the public folder
@@ -25,7 +30,9 @@ app.use( cookie({
 }))
 
 
-const uri = 'mongodb+srv://a3-user:cs4241@a3-persistence-trbouwen.ley0q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+// const uri = 'mongodb+srv://a3-user:cs4241@a3-persistence-trbouwen.ley0q.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+const uri = 'mongodb+srv://'+process.env.USER+':'+process.env.PASSWORD+'@'+process.env.HOST
+console.log(uri)
 const client = new mongodb.MongoClient( uri, { useNewUrlParser: true, useUnifiedTopology:true })
 let credentials = null
 let user_data = null
