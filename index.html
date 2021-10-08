@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Assignment 3: Maria del Carmen Sacristan Benjet</title>
+    <meta charset="utf-8" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Kaisei+Decol&display=swap"
+      rel="stylesheet"
+    />
+    <link href="../css/style.css" rel="stylesheet" />
+    
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="header">
+        <h1 id="head">HW Tracker</h1>
+      </div>
+      <div class="right">
+        <h2 id="ActionHeader">Add Assignment</h2>
+        <form>
+          <label for="Assignment">Assignment: </label>
+          <input id="Assignment" type="text" />
+
+          <label for="Class">Class: </label>
+          <input id="Class" type="text" />
+          <br/>
+          <br/>
+          <label for="time">Time Commitment (hours): </label>
+          <input id="time" type="number" />
+          
+          <label for='Due'>Due: </label>
+          <input type="date" id="Due">
+        </form>
+        <button id="submit">Submit</button>
+        <h3 id="warning">&nbsp;</h3>
+      </div>
+      <div class="left">
+        <h2 id="ToDoHeader" >Hours of HW To DO:</h2>
+        <h2 id="hours">...</h2>
+      </div>
+      <div class="bottom">
+        <div class="tableData">
+
+          <table id="table"></table>
+        </div>
+      </div>
+    </div>
+
+    <script src="public/scripts.js"></script>
+  </body>
+</html>
