@@ -1,6 +1,6 @@
 ## Contacts in database
 
-link: https://a3-orestropi-ai.glitch.me/
+link: https://a-3-orestropi.glitch.me/
 
 You can register or login with myUser, myPassword
 
